@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SmartBrief AI — Clinic Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#FAFBFF;--bg2:#F0F4FF;--bg3:#E8EEF8;
+  --surface:#FFFFFF;--text:#0F1F3D;--text2:#4A5E80;--text3:#8A9BBF;
+  --border:#DDE3F0;--border2:#C8D2E8;
+  --shadow:0 2px 12px rgba(15,31,61,0.08);
+  --shadow-md:0 4px 24px rgba(15,31,61,0.12);
+  --shadow-lg:0 8px 40px rgba(15,31,61,0.14);
+  --radius:14px;
+  --sp-color:#00897B;--sp-soft:#E0F2F0;--sp-border:#80CBC4;
+  --sidebar:260px;
+}
+html,body{height:100%}
+body{font-family:'DM Sans','Roboto',ui-sans-serif,-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Arial,sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.6;overflow-x:hidden}
+h1,h2,h3,h4{font-family:'Syne','Arial Black','Franklin Gothic Medium',ui-sans-serif,sans-serif;line-height:1.15}
+button{cursor:pointer;font-family:inherit}
+/* LAYOUT */
+.app-layout{display:flex;min-height:100vh}
+/* SIDEBAR */
+.sidebar{width:var(--sidebar);background:#0F1F3D;display:flex;flex-direction:column;position:fixed;top:0;bottom:0;left:0;z-index:50;overflow-y:auto}
+.sidebar-header{padding:20px 18px 16px;border-bottom:1px solid rgba(255,255,255,0.08)}
+.sidebar-logo{display:flex;align-items:center;gap:10px;font-family:'Syne',sans-serif;font-weight:800;font-size:16px;color:#fff}
+.sidebar-specialty{padding:16px 12px;border-bottom:1px solid rgba(255,255,255,0.08)}
+.sidebar-label{font-size:10px;font-weight:600;color:#6A7E9F;text-transform:uppercase;letter-spacing:0.8px;padding:0 6px;margin-bottom:8px}
+.sp-btn{display:flex;align-items:center;gap:9px;width:100%;padding:10px 10px;border-radius:9px;border:none;background:transparent;color:#8A9BBF;font-size:13px;font-weight:500;cursor:pointer;transition:all 0.18s;min-height:40px;text-align:left}
+.sp-btn:hover{background:rgba(255,255,255,0.06);color:#fff}
+.sp-btn.active{background:var(--sp-soft);color:var(--sp-color);font-weight:600}
+.sidebar-nav{padding:12px;flex:1}
+.nav-item{display:flex;align-items:center;gap:10px;width:100%;padding:10px 10px;border-radius:9px;border:none;background:transparent;color:#8A9BBF;font-size:13px;font-weight:500;cursor:pointer;transition:all 0.18s;min-height:40px;text-align:left}
+.nav-item:hover{background:rgba(255,255,255,0.06);color:#fff}
+.nav-item.active{background:rgba(255,255,255,0.08);color:#fff}
+.nav-icon{font-size:16px;width:20px;text-align:center;flex-shrink:0}
+.sidebar-footer{padding:14px 16px;border-top:1px solid rgba(255,255,255,0.08)}
+.beta-badge-sb{background:#FFF3E0;color:#E65100;border-radius:6px;padding:3px 10px;font-size:11px;font-weight:700;display:inline-block;margin-bottom:6px}
+.version-str{font-size:11px;color:#4A5E80}
+/* MAIN */
+.main-content{margin-left:var(--sidebar);flex:1;display:flex;flex-direction:column;min-height:100vh}
+/* HEADER BAR */
+.header-bar{background:var(--surface);border-bottom:1px solid var(--border);padding:14px 24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;position:sticky;top:0;z-index:40}
+.header-info{flex:1;min-width:0}
+.header-date{font-size:13px;color:var(--text3)}
+.header-specialty{font-family:'Syne',sans-serif;font-size:17px;font-weight:700;color:var(--text)}
+.header-actions{display:flex;align-items:center;gap:10px}
+.timer-box{background:var(--bg2);border:1px solid var(--border2);border-radius:10px;padding:8px 14px;display:flex;align-items:center;gap:8px;font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--text);min-width:100px;justify-content:center}
+.timer-dot{width:8px;height:8px;border-radius:50%;background:#ccc;flex-shrink:0;transition:background 0.3s}
+.timer-dot.running{background:#2E7D32;animation:blink 1s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+.btn-add{background:var(--sp-color);color:#fff;border:none;border-radius:10px;padding:10px 18px;font-size:14px;font-weight:600;min-height:42px;display:flex;align-items:center;gap:6px;transition:all 0.2s}
+.btn-add:hover{opacity:0.9}
+/* STATS BAR */
+.stats-bar{padding:16px 24px;background:var(--bg2);border-bottom:1px solid var(--border);display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.stat-mini{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-align:center}
+.stat-mini-num{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--sp-color);line-height:1}
+.stat-mini-label{font-size:11px;color:var(--text3);margin-top:3px;line-height:1.3}
+/* MAIN BODY */
+.main-body{padding:24px;flex:1;display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+/* QUEUE */
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.panel-header{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.panel-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--text)}
+.panel-sub{font-size:12px;color:var(--text3)}
+.demo-tag{background:#FFF3E0;color:#E65100;border:1px solid #FFCC80;border-radius:4px;font-size:10px;font-weight:700;padding:2px 7px}
+.queue-list{padding:12px}
+.q-card{background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:8px;cursor:pointer;transition:all 0.18s;display:flex;align-items:center;gap:12px}
+.q-card:last-child{margin-bottom:0}
+.q-card:hover,.q-card.selected{border-color:var(--sp-color);background:var(--sp-soft)}
+.q-token{width:32px;height:32px;background:var(--sp-soft);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:11px;font-weight:800;color:var(--sp-color);flex-shrink:0}
+.q-info{flex:1;min-width:0}
+.q-name{font-size:14px;font-weight:600;color:var(--text)}
+.q-sub{font-size:11px;color:var(--text3);margin-top:1px}
+.status-badge{font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;flex-shrink:0;white-space:nowrap}
+.s-ready{background:var(--sp-soft);color:var(--sp-color)}
+.s-next{background:#E3F0FF;color:#1565C0}
+.s-consult{background:#FFF8E1;color:#E65100}
+.s-wait{background:var(--bg3);color:var(--text2)}
+.s-done{background:#E8F5E9;color:#2E7D32}
+/* BRIEF PANEL */
+.brief-panel{grid-column:2;display:none}
+.brief-panel.show{display:block}
+.allergy-banner{background:#FFEBEE;border-left:4px solid #C62828;padding:12px 16px;margin:12px;border-radius:0 10px 10px 0;font-size:13px;color:#C62828;font-weight:600;line-height:1.5}
+.allergy-banner.hidden{display:none}
+.allergy-none{background:#E8F5E9;border-left:4px solid #2E7D32;padding:10px 14px;margin:12px;border-radius:0 8px 8px 0;font-size:13px;color:#2E7D32;font-weight:500}
+.brief-tabs{display:flex;border-bottom:1px solid var(--border);overflow-x:auto}
+.brief-tab{padding:10px 14px;font-size:13px;font-weight:500;color:var(--text2);border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;transition:all 0.18s;white-space:nowrap;min-height:42px}
+.brief-tab.active{color:var(--sp-color);border-bottom-color:var(--sp-color);font-weight:600}
+.brief-content{padding:16px 18px;display:none}
+.brief-content.active{display:block}
+.brief-section-title{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px}
+.brief-text{font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:14px;background:var(--bg);border-radius:8px;padding:10px 12px}
+.vitals-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.vital-field label{display:block;font-size:11px;font-weight:600;color:var(--text3);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.3px}
+.vital-field input{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:8px 10px;font-size:14px;font-family:inherit;color:var(--text);background:var(--surface);min-height:38px;transition:border-color 0.2s}
+.vital-field input:focus{outline:none;border-color:var(--sp-color)}
+.checklist-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:14px;color:var(--text2)}
+.checklist-item:last-child{border:none}
+.checklist-item input[type=checkbox]{width:18px;height:18px;accent-color:var(--sp-color);cursor:pointer;flex-shrink:0}
+.checklist-item.checked label{text-decoration:line-through;color:var(--text3)}
+.doctor-notes{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:10px 12px;font-size:14px;font-family:inherit;color:var(--text);resize:vertical;min-height:90px;transition:border-color 0.2s}
+.doctor-notes:focus{outline:none;border-color:var(--sp-color)}
+.brief-actions{padding:12px 18px;border-top:1px solid var(--border);display:flex;gap:10px;flex-wrap:wrap}
+.btn-wa-sm{background:#25D366;color:#fff;border:none;border-radius:9px;padding:9px 16px;font-size:13px;font-weight:600;min-height:40px;display:flex;align-items:center;gap:6px;transition:all 0.2s}
+.btn-wa-sm:hover{opacity:0.9}
+.btn-complete{background:var(--sp-color);color:#fff;border:none;border-radius:9px;padding:9px 16px;font-size:13px;font-weight:600;min-height:40px;display:flex;align-items:center;gap:6px;transition:all 0.2s}
+.btn-complete:hover{opacity:0.9}
+.btn-timer{background:var(--bg2);color:var(--text);border:1.5px solid var(--border2);border-radius:9px;padding:9px 14px;font-size:13px;font-weight:500;min-height:40px;display:flex;align-items:center;gap:6px;transition:all 0.2s}
+.btn-timer:hover{background:var(--bg3)}
+/* ADD PATIENT FORM */
+.add-form-panel{background:var(--surface);border:1.5px solid var(--sp-border);border-radius:var(--radius);overflow:hidden;margin:24px}
+.add-form-header{background:var(--sp-soft);padding:14px 18px;display:flex;align-items:center;justify-content:space-between}
+.add-form-title{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--sp-color)}
+.btn-cancel{background:transparent;border:1.5px solid var(--sp-border);border-radius:8px;padding:7px 14px;font-size:13px;color:var(--sp-color);font-weight:500;min-height:36px;cursor:pointer;transition:all 0.2s}
+.btn-cancel:hover{background:var(--sp-soft)}
+.add-form-body{padding:20px}
+.form-group{margin-bottom:16px}
+.form-group label{display:block;font-size:13px;font-weight:600;color:var(--text2);margin-bottom:6px}
+.form-group input,.form-group textarea,.form-group select{width:100%;border:1.5px solid var(--border);border-radius:9px;padding:10px 12px;font-size:14px;font-family:inherit;color:var(--text);background:var(--surface);min-height:42px;transition:border-color 0.2s}
+.form-group input:focus,.form-group textarea:focus{outline:none;border-color:var(--sp-color)}
+.form-group textarea{resize:vertical;min-height:70px}
+.token-display{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--sp-color);display:inline-block}
+.upload-toggle{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text2);cursor:pointer;margin-bottom:12px}
+.upload-toggle input{width:18px;height:18px;accent-color:var(--sp-color)}
+.btn-generate{background:var(--sp-color);color:#fff;border:none;border-radius:10px;padding:12px 24px;font-size:15px;font-weight:600;min-height:46px;display:flex;align-items:center;gap:8px;cursor:pointer;transition:all 0.2s;width:100%;justify-content:center}
+.btn-generate:hover{opacity:0.9}
+.btn-generate:disabled{opacity:0.6;cursor:not-allowed}
+.spinner{width:16px;height:16px;border:2.5px solid rgba(255,255,255,0.3);border-top-color:#fff;border-radius:50%;animation:spin 0.8s linear infinite;display:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+/* ACTIVITY LOG */
+.activity-panel{margin:0 24px 24px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.activity-toggle{width:100%;padding:12px 18px;display:flex;align-items:center;justify-content:space-between;border:none;background:none;cursor:pointer;min-height:44px;font-family:inherit}
+.activity-title{font-family:'Syne',sans-serif;font-size:14px;font-weight:600;color:var(--text)}
+.activity-arrow{font-size:12px;color:var(--text3);transition:transform 0.2s}
+.activity-arrow.open{transform:rotate(180deg)}
+.activity-list{padding:0 18px 14px;display:none}
+.activity-list.show{display:block}
+.activity-item{font-size:13px;color:var(--text2);padding:6px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px}
+.activity-item:last-child{border:none}
+.activity-dot{width:6px;height:6px;border-radius:50%;background:var(--sp-color);flex-shrink:0}
+/* DISCLAIMER */
+.disclaimer-footer{background:#FFF3E0;border-top:1px solid #FFCC80;padding:10px 24px;font-size:11px;color:#7A4100;line-height:1.5}
+/* HELP MODAL */
+.modal-backdrop{display:none;position:fixed;inset:0;background:rgba(15,31,61,0.5);z-index:200;align-items:center;justify-content:center}
+.modal-backdrop.show{display:flex}
+.modal{background:var(--surface);border-radius:var(--radius);padding:28px;max-width:400px;width:90%;box-shadow:var(--shadow-lg)}
+.modal-title{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;margin-bottom:16px;color:var(--text)}
+.shortcut-row{display:flex;align-items:center;gap:14px;padding:8px 0;border-bottom:1px solid var(--border);font-size:14px}
+.shortcut-row:last-child{border:none}
+.key{background:var(--bg2);border:1.5px solid var(--border2);border-radius:6px;padding:3px 10px;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;color:var(--text);min-width:36px;text-align:center;flex-shrink:0}
+.btn-modal-close{width:100%;margin-top:20px;background:var(--sp-color);color:#fff;border:none;border-radius:10px;padding:11px;font-size:14px;font-weight:600;min-height:44px;cursor:pointer;transition:all 0.2s}
+/* BOTTOM NAV (mobile) */
+.bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:1px solid var(--border);z-index:50;height:60px;align-items:center}
+.bn-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;height:100%;border:none;background:none;cursor:pointer;color:var(--text3);font-size:11px;font-weight:500;min-height:44px;padding:0;transition:color 0.18s}
+.bn-item.active{color:var(--sp-color)}
+.bn-icon{font-size:20px}
+/* MOBILE */
+@media(max-width:768px){
+  .sidebar{display:none}
+  .main-content{margin-left:0;padding-bottom:70px}
+  .main-body{grid-template-columns:1fr;padding:12px}
+  .brief-panel{grid-column:1}
+  .stats-bar{grid-template-columns:1fr 1fr;padding:12px}
+  .header-bar{padding:10px 14px;gap:10px}
+  .bottom-nav{display:flex}
+  .add-form-panel{margin:12px}
+  .activity-panel{margin:0 12px 80px}
+  button,a{min-height:44px}
+  .brief-actions{padding:10px 14px}
+}
+@media(max-width:480px){
+  .stats-bar{grid-template-columns:1fr 1fr}
+  .vitals-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="app-layout">
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">
+        <svg width="32" height="32" viewBox="0 0 36 36" fill="none">
+          <rect width="36" height="36" rx="9" fill="url(#dlg)"/>
+          <rect x="9" y="6" width="14" height="19" rx="2" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.25)" stroke-width="1"/>
+          <path d="M12 11h8M12 14.5h8M12 18h5" stroke="rgba(255,255,255,0.45)" stroke-width="1.2" stroke-linecap="round"/>
+          <path d="M5 23L9 23L11.5 18L15 27L18 15L21 24.5L23.5 23L30 23" stroke="url(#dpg)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <circle cx="30" cy="23" r="2.5" fill="#00d4aa"/>
+          <defs>
+            <linearGradient id="dlg" x1="0" y1="0" x2="36" y2="36"><stop offset="0%" stop-color="#0d1f40"/><stop offset="100%" stop-color="#0a2655"/></linearGradient>
+            <linearGradient id="dpg" x1="5" y1="23" x2="30" y2="23"><stop offset="0%" stop-color="#3b82f6"/><stop offset="100%" stop-color="#00d4aa"/></linearGradient>
+          </defs>
+        </svg>
+        SmartBrief AI
+      </div>
+    </div>
+    <div class="sidebar-specialty">
+      <div class="sidebar-label">Specialty</div>
+      <button class="sp-btn active" id="sb-dental" onclick="setSpecialty('dental')">🦷 Dental</button>
+      <button class="sp-btn" id="sb-ent" onclick="setSpecialty('ent')">👂 ENT</button>
+      <button class="sp-btn" id="sb-gynae" onclick="setSpecialty('gynae')">🌸 Gynaecology</button>
+      <button class="sp-btn" id="sb-general" onclick="setSpecialty('general')">🩺 General Medicine</button>
+    </div>
+    <div class="sidebar-nav">
+      <div class="sidebar-label">Navigation</div>
+      <button class="nav-item active" onclick="showView('queue')"><span class="nav-icon">📋</span> Today's Queue</button>
+      <button class="nav-item" onclick="showAddForm()"><span class="nav-icon">➕</span> Add Patient</button>
+      <button class="nav-item" onclick="showView('reports')"><span class="nav-icon">📊</span> Reports</button>
+      <button class="nav-item" onclick="showView('settings')"><span class="nav-icon">⚙️</span> Settings</button>
+      <button class="nav-item" onclick="showHelp()"><span class="nav-icon">❓</span> Keyboard Shortcuts</button>
+    </div>
+    <div class="sidebar-footer">
+      <div class="beta-badge-sb">BETA</div>
+      <div class="version-str">v0.1 beta · SmartBrief AI</div>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+    <!-- HEADER BAR -->
+    <div class="header-bar">
+      <div class="header-info">
+        <div class="header-date" id="header-date">Sunday, 15 March 2026</div>
+        <div class="header-specialty" id="header-specialty">🦷 Dental OPD</div>
+      </div>
+      <div class="header-actions">
+        <div class="timer-box" title="Consultation timer">
+          <div class="timer-dot" id="timer-dot"></div>
+          <span id="timer-display">00:00</span>
+        </div>
+        <button class="btn-add" onclick="showAddForm()">+ Add Patient</button>
+        <button class="btn-timer" onclick="toggleTimer()" id="btn-timer-toggle" title="Start/Stop (Space)">▶ Start Consult</button>
+      </div>
+    </div>
+
+    <!-- STATS BAR -->
+    <div class="stats-bar">
+      <div class="stat-mini"><div class="stat-mini-num" id="stat-total">3</div><div class="stat-mini-label">Today's patients</div></div>
+      <div class="stat-mini"><div class="stat-mini-num" id="stat-briefs">1</div><div class="stat-mini-label">Briefs ready</div></div>
+      <div class="stat-mini"><div class="stat-mini-num" id="stat-consult">0</div><div class="stat-mini-label">In consult</div></div>
+      <div class="stat-mini"><div class="stat-mini-num" id="stat-done">0</div><div class="stat-mini-label">Done today</div></div>
+    </div>
+
+    <!-- ADD PATIENT FORM (hidden by default) -->
+    <div class="add-form-panel" id="add-form" style="display:none">
+      <div class="add-form-header">
+        <div class="add-form-title">➕ Add New Patient</div>
+        <button class="btn-cancel" onclick="hideAddForm()">Cancel</button>
+      </div>
+      <div class="add-form-body">
+        <div class="form-group">
+          <label>Auto-assigned Token</label>
+          <div class="token-display" id="new-token-display">T4</div>
+        </div>
+        <div class="form-group">
+          <label>Patient Name *</label>
+          <input type="text" id="new-patient-name" placeholder="e.g. Mr. Kumar" maxlength="60"/>
+        </div>
+        <label class="upload-toggle">
+          <input type="checkbox" id="upload-toggle" onchange="toggleUpload()"/> Upload document instead (prescription / report)
+        </label>
+        <div class="form-group" id="complaint-group">
+          <label>Chief Complaint *</label>
+          <textarea id="new-complaint" placeholder="e.g. Toothache lower left for 2 weeks, sensitive to cold" rows="3"></textarea>
+        </div>
+        <div class="form-group" id="upload-group" style="display:none">
+          <label>Upload Document (simulated)</label>
+          <input type="file" id="new-file" accept="image/*,.pdf" onchange="handleFile(this)"/>
+          <div id="file-note" style="font-size:12px;color:var(--text3);margin-top:4px">Note: Document processing is simulated in beta version.</div>
+        </div>
+        <div class="form-group">
+          <label>Known Allergies (optional)</label>
+          <input type="text" id="new-allergies" placeholder="e.g. Penicillin, Aspirin, None"/>
+        </div>
+        <button class="btn-generate" id="btn-generate" onclick="generateBrief()">
+          <span id="gen-spinner" class="spinner"></span>
+          <span id="gen-text">Generate Brief →</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- QUEUE + BRIEF PANEL -->
+    <div class="main-body" id="main-body">
+      <!-- QUEUE -->
+      <div class="panel" id="queue-panel">
+        <div class="panel-header">
+          <div>
+            <div class="panel-title">Today's Queue</div>
+            <div class="panel-sub">Click a patient to view brief</div>
+          </div>
+          <span class="demo-tag">DEMO DATA</span>
+        </div>
+        <div class="queue-list" id="queue-list">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- BRIEF PANEL -->
+      <div class="panel brief-panel" id="brief-panel">
+        <div class="panel-header">
+          <div>
+            <div class="panel-title" id="brief-patient-name">Patient Brief</div>
+            <div class="panel-sub" id="brief-patient-sub">Token #1 · <span class="demo-tag">DEMO DATA</span></div>
+          </div>
+          <a href="smartbrief-patient.html" target="_blank" style="font-size:12px;color:var(--sp-color);font-weight:600;text-decoration:none;min-height:32px;display:flex;align-items:center">View Full Brief ↗</a>
+        </div>
+        <div id="allergy-banner" class="allergy-banner">⚠ Penicillin allergy — avoid penicillin-based antibiotics</div>
+        <!-- BRIEF TABS -->
+        <div class="brief-tabs">
+          <button class="brief-tab active" onclick="showTab('complaint')">Complaint</button>
+          <button class="brief-tab" onclick="showTab('history')">History</button>
+          <button class="brief-tab" onclick="showTab('vitals')">Vitals</button>
+          <button class="brief-tab" onclick="showTab('actions')">Checklist</button>
+          <button class="brief-tab" onclick="showTab('notes')">Notes</button>
+        </div>
+        <!-- Complaint Tab -->
+        <div class="brief-content active" id="tab-complaint">
+          <div class="brief-section-title">Chief Complaint</div>
+          <div class="brief-text" id="brief-complaint">Lower molar pain (L) × 3 weeks. Cold sensitivity.</div>
+          <div class="brief-section-title">Prior History</div>
+          <div class="brief-text" id="brief-history">RCT UR6 — 2021. Regular scaling.</div>
+        </div>
+        <!-- History Tab -->
+        <div class="brief-content" id="tab-history">
+          <div class="brief-section-title">Prior Diagnoses</div>
+          <div class="brief-text">None reported at this visit (demo data)</div>
+          <div class="brief-section-title">Previous Procedures</div>
+          <div class="brief-text" id="brief-hist2">RCT UR6 — 2021. Regular scaling.</div>
+          <div class="brief-section-title">Current Medications</div>
+          <div class="brief-text">None reported (demo data)</div>
+        </div>
+        <!-- Vitals Tab -->
+        <div class="brief-content" id="tab-vitals">
+          <div class="brief-section-title">Vitals Entry (Front Desk)</div>
+          <div class="vitals-grid">
+            <div class="vital-field"><label>BP (mmHg)</label><input type="text" placeholder="e.g. 120/80"/></div>
+            <div class="vital-field"><label>Weight (kg)</label><input type="number" placeholder="e.g. 68"/></div>
+            <div class="vital-field"><label>Temperature (°F)</label><input type="number" placeholder="e.g. 98.6"/></div>
+            <div class="vital-field"><label>SpO2 (%)</label><input type="number" placeholder="e.g. 98"/></div>
+          </div>
+        </div>
+        <!-- Actions Tab -->
+        <div class="brief-content" id="tab-actions">
+          <div class="brief-section-title">Suggested Actions — check off during consult</div>
+          <div id="brief-checklist">
+            <!-- Populated by JS -->
+          </div>
+          <p style="font-size:11px;color:var(--text3);margin-top:10px">⚠ Suggestions are AI-generated. Clinical verification required. DEMO</p>
+        </div>
+        <!-- Notes Tab -->
+        <div class="brief-content" id="tab-notes">
+          <div class="brief-section-title">Doctor Notes</div>
+          <textarea class="doctor-notes" placeholder="Type doctor observations and notes here..."></textarea>
+        </div>
+        <div class="brief-actions">
+          <button class="btn-wa-sm" onclick="shareWhatsApp()">💬 Share via WhatsApp</button>
+          <button class="btn-timer" onclick="toggleTimer()">⏱ Start/Stop Timer</button>
+          <button class="btn-complete" onclick="markComplete()">✓ Mark Complete</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACTIVITY LOG -->
+    <div class="activity-panel">
+      <button class="activity-toggle" onclick="toggleActivity()">
+        <span class="activity-title">Activity Log</span>
+        <span class="activity-arrow" id="act-arrow">▼</span>
+      </button>
+      <div class="activity-list" id="activity-list">
+        <div class="activity-item"><div class="activity-dot"></div>Brief generated for Mr. Ramesh K. · Just now · DEMO</div>
+        <div class="activity-item"><div class="activity-dot"></div>Specialty set to Dental OPD · Just now</div>
+        <div class="activity-item"><div class="activity-dot"></div>Dashboard opened · Just now</div>
+      </div>
+    </div>
+
+    <!-- DISCLAIMER -->
+    <div class="disclaimer-footer">
+      <strong>Medical Disclaimer:</strong> SmartBrief AI is a pre-consultation intelligence tool. It is NOT a diagnostic system and must never be used as the sole basis for clinical decisions. All output must be reviewed by a qualified healthcare professional. &nbsp;|&nbsp; <strong>Beta:</strong> Demo data only. No real patient data to be entered at this stage. &nbsp;|&nbsp; <a href="index.html" style="color:#E65100;font-weight:600">← Back to Landing Page</a>
+    </div>
+  </main>
+</div>
+
+<!-- BOTTOM NAV (mobile) -->
+<nav class="bottom-nav">
+  <button class="bn-item active" onclick="showView('queue');setActiveBN(this)"><span class="bn-icon">📋</span>Queue</button>
+  <button class="bn-item" onclick="showAddForm();setActiveBN(this)"><span class="bn-icon">➕</span>Add</button>
+  <button class="bn-item" onclick="showView('reports');setActiveBN(this)"><span class="bn-icon">📊</span>Reports</button>
+  <button class="bn-item" onclick="showHelp();setActiveBN(this)"><span class="bn-icon">⚙️</span>Settings</button>
+</nav>
+
+<!-- HELP MODAL -->
+<div class="modal-backdrop" id="help-modal">
+  <div class="modal">
+    <div class="modal-title">⌨️ Keyboard Shortcuts</div>
+    <div class="shortcut-row"><span class="key">N</span><span>New patient (open add form)</span></div>
+    <div class="shortcut-row"><span class="key">Space</span><span>Start / Stop consultation timer</span></div>
+    <div class="shortcut-row"><span class="key">Enter</span><span>Mark current patient complete</span></div>
+    <div class="shortcut-row"><span class="key">Esc</span><span>Close modal / cancel form</span></div>
+    <div class="shortcut-row"><span class="key">?</span><span>Show this help screen</span></div>
+    <button class="btn-modal-close" onclick="closeHelp()">Close</button>
+  </div>
+</div>
+
+<script>
+// ─── SPECIALTY DATA ────────────────────────────────────────────
+const specialties = {
+  dental: {
+    color:'#00897B', soft:'#E0F2F0', border:'#80CBC4',
+    label:'🦷 Dental OPD', name:'Dental',
+    patients:[
+      {id:1,name:'Mr. Ramesh K.',sub:'Old prescription',status:'Brief Ready ✓',sc:'s-ready',
+       alert:'⚠ Penicillin allergy — avoid penicillin-based antibiotics',
+       complaint:'Lower molar pain (L) × 3 weeks. Cold sensitivity.',
+       history:'RCT UR6 — 2021. Regular scaling.',
+       actions:['Periapical X-ray','Pulp vitality test','Check for swelling/abscess']},
+      {id:2,name:'Mrs. Shanthi R.',sub:'Walk-in',status:'Next ↑',sc:'s-next',
+       alert:'',complaint:'Sensitivity in upper right molar. Pain on biting.',history:'No prior dental records.',actions:['Clinical exam','X-ray if needed']},
+      {id:3,name:'Mr. Vinod A.',sub:'Walk-in waiting',status:'Waiting',sc:'s-wait',
+       alert:'',complaint:'Missing tooth lower right. Requesting denture consult.',history:'Extraction — 2022.',actions:['Clinical exam','OPG X-ray discussion']}
+    ]
+  },
+  ent: {
+    color:'#1565C0', soft:'#E3F0FF', border:'#90CAF9',
+    label:'👂 ENT OPD', name:'ENT',
+    patients:[
+      {id:1,name:'Mr. Arjun S.',sub:'Audiometry uploaded',status:'Brief Ready ✓',sc:'s-ready',
+       alert:'⚠ Aspirin sensitivity noted — check analgesic choice',
+       complaint:'Bilateral hearing loss, progressive × 6 months. Tinnitus.',
+       history:'Audiometry — 2024. No prior surgery.',
+       actions:['Weber test','Rinne test','Review audiogram']},
+      {id:2,name:'Mrs. Priya M.',sub:'Walk-in ear pain',status:'Next ↑',sc:'s-next',
+       alert:'',complaint:'Right ear pain × 3 days. Discharge noted.',history:'No prior ENT history.',actions:['Otoscopy','Ear swab if discharge']},
+      {id:3,name:'Master Kiran K.',sub:'Walk-in paediatric',status:'Waiting',sc:'s-wait',
+       alert:'',complaint:'Blocked nose, mouth breathing × 2 weeks. Age 8.',history:'Recurrent URTI — 2024.',actions:['Nasal endoscopy','Allergy screen if indicated']}
+    ]
+  },
+  gynae: {
+    color:'#C2185B', soft:'#FCE4EC', border:'#F48FB1',
+    label:'🌸 Gynaecology OPD', name:'Gynaecology',
+    patients:[
+      {id:1,name:'Mrs. Kavitha N.',sub:'Blood report',status:'Brief Ready ✓',sc:'s-ready',
+       alert:'⚠ G2P1 · Previous LSCS · GDM flag — monitor glucose',
+       complaint:'Antenatal 28 weeks. Swelling in feet. Fatigue.',
+       history:'Previous LSCS — 2021. GDM — controlled on diet.',
+       actions:['BP + weight check','Glucose review','Growth scan']},
+      {id:2,name:'Mrs. Lakshmi R.',sub:'Walk-in irregular cycle',status:'Next ↑',sc:'s-next',
+       alert:'',complaint:'Irregular menstrual cycle × 3 months. Cycle gap 40–60 days.',history:'PCOD diagnosed 2023.',actions:['USG pelvis','Hormonal panel review']},
+      {id:3,name:'Mrs. Deepa S.',sub:'Walk-in antenatal 20wk',status:'Waiting',sc:'s-wait',
+       alert:'',complaint:'Antenatal 20 weeks. Routine scan due.',history:'G1P0. No prior complications.',actions:['Anomaly scan','BP check','Weight record']}
+    ]
+  },
+  general: {
+    color:'#2E7D32', soft:'#E8F5E9', border:'#A5D6A7',
+    label:'🩺 General Medicine OPD', name:'General Medicine',
+    patients:[
+      {id:1,name:'Mr. Senthil V.',sub:'Blood report HbA1c 9.1% flag',status:'Brief Ready ✓',sc:'s-ready',
+       alert:'⚠ HbA1c 9.1% — poorly controlled T2DM. Review medication.',
+       complaint:'T2DM + HTN follow-up. Fatigue. Occasional dizziness.',
+       history:'T2DM — 8 years. HTN — 3 years. Metformin + Amlodipine.',
+       actions:['Review blood report','Check BP','Medication compliance','Consider insulin review']},
+      {id:2,name:'Mrs. Radha K.',sub:'Walk-in BP',status:'Next ↑',sc:'s-next',
+       alert:'',complaint:'BP check. Headache since morning.',history:'HTN — 5 years. Amlodipine 5mg.',actions:['BP measurement','Review medication']},
+      {id:3,name:'Mr. Prakash R.',sub:'Walk-in fever',status:'Waiting',sc:'s-wait',
+       alert:'',complaint:'Fever × 4 days. 102°F. Body aches.',history:'No chronic conditions.',actions:['CBC + CRP','Dengue NS1 / Malaria smear if endemic area']}
+    ]
+  }
+};
+
+// ─── STATE ────────────────────────────────────────────────────
+let currentSp = 'dental';
+let selectedPatientId = null;
+let timerInterval = null;
+let timerSeconds = 0;
+let timerRunning = false;
+let activityLog = [];
+let addedPatients = []; // session-added walk-ins
+
+// ─── SPECIALTY TOGGLE ─────────────────────────────────────────
+function setSpecialty(sp) {
+  currentSp = sp;
+  const d = specialties[sp];
+  const r = document.documentElement.style;
+  r.setProperty('--sp-color', d.color);
+  r.setProperty('--sp-soft', d.soft);
+  r.setProperty('--sp-border', d.border);
+  // Sidebar buttons
+  ['dental','ent','gynae','general'].forEach(s => {
+    const el = document.getElementById('sb-'+s);
+    if(el) el.classList.toggle('active', s===sp);
+  });
+  document.getElementById('header-specialty').textContent = d.label;
+  // Rebuild queue
+  renderQueue();
+  // Deselect brief
+  selectedPatientId = null;
+  document.getElementById('brief-panel').classList.remove('show');
+  // Update new token
+  updateNewToken();
+  // Log
+  logActivity('Specialty changed to ' + d.name);
+}
+
+// ─── RENDER QUEUE ─────────────────────────────────────────────
+function renderQueue() {
+  const d = specialties[currentSp];
+  const allPts = [...d.patients, ...addedPatients.filter(p => p.sp === currentSp)];
+  const list = document.getElementById('queue-list');
+  const done = allPts.filter(p => p.status === 'Done ✓').length;
+  const ready = allPts.filter(p => p.sc === 's-ready').length;
+  const consult = allPts.filter(p => p.sc === 's-consult').length;
+  document.getElementById('stat-total').textContent = allPts.length;
+  document.getElementById('stat-briefs').textContent = ready;
+  document.getElementById('stat-consult').textContent = consult;
+  document.getElementById('stat-done').textContent = done;
+
+  list.innerHTML = allPts.map(p => `
+    <div class="q-card ${selectedPatientId === p.id ? 'selected' : ''} ${p.sc === 's-done' ? 'done-card' : ''}"
+         onclick="selectPatient(${p.id})" data-id="${p.id}" style="${p.sc==='s-done'?'opacity:0.55':''}">
+      <div class="q-token">T${p.id}</div>
+      <div class="q-info">
+        <div class="q-name">${p.name}</div>
+        <div class="q-sub">${p.sub} &nbsp;<span class="demo-tag">DEMO</span></div>
+      </div>
+      <span class="status-badge ${p.sc}">${p.status}</span>
+    </div>`).join('');
+}
+
+function selectPatient(id) {
+  const d = specialties[currentSp];
+  const allPts = [...d.patients, ...addedPatients.filter(p => p.sp === currentSp)];
+  const pt = allPts.find(p => p.id === id);
+  if(!pt) return;
+  selectedPatientId = id;
+  // Update queue selection
+  document.querySelectorAll('.q-card').forEach(c => {
+    c.classList.toggle('selected', c.dataset.id == id);
+  });
+  // Show brief panel
+  const bp = document.getElementById('brief-panel');
+  bp.classList.add('show');
+  // Fill brief
+  document.getElementById('brief-patient-name').textContent = pt.name;
+  document.getElementById('brief-patient-sub').innerHTML = 'Token #'+pt.id+' · <span class="demo-tag">DEMO DATA</span>';
+  const ab = document.getElementById('allergy-banner');
+  if(pt.alert) {
+    ab.textContent = pt.alert;
+    ab.classList.remove('hidden');
+    ab.className = 'allergy-banner';
+  } else {
+    ab.className = 'allergy-banner hidden';
+  }
+  document.getElementById('brief-complaint').textContent = pt.complaint;
+  document.getElementById('brief-history').textContent = pt.history;
+  document.getElementById('brief-hist2').textContent = pt.history;
+  // Checklist
+  const cl = document.getElementById('brief-checklist');
+  cl.innerHTML = (pt.actions||[]).map((a,i) => `
+    <div class="checklist-item" id="ci-${i}">
+      <input type="checkbox" id="cb-${i}" onchange="toggleCheck(${i})"/>
+      <label for="cb-${i}">${a}</label>
+    </div>`).join('');
+  // Show complaint tab
+  showTab('complaint');
+  // Mark as in consult if was next
+  if(pt.sc === 's-next') {
+    pt.sc = 's-consult';
+    pt.status = 'In Consult';
+    renderQueue();
+  }
+}
+
+function toggleCheck(i) {
+  const ci = document.getElementById('ci-'+i);
+  const cb = document.getElementById('cb-'+i);
+  if(ci) ci.classList.toggle('checked', cb.checked);
+}
+
+// ─── TABS ──────────────────────────────────────────────────────
+function showTab(name) {
+  document.querySelectorAll('.brief-tab').forEach((t,i) => {
+    const names = ['complaint','history','vitals','actions','notes'];
+    t.classList.toggle('active', names[i] === name);
+  });
+  document.querySelectorAll('.brief-content').forEach(c => c.classList.remove('active'));
+  const el = document.getElementById('tab-'+name);
+  if(el) el.classList.add('active');
+}
+
+// ─── TIMER ────────────────────────────────────────────────────
+function toggleTimer() {
+  if(timerRunning) {
+    clearInterval(timerInterval);
+    timerRunning = false;
+    document.getElementById('timer-dot').classList.remove('running');
+    document.getElementById('btn-timer-toggle').textContent = '▶ Start Consult';
+    logActivity('Consultation paused at ' + formatTime(timerSeconds));
+  } else {
+    timerInterval = setInterval(() => {
+      timerSeconds++;
+      document.getElementById('timer-display').textContent = formatTime(timerSeconds);
+    }, 1000);
+    timerRunning = true;
+    document.getElementById('timer-dot').classList.add('running');
+    document.getElementById('btn-timer-toggle').textContent = '⏸ Pause';
+    const d = specialties[currentSp];
+    const allPts = [...d.patients, ...addedPatients.filter(p => p.sp === currentSp)];
+    const pt = allPts.find(p => p.id === selectedPatientId);
+    logActivity('Consultation started' + (pt ? ' for '+pt.name : ''));
+  }
+}
+
+function formatTime(s) {
+  const m = Math.floor(s/60).toString().padStart(2,'0');
+  const sec = (s%60).toString().padStart(2,'0');
+  return m+':'+sec;
+}
+
+// ─── MARK COMPLETE ────────────────────────────────────────────
+function markComplete() {
+  if(!selectedPatientId) return;
+  const d = specialties[currentSp];
+  const allPts = [...d.patients, ...addedPatients.filter(p => p.sp === currentSp)];
+  const pt = allPts.find(p => p.id === selectedPatientId);
+  if(pt) {
+    pt.sc = 's-done';
+    pt.status = 'Done ✓';
+    logActivity('Consultation complete for '+pt.name);
+    // Stop timer
+    if(timerRunning) {
+      clearInterval(timerInterval);
+      timerRunning = false;
+      document.getElementById('timer-dot').classList.remove('running');
+      document.getElementById('btn-timer-toggle').textContent = '▶ Start Consult';
+    }
+    timerSeconds = 0;
+    document.getElementById('timer-display').textContent = '00:00';
+    selectedPatientId = null;
+    document.getElementById('brief-panel').classList.remove('show');
+    renderQueue();
+  }
+}
+
+// ─── ADD PATIENT ──────────────────────────────────────────────
+function showAddForm() {
+  document.getElementById('add-form').style.display = 'block';
+  updateNewToken();
+}
+
+function hideAddForm() {
+  document.getElementById('add-form').style.display = 'none';
+  document.getElementById('new-patient-name').value = '';
+  document.getElementById('new-complaint').value = '';
+  document.getElementById('new-allergies').value = '';
+  document.getElementById('upload-toggle').checked = false;
+  document.getElementById('complaint-group').style.display = 'block';
+  document.getElementById('upload-group').style.display = 'none';
+}
+
+function updateNewToken() {
+  const d = specialties[currentSp];
+  const base = d.patients.length + addedPatients.filter(p=>p.sp===currentSp).length + 1;
+  document.getElementById('new-token-display').textContent = 'T' + base;
+}
+
+function toggleUpload() {
+  const up = document.getElementById('upload-toggle').checked;
+  document.getElementById('complaint-group').style.display = up ? 'none' : 'block';
+  document.getElementById('upload-group').style.display = up ? 'block' : 'none';
+}
+
+function handleFile(input) {
+  const fn = input.files[0] ? input.files[0].name : '';
+  if(fn) document.getElementById('file-note').textContent = 'File selected: ' + fn + ' (processing simulated in beta)';
+}
+
+// SIMULATED: AI brief generation (setTimeout 2s fake delay)
+function generateBrief() {
+  const name = document.getElementById('new-patient-name').value.trim();
+  if(!name) { alert('Please enter patient name.'); return; }
+  const isUpload = document.getElementById('upload-toggle').checked;
+  const complaint = isUpload ? 'Document uploaded — analysis simulated' : document.getElementById('new-complaint').value.trim();
+  if(!isUpload && !complaint) { alert('Please enter a chief complaint.'); return; }
+  const allergies = document.getElementById('new-allergies').value.trim();
+  // Show spinner
+  const btn = document.getElementById('btn-generate');
+  const spinner = document.getElementById('gen-spinner');
+  const genText = document.getElementById('gen-text');
+  btn.disabled = true;
+  spinner.style.display = 'inline-block';
+  genText.textContent = 'Generating brief…';
+  // SIMULATED 2-second AI delay
+  setTimeout(() => {
+    spinner.style.display = 'none';
+    btn.disabled = false;
+    genText.textContent = 'Generate Brief →';
+    const d = specialties[currentSp];
+    const newId = d.patients.length + addedPatients.filter(p=>p.sp===currentSp).length + 1;
+    const newPt = {
+      id: newId, name: name,
+      sub: isUpload ? 'Document uploaded' : 'Walk-in',
+      status: 'Brief Ready ✓', sc: 's-ready',
+      alert: allergies ? '⚠ Allergy noted: ' + allergies : '',
+      complaint: complaint || 'Walk-in patient',
+      history: 'No prior history on file.',
+      actions: ['Clinical examination', 'Review chief complaint'],
+      sp: currentSp
+    };
+    addedPatients.push(newPt);
+    logActivity('Brief generated for ' + name);
+    hideAddForm();
+    renderQueue();
+    // Auto-select new patient
+    selectPatient(newId);
+  }, 2000);
+}
+
+// ─── WHATSAPP SHARE ───────────────────────────────────────────
+// SIMULATED: Opens wa.me link with pre-filled text
+function shareWhatsApp() {
+  const d = specialties[currentSp];
+  const allPts = [...d.patients, ...addedPatients.filter(p => p.sp === currentSp)];
+  const pt = allPts.find(p => p.id === selectedPatientId);
+  if(!pt) return;
+  const text = encodeURIComponent(
+    '🏥 SmartBrief AI — Pre-Consultation Brief (DEMO)\n' +
+    '📋 Patient: ' + pt.name + ' | Token: #' + pt.id + '\n' +
+    '🩺 Specialty: ' + d.name + '\n' +
+    (pt.alert ? '⚠ ALERT: ' + pt.alert + '\n' : '') +
+    '📝 Complaint: ' + pt.complaint + '\n' +
+    '📖 History: ' + pt.history + '\n' +
+    '✅ Actions: ' + (pt.actions||[]).join(', ') + '\n\n' +
+    'DEMO DATA ONLY — For doctor review. Not a diagnostic system.\n' +
+    'Powered by SmartBrief AI'
+  );
+  window.open('https://wa.me/?text=' + text, '_blank');
+}
+
+// ─── ACTIVITY LOG ─────────────────────────────────────────────
+function logActivity(msg) {
+  activityLog.unshift(msg);
+  const list = document.getElementById('activity-list');
+  list.innerHTML = activityLog.slice(0,10).map(m =>
+    `<div class="activity-item"><div class="activity-dot"></div>${m} · Just now</div>`
+  ).join('');
+}
+
+function toggleActivity() {
+  const list = document.getElementById('activity-list');
+  const arrow = document.getElementById('act-arrow');
+  const open = list.classList.toggle('show');
+  arrow.classList.toggle('open', open);
+  arrow.textContent = open ? '▲' : '▼';
+}
+
+// ─── VIEW SWITCHING ───────────────────────────────────────────
+function showView(v) {
+  document.getElementById('add-form').style.display = 'none';
+  if(v === 'queue') {
+    document.getElementById('main-body').style.display = 'grid';
+  }
+  // Reports/settings: minimal stub
+  if(v === 'reports' || v === 'settings') {
+    alert('📊 ' + v.charAt(0).toUpperCase()+v.slice(1) + ' coming soon in next beta release.');
+  }
+}
+
+function setActiveBN(el) {
+  document.querySelectorAll('.bn-item').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// ─── HELP MODAL ───────────────────────────────────────────────
+function showHelp() {
+  document.getElementById('help-modal').classList.add('show');
+}
+function closeHelp() {
+  document.getElementById('help-modal').classList.remove('show');
+}
+
+// ─── KEYBOARD SHORTCUTS ───────────────────────────────────────
+document.addEventListener('keydown', function(e) {
+  const tag = e.target.tagName.toLowerCase();
+  const isInput = tag === 'input' || tag === 'textarea' || tag === 'select';
+  if(!isInput) {
+    if(e.key === 'n' || e.key === 'N') { e.preventDefault(); showAddForm(); }
+    if(e.key === ' ') { e.preventDefault(); toggleTimer(); }
+    if(e.key === 'Enter') { e.preventDefault(); markComplete(); }
+    if(e.key === '?') { e.preventDefault(); showHelp(); }
+  }
+  if(e.key === 'Escape') { closeHelp(); hideAddForm(); }
+});
+
+// ─── DATE ─────────────────────────────────────────────────────
+function formatDate() {
+  const now = new Date();
+  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  return days[now.getDay()] + ', ' + now.getDate() + ' ' + months[now.getMonth()] + ' ' + now.getFullYear();
+}
+
+// ─── INIT ─────────────────────────────────────────────────────
+document.getElementById('header-date').textContent = formatDate();
+renderQueue();
+logActivity('Dashboard loaded — Dental OPD');
+</script>
+</body>
+</html>
