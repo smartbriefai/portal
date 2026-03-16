@@ -2911,8 +2911,47 @@ function initTheme(){
 }
 initTheme();
 
-
-
+// ── MISSING STUBS (referenced in HTML, defined here) ──────────────
+function generateAiRx(){
+  const drugs=[];
+  document.querySelectorAll('#rxDrugs .rx-drug-row').forEach(row=>{
+    const inputs=row.querySelectorAll('input');
+    const name=inputs[0]?inputs[0].value.trim():'';
+    const dose=inputs[1]?inputs[1].value.trim():'';
+    const dur=inputs[2]?inputs[2].value.trim():'';
+    if(name) drugs.push(name+(dose?' '+dose:'')+(dur?', '+dur:''));
+  });
+  if(!drugs.length){toast('Please enter at least one drug');return;}
+  if(!checkTrialLimit('Drug Safety')) return;
+  document.getElementById('drgDrugs').value=drugs.join('\n');
+  showTab('drugsafe');
+  incrementTrial();updateTrialBadge();
+  toast('Checking drug safety…');
+  runDrugCheck();
+}
+function upgradeWA(){
+  window.open('https://wa.me/?text=Hi%2C+I+want+to+upgrade+SmartBrief+AI+to+Pro+plan','_blank');
+}
+function addToQueue(){
+  const nm=document.getElementById('mname')?document.getElementById('mname').value.trim()
+           :document.getElementById('muname')?document.getElementById('muname').value.trim():'';
+  if(!nm){toast('Patient name required');return;}
+  const cc=document.getElementById('mcomp')?document.getElementById('mcomp').value.trim()
+           :'Brief generated';
+  const al=document.getElementById('mallergy')?document.getElementById('mallergy').value.trim():'';
+  const np={id:'p'+Date.now(),t:'T'+tokCounter,nm,
+    sb:'Walk-in, brief generated',st:'ready',al,cc,
+    h:'No prior history on record.',mx:'None declared.',
+    ac:cs==='den'?['Clinical examination','X-ray if indicated']:
+       cs==='ent'?['Clinical examination','ENT assessment']:
+       cs==='gyn'?['Clinical assessment','USS if indicated']:
+                  ['Clinical examination','Investigations as indicated']};
+  tokCounter++;queue.push(np);
+  renderQueue();updateStats();
+  logActivity('Patient added — '+nm);
+  closeModal();toast('Added '+nm+' to queue ✓');
+  selectPatient(np.id);
+}
 
 </script>
 </body>
