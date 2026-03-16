@@ -1,24 +1,32 @@
-name: Build and Deploy SmartBrief AI
+name: Deploy SmartBrief AI
 on:
   push:
-    branches: [claude/build-smartbrief-ai-ZcAAG]
+    branches:
+      - claude/build-smartbrief-ai-ZcAAG
+  workflow_dispatch:
+permissions:
+  contents: write
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pages: write
-      id-token: write
     steps:
-      - name: Checkout
+      - name: Checkout branch
         uses: actions/checkout@v4
+        with:
+          ref: claude/build-smartbrief-ai-ZcAAG
       - name: Inject HF token into dashboard
+        env:
+          HF_TOKEN: ${{ secrets.SMARTBRIEF }}
         run: |
-          sed -i "s|localStorage.getItem('sb_hftoken') || ''|localStorage.getItem('sb_hftoken') || '${{ secrets.SMARTBRIEF }}'|g" smartbrief-dashboard.html
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+          sed -i "s|localStorage.getItem('sb_hftoken') || ''|localStorage.getItem('sb_hftoken') || '${HF_TOKEN}'|g" smartbrief-dashboard.html
+          echo "Token injection complete"
+          grep -n "hfToken" smartbrief-dashboard.html | head -3
+      - name: Deploy to gh-pages branch
+        uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./
           publish_branch: gh-pages
+          keep_files: false
           exclude_assets: '.github'
+          commit_message: "Deploy SmartBrief AI - ${{ github.sha }}"
