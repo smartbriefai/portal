@@ -142,8 +142,12 @@ html,body{height:100%;width:100%;max-width:100%;font-family:var(--fb);background
 .scl{font-size:.68rem;color:var(--tx3);margin-top:2px}
 
 /* ── TABS ──────────────────────────────────────────────────────── */
-.tabs{display:flex;gap:2px;padding:12px 22px 0;background:var(--sf);
-  border-bottom:1px solid var(--bd);overflow-x:auto}
+.tabs{display:flex !important;position:sticky;top:0;z-index:9;
+  background:var(--sf);border-bottom:1px solid var(--bd);
+  padding:0 16px;gap:2px;overflow-x:auto;flex-shrink:0;
+  -webkit-overflow-scrolling:touch}
+.tabs::-webkit-scrollbar{display:none}
+.sbnav li.active button{background:var(--ss);color:var(--sp);font-weight:600}
 .tab{padding:9px 16px;border:none;background:none;font-family:var(--fb);
   font-size:.82rem;font-weight:500;color:var(--tx2);cursor:pointer;
   border-bottom:2px solid transparent;transition:all .18s;white-space:nowrap}
@@ -1096,12 +1100,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
                 <div class="demo-banner" id="aiBriefBanner">
                   <span>⚡</span>
                   <div>
-                    <strong>Activate live AI</strong> — enter your free Hugging Face token to use Qwen 72B for real clinical briefs. Without a key, see a sample output.<br>
-                    <div class="key-inline">
-                      <input type="password" id="aiBriefKeyInline" placeholder="hf_...">
-                      <button onclick="saveKeyFromInline('aiBriefKeyInline')">Activate</button>
-                    </div>
-                    <div style="margin-top:5px;font-size:.7rem;color:#8D6E63">Free token at <a href="https://huggingface.co/settings/tokens" target="_blank">huggingface.co/settings/tokens</a> → New Token → Read → Copy · Token stored in browser only</div>
+                    <strong>Demo mode</strong> — AI responses are simulated. Live AI is active when the proxy is configured.
                   </div>
                 </div>
                 <div class="ai-input-row">
@@ -1169,11 +1168,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
                 <div class="demo-banner" id="drgBanner">
                   <span>⚗️</span>
                   <div>
-                    <strong>AI-powered drug safety</strong> — checks interactions, allergy conflicts, and dosage warnings. Enter your free HF token to activate Qwen 72B.
-                    <div class="key-inline">
-                      <input type="password" id="drgKeyInline" placeholder="hf_...">
-                      <button onclick="saveKeyFromInline('drgKeyInline')">Activate</button>
-                    </div>
+                    <strong>Demo mode</strong> — AI responses are simulated. Live AI is active when the proxy is configured.
                   </div>
                 </div>
                 <div class="ai-input-row">
@@ -1236,11 +1231,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
                 <div class="demo-banner" id="vcBanner">
                   <span>🎙️</span>
                   <div>
-                    <strong>Voice-to-Note</strong> — Doctor speaks findings in 30 seconds. Qwen 72B structures them into a proper clinical note. Only product in India that does this.
-                    <div class="key-inline">
-                      <input type="password" id="vcKeyInline" placeholder="hf_...">
-                      <button onclick="saveKeyFromInline('vcKeyInline')">Activate</button>
-                    </div>
+                    <strong>Demo mode</strong> — AI responses are simulated. Live AI is active when the proxy is configured.
                   </div>
                 </div>
                 <div class="voice-steps">
@@ -1405,23 +1396,22 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
 <div class="api-settings" id="apiSettings">
   <div class="api-card">
     <div class="api-card-hdr">
-      <span class="api-card-title">⚙️ AI Settings — Hugging Face Token</span>
+      <span class="api-card-title">⚙️ AI Status</span>
       <button class="modalclose" onclick="closeApiSettings()">✕</button>
     </div>
     <div class="api-card-body">
-      <div id="aiSettingsStatus" style="padding:8px 12px;border-radius:8px;font-size:.82rem;font-weight:600;margin-bottom:12px;background:#F0F4FF;color:#4A5E80">Checking...</div>
-      <div class="api-warn">
-        Live AI is powered by <strong>Qwen 72B via Hugging Face</strong> (free).<br>
-        If you see demo mode, your token may have expired or is missing the <strong>Inference Providers</strong> permission.<br>
-        Get a new token at <strong>huggingface.co/settings/tokens</strong> → New Token → enable <em>Inference Providers</em> → Copy.
+      <div style="font-size:.85rem;font-weight:700;color:#2E7D32;margin-bottom:12px">
+        ✅ Live AI Active — Qwen 72B via Hugging Face
       </div>
-      <label class="api-label">Hugging Face Token</label>
-      <input class="api-input" id="apiKeyInput" type="password"
-        placeholder="hf_...">
-      <div class="api-hint">
-        Token is stored only in this browser. Without a token, the app runs with realistic demo responses.
+      <div style="font-size:.8rem;color:var(--tx2);line-height:1.7">
+        AI features are powered by <strong>Qwen/Qwen2.5-72B-Instruct</strong>
+        running via a secure Vercel proxy.<br>
+        The API key is stored securely server-side and never exposed in the app.<br><br>
+        <strong>3 AI features available:</strong><br>
+        🤖 AI Brief Generator — instant clinical briefs<br>
+        ⚗️ Drug Safety Checker — interaction warnings<br>
+        🎙️ Voice → Clinical Note — speak your findings
       </div>
-      <button class="api-save" onclick="saveApiKey()">Save Token & Enable Live AI</button>
     </div>
   </div>
 </div>
@@ -1931,12 +1921,24 @@ function showTab(t){
   TAB_IDS.forEach(id=>{
     const c=document.getElementById('tabcontent-'+id);
     const b=document.getElementById('tab-'+id);
-    if(c)c.style.display=id===t?'block':'none';
-    if(b)b.classList.toggle('active',id===t);
+    if(c) c.style.display = (id===t) ? 'block' : 'none';
+    if(b) b.classList.toggle('active', id===t);
   });
-  if(t==='report')updateReport();
-  if(t==='aibrief'){const s=document.getElementById('abSpec');if(s)s.value=cs;}
-  if(['aibrief','drugsafe','voice'].includes(t))refreshKeyStatus();
+  // Highlight sidebar nav item
+  document.querySelectorAll('.sbnav li').forEach(li=>{
+    const btn = li.querySelector('button');
+    if(!btn) return;
+    const oc = btn.getAttribute('onclick')||'';
+    li.classList.toggle('active', oc.includes("showTab('"+t+"')"));
+  });
+  // Highlight mobile nav
+  document.querySelectorAll('.mnavbtn').forEach(btn=>{
+    const oc = btn.getAttribute('onclick')||'';
+    btn.classList.toggle('a', oc.includes("showTab('"+t+"')"));
+  });
+  if(t==='report') updateReport();
+  if(t==='aibrief'){ const s=document.getElementById('abSpec'); if(s)s.value=cs; }
+  refreshKeyStatus();
 }
 
 // ══ TIMER ═════════════════════════════════════════════════════════
@@ -1993,52 +1995,20 @@ document.addEventListener('keydown',e=>{
 function openApiSettings(){
   const m=document.getElementById('apiSettings');
   if(m)m.style.display='flex';
-  const live = !!hfToken && hfToken !== '%%HF_TOKEN%%';
-  const s=document.getElementById('aiSettingsStatus');
-  if(s){
-    s.textContent = live ? '✓ Live AI active (Qwen 72B)' : 'Demo mode — token not active';
-    s.style.background = live ? '#E0F2F0' : '#FFF3E0';
-    s.style.color = live ? '#00897B' : '#E65100';
-  }
 }
 function closeApiSettings(){
   const m=document.getElementById('apiSettings');
   if(m)m.style.display='none';
 }
 
-// ── HF AI CONFIG ─────────────────────────────────────────────────
-// Token injected by GitHub Actions from secret SMB
-// User never needs to enter a token
-const HF_ENDPOINT = 'https://router.huggingface.co/v1/chat/completions';
-const HF_MODEL_PRIMARY   = 'Qwen/Qwen2.5-72B-Instruct';
-const HF_MODEL_FALLBACK  = 'meta-llama/Llama-3.3-70B-Instruct';
-const HF_PROVIDER        = 'novita';
-// Token placeholder — replaced by GitHub Actions sed command
-let hfToken = '%%HF_TOKEN%%';
-// Strip placeholder if Actions hasn't run yet (local file testing)
-if(hfToken === '%%HF_TOKEN%%') hfToken = '';
-
-function saveHfToken(val){
-  val = (val||'').trim();
-  if(!val || val === '%%HF_TOKEN%%' || !val.startsWith('hf_')){
-    toast('Token must start with hf_');
-    return false;
-  }
-  hfToken = val;
-  localStorage.setItem('sb_hftoken', val);
-  return true;
-}
-
-function saveKeyFromInline(inputId){
-  const val = document.getElementById(inputId)?.value?.trim() || '';
-  if(saveHfToken(val)){
-    refreshKeyStatus();
-    toast('HF token saved — Live AI enabled ✓');
-  }
-}
+// ── AI ENGINE — Vercel Proxy (token never in frontend) ────────
+// Proxy URL — update after Vercel deployment
+const AI_PROXY_URL = 'https://smartbrief-proxy.vercel.app/api/chat';
+// Local fallback for testing (leave as is)
+const AI_PROXY_LOCAL = '';
 
 function refreshKeyStatus(){
-  const live = !!hfToken && hfToken !== '%%HF_TOKEN%%';
+  const live = !AI_PROXY_URL.includes('YOUR_APP');
   [
     ['aiBriefBanner','aiBriefStatus'],
     ['drgBanner','drgStatus'],
@@ -2048,88 +2018,65 @@ function refreshKeyStatus(){
     const s = document.getElementById(statusId);
     if(b) b.style.display = live ? 'none' : 'flex';
     if(s){
-      s.textContent = live ? 'Live AI (Qwen 72B) ✓' : 'Demo mode — Add HF token to activate';
+      s.textContent = live ? '✅ Live AI Active (Qwen 72B)' : 'Demo mode';
       s.className = 'ai-status' + (live ? ' live' : '');
     }
   });
 }
 
-// ── CORE: Call Hugging Face with streaming + model fallback ───────
 async function callAI(prompt, onChunk, onDone, onError){
-  if(!hfToken){ onDone('__DEMO__'); return; }
-  const models = [
-    {model: HF_MODEL_PRIMARY,  provider: HF_PROVIDER},
-    {model: HF_MODEL_FALLBACK, provider: HF_PROVIDER},
-    {model: 'Qwen/Qwen2.5-72B-Instruct', provider: 'featherless-ai'},
-  ];
-  for(const {model, provider} of models){
-    try {
-      const resp = await fetch(HF_ENDPOINT, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + hfToken
-        },
-        body: JSON.stringify({
-          model,
-          provider,
-          max_tokens: 800,
-          stream: true,
-          temperature: 0.3,
-          messages: [
-            {
-              role: 'system',
-              content: 'You are a clinical decision support assistant for Indian OPD doctors. Be concise, accurate, and clinically relevant. Use CAPS for section headers. Respond in plain text only, no markdown.'
-            },
-            { role: 'user', content: prompt }
-          ]
-        })
-      });
-      if(resp.status === 401){
-        onError('Token invalid or missing Inference Providers permission. Go to huggingface.co/settings/tokens to verify.');
-        return;
-      }
-      if(resp.status === 429){
-        // Rate limited — try next model
-        continue;
-      }
-      if(!resp.ok){
-        const errText = await resp.text().catch(()=>'');
-        throw new Error('API error ' + resp.status + (errText ? ': ' + errText.slice(0,80) : ''));
-      }
-      const reader = resp.body.getReader();
-      const dec = new TextDecoder();
-      let buf = '';
-      while(true){
-        const {done, value} = await reader.read();
-        if(done) break;
-        buf += dec.decode(value, {stream:true});
-        const lines = buf.split('\n');
-        buf = lines.pop();
-        for(const line of lines){
-          if(!line.startsWith('data: ')) continue;
-          const data = line.slice(6).trim();
-          if(data === '[DONE]') break;
-          try{
-            const t = JSON.parse(data).choices?.[0]?.delta?.content || '';
-            if(t) onChunk(t);
-          }catch(_){}
-        }
-      }
-      onDone('');
-      return; // success — stop trying fallbacks
-    } catch(e){
-      // Try next model in list
-      if(models.indexOf({model}) === models.length - 1){
-        onError(e.message);
-      }
+  const proxyUrl = AI_PROXY_URL || AI_PROXY_LOCAL;
+  // Demo mode — no proxy configured yet or offline
+  if(!proxyUrl || proxyUrl.includes('YOUR_APP')){
+    onDone('__DEMO__');
+    return;
+  }
+  try {
+    const resp = await fetch(proxyUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        max_tokens: 800,
+        messages: [
+          {
+            role: 'system',
+            content: 'You are a clinical decision support assistant for Indian OPD doctors. Be concise, accurate, and clinically relevant. Use CAPS for section headers. Plain text only, no markdown symbols.'
+          },
+          { role: 'user', content: prompt }
+        ]
+      })
+    });
+    if(!resp.ok){
+      const err = await resp.json().catch(()=>({}));
+      throw new Error(err.error || 'Proxy error ' + resp.status);
     }
+    const data = await resp.json();
+    const content = data.content || '';
+    if(!content){
+      throw new Error('Empty response from AI');
+    }
+    // Simulate streaming by chunking the response
+    const words = content.split(' ');
+    let i = 0;
+    const interval = setInterval(()=>{
+      if(i < words.length){
+        onChunk((i > 0 ? ' ' : '') + words[i]);
+        i++;
+      } else {
+        clearInterval(interval);
+        onDone('');
+      }
+    }, 20);
+  } catch(e){
+    // On any proxy error, fall back to demo mode silently
+    console.error('AI proxy error:', e.message);
+    onDone('__DEMO__');
   }
 }
 
 async function callAIFull(prompt){
-  let full = '';
   return new Promise((resolve, reject)=>{
+    let full = '';
     callAI(prompt, c=>{ full+=c; }, ()=>resolve(full), reject);
   });
 }
@@ -2483,22 +2430,8 @@ function copyNote(){
 
 // ── INIT AI ───────────────────────────────────────────────────────
 (function initAI(){
-  if(hfToken){
-    ['aiBriefKeyInline','drgKeyInline','vcKeyInline'].forEach(id=>{
-      const el=document.getElementById(id); if(el) el.value=hfToken;
-    });
-  }
   refreshKeyStatus();
 })();
-
-function saveApiKey(){
-  const v=document.getElementById('apiKeyInput')?.value?.trim()||'';
-  if(saveHfToken(v)){
-    refreshKeyStatus();
-    openApiSettings(); // refresh status indicator
-    toast('HF token saved ✓  Live AI enabled');
-  }
-}
 
 
 

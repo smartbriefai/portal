@@ -14,17 +14,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: claude/build-smartbrief-ai-ZcAAG
-      - name: Inject HF token
-        env:
-          HF_TOKEN: ${{ secrets.SMB }}
-        run: |
-          if [ -z "$HF_TOKEN" ]; then
-            echo "ERROR: SMB secret is empty or not set"
-            exit 1
-          fi
-          sed -i "s|%%HF_TOKEN%%|${HF_TOKEN}|g" smartbrief-dashboard.html
-          echo "Token injection: OK"
-          grep -c "hf_" smartbrief-dashboard.html && echo "Token found in file" || echo "WARNING: token pattern not found"
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v4
         with:
@@ -32,5 +21,5 @@ jobs:
           publish_dir: ./
           publish_branch: gh-pages
           keep_files: false
-          exclude_assets: '.github'
+          exclude_assets: '.github,api,vercel.json'
           commit_message: "Deploy SmartBrief AI ${{ github.sha }}"
