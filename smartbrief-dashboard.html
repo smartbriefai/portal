@@ -685,6 +685,63 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
   font-stretch:normal!important;
   -webkit-font-smoothing:antialiased;
 }
+
+/* ── DARK MODE ─────────────────────────────────────────────────── */
+[data-theme="dark"]{
+  --bg:#0D1117;--bg2:#161B22;--bg3:#1C2330;--sf:#161B22;
+  --tx:#E6EDF3;--tx2:#8B949E;--tx3:#484F58;
+  --bd:#21262D;--bd2:#30363D;
+  --sh:0 2px 12px rgba(0,0,0,.35);--sh2:0 4px 28px rgba(0,0,0,.55);
+}
+[data-theme="dark"] .sidebar,
+[data-theme="dark"] .mhdr,
+[data-theme="dark"] .api-settings,
+[data-theme="dark"] .api-card,
+[data-theme="dark"] .lcard,
+[data-theme="dark"] .ai-panel,
+[data-theme="dark"] .modal,
+[data-theme="dark"] .qcard,
+[data-theme="dark"] .statsbar,
+[data-theme="dark"] .rcard,
+[data-theme="dark"] .shortcuts{
+  background:var(--sf)!important;border-color:var(--bd)!important;
+}
+[data-theme="dark"] .overlay{background:rgba(0,0,0,.78)}
+[data-theme="dark"] #loginScreen{background:linear-gradient(155deg,#0D1117 0%,#111827 50%,#0f1a1a 100%)}
+[data-theme="dark"] .linput,
+[data-theme="dark"] .minput,
+[data-theme="dark"] .mtextarea,
+[data-theme="dark"] .ai-textarea,
+[data-theme="dark"] .ai-input,
+[data-theme="dark"] .ai-select,
+[data-theme="dark"] .finput,
+[data-theme="dark"] .vinput,
+[data-theme="dark"] .notesfield{
+  background:var(--bg2)!important;border-color:var(--bd2)!important;color:var(--tx)!important;
+}
+[data-theme="dark"] .tabs{background:var(--sf)!important;border-color:var(--bd)!important}
+[data-theme="dark"] .mnav{background:var(--sf)!important;border-color:var(--bd)!important}
+[data-theme="dark"] #tokenDisplay{background:#0D1117}
+[data-theme="dark"] .demo-banner{background:var(--bg3)!important;border-color:var(--bd)!important}
+[data-theme="dark"] .allergybox{background:#1a0d0d!important;border-color:#4a1a1a!important}
+[data-theme="dark"] .noallergy{background:#0d1a0d!important;border-color:#1a3a1a!important}
+
+/* ── PAGE-TURN ANIMATION ────────────────────────────────────────── */
+@keyframes pageTurnIn{
+  from{transform:perspective(900px) rotateY(-10deg) translateX(-16px);opacity:0}
+  to{transform:perspective(900px) rotateY(0deg) translateX(0);opacity:1}
+}
+.page-turn-in{animation:pageTurnIn .28s ease forwards;will-change:transform}
+
+/* ── DARK TOGGLE BUTTON ─────────────────────────────────────────── */
+.dark-toggle{
+  background:none;border:1.5px solid var(--bd2);border-radius:8px;
+  width:34px;height:34px;cursor:pointer;font-size:1rem;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .2s;flex-shrink:0;color:var(--tx2);line-height:1;
+}
+.dark-toggle:hover{background:var(--bg2);color:var(--tx)}
+@media(max-width:640px){.dark-toggle{display:none}}
 </style>
 </head>
 <body>
@@ -766,6 +823,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
         <div class="sbuser">
           <div class="sbav" id="sbav">D</div>
           <span class="sbname" id="sbname">Doctor</span>
+          <button class="dark-toggle" id="darkToggleSb" onclick="toggleDark()" title="Toggle dark mode" style="display:flex;margin-left:auto">🌙</button>
           <button class="sbout" onclick="doLogout()">Logout</button>
         </div>
       </div>
@@ -789,6 +847,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
             <button class="timerbtn" id="timerbtn" onclick="toggleTimer()">Start</button>
           </div>
           <button class="token-display-btn" onclick="showTokenDisplay()" title="Show queue on TV/display screen">📺 Display</button>
+          <button class="dark-toggle" id="darkToggle" onclick="toggleDark()" title="Toggle dark mode">🌙</button>
           <button class="btnadd" onclick="openModal()">+ Add Patient</button>
         </div>
       </div>
@@ -1150,6 +1209,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
                 <button class="btnwa" onclick="shareAiBriefWA()">💬 WhatsApp</button>
                 <button class="btnprint" onclick="window.print()">🖨 Print</button>
               </div>
+              <p style="font-size:.66rem;color:var(--tx3);line-height:1.5;margin-top:10px;padding:0 2px">⚠ AI-generated clinical decision support — doctor review required before use. Not a diagnosis.</p>
             </div>
           </div>
         </div>
@@ -1213,6 +1273,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
                 </div>
               </div>
               <div id="drgOutput" style="display:none"></div>
+              <p style="font-size:.66rem;color:var(--tx3);line-height:1.5;margin-top:10px;padding:0 2px">⚠ AI drug safety output is advisory only. Verify all interactions with a pharmacist or clinical reference before prescribing.</p>
             </div>
           </div>
         </div>
@@ -1284,6 +1345,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
                 <button class="btnprint" onclick="window.print()">🖨 Print</button>
                 <button class="btncomplete" onclick="copyNote()">📋 Copy Note</button>
               </div>
+              <p style="font-size:.66rem;color:var(--tx3);line-height:1.5;margin-top:10px;padding:0 2px">⚠ AI-structured clinical notes must be reviewed and verified by the doctor before entry into any medical record.</p>
             </div>
           </div>
         </div>
@@ -1400,17 +1462,20 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
       <button class="modalclose" onclick="closeApiSettings()">✕</button>
     </div>
     <div class="api-card-body">
-      <div style="font-size:.85rem;font-weight:700;color:#2E7D32;margin-bottom:12px">
-        ✅ Live AI Active — Qwen 72B via Hugging Face
+      <div id="aiSettingsStatus" style="background:var(--ss);border:1px solid var(--sb);border-radius:10px;padding:12px 14px;margin-bottom:14px">
+        <div style="font-size:.85rem;font-weight:700;color:var(--sp)">✅ Live AI Active</div>
+        <div style="font-size:.75rem;color:var(--tx2);margin-top:3px">Qwen 72B · Secure server-side proxy · Token never exposed</div>
       </div>
-      <div style="font-size:.8rem;color:var(--tx2);line-height:1.7">
-        AI features are powered by <strong>Qwen/Qwen2.5-72B-Instruct</strong>
-        running via a secure Vercel proxy.<br>
-        The API key is stored securely server-side and never exposed in the app.<br><br>
-        <strong>3 AI features available:</strong><br>
-        🤖 AI Brief Generator — instant clinical briefs<br>
-        ⚗️ Drug Safety Checker — interaction warnings<br>
-        🎙️ Voice → Clinical Note — speak your findings
+      <div style="font-size:.8rem;color:var(--tx2);line-height:1.85">
+        <div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:8px">
+          <span>🤖</span><span><strong>AI Brief Generator</strong> — instant pre-consultation briefs from complaint text</span>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:8px">
+          <span>⚗️</span><span><strong>Drug Safety Checker</strong> — interaction warnings and contraindications</span>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:8px">
+          <span>🎙️</span><span><strong>Voice → Clinical Note</strong> — speak findings, get structured SOAP notes</span>
+        </div>
       </div>
     </div>
   </div>
@@ -1643,8 +1708,9 @@ function renderBrief(p){
         <button class="btncomplete" onclick="markDone()">✓ Complete</button>
         <button class="btnprint" onclick="window.print()">🖨</button>
       </div>
-      <div style="font-size:.69rem;color:var(--tx3);margin-top:9px;text-align:center">
-        ⚠ Demo data — NOT a diagnostic tool. Doctor review required.
+      <div style="margin-top:12px;background:#FFFBEC;border:1px solid #F0C030;border-radius:8px;padding:9px 12px">
+        <div style="font-size:.69rem;font-weight:700;color:#7A5C00;margin-bottom:2px">⚠ Medical Disclaimer</div>
+        <div style="font-size:.67rem;color:#7A5C00;line-height:1.55">This brief is a clinical decision-support aid only — NOT a diagnosis. All information must be independently verified by a qualified doctor before clinical use. Not valid for medicolegal purposes.</div>
       </div>
     </div>`;
 }
@@ -2432,6 +2498,40 @@ function copyNote(){
 (function initAI(){
   refreshKeyStatus();
 })();
+
+// ══ DARK MODE ═════════════════════════════════════════════════════
+function toggleDark(){
+  const d = document.documentElement;
+  const isDark = d.getAttribute('data-theme') === 'dark';
+  const newTheme = isDark ? 'light' : 'dark';
+  d.setAttribute('data-theme', newTheme);
+  const icon = isDark ? '🌙' : '☀️';
+  ['darkToggle','darkToggleSb'].forEach(id=>{
+    const btn = document.getElementById(id);
+    if(btn) btn.textContent = icon;
+  });
+  localStorage.setItem('smb-theme', newTheme);
+  // Page-turn animation on main content area
+  const main = document.querySelector('.main');
+  if(main){
+    main.classList.remove('page-turn-in');
+    void main.offsetWidth; // reflow to restart animation
+    main.classList.add('page-turn-in');
+    setTimeout(()=>main.classList.remove('page-turn-in'), 320);
+  }
+}
+function initTheme(){
+  const saved = localStorage.getItem('smb-theme') ||
+    (window.matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light');
+  if(saved === 'dark'){
+    document.documentElement.setAttribute('data-theme', 'dark');
+    ['darkToggle','darkToggleSb'].forEach(id=>{
+      const btn = document.getElementById(id);
+      if(btn) btn.textContent = '☀️';
+    });
+  }
+}
+initTheme();
 
 
 
