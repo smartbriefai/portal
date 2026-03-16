@@ -1511,6 +1511,7 @@ let cs='den', cu='Doctor', sel=null, queue=[], timerOn=false, timerSec=0;
 let timerInt=null, tokCounter=4, addMode='w', actLog=[], reminders=[];
 let lastDoc='', rxDrugCount=2;
 let recognition=null, voiceActive=false, isListening=false, vcFullTranscript='';
+let hfToken = localStorage.getItem('sb_hftoken') || '';
 
 // ══ LOGIN ═════════════════════════════════════════════════════════
 function pickSpec(s,btn){
