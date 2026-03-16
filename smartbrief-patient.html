@@ -616,7 +616,7 @@ function shareWA(){
   if(cp.al)txt+=`⚠ Flag: ${cp.al}\n`;
   if(notes)txt+=`\nNotes: ${notes}`;
   txt+=`\n\n_Demo data — SmartBrief AI Beta_`;
-  window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank');
+  window.open('https://wa.me/919488907730?text='+encodeURIComponent(txt),'_blank');
 }
 function printLabSlip(){toast('Opening print — select lab slip from print preview');window.print();}
 
@@ -629,6 +629,54 @@ function toast(m){
     e.style.opacity='0';e.style.transform='translateX(-50%) translateY(8px)';
   },3000);
 }
+</script>
+<!-- ====== SmartBrief AI Analytics — purely additive, zero impact on existing code ====== -->
+<script>
+(function(){
+  'use strict';
+  // ========== PASTE YOUR GOOGLE APPS SCRIPT URL BELOW ==========
+  var ANALYTICS_ENDPOINT = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
+  // ===============================================================
+
+  try {
+    var proto = window.location.protocol;
+    if(proto === 'file:' || proto === 'content:') return;
+    if(!ANALYTICS_ENDPOINT || ANALYTICS_ENDPOINT.indexOf('YOUR_GOOGLE') !== -1) return;
+  } catch(e){ return; }
+
+  var sid;
+  try {
+    sid = sessionStorage.getItem('smb_sid');
+    if(!sid){ sid = 'sid_'+Math.random().toString(36).slice(2)+Date.now().toString(36); sessionStorage.setItem('smb_sid',sid); }
+  } catch(e){ sid = 'ns_'+Math.random().toString(36).slice(2); }
+
+  function track(evt, extra){
+    try {
+      var d = {event_type:evt, page:window.location.pathname, specialty_selected:'', section_viewed:'', cta_clicked:'', referrer:document.referrer, user_agent:navigator.userAgent, session_id:sid};
+      if(extra){ for(var k in extra){ if(Object.prototype.hasOwnProperty.call(extra,k)) d[k]=extra[k]; } }
+      var b = JSON.stringify(d), sent = false;
+      if(navigator.sendBeacon){ try{ sent = navigator.sendBeacon(ANALYTICS_ENDPOINT, new Blob([b],{type:'application/json'})); }catch(e){} }
+      if(!sent){ fetch(ANALYTICS_ENDPOINT,{method:'POST',body:b,headers:{'Content-Type':'application/json'},keepalive:true}).catch(function(){}); }
+    } catch(e){}
+  }
+
+  // 1. page_view
+  try { track('page_view'); } catch(e){}
+
+  // 2. cta_click — wa.me links and inter-file navigation
+  try {
+    document.addEventListener('click',function(ev){
+      try {
+        var el = ev.target.closest('a,button'); if(!el) return;
+        var href = (el.getAttribute('href')||'').toLowerCase();
+        var lbl = el.textContent.trim().slice(0,60);
+        if(href.indexOf('wa.me')!==-1 || href.indexOf('dashboard')!==-1 || href.indexOf('patient')!==-1)
+          track('cta_click',{cta_clicked:lbl});
+      } catch(e){}
+    },true);
+  } catch(e){}
+
+})();
 </script>
 </body>
 </html>

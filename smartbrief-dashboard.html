@@ -1747,7 +1747,7 @@ function markDone(){
 function shareWA(){
   if(!sel)return;
   const t=encodeURIComponent(`*SmartBrief AI — Patient Brief*\n\nPatient: ${sel.nm} (${sel.t})\nComplaint: ${sel.cc}\nHistory: ${sel.h}\nMeds: ${sel.mx}\n${sel.al?'⚠ Flag: '+sel.al+'\n':''}\n_Demo data — For doctor review only_`);
-  window.open('https://wa.me/?text='+t,'_blank');
+  window.open('https://wa.me/919488907730?text='+t,'_blank');
 }
 
 // ══ ADD PATIENT ════════════════════════════════════════════════════
@@ -1847,7 +1847,7 @@ function generateRx(){
 
 function shareRxWA(){
   if(!lastDoc)return;
-  window.open('https://wa.me/?text='+encodeURIComponent(lastDoc),'_blank');
+  window.open('https://wa.me/919488907730?text='+encodeURIComponent(lastDoc),'_blank');
 }
 
 // ══ REFERRAL & CERTIFICATE ════════════════════════════════════════
@@ -1896,7 +1896,7 @@ function generateCert(){
 
 function shareDocWA(){
   if(!lastDoc)return;
-  window.open('https://wa.me/?text='+encodeURIComponent(lastDoc),'_blank');
+  window.open('https://wa.me/919488907730?text='+encodeURIComponent(lastDoc),'_blank');
 }
 
 // ══ FOLLOW-UP REMINDERS ═══════════════════════════════════════════
@@ -1942,8 +1942,8 @@ function sendReminder(i){
 
 function addDemoReminders(){
   reminders=[
-    {nm:'Mrs. Shanthi R.',when:'3 days',status:'pending',waLink:'https://wa.me/',time:'09:30 am'},
-    {nm:'Mr. Ramesh K.',when:'7 days',status:'sent',waLink:'https://wa.me/',time:'Yesterday'}
+    {nm:'Mrs. Shanthi R.',when:'3 days',status:'pending',waLink:'https://wa.me/919488907730',time:'09:30 am'},
+    {nm:'Mr. Ramesh K.',when:'7 days',status:'sent',waLink:'https://wa.me/919488907730',time:'Yesterday'}
   ];renderReminders();
 }
 
@@ -2336,7 +2336,7 @@ function addBriefToQueue(){
 
 function shareAiBriefWA(){
   if(!lastAiBrief){toast('No brief to share');return;}
-  window.open('https://wa.me/?text='+encodeURIComponent('*SmartBrief AI*\nPatient: '+(lastAiBriefName||'Patient')+'\n'+SP[cs].n+'\n\n'+lastAiBrief+'\n\n_Demo — SmartBrief AI Beta_'),'_blank');
+  window.open('https://wa.me/919488907730?text='+encodeURIComponent('*SmartBrief AI*\nPatient: '+(lastAiBriefName||'Patient')+'\n'+SP[cs].n+'\n\n'+lastAiBrief+'\n\n_Demo — SmartBrief AI Beta_'),'_blank');
 }
 
 // ══ FEATURE 2: DRUG SAFETY CHECKER ═══════════════════════════════
@@ -2498,7 +2498,7 @@ async function runVoiceNote(){
 
 function shareNoteWA(){
   if(!lastVoiceNote){toast('Generate a note first');return;}
-  window.open('https://wa.me/?text='+encodeURIComponent('*Clinical Note — SmartBrief AI*\n\n'+lastVoiceNote+'\n\n_Demo — For doctor review only_'),'_blank');
+  window.open('https://wa.me/919488907730?text='+encodeURIComponent('*Clinical Note — SmartBrief AI*\n\n'+lastVoiceNote+'\n\n_Demo — For doctor review only_'),'_blank');
 }
 function copyNote(){
   if(!lastVoiceNote){toast('No note to copy');return;}
@@ -2547,6 +2547,64 @@ initTheme();
 
 
 
+</script>
+<!-- ====== SmartBrief AI Analytics — purely additive, zero impact on existing code ====== -->
+<script>
+(function(){
+  'use strict';
+  // ========== PASTE YOUR GOOGLE APPS SCRIPT URL BELOW ==========
+  var ANALYTICS_ENDPOINT = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
+  // ===============================================================
+
+  try {
+    var proto = window.location.protocol;
+    if(proto === 'file:' || proto === 'content:') return;
+    if(!ANALYTICS_ENDPOINT || ANALYTICS_ENDPOINT.indexOf('YOUR_GOOGLE') !== -1) return;
+  } catch(e){ return; }
+
+  var sid;
+  try {
+    sid = sessionStorage.getItem('smb_sid');
+    if(!sid){ sid = 'sid_'+Math.random().toString(36).slice(2)+Date.now().toString(36); sessionStorage.setItem('smb_sid',sid); }
+  } catch(e){ sid = 'ns_'+Math.random().toString(36).slice(2); }
+
+  function track(evt, extra){
+    try {
+      var d = {event_type:evt, page:window.location.pathname, specialty_selected:'', section_viewed:'', cta_clicked:'', referrer:document.referrer, user_agent:navigator.userAgent, session_id:sid};
+      if(extra){ for(var k in extra){ if(Object.prototype.hasOwnProperty.call(extra,k)) d[k]=extra[k]; } }
+      var b = JSON.stringify(d), sent = false;
+      if(navigator.sendBeacon){ try{ sent = navigator.sendBeacon(ANALYTICS_ENDPOINT, new Blob([b],{type:'application/json'})); }catch(e){} }
+      if(!sent){ fetch(ANALYTICS_ENDPOINT,{method:'POST',body:b,headers:{'Content-Type':'application/json'},keepalive:true}).catch(function(){}); }
+    } catch(e){}
+  }
+
+  // 1. page_view
+  try { track('page_view'); } catch(e){}
+
+  // 2. cta_click — wa.me links and inter-file navigation
+  try {
+    document.addEventListener('click',function(ev){
+      try {
+        var el = ev.target.closest('a,button'); if(!el) return;
+        var href = (el.getAttribute('href')||'').toLowerCase();
+        var oc = (el.getAttribute('onclick')||'').toLowerCase();
+        var lbl = el.textContent.trim().slice(0,60);
+        if(href.indexOf('wa.me')!==-1 || href.indexOf('dashboard')!==-1 || href.indexOf('patient')!==-1)
+          track('cta_click',{cta_clicked:lbl});
+      } catch(e){}
+    },true);
+  } catch(e){}
+
+  // 3. section_view — track tab switches as section views
+  try {
+    document.querySelectorAll('.tab').forEach(function(btn){
+      btn.addEventListener('click',function(){
+        try { track('section_view',{section_viewed:btn.textContent.trim().replace(/[^\w\s]/g,'').trim().slice(0,30)}); } catch(e){}
+      });
+    });
+  } catch(e){}
+
+})();
 </script>
 </body>
 </html>
