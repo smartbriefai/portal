@@ -23,9 +23,6 @@ html{max-width:100%;overflow-x:hidden}
   --fh:'Outfit','Google Sans Display','Google Sans','Product Sans','Roboto','Segoe UI',sans-serif;
   --fb:'Inter','Google Sans','Roboto','Segoe UI',sans-serif;
 }
-*{transition:background-color .35s ease,
-           border-color .3s ease,
-           color .25s ease;}
 html,body{height:100%;width:100%;max-width:100%;font-family:var(--fb);background:var(--bg);color:var(--tx);
   -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:hidden}
 
@@ -70,21 +67,11 @@ html,body{height:100%;width:100%;max-width:100%;font-family:var(--fb);background
 
 /* ── DASH LAYOUT ───────────────────────────────────────────────── */
 #dashScreen{display:none;height:100vh;overflow:hidden}
-.dwrap{display:flex;height:100%;overflow:hidden;min-width:0}
-
-/* ── OVERFLOW PREVENTION ───────────────────────────────────────── */
-.panel,.ai-panel,.output-box,.ai-output,.rxPreview,
-#rxPreview,#refPreview,#abOutput,#drgOutput,#vcOutput{
-  min-width:0;
-  max-width:100%;
-  overflow-x:hidden;
-  word-wrap:break-word;
-  overflow-wrap:break-word;
-}
+.dwrap{display:flex;height:100%}
 
 /* ── SIDEBAR ───────────────────────────────────────────────────── */
 .sidebar{width:var(--sw);background:var(--sf);border-right:1px solid var(--bd);
-  display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto;overflow-x:hidden}
+  display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto}
 .sblogo{padding:18px 16px 14px;border-bottom:1px solid var(--bd);
   display:flex;align-items:center;gap:9px}
 .sblogo-t{font-family:var(--fh);font-weight:800;font-size:.9rem;color:var(--tx)}
@@ -120,20 +107,10 @@ html,body{height:100%;width:100%;max-width:100%;font-family:var(--fb);background
 .sbout:hover{color:#E53935}
 
 /* ── MAIN ──────────────────────────────────────────────────────── */
-.main{
-  flex:1;
-  min-width:0;
-  width:0;
-  overflow-y:auto;
-  overflow-x:hidden;
-  display:flex;
-  flex-direction:column;
-  height:100vh;
-}
-.mhdr{padding:14px 22px;border-bottom:1px solid var(--bd);
-  display:flex!important;visibility:visible!important;opacity:1!important;
+.main{flex:1;overflow-y:auto;display:flex;flex-direction:column;min-width:0}
+.mhdr{padding:14px 22px;border-bottom:1px solid var(--bd);display:flex;
   align-items:center;justify-content:space-between;background:var(--sf);
-  position:sticky;top:0;z-index:20;gap:10px;overflow:hidden;min-width:0;flex-shrink:0}
+  position:sticky;top:0;z-index:10;gap:10px;overflow:hidden;min-width:0}
 .mhdr-l{display:flex;flex-direction:column;gap:1px;min-width:0;flex:1}
 .mdate{font-size:.73rem;color:var(--tx3)}
 .mspec{font-family:var(--fh);font-size:1rem;font-weight:800;color:var(--tx);
@@ -156,8 +133,7 @@ html,body{height:100%;width:100%;max-width:100%;font-family:var(--fb);background
 .btnadd:hover{background:#00796B}
 
 /* ── STATS BAR ─────────────────────────────────────────────────── */
-.statsbar{display:grid!important;visibility:visible!important;flex-shrink:0;
-  grid-template-columns:repeat(4,1fr);gap:1px;
+.statsbar{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
   background:var(--bd);border-bottom:1px solid var(--bd)}
 .sc{background:var(--sf);padding:12px 16px}
 .scn{font-family:var(--fh);font-size:1.4rem;font-weight:800;
@@ -168,8 +144,7 @@ html,body{height:100%;width:100%;max-width:100%;font-family:var(--fb);background
 /* ── TABS ──────────────────────────────────────────────────────── */
 .tabs{display:flex !important;position:sticky;top:0;z-index:9;
   background:var(--sf);border-bottom:1px solid var(--bd);
-  padding:0 16px;gap:2px;overflow-x:auto;overflow-y:hidden;flex-shrink:0;
-  white-space:nowrap;scrollbar-width:none;
+  padding:0 16px;gap:2px;overflow-x:auto;flex-shrink:0;
   -webkit-overflow-scrolling:touch}
 .tabs::-webkit-scrollbar{display:none}
 .sbnav li.active button{background:var(--ss);color:var(--sp);font-weight:600}
@@ -180,29 +155,12 @@ html,body{height:100%;width:100%;max-width:100%;font-family:var(--fb);background
 .tab.active{color:var(--sp);border-bottom-color:var(--sp);font-weight:600}
 
 /* ── CONTENT ───────────────────────────────────────────────────── */
-.content{
-  padding:18px 22px;
-  flex:1;
-  min-width:0;
-  min-height:0;
-  width:100%;
-  overflow-y:auto;
-  overflow-x:hidden;
-  box-sizing:border-box;
-}
-.cgrid{
-  display:grid;
-  grid-template-columns:310px 1fr;
-  gap:18px;
-  align-items:start;
-  width:100%;
-  min-width:0;
-}
-.cgrid > *{min-width:0;overflow:hidden}
+.content{padding:18px 22px;flex:1}
+.cgrid{display:grid;grid-template-columns:310px 1fr;gap:18px;align-items:start}
 
 /* ── PANELS ────────────────────────────────────────────────────── */
 .panel{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);
-  overflow:hidden;margin-bottom:16px;width:100%;min-width:0;box-sizing:border-box}
+  overflow:hidden;margin-bottom:16px}
 .phdr{padding:12px 15px;border-bottom:1px solid var(--bd);
   display:flex;align-items:center;justify-content:space-between}
 .ptitle{font-family:var(--fh);font-size:.84rem;font-weight:700;color:var(--tx)}
@@ -643,23 +601,10 @@ html,body{height:100%;width:100%;max-width:100%;font-family:var(--fb);background
   background:var(--sf);outline:none}
 .key-inline button{padding:5px 11px;background:var(--sp);color:#fff;border:none;
   border-radius:6px;font-size:.72rem;font-weight:700;cursor:pointer;font-family:var(--fb)}
-.ai-cgrid{
-  display:grid;
-  grid-template-columns:340px 1fr;
-  gap:18px;
-  align-items:start;
-  width:100%;
-  min-width:0;
-}
-.ai-cgrid > *{min-width:0;overflow:hidden}
+.ai-cgrid{display:grid;grid-template-columns:340px 1fr;gap:18px;align-items:start}
 @media(max-width:768px){
-  .ai-cgrid{grid-template-columns:1fr;gap:12px}
-  .cgrid{grid-template-columns:1fr;gap:12px}
-  .content{padding:12px 13px}
-  .main{width:100%;min-width:0;height:100dvh}
+  .ai-cgrid{grid-template-columns:1fr}
   .ai-tab::after{display:none}
-  .vgrid{grid-template-columns:repeat(2,1fr)}
-  #briefcontent{max-height:none}
 }
 
 /* ── TOAST ─────────────────────────────────────────────────────── */
@@ -783,39 +728,10 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
 
 /* ── PAGE-TURN ANIMATION ────────────────────────────────────────── */
 @keyframes pageTurnIn{
-  0%  {opacity:0;transform:perspective(1400px) rotateY(-4deg)
-       translateX(-8px) scale(.99);filter:brightness(.9)}
-  40% {opacity:.75;transform:perspective(1400px) rotateY(.8deg)
-       translateX(1px) scale(1.002);filter:brightness(.98)}
-  100%{opacity:1;transform:perspective(1400px) rotateY(0)
-       translateX(0) scale(1);filter:brightness(1)}
+  from{transform:perspective(900px) rotateY(-10deg) translateX(-16px);opacity:0}
+  to{transform:perspective(900px) rotateY(0deg) translateX(0);opacity:1}
 }
-.theme-transition{
-  animation:pageTurnIn .55s cubic-bezier(.22,.61,.36,1) forwards;
-  transform-origin:center center;
-  will-change:transform,opacity,filter;
-}
-.theme-transition *{transition:none!important;}
-.dark-toggle,
-.dark-toggle-knob,
-.live-dot{transition:background .3s,transform .3s!important;}
-
-/* ── BLINKING LIVE INDICATOR ────────────────────────────────────── */
-@keyframes blink-live{
-  0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(34,197,94,.5)}
-  50%{opacity:.6;box-shadow:0 0 0 5px rgba(34,197,94,0)}
-}
-.live-dot{
-  display:inline-block;
-  width:8px;height:8px;
-  border-radius:50%;
-  background:#22C55E;
-  margin-right:7px;
-  flex-shrink:0;
-  animation:blink-live 1.6s ease-in-out infinite;
-  vertical-align:middle;
-  position:relative;top:-1px;
-}
+.page-turn-in{animation:pageTurnIn .28s ease forwards;will-change:transform}
 
 /* ── DARK TOGGLE BUTTON ─────────────────────────────────────────── */
 .dark-toggle{
@@ -826,33 +742,6 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
 }
 .dark-toggle:hover{background:var(--bg2);color:var(--tx)}
 @media(max-width:640px){.dark-toggle{display:none}}
-
-/* ── LAYOUT STABILITY ────────────────────────────────────────────── */
-#briefcontent{
-  max-height:calc(100vh - 220px);
-  overflow-y:auto;
-  overflow-x:hidden;
-  padding:13px;
-  box-sizing:border-box;
-}
-.ai-output,#rxPreview,#refPreview{
-  word-break:break-word;
-  overflow-wrap:break-word;
-  white-space:pre-wrap;
-  max-width:100%;
-}
-.drug-result{word-break:break-word;overflow-wrap:break-word}
-
-/* Medium screens: narrow grid columns */
-@media(max-width:1100px){
-  .cgrid{grid-template-columns:280px 1fr}
-  .ai-cgrid{grid-template-columns:300px 1fr}
-}
-/* Small desktop / large tablet */
-@media(max-width:900px){
-  .cgrid,.ai-cgrid{grid-template-columns:1fr}
-  .vgrid{grid-template-columns:repeat(2,1fr)}
-}
 </style>
 </head>
 <body>
@@ -949,20 +838,6 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
             <span id="mspeci">🦷</span>
             <span id="mspecn">Dental OPD</span>
             <span class="schip" id="mspecch">Dental</span>
-            <span id="modeIndicator"
-              style="display:none;font-size:.62rem;font-weight:700;
-                     padding:2px 8px;border-radius:8px;margin-left:6px;
-                     background:linear-gradient(135deg,#7C3AED,#2563EB);
-                     color:#fff;vertical-align:middle">
-              🔑 Admin
-            </span>
-          </div>
-          <div id="trialBadge"
-            style="font-size:.65rem;font-weight:700;padding:2px 9px;
-                   border-radius:10px;display:inline-flex;align-items:center;
-                   gap:4px;margin-top:3px;cursor:default;
-                   background:var(--ss);color:var(--sp)">
-            20 AI trials left
           </div>
         </div>
         <div class="mhdr-r">
@@ -995,11 +870,6 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
         <button class="tab ai-tab" id="tab-aibrief" onclick="showTab('aibrief')" title="AI-powered patient brief from complaint text">🤖 AI Brief</button>
         <button class="tab ai-tab" id="tab-drugsafe" onclick="showTab('drugsafe')" title="AI drug interaction checker">⚗️ Drug Safety</button>
         <button class="tab ai-tab" id="tab-voice" onclick="showTab('voice')" title="Speak your findings — AI structures them">🎙️ Voice Notes</button>
-        <button class="tab" id="tab-admin"
-          onclick="if(isAdminMode())showTab('admin');else enterAdminMode()"
-          style="color:var(--tx3)">
-          🔑 Admin
-        </button>
       </div>
 
       <!-- ── TAB: QUEUE & BRIEF ── -->
@@ -1022,7 +892,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
               <span class="ptitle">🩺 Patient Brief</span>
               <span style="font-size:.72rem;color:var(--tx3)" id="briefname">Select a patient</span>
             </div>
-            <div id="briefcontent">
+            <div id="briefcontent" style="padding:13px">
               <div class="bph"><div class="bph-i">📋</div><div class="bph-t">Select a patient from the queue to view their brief.<br><br>Tap <strong>+ Add Patient</strong> to add a new walk-in.</div></div>
             </div>
           </div>
@@ -1481,92 +1351,6 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
         </div>
       </div>
 
-      <!-- ── TAB: ADMIN ── -->
-      <div id="tabcontent-admin" class="content" style="display:none">
-        <div class="panel" style="max-width:560px">
-          <div class="phdr">
-            <span class="ptitle">🔑 Admin Control Panel</span>
-            <button class="pact" onclick="exitAdminMode()">Exit Admin Mode</button>
-          </div>
-          <div style="padding:16px">
-            <div style="font-family:var(--fh);font-size:.78rem;font-weight:700;
-                        color:var(--sp);text-transform:uppercase;letter-spacing:.6px;
-                        margin-bottom:10px">User Feature Access</div>
-            <div style="font-size:.78rem;color:var(--tx2);margin-bottom:14px;line-height:1.5">
-              Toggle which features are visible to users. Admin always sees everything.
-            </div>
-            <div id="accessToggles" style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px"></div>
-            <button onclick="saveAndApplyAccess()"
-              style="width:100%;padding:11px;background:var(--sp);color:#fff;
-                     border:none;border-radius:9px;font-family:var(--fb);
-                     font-size:.88rem;font-weight:700;cursor:pointer;margin-bottom:12px">
-              💾 Save Access Settings
-            </button>
-            <div style="border-top:1px solid var(--bd);padding-top:14px;margin-top:4px">
-              <div style="font-family:var(--fh);font-size:.78rem;font-weight:700;
-                          color:var(--sp);text-transform:uppercase;letter-spacing:.6px;
-                          margin-bottom:10px">AI Trial Management</div>
-              <div style="font-size:.82rem;color:var(--tx2);margin-bottom:10px">
-                Current user trial usage: <strong id="adminTrialCount">0</strong> / 20
-              </div>
-              <button onclick="resetUserTrials()"
-                style="padding:9px 16px;background:var(--bg2);border:1px solid var(--bd);
-                       border-radius:8px;font-family:var(--fb);font-size:.81rem;
-                       font-weight:600;color:var(--tx2);cursor:pointer">
-                Reset Trial Count
-              </button>
-            </div>
-            <div style="border-top:1px solid var(--bd);padding-top:14px;margin-top:14px">
-              <div style="font-family:var(--fh);font-size:.78rem;font-weight:700;
-                          color:var(--sp);text-transform:uppercase;letter-spacing:.6px;
-                          margin-bottom:10px">Share App with User</div>
-              <div style="font-size:.78rem;color:var(--tx2);line-height:1.6;margin-bottom:10px">
-                Share this URL. Users will see only the features you've enabled above.
-              </div>
-              <div style="background:var(--bg2);border:1px solid var(--bd);
-                          border-radius:8px;padding:9px 12px;font-size:.78rem;
-                          color:var(--tx);word-break:break-all;font-family:monospace"
-                   id="shareUrl">Loading...</div>
-              <button onclick="copyShareUrl()"
-                style="margin-top:8px;padding:8px 14px;background:var(--sp);
-                       color:#fff;border:none;border-radius:8px;font-family:var(--fb);
-                       font-size:.79rem;font-weight:600;cursor:pointer">
-                📋 Copy URL
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- TRIAL EXPIRED OVERLAY -->
-      <div id="trialExpiredMsg"
-        style="display:none;position:fixed;inset:0;background:rgba(15,31,61,.55);
-               z-index:400;align-items:center;justify-content:center;padding:24px">
-        <div style="background:var(--sf);border-radius:16px;padding:30px 28px;
-                    max-width:380px;width:100%;box-shadow:var(--sh2);text-align:center">
-          <div style="font-size:2rem;margin-bottom:10px">🔒</div>
-          <div style="font-family:var(--fh);font-size:1rem;font-weight:800;
-                      color:var(--tx);margin-bottom:8px">Free Trial Completed</div>
-          <div style="font-size:.82rem;color:var(--tx2);line-height:1.65;margin-bottom:18px">
-            You've used all 20 free AI trials for
-            <strong><span class="trial-feature">AI</span></strong>.<br>
-            Contact us to activate full access.
-          </div>
-          <a href="https://wa.me/?text=Hi%2C+I+want+to+activate+SmartBrief+AI"
-             target="_blank"
-             style="display:block;padding:11px;background:var(--sp);color:#fff;
-                    border-radius:9px;font-weight:700;font-size:.88rem;
-                    text-decoration:none;margin-bottom:9px">
-            💬 WhatsApp to Activate
-          </a>
-          <button onclick="document.getElementById('trialExpiredMsg').style.display='none'"
-            style="background:none;border:none;color:var(--tx3);font-size:.78rem;
-                   cursor:pointer;font-family:var(--fb)">
-            Close
-          </button>
-        </div>
-      </div>
-
       <div class="shortcuts">
         <div class="shortcut"><kbd>N</kbd><span>New patient</span></div>
         <div class="shortcut"><kbd>Space</kbd><span>Timer</span></div>
@@ -1678,14 +1462,9 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
       <button class="modalclose" onclick="closeApiSettings()">✕</button>
     </div>
     <div class="api-card-body">
-      <div id="aiSettingsStatus"
-        style="font-size:.86rem;font-weight:700;
-               margin-bottom:14px;padding:11px 14px;
-               border-radius:9px;background:var(--ss);
-               color:var(--sp);border:1px solid var(--sb);
-               display:flex;align-items:center;">
-        <span class="live-dot"></span>
-        Live AI &nbsp;|&nbsp; Status : Active
+      <div id="aiSettingsStatus" style="background:var(--ss);border:1px solid var(--sb);border-radius:10px;padding:12px 14px;margin-bottom:14px">
+        <div style="font-size:.85rem;font-weight:700;color:var(--sp)">✅ Live AI Active</div>
+        <div style="font-size:.75rem;color:var(--tx2);margin-top:3px">Qwen 72B · Secure server-side proxy · Token never exposed</div>
       </div>
       <div style="font-size:.8rem;color:var(--tx2);line-height:1.85">
         <div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:8px">
@@ -1790,170 +1569,6 @@ let timerInt=null, tokCounter=4, addMode='w', actLog=[], reminders=[];
 let lastDoc='', rxDrugCount=2;
 let recognition=null, voiceActive=false, isListening=false, vcFullTranscript='';
 
-// ── AI TRIAL MANAGEMENT ───────────────────────────────────────────
-const AI_TRIAL_LIMIT = 20;
-const TRIAL_KEY = 'sb_ai_trials';
-function getTrialCount(){
-  return parseInt(localStorage.getItem(TRIAL_KEY) || '0', 10);
-}
-function incrementTrial(){
-  const n = getTrialCount() + 1;
-  localStorage.setItem(TRIAL_KEY, n.toString());
-  return n;
-}
-function trialsRemaining(){
-  if(isAdminMode()) return Infinity;
-  return Math.max(0, AI_TRIAL_LIMIT - getTrialCount());
-}
-function checkTrialLimit(featureName){
-  if(isAdminMode()) return true;
-  if(trialsRemaining() <= 0){
-    showTrialExpired(featureName);
-    return false;
-  }
-  return true;
-}
-function showTrialExpired(featureName){
-  const msg = document.getElementById('trialExpiredMsg');
-  if(msg){
-    msg.style.display = 'flex';
-    const span = msg.querySelector('.trial-feature');
-    if(span) span.textContent = featureName || 'AI';
-  }
-}
-function updateTrialBadge(){
-  const badge = document.getElementById('trialBadge');
-  if(!badge) return;
-  if(isAdminMode()){
-    badge.textContent = '∞ Admin';
-    badge.style.background = 'linear-gradient(135deg,#7C3AED,#2563EB)';
-    badge.style.color = '#fff';
-    return;
-  }
-  const rem = trialsRemaining();
-  badge.textContent = rem + ' AI trials left';
-  badge.style.background = rem > 10 ? 'var(--ss)' :
-                            rem > 5  ? '#FFF8E1' : '#FFF3F3';
-  badge.style.color     = rem > 10 ? 'var(--sp)' :
-                            rem > 5  ? '#E65100' : '#C62828';
-}
-
-// ── ADMIN / USER ACCESS CONTROL ──────────────────────────────────
-const ADMIN_PIN = '2626';
-const ADMIN_KEY = 'sb_admin_mode';
-const USER_ACCESS_KEY = 'sb_user_access';
-function isAdminMode(){
-  return localStorage.getItem(ADMIN_KEY) === 'true';
-}
-function enterAdminMode(){
-  const pin = prompt('Enter admin PIN:');
-  if(pin === ADMIN_PIN){
-    localStorage.setItem(ADMIN_KEY, 'true');
-    applyAccessMode();
-    toast('Admin mode enabled ✓');
-    updateTrialBadge();
-    showTab('admin');
-  } else if(pin !== null){
-    toast('Incorrect PIN');
-  }
-}
-function exitAdminMode(){
-  localStorage.removeItem(ADMIN_KEY);
-  applyAccessMode();
-  toast('Switched to user mode');
-  updateTrialBadge();
-  showTab('queue');
-}
-function getAccessConfig(){
-  const defaults = {
-    tab_rx: true, tab_referral: true, tab_followup: true,
-    tab_report: true, tab_aibrief: true, tab_drugsafe: true,
-    tab_voice: true, add_patient: true, token_display: true,
-  };
-  const saved = localStorage.getItem(USER_ACCESS_KEY);
-  return saved ? {...defaults, ...JSON.parse(saved)} : defaults;
-}
-function saveAccessConfig(config){
-  localStorage.setItem(USER_ACCESS_KEY, JSON.stringify(config));
-}
-function applyAccessMode(){
-  const isAdmin = isAdminMode();
-  const config = getAccessConfig();
-  const tabMap = {
-    'tab-rx': 'tab_rx', 'tab-referral': 'tab_referral',
-    'tab-followup': 'tab_followup', 'tab-report': 'tab_report',
-    'tab-aibrief': 'tab_aibrief', 'tab-drugsafe': 'tab_drugsafe',
-    'tab-voice': 'tab_voice',
-  };
-  Object.entries(tabMap).forEach(([tabId, configKey])=>{
-    const btn = document.getElementById(tabId);
-    if(!btn) return;
-    btn.style.display = (isAdmin || config[configKey]) ? '' : 'none';
-  });
-  const adminBadge = document.getElementById('adminBadge');
-  if(adminBadge) adminBadge.style.display = isAdmin ? 'flex' : 'none';
-  const adminPanel = document.getElementById('adminPanel');
-  if(adminPanel) adminPanel.style.display = isAdmin ? 'block' : 'none';
-  const modeIndicator = document.getElementById('modeIndicator');
-  if(modeIndicator){
-    modeIndicator.textContent = isAdmin ? '🔑 Admin' : '';
-    modeIndicator.style.display = isAdmin ? 'inline-block' : 'none';
-  }
-}
-function buildAccessToggles(){
-  const config = getAccessConfig();
-  const features = [
-    {key:'tab_rx',       label:'💊 Rx Generator'},
-    {key:'tab_referral', label:'📩 Referral / Certificate'},
-    {key:'tab_followup', label:'📲 Follow-up Reminders'},
-    {key:'tab_report',   label:'📊 Daily Report'},
-    {key:'tab_aibrief',  label:'🤖 AI Brief Generator'},
-    {key:'tab_drugsafe', label:'⚗️ Drug Safety Checker'},
-    {key:'tab_voice',    label:'🎙️ Voice Notes'},
-    {key:'add_patient',  label:'➕ Add Patient Button'},
-  ];
-  const container = document.getElementById('accessToggles');
-  if(!container) return;
-  container.innerHTML = features.map(f=>`
-    <label style="display:flex;align-items:center;justify-content:space-between;
-                  padding:9px 12px;background:var(--bg2);border:1px solid var(--bd);
-                  border-radius:8px;cursor:pointer;gap:10px">
-      <span style="font-size:.83rem;color:var(--tx)">${f.label}</span>
-      <input type="checkbox" id="toggle_${f.key}"
-        ${config[f.key]!==false?'checked':''}
-        style="accent-color:var(--sp);width:16px;height:16px;cursor:pointer">
-    </label>`).join('');
-  const tc = document.getElementById('adminTrialCount');
-  if(tc) tc.textContent = getTrialCount();
-  const shareUrl = document.getElementById('shareUrl');
-  if(shareUrl) shareUrl.textContent = window.location.href;
-}
-function saveAndApplyAccess(){
-  const features = ['tab_rx','tab_referral','tab_followup','tab_report',
-                    'tab_aibrief','tab_drugsafe','tab_voice','add_patient'];
-  const config = {};
-  features.forEach(k=>{
-    const el = document.getElementById('toggle_'+k);
-    config[k] = el ? el.checked : true;
-  });
-  saveAccessConfig(config);
-  applyAccessMode();
-  toast('Access settings saved ✓');
-}
-function resetUserTrials(){
-  localStorage.setItem(TRIAL_KEY, '0');
-  updateTrialBadge();
-  const tc = document.getElementById('adminTrialCount');
-  if(tc) tc.textContent = '0';
-  toast('Trial count reset to 0 ✓');
-}
-function copyShareUrl(){
-  const url = window.location.href;
-  navigator.clipboard.writeText(url)
-    .then(()=>toast('URL copied ✓'))
-    .catch(()=>toast('Copy the URL from the box above'));
-}
-
 // ══ LOGIN ═════════════════════════════════════════════════════════
 function pickSpec(s,btn){
   cs=s;
@@ -1992,8 +1607,6 @@ function initDash(){
   tokCounter=queue.length+1;
   renderQueue();updateStats();
   logActivity('Session started — '+SP[cs].n);
-  updateTrialBadge();
-  applyAccessMode();
 }
 
 // ══ SPEC ══════════════════════════════════════════════════════════
@@ -2096,7 +1709,7 @@ function renderBrief(p){
         <button class="btnprint" onclick="window.print()">🖨</button>
       </div>
       <div style="margin-top:12px;background:#FFFBEC;border:1px solid #F0C030;border-radius:8px;padding:9px 12px">
-        <div style="font-size:.69rem;font-weight:700;color:#7A5C00;margin-bottom:2px">⚠ Clinical Alert</div>
+        <div style="font-size:.69rem;font-weight:700;color:#7A5C00;margin-bottom:2px">⚠ Medical Disclaimer</div>
         <div style="font-size:.67rem;color:#7A5C00;line-height:1.55">This brief is a clinical decision-support aid only — NOT a diagnosis. All information must be independently verified by a qualified doctor before clinical use. Not valid for medicolegal purposes.</div>
       </div>
     </div>`;
@@ -2369,7 +1982,7 @@ function hideTokenDisplay(){
 }
 
 // ══ TABS ══════════════════════════════════════════════════════════
-const TAB_IDS=['queue','rx','referral','followup','report','aibrief','drugsafe','voice','admin'];
+const TAB_IDS=['queue','rx','referral','followup','report','aibrief','drugsafe','voice'];
 function showTab(t){
   TAB_IDS.forEach(id=>{
     const c=document.getElementById('tabcontent-'+id);
@@ -2391,7 +2004,6 @@ function showTab(t){
   });
   if(t==='report') updateReport();
   if(t==='aibrief'){ const s=document.getElementById('abSpec'); if(s)s.value=cs; }
-  if(t==='admin') buildAccessToggles();
   refreshKeyStatus();
 }
 
@@ -2449,21 +2061,6 @@ document.addEventListener('keydown',e=>{
 function openApiSettings(){
   const m=document.getElementById('apiSettings');
   if(m)m.style.display='flex';
-  const statusEl=document.getElementById('aiSettingsStatus');
-  if(statusEl){
-    const live=!AI_PROXY_URL.includes('YOUR_APP');
-    if(live){
-      statusEl.innerHTML='<span class="live-dot"></span>Live AI &nbsp;|&nbsp; Status : Active';
-      statusEl.style.background='var(--ss)';
-      statusEl.style.color='var(--sp)';
-      statusEl.style.border='1px solid var(--sb)';
-    } else {
-      statusEl.innerHTML='⚠️ Demo mode — AI not connected';
-      statusEl.style.background='#FFF8E1';
-      statusEl.style.color='#E65100';
-      statusEl.style.border='1px solid #FFD54F';
-    }
-  }
 }
 function closeApiSettings(){
   const m=document.getElementById('apiSettings');
@@ -2487,7 +2084,7 @@ function refreshKeyStatus(){
     const s = document.getElementById(statusId);
     if(b) b.style.display = live ? 'none' : 'flex';
     if(s){
-      s.textContent = live ? '✅ Live AI Active' : 'Demo mode';
+      s.textContent = live ? '✅ Live AI Active (Qwen 72B)' : 'Demo mode';
       s.className = 'ai-status' + (live ? ' live' : '');
     }
   });
@@ -2649,9 +2246,6 @@ async function runAiBrief(){
   const allergy = document.getElementById('abAllergy').value.trim();
   const spec = document.getElementById('abSpec').value;
   if(!complaint){ toast('Please enter a complaint'); return; }
-  if(!checkTrialLimit('AI Brief')) return;
-  incrementTrial();
-  updateTrialBadge();
 
   const btn=document.getElementById('abRunBtn');
   const outEl=document.getElementById('abOutput');
@@ -2749,9 +2343,6 @@ async function runDrugCheck(){
   const allergy=document.getElementById('drgAllergy').value.trim();
   const cond=document.getElementById('drgConditions').value.trim();
   if(!drugs){toast('Please enter drug names to check');return;}
-  if(!checkTrialLimit('Drug Safety')) return;
-  incrementTrial();
-  updateTrialBadge();
 
   const btn=document.getElementById('drgRunBtn');
   const outEl=document.getElementById('drgOutput');
@@ -2854,9 +2445,6 @@ function stopListening(){
 async function runVoiceNote(){
   const raw=document.getElementById('vcTyped').value.trim()||vcFullTranscript.trim();
   if(!raw){toast('Please speak or type your findings first');return;}
-  if(!checkTrialLimit('Voice Notes')) return;
-  incrementTrial();
-  updateTrialBadge();
   const noteType=document.getElementById('vcNoteType').value;
   const noteLabels={soap:'SOAP Note',consult:'Consultation Summary',progress:'Progress Note',discharge:'Discharge Summary'};
   const btn=document.getElementById('vcRunBtn'),outEl=document.getElementById('vcOutput');
@@ -2926,10 +2514,10 @@ function toggleDark(){
   // Page-turn animation on main content area
   const main = document.querySelector('.main');
   if(main){
-    main.classList.remove('theme-transition');
+    main.classList.remove('page-turn-in');
     void main.offsetWidth; // reflow to restart animation
-    main.classList.add('theme-transition');
-    setTimeout(()=>main.classList.remove('theme-transition'), 580);
+    main.classList.add('page-turn-in');
+    setTimeout(()=>main.classList.remove('page-turn-in'), 320);
   }
 }
 function initTheme(){
@@ -2945,47 +2533,8 @@ function initTheme(){
 }
 initTheme();
 
-// ── MISSING STUBS (referenced in HTML, defined here) ──────────────
-function generateAiRx(){
-  const drugs=[];
-  document.querySelectorAll('#rxDrugs .rx-drug-row').forEach(row=>{
-    const inputs=row.querySelectorAll('input');
-    const name=inputs[0]?inputs[0].value.trim():'';
-    const dose=inputs[1]?inputs[1].value.trim():'';
-    const dur=inputs[2]?inputs[2].value.trim():'';
-    if(name) drugs.push(name+(dose?' '+dose:'')+(dur?', '+dur:''));
-  });
-  if(!drugs.length){toast('Please enter at least one drug');return;}
-  if(!checkTrialLimit('Drug Safety')) return;
-  document.getElementById('drgDrugs').value=drugs.join('\n');
-  showTab('drugsafe');
-  incrementTrial();updateTrialBadge();
-  toast('Checking drug safety…');
-  runDrugCheck();
-}
-function upgradeWA(){
-  window.open('https://wa.me/?text=Hi%2C+I+want+to+upgrade+SmartBrief+AI+to+Pro+plan','_blank');
-}
-function addToQueue(){
-  const nm=document.getElementById('mname')?document.getElementById('mname').value.trim()
-           :document.getElementById('muname')?document.getElementById('muname').value.trim():'';
-  if(!nm){toast('Patient name required');return;}
-  const cc=document.getElementById('mcomp')?document.getElementById('mcomp').value.trim()
-           :'Brief generated';
-  const al=document.getElementById('mallergy')?document.getElementById('mallergy').value.trim():'';
-  const np={id:'p'+Date.now(),t:'T'+tokCounter,nm,
-    sb:'Walk-in, brief generated',st:'ready',al,cc,
-    h:'No prior history on record.',mx:'None declared.',
-    ac:cs==='den'?['Clinical examination','X-ray if indicated']:
-       cs==='ent'?['Clinical examination','ENT assessment']:
-       cs==='gyn'?['Clinical assessment','USS if indicated']:
-                  ['Clinical examination','Investigations as indicated']};
-  tokCounter++;queue.push(np);
-  renderQueue();updateStats();
-  logActivity('Patient added — '+nm);
-  closeModal();toast('Added '+nm+' to queue ✓');
-  selectPatient(np.id);
-}
+
+
 
 </script>
 </body>
