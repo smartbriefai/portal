@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SmartBrief AI — Analytics Setup Guide</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#F8FAFC;color:#1E293B;line-height:1.65;padding:0}
+  .page{max-width:860px;margin:0 auto;padding:48px 24px 80px}
+  h1{font-size:1.8rem;font-weight:800;color:#0F172A;margin-bottom:8px}
+  .subtitle{font-size:1rem;color:#64748B;margin-bottom:40px}
+  h2{font-size:1.15rem;font-weight:700;color:#0F172A;margin-bottom:12px;margin-top:36px;display:flex;align-items:center;gap:10px}
+  .step-num{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:#0D9488;color:#fff;font-size:.82rem;font-weight:800;flex-shrink:0}
+  p{color:#475569;margin-bottom:10px}
+  ul{color:#475569;padding-left:20px;margin-bottom:10px}
+  ul li{margin-bottom:5px}
+  .notice{background:#F0FDF4;border:1px solid #BBF7D0;border-radius:10px;padding:16px 18px;margin-bottom:28px}
+  .notice strong{color:#14532D}
+  .notice p{color:#166534;margin:0}
+  .warning{background:#FFFBEB;border:1px solid #FDE68A;border-radius:10px;padding:16px 18px;margin-bottom:20px}
+  .warning p{color:#92400E;margin:0}
+  .code-block{background:#0F172A;border-radius:10px;padding:20px 22px;margin:14px 0 20px;overflow-x:auto}
+  .code-block pre{color:#E2E8F0;font-family:'Courier New',Courier,monospace;font-size:.82rem;line-height:1.7;white-space:pre}
+  .config-block{background:#1E3A5F;border:2px solid #3B82F6;border-radius:10px;padding:18px 22px;margin:14px 0 20px}
+  .config-block pre{color:#BAE6FD;font-family:'Courier New',Courier,monospace;font-size:.82rem;line-height:1.7;white-space:pre}
+  .config-block .comment{color:#93C5FD}
+  .step-block{background:#fff;border:1px solid #E2E8F0;border-radius:12px;padding:22px 24px;margin-bottom:20px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+  .img-desc{background:#F1F5F9;border:1px dashed #CBD5E1;border-radius:8px;padding:14px 16px;margin:10px 0;color:#64748B;font-size:.85rem;font-style:italic}
+  .highlight{background:#ECFDF5;color:#065F46;font-family:'Courier New',monospace;font-size:.85rem;padding:2px 6px;border-radius:4px}
+  .divider{border:none;border-top:1px solid #E2E8F0;margin:32px 0}
+  .sheet-cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin:12px 0}
+  .col-tag{background:#EFF6FF;border:1px solid #BFDBFE;border-radius:6px;padding:6px 10px;font-size:.78rem;font-family:'Courier New',monospace;color:#1D4ED8;text-align:center}
+  @media(max-width:600px){.page{padding:28px 16px 60px}.sheet-cols{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <h1>📊 SmartBrief AI — Analytics Setup Guide</h1>
+  <p class="subtitle">Connect your static site to a Google Sheet in under 10 minutes. No coding after setup.</p>
+
+  <div class="notice">
+    <strong>What this gives you:</strong>
+    <p>Every page view, button click, specialty switch, and ROI slider interaction gets logged as a row in your Google Sheet — automatically, silently, and for free. No monthly fee. No cookie banner. No external service.</p>
+  </div>
+
+  <hr class="divider">
+  <h2><span class="step-num">1</span> Open Google Apps Script</h2>
+  <div class="step-block">
+    <p>Go to <strong>script.google.com</strong> in any browser (must be logged into your Google account).</p>
+    <div class="img-desc">[ Screenshot: You'll see the Google Apps Script home page with "New project" button in the top-left corner ]</div>
+    <p>Click <strong>"New project"</strong>. A code editor opens with a default <span class="highlight">function myFunction() {}</span> stub.</p>
+  </div>
+
+  <h2><span class="step-num">2</span> Create a linked Google Sheet</h2>
+  <div class="step-block">
+    <p>In the Apps Script editor, click the <strong>spreadsheet icon</strong> in the left sidebar (or go to <strong>Services → Sheets</strong>). Alternatively:</p>
+    <ul>
+      <li>Open <strong>Google Sheets</strong> at sheets.google.com</li>
+      <li>Create a new blank spreadsheet named <strong>"SmartBrief AI Analytics"</strong></li>
+      <li>Leave the first sheet as <strong>"Sheet1"</strong> (do not rename it)</li>
+      <li>In row 1, add these column headers exactly:
+        <div class="sheet-cols">
+          <div class="col-tag">timestamp</div>
+          <div class="col-tag">event_type</div>
+          <div class="col-tag">page</div>
+          <div class="col-tag">specialty_selected</div>
+          <div class="col-tag">section_viewed</div>
+          <div class="col-tag">cta_clicked</div>
+          <div class="col-tag">referrer</div>
+          <div class="col-tag">user_agent</div>
+          <div class="col-tag">session_id</div>
+        </div>
+      </li>
+      <li>Back in Apps Script: click <strong>Extensions → Apps Script</strong> from the Sheets menu bar. This opens the script editor already bound to your sheet.</li>
+    </ul>
+    <div class="img-desc">[ Screenshot: Google Sheets menu bar → Extensions → Apps Script → opens bound script editor ]</div>
+  </div>
+
+  <h2><span class="step-num">3</span> Paste the Apps Script code</h2>
+  <div class="step-block">
+    <p>In the Apps Script editor, <strong>select all existing code</strong> (Ctrl+A / Cmd+A) and <strong>replace it entirely</strong> with the code below:</p>
+    <div class="code-block"><pre>function doPost(e) {
+  try {
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    var data = JSON.parse(e.postData.contents);
+    sheet.appendRow([
+      new Date().toISOString(),
+      data.event_type || '',
+      data.page || '',
+      data.specialty_selected || '',
+      data.section_viewed || '',
+      data.cta_clicked || '',
+      data.referrer || '',
+      data.user_agent || '',
+      data.session_id || ''
+    ]);
+    return ContentService
+      .createTextOutput(JSON.stringify({status: 'ok'}))
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch(err) {
+    return ContentService
+      .createTextOutput(JSON.stringify({status: 'error', message: err.toString()}))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+// Optional: Test this function manually from the editor
+// Select "testPost" from the function dropdown and click Run
+function testPost() {
+  var fakeEvent = {postData: {contents: JSON.stringify({
+    event_type: 'test',
+    page: '/portal/index.html',
+    specialty_selected: 'Dental',
+    section_viewed: '',
+    cta_clicked: 'Try on WhatsApp',
+    referrer: '',
+    user_agent: 'Manual test',
+    session_id: 'sid_test123'
+  })}};
+  Logger.log(doPost(fakeEvent).getContent());
+}</pre></div>
+    <p>Click the <strong>💾 Save</strong> icon (or Ctrl+S). Name the project <strong>"SmartBrief Analytics"</strong> when prompted.</p>
+    <div class="img-desc">[ Screenshot: Apps Script editor with the doPost code pasted in, save icon highlighted in toolbar ]</div>
+  </div>
+
+  <h2><span class="step-num">4</span> Deploy as a Web App</h2>
+  <div class="step-block">
+    <p>In the Apps Script editor toolbar, click <strong>"Deploy"</strong> → <strong>"New deployment"</strong>.</p>
+    <div class="img-desc">[ Screenshot: "Deploy" dropdown menu in top-right of editor, "New deployment" option highlighted ]</div>
+    <ul>
+      <li>Click the <strong>gear icon ⚙️</strong> next to "Select type" → choose <strong>"Web app"</strong></li>
+      <li>Description: <span class="highlight">SmartBrief Analytics v1</span></li>
+      <li><strong>Execute as:</strong> Me (your Google account)</li>
+      <li><strong>Who has access:</strong> Anyone</li>
+    </ul>
+    <div class="img-desc">[ Screenshot: New deployment dialog — "Web app" type selected, Execute as "Me", Who has access "Anyone" ]</div>
+    <p>Click <strong>"Deploy"</strong>. Google will ask you to <strong>authorise the app</strong> — click "Authorise access", choose your Google account, and click "Allow".</p>
+    <div class="warning"><p>⚠️ You may see a "Google hasn't verified this app" warning. Click <strong>"Advanced"</strong> → <strong>"Go to SmartBrief Analytics (unsafe)"</strong> → <strong>"Allow"</strong>. This is normal for your own scripts.</p></div>
+    <p>After deploying, you will see a <strong>Web app URL</strong> that looks like:<br>
+    <span class="highlight">https://script.google.com/macros/s/AKfycb.../exec</span></p>
+    <p><strong>Copy this URL</strong> — you will need it in the next step.</p>
+    <div class="img-desc">[ Screenshot: Deployment successful dialog with the Web app URL displayed and a "Copy" button ]</div>
+  </div>
+
+  <h2><span class="step-num">5</span> Paste the URL into your HTML files</h2>
+  <div class="step-block">
+    <p>Open each of the three HTML files in a text editor (or in your GitHub repository):</p>
+    <ul>
+      <li><strong>index.html</strong></li>
+      <li><strong>smartbrief-dashboard.html</strong></li>
+      <li><strong>smartbrief-patient.html</strong></li>
+    </ul>
+    <p>In each file, near the bottom (just before <span class="highlight">&lt;/body&gt;</span>), find this exact line:</p>
+    <div class="config-block"><pre><span class="comment">  // ========== PASTE YOUR GOOGLE APPS SCRIPT URL BELOW ==========</span>
+  var ANALYTICS_ENDPOINT = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
+<span class="comment">  // ===============================================================</span></pre></div>
+    <p>Replace <span class="highlight">YOUR_GOOGLE_APPS_SCRIPT_URL_HERE</span> with your deployment URL:</p>
+    <div class="config-block"><pre><span class="comment">  // ========== PASTE YOUR GOOGLE APPS SCRIPT URL BELOW ==========</span>
+  var ANALYTICS_ENDPOINT = 'https://script.google.com/macros/s/AKfycb.../exec';
+<span class="comment">  // ===============================================================</span></pre></div>
+    <p>Save the file, commit, and push to GitHub. Analytics are now live.</p>
+    <div class="img-desc">[ Screenshot: VS Code or GitHub web editor showing the ANALYTICS_ENDPOINT line with the URL pasted in ]</div>
+  </div>
+
+  <hr class="divider">
+  <h2>📋 What gets tracked</h2>
+  <div class="step-block">
+    <p>Once live, your Google Sheet will automatically receive a new row for each of these events:</p>
+    <ul>
+      <li><strong>page_view</strong> — every time any of the three pages loads</li>
+      <li><strong>cta_click</strong> — when a visitor clicks a WhatsApp button, Open Dashboard, or pricing/beta links</li>
+      <li><strong>specialty_switch</strong> — when a visitor clicks Dental / ENT / Gynae / General on the landing page</li>
+      <li><strong>pricing_toggle</strong> — when a visitor switches between Monthly and Annual pricing</li>
+      <li><strong>roi_slider_change</strong> — when a visitor adjusts the ROI calculator (debounced, 1 event per slider stop)</li>
+      <li><strong>section_view</strong> — when a visitor scrolls to a major section (Who, Compare, ROI, Pricing, Beta)</li>
+    </ul>
+  </div>
+
+  <h2>🛡️ Privacy &amp; safety</h2>
+  <div class="step-block">
+    <ul>
+      <li>No cookies, no fingerprinting, no PII (names, phone numbers, patient data)</li>
+      <li>Only anonymous session IDs stored in <span class="highlight">sessionStorage</span> (cleared on tab close)</li>
+      <li>All tracking silently disabled when the site is opened locally (file: or content: protocol)</li>
+      <li>If the Apps Script URL is unreachable, the site works exactly as normal — no errors, no broken buttons</li>
+    </ul>
+  </div>
+
+  <h2>🔄 Updating the script later</h2>
+  <div class="step-block">
+    <p>If you make changes to the Apps Script code, you must create a <strong>new deployment</strong> — editing an existing deployment does not update the live URL. Go to Deploy → New deployment, copy the new URL, and update the <span class="highlight">ANALYTICS_ENDPOINT</span> in your HTML files again.</p>
+  </div>
+
+  <hr class="divider">
+  <p style="color:#94A3B8;font-size:.8rem;text-align:center">SmartBrief AI Analytics Setup Guide · For internal use only</p>
+
+</div>
+</body>
+</html>

@@ -303,7 +303,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
       <div class="hero-ctas">
         <a href="smartbrief-dashboard.html" class="btn btn-primary">Open Dashboard →</a>
         <a href="#pricing" class="btn btn-ghost">View Pricing</a>
-        <a href="https://wa.me/" class="btn btn-wa">Try on WhatsApp</a>
+        <a href="https://wa.me/919488907730?text=Hi%2C%20I%20want%20to%20try%20SmartBrief%20AI." class="btn btn-wa">Try on WhatsApp</a>
       </div>
       <div class="trust-badges">
         <span class="trust-badge">No EHR needed</span>
@@ -646,7 +646,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
     </div>
     <div class="beta-ctas">
       <a href="smartbrief-dashboard.html" class="btn btn-primary" style="font-size:1rem;padding:12px 24px">Open Dashboard →</a>
-      <a href="https://wa.me/" class="btn btn-wa" style="font-size:1rem;padding:12px 24px">Request Beta Access on WhatsApp</a>
+      <a href="https://wa.me/919488907730?text=Hi%2C%20I%27m%20interested%20in%20the%20SmartBrief%20AI%20beta%20for%20my%20clinic." class="btn btn-wa" style="font-size:1rem;padding:12px 24px">Request Beta Access on WhatsApp</a>
     </div>
   </div>
 </section>
@@ -701,7 +701,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
         <a href="#beta">Beta Programme</a>
         <a href="#compare">Compare</a>
         <a href="#who">Who Uses It</a>
-        <a href="https://wa.me/">Contact</a>
+        <a href="https://wa.me/919488907730?text=Hi%2C%20I%20have%20a%20question%20about%20SmartBrief%20AI.">Contact</a>
       </div>
     </div>
     <div class="footer-bottom">
@@ -802,6 +802,98 @@ const observer=new IntersectionObserver(entries=>{
 document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
 // Force reveal for local file (content:// protocol)
 setTimeout(()=>document.querySelectorAll('.reveal').forEach(el=>el.classList.add('v')),300);
+</script>
+<!-- ====== SmartBrief AI Analytics — purely additive, zero impact on existing code ====== -->
+<script>
+(function(){
+  'use strict';
+  // ========== PASTE YOUR GOOGLE APPS SCRIPT URL BELOW ==========
+  var ANALYTICS_ENDPOINT = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
+  // ===============================================================
+
+  // Guard: skip silently on file/content protocols and when endpoint not configured
+  try {
+    var proto = window.location.protocol;
+    if(proto === 'file:' || proto === 'content:') return;
+    if(!ANALYTICS_ENDPOINT || ANALYTICS_ENDPOINT.indexOf('YOUR_GOOGLE') !== -1) return;
+  } catch(e){ return; }
+
+  // Session ID — persists for the browser tab session
+  var sid;
+  try {
+    sid = sessionStorage.getItem('smb_sid');
+    if(!sid){ sid = 'sid_'+Math.random().toString(36).slice(2)+Date.now().toString(36); sessionStorage.setItem('smb_sid',sid); }
+  } catch(e){ sid = 'ns_'+Math.random().toString(36).slice(2); }
+
+  // Core send — non-blocking; sendBeacon with fetch fallback
+  function track(evt, extra){
+    try {
+      var d = {event_type:evt, page:window.location.pathname, specialty_selected:'', section_viewed:'', cta_clicked:'', referrer:document.referrer, user_agent:navigator.userAgent, session_id:sid};
+      if(extra){ for(var k in extra){ if(Object.prototype.hasOwnProperty.call(extra,k)) d[k]=extra[k]; } }
+      var b = JSON.stringify(d), sent = false;
+      if(navigator.sendBeacon){ try{ sent = navigator.sendBeacon(ANALYTICS_ENDPOINT, new Blob([b],{type:'application/json'})); }catch(e){} }
+      if(!sent){ fetch(ANALYTICS_ENDPOINT,{method:'POST',body:b,headers:{'Content-Type':'application/json'},keepalive:true}).catch(function(){}); }
+    } catch(e){}
+  }
+
+  // 1. page_view
+  try { track('page_view'); } catch(e){}
+
+  // 2. cta_click — listens on all buttons and links
+  try {
+    document.addEventListener('click',function(ev){
+      try {
+        var el = ev.target.closest('a,button'); if(!el) return;
+        var href = (el.getAttribute('href')||'').toLowerCase();
+        var lbl = el.textContent.trim().slice(0,60);
+        if(href.indexOf('wa.me')!==-1 || href.indexOf('dashboard')!==-1 || href.indexOf('patient')!==-1 || href==='#pricing' || href==='#beta' || href==='#roi')
+          track('cta_click',{cta_clicked:lbl});
+      } catch(e){}
+    },true);
+  } catch(e){}
+
+  // 3. specialty_switch — nav tabs call setSpec()
+  try {
+    document.querySelectorAll('.nav-tab').forEach(function(btn){
+      btn.addEventListener('click',function(){
+        try { track('specialty_switch',{specialty_selected:btn.textContent.trim().replace(/[^\w\s]/g,'').trim().slice(0,20)}); } catch(e){}
+      });
+    });
+  } catch(e){}
+
+  // 4. pricing_toggle — #annualToggle checkbox
+  try {
+    var pt = document.getElementById('annualToggle');
+    if(pt) pt.addEventListener('change',function(){ try { track('pricing_toggle',{section_viewed:pt.checked?'annual':'monthly'}); } catch(e){} });
+  } catch(e){}
+
+  // 5. roi_slider_change — debounced 500ms
+  try {
+    var roiTimer;
+    function onRoi(el){ clearTimeout(roiTimer); roiTimer = setTimeout(function(){ try { track('roi_slider_change',{section_viewed:el.id+'='+el.value}); } catch(e){} },500); }
+    ['ppdSlider','dpmSlider'].forEach(function(id){ var el = document.getElementById(id); if(el) el.addEventListener('input',function(){ try { onRoi(el); } catch(e){} }); });
+  } catch(e){}
+
+  // 6. section_view — IntersectionObserver + 300ms setTimeout fallback (same pattern as site reveal)
+  try {
+    var seenSec = {};
+    function fireSec(id){ if(!seenSec[id]){ seenSec[id]=1; track('section_view',{section_viewed:id}); } }
+    var secObs = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ try { if(e.isIntersecting && e.target.id) fireSec(e.target.id); } catch(ex){} });
+    },{threshold:0.15});
+    ['top','who','compare','roi','pricing','beta'].forEach(function(id){ var el = document.getElementById(id); if(el) secObs.observe(el); });
+    // 300ms fallback for Android Chrome (same pattern as existing reveal logic)
+    setTimeout(function(){
+      try {
+        ['top','who','compare','roi','pricing','beta'].forEach(function(id){
+          var el = document.getElementById(id);
+          if(el){ var r = el.getBoundingClientRect(); if(r.top < window.innerHeight && r.bottom > 0) fireSec(id); }
+        });
+      } catch(e){}
+    },300);
+  } catch(e){}
+
+})();
 </script>
 </body>
 </html>
