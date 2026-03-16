@@ -70,7 +70,7 @@ html,body{height:100%;width:100%;max-width:100%;font-family:var(--fb);background
 
 /* ── DASH LAYOUT ───────────────────────────────────────────────── */
 #dashScreen{display:none;height:100vh;overflow:hidden}
-.dwrap{display:flex;height:100%;overflow:hidden}
+.dwrap{display:flex;height:100%;overflow:hidden;min-width:0}
 
 /* ── OVERFLOW PREVENTION ───────────────────────────────────────── */
 .panel,.ai-panel,.output-box,.ai-output,.rxPreview,
@@ -84,7 +84,7 @@ html,body{height:100%;width:100%;max-width:100%;font-family:var(--fb);background
 
 /* ── SIDEBAR ───────────────────────────────────────────────────── */
 .sidebar{width:var(--sw);background:var(--sf);border-right:1px solid var(--bd);
-  display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto}
+  display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto;overflow-x:hidden}
 .sblogo{padding:18px 16px 14px;border-bottom:1px solid var(--bd);
   display:flex;align-items:center;gap:9px}
 .sblogo-t{font-family:var(--fh);font-weight:800;font-size:.9rem;color:var(--tx)}
@@ -168,7 +168,8 @@ html,body{height:100%;width:100%;max-width:100%;font-family:var(--fb);background
 /* ── TABS ──────────────────────────────────────────────────────── */
 .tabs{display:flex !important;position:sticky;top:0;z-index:9;
   background:var(--sf);border-bottom:1px solid var(--bd);
-  padding:0 16px;gap:2px;overflow-x:auto;flex-shrink:0;
+  padding:0 16px;gap:2px;overflow-x:auto;overflow-y:hidden;flex-shrink:0;
+  white-space:nowrap;scrollbar-width:none;
   -webkit-overflow-scrolling:touch}
 .tabs::-webkit-scrollbar{display:none}
 .sbnav li.active button{background:var(--ss);color:var(--sp);font-weight:600}
@@ -183,22 +184,25 @@ html,body{height:100%;width:100%;max-width:100%;font-family:var(--fb);background
   padding:18px 22px;
   flex:1;
   min-width:0;
+  min-height:0;
   width:100%;
+  overflow-y:auto;
   overflow-x:hidden;
   box-sizing:border-box;
 }
 .cgrid{
   display:grid;
-  grid-template-columns:minmax(0,310px) minmax(0,1fr);
+  grid-template-columns:310px 1fr;
   gap:18px;
   align-items:start;
   width:100%;
   min-width:0;
 }
+.cgrid > *{min-width:0;overflow:hidden}
 
 /* ── PANELS ────────────────────────────────────────────────────── */
 .panel{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);
-  overflow:hidden;margin-bottom:16px}
+  overflow:hidden;margin-bottom:16px;width:100%;min-width:0;box-sizing:border-box}
 .phdr{padding:12px 15px;border-bottom:1px solid var(--bd);
   display:flex;align-items:center;justify-content:space-between}
 .ptitle{font-family:var(--fh);font-size:.84rem;font-weight:700;color:var(--tx)}
@@ -641,18 +645,21 @@ html,body{height:100%;width:100%;max-width:100%;font-family:var(--fb);background
   border-radius:6px;font-size:.72rem;font-weight:700;cursor:pointer;font-family:var(--fb)}
 .ai-cgrid{
   display:grid;
-  grid-template-columns:minmax(0,340px) minmax(0,1fr);
+  grid-template-columns:340px 1fr;
   gap:18px;
   align-items:start;
   width:100%;
   min-width:0;
 }
+.ai-cgrid > *{min-width:0;overflow:hidden}
 @media(max-width:768px){
-  .ai-cgrid{grid-template-columns:1fr}
-  .cgrid{grid-template-columns:1fr}
+  .ai-cgrid{grid-template-columns:1fr;gap:12px}
+  .cgrid{grid-template-columns:1fr;gap:12px}
   .content{padding:12px 13px}
-  .main{width:100%;min-width:0}
+  .main{width:100%;min-width:0;height:100dvh}
   .ai-tab::after{display:none}
+  .vgrid{grid-template-columns:repeat(2,1fr)}
+  #briefcontent{max-height:none}
 }
 
 /* ── TOAST ─────────────────────────────────────────────────────── */
@@ -819,6 +826,33 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
 }
 .dark-toggle:hover{background:var(--bg2);color:var(--tx)}
 @media(max-width:640px){.dark-toggle{display:none}}
+
+/* ── LAYOUT STABILITY ────────────────────────────────────────────── */
+#briefcontent{
+  max-height:calc(100vh - 220px);
+  overflow-y:auto;
+  overflow-x:hidden;
+  padding:13px;
+  box-sizing:border-box;
+}
+.ai-output,#rxPreview,#refPreview{
+  word-break:break-word;
+  overflow-wrap:break-word;
+  white-space:pre-wrap;
+  max-width:100%;
+}
+.drug-result{word-break:break-word;overflow-wrap:break-word}
+
+/* Medium screens: narrow grid columns */
+@media(max-width:1100px){
+  .cgrid{grid-template-columns:280px 1fr}
+  .ai-cgrid{grid-template-columns:300px 1fr}
+}
+/* Small desktop / large tablet */
+@media(max-width:900px){
+  .cgrid,.ai-cgrid{grid-template-columns:1fr}
+  .vgrid{grid-template-columns:repeat(2,1fr)}
+}
 </style>
 </head>
 <body>
@@ -988,7 +1022,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
               <span class="ptitle">🩺 Patient Brief</span>
               <span style="font-size:.72rem;color:var(--tx3)" id="briefname">Select a patient</span>
             </div>
-            <div id="briefcontent" style="padding:13px">
+            <div id="briefcontent">
               <div class="bph"><div class="bph-i">📋</div><div class="bph-t">Select a patient from the queue to view their brief.<br><br>Tap <strong>+ Add Patient</strong> to add a new walk-in.</div></div>
             </div>
           </div>
