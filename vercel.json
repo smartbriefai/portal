@@ -1,5 +1,9 @@
 {
   "version": 2,
+  "framework": null,
+  "outputDirectory": ".",
+  "buildCommand": null,
+  "installCommand": null,
   "functions": {
     "api/chat.js": {
       "maxDuration": 30
@@ -9,18 +13,9 @@
     {
       "source": "/api/(.*)",
       "headers": [
-        {
-          "key": "Access-Control-Allow-Origin",
-          "value": "https://smartbriefai.github.io"
-        },
-        {
-          "key": "Access-Control-Allow-Methods",
-          "value": "POST, OPTIONS"
-        },
-        {
-          "key": "Access-Control-Allow-Headers",
-          "value": "Content-Type"
-        }
+        { "key": "Access-Control-Allow-Origin", "value": "*" },
+        { "key": "Access-Control-Allow-Methods", "value": "POST, OPTIONS" },
+        { "key": "Access-Control-Allow-Headers", "value": "Content-Type" }
       ]
     }
   ]
