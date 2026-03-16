@@ -23,6 +23,9 @@ html{max-width:100%;overflow-x:hidden}
   --fh:'Outfit','Google Sans Display','Google Sans','Product Sans','Roboto','Segoe UI',sans-serif;
   --fb:'Inter','Google Sans','Roboto','Segoe UI',sans-serif;
 }
+*{transition:background-color .35s ease,
+           border-color .3s ease,
+           color .25s ease;}
 html,body{height:100%;width:100%;max-width:100%;font-family:var(--fb);background:var(--bg);color:var(--tx);
   -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:hidden}
 
@@ -108,9 +111,10 @@ html,body{height:100%;width:100%;max-width:100%;font-family:var(--fb);background
 
 /* ── MAIN ──────────────────────────────────────────────────────── */
 .main{flex:1;overflow-y:auto;display:flex;flex-direction:column;min-width:0}
-.mhdr{padding:14px 22px;border-bottom:1px solid var(--bd);display:flex;
+.mhdr{padding:14px 22px;border-bottom:1px solid var(--bd);
+  display:flex!important;visibility:visible!important;opacity:1!important;
   align-items:center;justify-content:space-between;background:var(--sf);
-  position:sticky;top:0;z-index:10;gap:10px;overflow:hidden;min-width:0}
+  position:sticky;top:0;z-index:20;gap:10px;overflow:hidden;min-width:0;flex-shrink:0}
 .mhdr-l{display:flex;flex-direction:column;gap:1px;min-width:0;flex:1}
 .mdate{font-size:.73rem;color:var(--tx3)}
 .mspec{font-family:var(--fh);font-size:1rem;font-weight:800;color:var(--tx);
@@ -133,7 +137,8 @@ html,body{height:100%;width:100%;max-width:100%;font-family:var(--fb);background
 .btnadd:hover{background:#00796B}
 
 /* ── STATS BAR ─────────────────────────────────────────────────── */
-.statsbar{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
+.statsbar{display:grid!important;visibility:visible!important;flex-shrink:0;
+  grid-template-columns:repeat(4,1fr);gap:1px;
   background:var(--bd);border-bottom:1px solid var(--bd)}
 .sc{background:var(--sf);padding:12px 16px}
 .scn{font-family:var(--fh);font-size:1.4rem;font-weight:800;
@@ -728,10 +733,39 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
 
 /* ── PAGE-TURN ANIMATION ────────────────────────────────────────── */
 @keyframes pageTurnIn{
-  from{transform:perspective(900px) rotateY(-10deg) translateX(-16px);opacity:0}
-  to{transform:perspective(900px) rotateY(0deg) translateX(0);opacity:1}
+  0%  {opacity:0;transform:perspective(1400px) rotateY(-4deg)
+       translateX(-8px) scale(.99);filter:brightness(.9)}
+  40% {opacity:.75;transform:perspective(1400px) rotateY(.8deg)
+       translateX(1px) scale(1.002);filter:brightness(.98)}
+  100%{opacity:1;transform:perspective(1400px) rotateY(0)
+       translateX(0) scale(1);filter:brightness(1)}
 }
-.page-turn-in{animation:pageTurnIn .28s ease forwards;will-change:transform}
+.theme-transition{
+  animation:pageTurnIn .55s cubic-bezier(.22,.61,.36,1) forwards;
+  transform-origin:center center;
+  will-change:transform,opacity,filter;
+}
+.theme-transition *{transition:none!important;}
+.dark-toggle,
+.dark-toggle-knob,
+.live-dot{transition:background .3s,transform .3s!important;}
+
+/* ── BLINKING LIVE INDICATOR ────────────────────────────────────── */
+@keyframes blink-live{
+  0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(34,197,94,.5)}
+  50%{opacity:.6;box-shadow:0 0 0 5px rgba(34,197,94,0)}
+}
+.live-dot{
+  display:inline-block;
+  width:8px;height:8px;
+  border-radius:50%;
+  background:#22C55E;
+  margin-right:7px;
+  flex-shrink:0;
+  animation:blink-live 1.6s ease-in-out infinite;
+  vertical-align:middle;
+  position:relative;top:-1px;
+}
 
 /* ── DARK TOGGLE BUTTON ─────────────────────────────────────────── */
 .dark-toggle{
@@ -1462,9 +1496,14 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
       <button class="modalclose" onclick="closeApiSettings()">✕</button>
     </div>
     <div class="api-card-body">
-      <div id="aiSettingsStatus" style="background:var(--ss);border:1px solid var(--sb);border-radius:10px;padding:12px 14px;margin-bottom:14px">
-        <div style="font-size:.85rem;font-weight:700;color:var(--sp)">✅ Live AI Active</div>
-        <div style="font-size:.75rem;color:var(--tx2);margin-top:3px">Qwen 72B · Secure server-side proxy · Token never exposed</div>
+      <div id="aiSettingsStatus"
+        style="font-size:.86rem;font-weight:700;
+               margin-bottom:14px;padding:11px 14px;
+               border-radius:9px;background:var(--ss);
+               color:var(--sp);border:1px solid var(--sb);
+               display:flex;align-items:center;">
+        <span class="live-dot"></span>
+        Live AI &nbsp;|&nbsp; Status : Active
       </div>
       <div style="font-size:.8rem;color:var(--tx2);line-height:1.85">
         <div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:8px">
@@ -1709,7 +1748,7 @@ function renderBrief(p){
         <button class="btnprint" onclick="window.print()">🖨</button>
       </div>
       <div style="margin-top:12px;background:#FFFBEC;border:1px solid #F0C030;border-radius:8px;padding:9px 12px">
-        <div style="font-size:.69rem;font-weight:700;color:#7A5C00;margin-bottom:2px">⚠ Medical Disclaimer</div>
+        <div style="font-size:.69rem;font-weight:700;color:#7A5C00;margin-bottom:2px">⚠ Clinical Alert</div>
         <div style="font-size:.67rem;color:#7A5C00;line-height:1.55">This brief is a clinical decision-support aid only — NOT a diagnosis. All information must be independently verified by a qualified doctor before clinical use. Not valid for medicolegal purposes.</div>
       </div>
     </div>`;
@@ -2061,6 +2100,21 @@ document.addEventListener('keydown',e=>{
 function openApiSettings(){
   const m=document.getElementById('apiSettings');
   if(m)m.style.display='flex';
+  const statusEl=document.getElementById('aiSettingsStatus');
+  if(statusEl){
+    const live=!AI_PROXY_URL.includes('YOUR_APP');
+    if(live){
+      statusEl.innerHTML='<span class="live-dot"></span>Live AI &nbsp;|&nbsp; Status : Active';
+      statusEl.style.background='var(--ss)';
+      statusEl.style.color='var(--sp)';
+      statusEl.style.border='1px solid var(--sb)';
+    } else {
+      statusEl.innerHTML='⚠️ Demo mode — AI not connected';
+      statusEl.style.background='#FFF8E1';
+      statusEl.style.color='#E65100';
+      statusEl.style.border='1px solid #FFD54F';
+    }
+  }
 }
 function closeApiSettings(){
   const m=document.getElementById('apiSettings');
@@ -2514,10 +2568,10 @@ function toggleDark(){
   // Page-turn animation on main content area
   const main = document.querySelector('.main');
   if(main){
-    main.classList.remove('page-turn-in');
+    main.classList.remove('theme-transition');
     void main.offsetWidth; // reflow to restart animation
-    main.classList.add('page-turn-in');
-    setTimeout(()=>main.classList.remove('page-turn-in'), 320);
+    main.classList.add('theme-transition');
+    setTimeout(()=>main.classList.remove('theme-transition'), 580);
   }
 }
 function initTheme(){
