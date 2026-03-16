@@ -543,6 +543,7 @@ html,body{height:100%;width:100%;max-width:100%;font-family:var(--fb);background
 .ai-cursor{display:inline-block;width:2px;height:13px;background:var(--sp);
   margin-left:2px;animation:blink .7s step-end infinite;vertical-align:text-bottom}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+@keyframes blink-green{0%,100%{opacity:1}50%{opacity:0.2}}
 .ai-output-actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
 .ai-input-row{margin-bottom:12px}
 .ai-input-lbl{font-size:.68rem;font-weight:700;color:var(--tx2);text-transform:uppercase;
@@ -968,6 +969,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
               </div>
               <button class="btngen" onclick="generateRx()">⚡ Format Prescription →</button>
               <button class="btngen" onclick="generateAiRx()" style="margin-top:6px;background:linear-gradient(135deg,#7B1FA2,#1565C0)">🤖 AI Rx Intelligence — Check Doses & Interactions →</button>
+              <div id="rxAiResult" style="display:none;margin-top:12px;border-radius:10px;border:1.5px solid var(--bd);background:var(--bg);padding:14px 16px;font-size:.82rem;color:var(--tx);line-height:1.8;word-break:break-word;overflow-wrap:break-word"></div>
             </div>
           </div>
           <div>
@@ -1474,8 +1476,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
     </div>
     <div class="api-card-body">
       <div id="aiSettingsStatus" style="background:var(--ss);border:1px solid var(--sb);border-radius:10px;padding:12px 14px;margin-bottom:14px">
-        <div style="font-size:.85rem;font-weight:700;color:var(--sp)">✅ Live AI Active</div>
-        <div style="font-size:.75rem;color:var(--tx2);margin-top:3px">Qwen 72B · Secure server-side proxy · Token never exposed</div>
+        <div style="font-size:.85rem;font-weight:700;color:var(--sp);display:flex;align-items:center"><span style="width:8px;height:8px;border-radius:50%;background:#22c55e;display:inline-block;margin-right:6px;animation:blink-green 1.4s ease-in-out infinite"></span>✅ Live AI Active</div>
       </div>
       <div style="font-size:.8rem;color:var(--tx2);line-height:1.85">
         <div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:8px">
@@ -1845,6 +1846,100 @@ function generateRx(){
   logActivity('Rx generated — '+patient);toast('Prescription generated ✓');
 }
 
+// ── AI RX INTELLIGENCE ─────────────────────────────────────────────
+function generateAiRx(){
+  const resultEl = document.getElementById('rxAiResult');
+  if(!resultEl) return;
+
+  // Collect current Rx fields
+  const patient = (document.getElementById('rxPatient').value||'').trim() || 'Patient';
+  const age     = (document.getElementById('rxAge').value||'').trim()     || 'Unknown';
+  const diag    = (document.getElementById('rxDiag').value||'').trim()    || 'Not specified';
+  const advice  = (document.getElementById('rxAdvice').value||'').trim();
+  const followup= (document.getElementById('rxFollowup').value||'').trim();
+
+  const rows = document.querySelectorAll('#rxDrugs .rx-drug-row');
+  const drugs = [];
+  rows.forEach(row=>{
+    const ins = row.querySelectorAll('input');
+    const nm = (ins[0]&&ins[0].value||'').trim();
+    const dose = (ins[1]&&ins[1].value||'').trim();
+    const dur  = (ins[2]&&ins[2].value||'').trim();
+    if(nm) drugs.push({nm,dose,dur});
+  });
+  if(!drugs.length){ toast('Add at least one medication first'); return; }
+
+  const drugList = drugs.map((d,i)=>`${i+1}. ${d.nm}${d.dose?' — '+d.dose:''}${d.dur?' × '+d.dur:''}`).join('\n');
+  const prompt =
+`Clinical prescription review for Indian OPD doctor:
+
+Patient: ${patient} | Age/Sex: ${age}
+Diagnosis: ${diag}
+Medications:
+${drugList}${advice?'\nInstructions: '+advice:''}${followup?'\nFollow-up: '+followup:''}
+
+Review the above prescription and provide:
+
+DOSE CHECK
+State whether each drug's dose is appropriate for the stated diagnosis and patient profile.
+
+DRUG INTERACTIONS
+Identify any significant interactions between the prescribed drugs.
+
+CONTRAINDICATIONS
+Note any contraindications or red flags to monitor.
+
+RECOMMENDATIONS
+Brief, practical suggestions to optimise the prescription.
+
+Be concise. Plain text only. Relevant to Indian clinical practice.`;
+
+  // Show loading state
+  resultEl.style.display = 'block';
+  resultEl.innerHTML = '<span style="color:var(--tx2);font-size:.8rem">⏳ Analysing prescription...</span>';
+
+  let accumulated = '';
+
+  callAI(
+    prompt,
+    // onChunk — update display as words stream in
+    (chunk)=>{
+      accumulated += chunk;
+      resultEl.innerHTML =
+        '<span style="color:#7B1FA2;font-size:.7rem;font-weight:700;letter-spacing:.6px;display:block;margin-bottom:8px;text-transform:uppercase">🤖 AI Rx Analysis</span>' +
+        '<span style="white-space:pre-wrap;font-family:var(--fb)">' + accumulated + '</span>' +
+        '<span class="ai-cursor"></span>';
+    },
+    // onDone — finalise display
+    (final)=>{
+      if(final === '__DEMO__'){
+        // Demo mode fallback — show illustrative output
+        const demoLines = drugs.map(d=>
+          `✅ ${d.nm}${d.dose?' '+d.dose:''} — dose appears within standard range for stated diagnosis`
+        ).join('\n');
+        resultEl.innerHTML =
+          '<span style="color:#7B1FA2;font-size:.7rem;font-weight:700;letter-spacing:.6px;display:block;margin-bottom:8px;text-transform:uppercase">🤖 AI Rx Analysis · Demo Mode</span>' +
+          '<span style="white-space:pre-wrap;font-family:var(--fb);color:var(--tx2)">' +
+          'DOSE CHECK\n' + demoLines +
+          '\n\nDRUG INTERACTIONS\n✅ No major interactions identified in this combination.' +
+          '\n\nCONTRAINDICATIONS\n⚠️ Confirm allergy history before dispensing.' +
+          '\n\nRECOMMENDATIONS\nConnect the AI proxy for live clinical analysis.' +
+          '\n\n[Demo — configure proxy for real-time AI review]</span>';
+      } else {
+        if(final) accumulated += final;
+        resultEl.innerHTML =
+          '<span style="color:#7B1FA2;font-size:.7rem;font-weight:700;letter-spacing:.6px;display:block;margin-bottom:8px;text-transform:uppercase">🤖 AI Rx Analysis</span>' +
+          '<span style="white-space:pre-wrap;font-family:var(--fb)">' + accumulated + '</span>';
+      }
+      logActivity('AI Rx check — ' + patient);
+    },
+    // onError (not called by callAI directly — handled via __DEMO__ in onDone)
+    ()=>{
+      resultEl.innerHTML = '<span style="color:#E53935;font-size:.82rem">⚠️ AI check unavailable. Please review manually.</span>';
+    }
+  );
+}
+
 function shareRxWA(){
   if(!lastDoc)return;
   window.open('https://wa.me/919488907730?text='+encodeURIComponent(lastDoc),'_blank');
@@ -2095,7 +2190,7 @@ function refreshKeyStatus(){
     const s = document.getElementById(statusId);
     if(b) b.style.display = live ? 'none' : 'flex';
     if(s){
-      s.textContent = live ? '✅ Live AI Active (Qwen 72B)' : 'Demo mode';
+      s.textContent = live ? '✅ Live AI Active' : 'Demo mode';
       s.className = 'ai-status' + (live ? ' live' : '');
     }
   });
