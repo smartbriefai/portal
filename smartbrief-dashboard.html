@@ -1409,15 +1409,17 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
       <button class="modalclose" onclick="closeApiSettings()">✕</button>
     </div>
     <div class="api-card-body">
+      <div id="aiSettingsStatus" style="padding:8px 12px;border-radius:8px;font-size:.82rem;font-weight:600;margin-bottom:12px;background:#F0F4FF;color:#4A5E80">Checking...</div>
       <div class="api-warn">
-        ⚠️ <strong>Free AI powered by Qwen 72B.</strong> Your HF token is stored only in this browser. A free Hugging Face token gives ~200 requests/hour at no cost. Get yours in 2 minutes.
+        Live AI is powered by <strong>Qwen 72B via Hugging Face</strong> (free).<br>
+        If you see demo mode, your token may have expired or is missing the <strong>Inference Providers</strong> permission.<br>
+        Get a new token at <strong>huggingface.co/settings/tokens</strong> → New Token → enable <em>Inference Providers</em> → Copy.
       </div>
-      <label class="api-label">Anthropic API Key</label>
+      <label class="api-label">Hugging Face Token</label>
       <input class="api-input" id="apiKeyInput" type="password"
         placeholder="hf_...">
       <div class="api-hint">
-        Get your free token at <strong>huggingface.co/settings/tokens</strong> → New Token → Read permission → Copy.<br>
-        Without a token, the app runs with realistic demo responses.
+        Token is stored only in this browser. Without a token, the app runs with realistic demo responses.
       </div>
       <button class="api-save" onclick="saveApiKey()">Save Token & Enable Live AI</button>
     </div>
@@ -1991,44 +1993,52 @@ document.addEventListener('keydown',e=>{
 function openApiSettings(){
   const m=document.getElementById('apiSettings');
   if(m)m.style.display='flex';
+  const live = !!hfToken && hfToken !== '%%HF_TOKEN%%';
+  const s=document.getElementById('aiSettingsStatus');
+  if(s){
+    s.textContent = live ? '✓ Live AI active (Qwen 72B)' : 'Demo mode — token not active';
+    s.style.background = live ? '#E0F2F0' : '#FFF3E0';
+    s.style.color = live ? '#00897B' : '#E65100';
+  }
 }
 function closeApiSettings(){
   const m=document.getElementById('apiSettings');
   if(m)m.style.display='none';
 }
 
-// ══════════════════════════════════════════════════════════════════
-// ══ AI ENGINE — Hugging Face (Qwen2.5-72B via Sambanova) ═════════
-// ══ Free with HF token · Apache 2.0 license · No per-call cost   ══
-// ══════════════════════════════════════════════════════════════════
-
-// MODEL: Qwen/Qwen2.5-72B-Instruct via Sambanova (fastest free provider)
-// FALLBACK: meta-llama/Llama-3.3-70B-Instruct
-// TOKEN: Free at huggingface.co/settings/tokens (read permission only)
-const HF_MODEL = 'Qwen/Qwen2.5-72B-Instruct';
-const HF_PROVIDER = 'sambanova';
+// ── HF AI CONFIG ─────────────────────────────────────────────────
+// Token injected by GitHub Actions from secret SMB
+// User never needs to enter a token
 const HF_ENDPOINT = 'https://router.huggingface.co/v1/chat/completions';
-
-let hfToken = localStorage.getItem('sb_hftoken') || '';
+const HF_MODEL_PRIMARY   = 'Qwen/Qwen2.5-72B-Instruct';
+const HF_MODEL_FALLBACK  = 'meta-llama/Llama-3.3-70B-Instruct';
+const HF_PROVIDER        = 'novita';
+// Token placeholder — replaced by GitHub Actions sed command
+let hfToken = '%%HF_TOKEN%%';
+// Strip placeholder if Actions hasn't run yet (local file testing)
+if(hfToken === '%%HF_TOKEN%%') hfToken = '';
 
 function saveHfToken(val){
-  val = (val || '').trim();
-  if(!val || !val.startsWith('hf_')){ toast('Token must start with hf_'); return false; }
+  val = (val||'').trim();
+  if(!val || val === '%%HF_TOKEN%%' || !val.startsWith('hf_')){
+    toast('Token must start with hf_');
+    return false;
+  }
   hfToken = val;
   localStorage.setItem('sb_hftoken', val);
   return true;
 }
 
 function saveKeyFromInline(inputId){
-  const val = document.getElementById(inputId).value.trim();
+  const val = document.getElementById(inputId)?.value?.trim() || '';
   if(saveHfToken(val)){
     refreshKeyStatus();
-    toast('HF token saved ✓  Live AI enabled');
+    toast('HF token saved — Live AI enabled ✓');
   }
 }
 
 function refreshKeyStatus(){
-  const live = !!hfToken;
+  const live = !!hfToken && hfToken !== '%%HF_TOKEN%%';
   [
     ['aiBriefBanner','aiBriefStatus'],
     ['drgBanner','drgStatus'],
@@ -2038,68 +2048,82 @@ function refreshKeyStatus(){
     const s = document.getElementById(statusId);
     if(b) b.style.display = live ? 'none' : 'flex';
     if(s){
-      s.textContent = live ? 'Live AI (Qwen 72B) ✓' : 'Demo mode';
+      s.textContent = live ? 'Live AI (Qwen 72B) ✓' : 'Demo mode — Add HF token to activate';
       s.className = 'ai-status' + (live ? ' live' : '');
     }
   });
 }
 
-// ── CORE: Call Hugging Face Qwen2.5 with streaming ───────────────
+// ── CORE: Call Hugging Face with streaming + model fallback ───────
 async function callAI(prompt, onChunk, onDone, onError){
-  if(!hfToken){
-    onDone('__DEMO__');
-    return;
-  }
-  try {
-    const resp = await fetch(HF_ENDPOINT, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + hfToken
-      },
-      body: JSON.stringify({
-        model: HF_MODEL,
-        provider: HF_PROVIDER,
-        max_tokens: 900,
-        stream: true,
-        temperature: 0.3,
-        messages: [
-          {
-            role: 'system',
-            content: 'You are a clinical decision support assistant for Indian OPD doctors. Be concise, accurate, and clinically relevant. Format responses clearly with section headers in CAPS.'
-          },
-          { role: 'user', content: prompt }
-        ]
-      })
-    });
-    if(!resp.ok){
-      let msg = 'API error ' + resp.status;
-      try{ const j=await resp.json(); msg=j.error?.message||msg; }catch(_){}
-      throw new Error(msg);
-    }
-    const reader = resp.body.getReader();
-    const dec = new TextDecoder();
-    let buf = '';
-    while(true){
-      const {done, value} = await reader.read();
-      if(done) break;
-      buf += dec.decode(value, {stream:true});
-      const lines = buf.split('\n');
-      buf = lines.pop();
-      for(const line of lines){
-        if(!line.startsWith('data: ')) continue;
-        const data = line.slice(6).trim();
-        if(data === '[DONE]') break;
-        try{
-          const j = JSON.parse(data);
-          const t = j.choices?.[0]?.delta?.content || '';
-          if(t) onChunk(t);
-        }catch(_){}
+  if(!hfToken){ onDone('__DEMO__'); return; }
+  const models = [
+    {model: HF_MODEL_PRIMARY,  provider: HF_PROVIDER},
+    {model: HF_MODEL_FALLBACK, provider: HF_PROVIDER},
+    {model: 'Qwen/Qwen2.5-72B-Instruct', provider: 'featherless-ai'},
+  ];
+  for(const {model, provider} of models){
+    try {
+      const resp = await fetch(HF_ENDPOINT, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + hfToken
+        },
+        body: JSON.stringify({
+          model,
+          provider,
+          max_tokens: 800,
+          stream: true,
+          temperature: 0.3,
+          messages: [
+            {
+              role: 'system',
+              content: 'You are a clinical decision support assistant for Indian OPD doctors. Be concise, accurate, and clinically relevant. Use CAPS for section headers. Respond in plain text only, no markdown.'
+            },
+            { role: 'user', content: prompt }
+          ]
+        })
+      });
+      if(resp.status === 401){
+        onError('Token invalid or missing Inference Providers permission. Go to huggingface.co/settings/tokens to verify.');
+        return;
+      }
+      if(resp.status === 429){
+        // Rate limited — try next model
+        continue;
+      }
+      if(!resp.ok){
+        const errText = await resp.text().catch(()=>'');
+        throw new Error('API error ' + resp.status + (errText ? ': ' + errText.slice(0,80) : ''));
+      }
+      const reader = resp.body.getReader();
+      const dec = new TextDecoder();
+      let buf = '';
+      while(true){
+        const {done, value} = await reader.read();
+        if(done) break;
+        buf += dec.decode(value, {stream:true});
+        const lines = buf.split('\n');
+        buf = lines.pop();
+        for(const line of lines){
+          if(!line.startsWith('data: ')) continue;
+          const data = line.slice(6).trim();
+          if(data === '[DONE]') break;
+          try{
+            const t = JSON.parse(data).choices?.[0]?.delta?.content || '';
+            if(t) onChunk(t);
+          }catch(_){}
+        }
+      }
+      onDone('');
+      return; // success — stop trying fallbacks
+    } catch(e){
+      // Try next model in list
+      if(models.indexOf({model}) === models.length - 1){
+        onError(e.message);
       }
     }
-    onDone('');
-  } catch(e){
-    onError(e.message);
   }
 }
 
@@ -2467,11 +2491,11 @@ function copyNote(){
   refreshKeyStatus();
 })();
 
-// saveApiKey stub (for settings modal — now saves HF token)
 function saveApiKey(){
-  const v=document.getElementById('apiKeyInput').value.trim();
+  const v=document.getElementById('apiKeyInput')?.value?.trim()||'';
   if(saveHfToken(v)){
-    refreshKeyStatus(); closeApiSettings();
+    refreshKeyStatus();
+    openApiSettings(); // refresh status indicator
     toast('HF token saved ✓  Live AI enabled');
   }
 }

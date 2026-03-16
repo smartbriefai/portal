@@ -10,18 +10,22 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout branch
+      - name: Checkout
         uses: actions/checkout@v4
         with:
           ref: claude/build-smartbrief-ai-ZcAAG
-      - name: Inject HF token into dashboard
+      - name: Inject HF token
         env:
-          HF_TOKEN: ${{ secrets.SMARTBRIEF }}
+          HF_TOKEN: ${{ secrets.SMB }}
         run: |
-          sed -i "s#localStorage.getItem('sb_hftoken') || ''#localStorage.getItem('sb_hftoken') || '${HF_TOKEN}'#g" smartbrief-dashboard.html
-          echo "Token injection complete"
-          grep -n "hfToken" smartbrief-dashboard.html | head -3
-      - name: Deploy to gh-pages branch
+          if [ -z "$HF_TOKEN" ]; then
+            echo "ERROR: SMB secret is empty or not set"
+            exit 1
+          fi
+          sed -i "s|%%HF_TOKEN%%|${HF_TOKEN}|g" smartbrief-dashboard.html
+          echo "Token injection: OK"
+          grep -c "hf_" smartbrief-dashboard.html && echo "Token found in file" || echo "WARNING: token pattern not found"
+      - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -29,4 +33,4 @@ jobs:
           publish_branch: gh-pages
           keep_files: false
           exclude_assets: '.github'
-          commit_message: "Deploy SmartBrief AI - ${{ github.sha }}"
+          commit_message: "Deploy SmartBrief AI ${{ github.sha }}"
