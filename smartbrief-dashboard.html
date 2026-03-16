@@ -969,7 +969,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
               </div>
               <button class="btngen" onclick="generateRx()">⚡ Format Prescription →</button>
               <button class="btngen" onclick="generateAiRx()" style="margin-top:6px;background:linear-gradient(135deg,#7B1FA2,#1565C0)">🤖 AI Rx Intelligence — Check Doses & Interactions →</button>
-              <div id="rxAiResult" style="display:none;margin-top:12px;border-radius:10px;border:1.5px solid var(--bd);background:var(--bg);padding:14px 16px;font-size:.82rem;color:var(--tx);line-height:1.8;word-break:break-word;overflow-wrap:break-word"></div>
+              <div id="rxAiResult" style="display:none;margin-top:12px;border-radius:10px;border:1.5px solid var(--sp);background:var(--bg);padding:14px 16px;font-size:.82rem;color:var(--tx);line-height:1.8;word-break:break-word;overflow-wrap:break-word"></div>
             </div>
           </div>
           <div>
@@ -2249,7 +2249,12 @@ async function callAI(prompt, onChunk, onDone, onError){
 async function callAIFull(prompt){
   return new Promise((resolve, reject)=>{
     let full = '';
-    callAI(prompt, c=>{ full+=c; }, ()=>resolve(full), reject);
+    callAI(
+      prompt,
+      c=>{ full+=c; },
+      flag=>{ if(flag==='__DEMO__') resolve('__DEMO__'); else resolve(full); },
+      reject
+    );
   });
 }
 
@@ -2404,7 +2409,7 @@ Keep it clinical and concise. India-relevant.`;
         lastAiBrief=outEl.textContent;
         btn.disabled=false; btn.textContent='⚡ Generate Clinical Brief';
         actions.style.display='flex'; status.style.display='none';
-        logActivity('AI Brief (Qwen) — '+(name||'Patient')); toast('Brief ready ✓');
+        logActivity('AI Brief — '+(name||'Patient')); toast('Brief ready ✓');
       }
     },
     err=>{
@@ -2458,32 +2463,25 @@ async function runDrugCheck(){
   ph.style.display='none'; outEl.style.display='none';
   status.style.display='flex';
 
-  await callAI(
-    `Check drug safety for Indian OPD patient:\nDrugs: ${drugs}\nAllergies: ${allergy||'None'}\nConditions: ${cond||'None'}\n\nReturn JSON array ONLY (no markdown):\n[{"level":"safe|warn|danger","title":"headline","detail":"2-3 sentence clinical explanation"}]\nInclude one entry per finding. If no issues, one safe entry.`,
-    ()=>{},
-    async flag=>{
-      let results=[];
-      if(flag==='__DEMO__'){
-        const key=Object.keys(DEMO_DRUG).find(k=>k.split(',').every(d=>drugs.toLowerCase().includes(d)));
-        results=key?[DEMO_DRUG[key]]:[{level:'safe',title:'✅ No major interactions detected (Demo)',detail:'Enter your HF token above to run a real AI drug safety check with Qwen 72B.'}];
-      } else {
-        try{
-          const full=await callAIFull(`Check drug safety:\nDrugs: ${drugs}\nAllergies: ${allergy||'None'}\nConditions: ${cond||'None'}\n\nReturn JSON array ONLY:\n[{"level":"safe|warn|danger","title":"headline","detail":"explanation"}]`);
-          results=JSON.parse(full.replace(/```json|```/g,'').trim());
-        }catch(e){results=[{level:'warn',title:'⚠️ Parse error',detail:'Try again. Error: '+e.message}];}
-      }
-      outEl.innerHTML=results.map(r=>`<div class="drug-result ${r.level}"><div class="drug-result-icon">${r.level==='safe'?'✅':r.level==='warn'?'⚠️':'⛔'}</div><div><div class="drug-result-title">${r.title}</div><div class="drug-result-detail">${r.detail}</div></div></div>`).join('');
-      outEl.style.display='block'; status.style.display='none';
-      btn.disabled=false; btn.textContent='⚗️ Check Drug Safety';
-      lastDrugReport=results.map(r=>r.title+'\n'+r.detail).join('\n\n');
-      logActivity('Drug check — '+drugs.slice(0,40)); toast('Safety check complete ✓');
-    },
-    err=>{
-      btn.disabled=false; btn.textContent='⚗️ Check Drug Safety'; status.style.display='none';
-      outEl.innerHTML=`<div class="drug-result danger"><div class="drug-result-icon">❌</div><div><div class="drug-result-title">Error</div><div class="drug-result-detail">${err}</div></div></div>`;
-      outEl.style.display='block';
+  let results=[];
+  try {
+    const full=await callAIFull(
+      `Check drug safety for Indian OPD patient:\nDrugs: ${drugs}\nAllergies: ${allergy||'None'}\nConditions: ${cond||'None'}\n\nReturn JSON array ONLY (no markdown):\n[{"level":"safe|warn|danger","title":"headline","detail":"2-3 sentence clinical explanation"}]\nInclude one entry per finding. If no issues, one safe entry.`
+    );
+    if(full==='__DEMO__'){
+      const key=Object.keys(DEMO_DRUG).find(k=>k.split(',').every(d=>drugs.toLowerCase().includes(d)));
+      results=key?[DEMO_DRUG[key]]:[{level:'safe',title:'✅ No major interactions detected (Demo)',detail:'Configure the AI proxy to run a live drug safety check.'}];
+    } else {
+      results=JSON.parse(full.replace(/```json|```/g,'').trim());
     }
-  );
+  } catch(e){
+    results=[{level:'warn',title:'⚠️ Could not parse AI response',detail:'Try again. If this persists, check proxy connectivity. Error: '+e.message}];
+  }
+  outEl.innerHTML=results.map(r=>`<div class="drug-result ${r.level}"><div class="drug-result-icon">${r.level==='safe'?'✅':r.level==='warn'?'⚠️':'⛔'}</div><div><div class="drug-result-title">${r.title}</div><div class="drug-result-detail">${r.detail}</div></div></div>`).join('');
+  outEl.style.display='block'; status.style.display='none';
+  btn.disabled=false; btn.textContent='⚗️ Check Drug Safety';
+  lastDrugReport=results.map(r=>r.title+'\n'+r.detail).join('\n\n');
+  logActivity('Drug check — '+drugs.slice(0,40)); toast('Safety check complete ✓');
 }
 
 // ══ FEATURE 3: VOICE → CLINICAL NOTE ═════════════════════════════
@@ -2581,7 +2579,7 @@ async function runVoiceNote(){
         btn.disabled=false; btn.textContent='✨ Structure into Clinical Note';
         actions.style.display='flex'; status.style.display='none';
         document.getElementById('vstep3').classList.add('done');
-        logActivity('Voice note (Qwen) — '+SP[cs].n); toast('Clinical note ready ✓');
+        logActivity('Voice note — '+SP[cs].n); toast('Clinical note ready ✓');
       }
     },
     err=>{
