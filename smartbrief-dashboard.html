@@ -2487,7 +2487,7 @@ function refreshKeyStatus(){
     const s = document.getElementById(statusId);
     if(b) b.style.display = live ? 'none' : 'flex';
     if(s){
-      s.textContent = live ? '✅ Live AI Active (Qwen 72B)' : 'Demo mode';
+      s.textContent = live ? '✅ Live AI Active' : 'Demo mode';
       s.className = 'ai-status' + (live ? ' live' : '');
     }
   });
