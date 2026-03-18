@@ -4,8 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>SmartBrief AI — Dashboard</title>
+<link rel="preconnect" href="https://fonts.bunny.net">
+<link rel="stylesheet" href="https://fonts.bunny.net/css?family=outfit:400;500;600;700;800|inter:400;500;600&display=swap">
 <style>
-@import url('https://fonts.bunny.net/css?family=outfit:400;500;600;700;800|inter:400;500;600&display=swap');
 /* ── FONTS: Multi-CDN with beautiful system fallback ────────────── */
 /* jsDelivr fallback for local/offline */
 
@@ -932,7 +933,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
                 </div>
                 <div class="frow" style="margin:0">
                   <label class="flabel">Date</label>
-                  <input class="finput" id="rxDate" type="text" id="rxDate">
+                  <input class="finput" id="rxDate" type="text">
                 </div>
               </div>
               <div class="frow">
@@ -1071,7 +1072,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
                 white-space:pre-wrap;font-family:var(--fb);min-height:200px;color:var(--tx3)">
                 Generate a referral letter or medical certificate to see the preview here.
               </div>
-              <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap" id="refActions" style="display:none">
+              <div style="display:none;gap:8px;margin-top:12px;flex-wrap:wrap" id="refActions">
                 <button class="btnwa" onclick="shareDocWA()">💬 Share via WhatsApp</button>
                 <button class="btnprint" onclick="window.print()">🖨 Print</button>
               </div>
@@ -1260,10 +1261,10 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
                 <div style="margin-bottom:12px">
                   <div style="font-size:.67rem;font-weight:700;color:var(--tx3);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px">Quick test combinations</div>
                   <div style="display:flex;gap:6px;flex-wrap:wrap">
-                    <button onclick="quickDrug('Aspirin, Warfarin')" style="font-size:.71rem;padding:4px 10px;border:1px solid var(--bd2);border-radius:8px;background:var(--bg);cursor:pointer;font-family:var(--fb);color:var(--tx2)">Aspirin + Warfarin</button>
-                    <button onclick="quickDrug('Amoxicillin, Metronidazole, Paracetamol')" style="font-size:.71rem;padding:4px 10px;border:1px solid var(--bd2);border-radius:8px;background:var(--bg);cursor:pointer;font-family:var(--fb);color:var(--tx2)">Dental trio</button>
-                    <button onclick="quickDrug('Metformin, Amlodipine, Telmisartan')" style="font-size:.71rem;padding:4px 10px;border:1px solid var(--bd2);border-radius:8px;background:var(--bg);cursor:pointer;font-family:var(--fb);color:var(--tx2)">DM + HTN combo</button>
-                    <button onclick="quickDrug('Aspirin, Atorvastatin, Ramipril, Metoprolol')" style="font-size:.71rem;padding:4px 10px;border:1px solid var(--bd2);border-radius:8px;background:var(--bg);cursor:pointer;font-family:var(--fb);color:var(--tx2)">Cardiac 4-drug</button>
+                    <button onclick="quickDrug('Aspirin, Warfarin')" style="font-size:.71rem;padding:8px 12px;border:1px solid var(--bd2);border-radius:8px;background:var(--bg);cursor:pointer;font-family:var(--fb);color:var(--tx2)">Aspirin + Warfarin</button>
+                    <button onclick="quickDrug('Amoxicillin, Metronidazole, Paracetamol')" style="font-size:.71rem;padding:8px 12px;border:1px solid var(--bd2);border-radius:8px;background:var(--bg);cursor:pointer;font-family:var(--fb);color:var(--tx2)">Dental trio</button>
+                    <button onclick="quickDrug('Metformin, Amlodipine, Telmisartan')" style="font-size:.71rem;padding:8px 12px;border:1px solid var(--bd2);border-radius:8px;background:var(--bg);cursor:pointer;font-family:var(--fb);color:var(--tx2)">DM + HTN combo</button>
+                    <button onclick="quickDrug('Aspirin, Atorvastatin, Ramipril, Metoprolol')" style="font-size:.71rem;padding:8px 12px;border:1px solid var(--bd2);border-radius:8px;background:var(--bg);cursor:pointer;font-family:var(--fb);color:var(--tx2)">Cardiac 4-drug</button>
                   </div>
                 </div>
                 <button class="ai-run-btn" id="drgRunBtn" onclick="runDrugCheck()">
@@ -1766,8 +1767,10 @@ function closeModal(){document.getElementById('addModal').classList.remove('open
 function setMode(m){
   addMode=m;
   document.getElementById('mwi').classList.toggle('active',m==='w');
+  document.getElementById('mvoi').classList.toggle('active',m==='v');
   document.getElementById('mup').classList.toggle('active',m==='u');
   document.getElementById('walkinForm').style.display=m==='w'?'block':'none';
+  document.getElementById('voiceForm').style.display=m==='v'?'block':'none';
   document.getElementById('uploadForm').style.display=m==='u'?'block':'none';
 }
 function filePicked(inp){
@@ -2065,6 +2068,10 @@ function updateReport(){
 
 function exportReport(){
   toast('PDF export coming in v1.0 — for now use Print (Ctrl+P)');
+}
+
+function upgradeWA(){
+  window.open('https://wa.me/919488907730?text='+encodeURIComponent('Hi, I want to upgrade SmartBrief AI to the paid plan (₹999/month). Please share details.'),'_blank');
 }
 
 // ══ TOKEN DISPLAY ═════════════════════════════════════════════════
