@@ -20,18 +20,20 @@ html{max-width:100%;overflow-x:hidden;scroll-behavior:smooth}
   --fh:'Outfit','Google Sans Display','Google Sans','Product Sans','Roboto','Segoe UI',sans-serif;
   --fb:'Inter','Google Sans','Roboto','Segoe UI',sans-serif;
 }
-body{font-family:var(--fb);background:var(--bg);color:var(--tx);
+html{background:var(--bg)}
+body{font-family:var(--fb);background:transparent;color:var(--tx);
   -webkit-font-smoothing:antialiased;width:100%;max-width:100%;overflow-x:hidden;
   font-size:15px;line-height:1.6}
 
 /* ── HEADER ────────────────────────────────────────────────────── */
 .hdr{
   background:var(--sf);border-bottom:1px solid var(--bd);
-  padding:11px 16px;display:flex;align-items:center;
+  padding:12px 16px;display:flex;align-items:center;
   justify-content:space-between;position:sticky;top:0;z-index:50;
-  gap:10px;overflow:hidden}
+  gap:10px;overflow:hidden;box-shadow:0 1px 8px rgba(15,31,61,.05)}
 .hdr-logo{display:flex;align-items:center;gap:8px;flex-shrink:0}
-.hdr-logo-t{font-family:var(--fh);font-weight:800;font-size:.88rem;color:var(--tx)}
+.hdr-logo-t{font-family:var(--fh);font-weight:800;font-size:.9rem;color:var(--tx);letter-spacing:-.2px}
+.hdr-logo-t span{color:var(--sp)}
 .hdr-right{display:flex;gap:7px;flex-shrink:0}
 .hdr-spec{font-size:.67rem;font-weight:700;padding:3px 10px;border-radius:10px;
   background:var(--ss);color:var(--sp);border:1px solid var(--sb)}
@@ -41,9 +43,9 @@ body{font-family:var(--fb);background:var(--bg);color:var(--tx);
 
 /* ── PATIENT BANNER ────────────────────────────────────────────── */
 .ptbanner{
-  background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);
+  background:var(--sf);border:1px solid var(--bd);border-radius:16px;
   padding:16px;margin-bottom:16px;display:flex;align-items:center;gap:12px;
-  box-shadow:var(--sh)}
+  box-shadow:0 4px 32px rgba(15,31,61,.08)}
 .ptav{
   width:46px;height:46px;border-radius:12px;background:var(--sp);
   color:#fff;font-family:var(--fh);font-size:1.1rem;font-weight:800;
@@ -71,19 +73,20 @@ body{font-family:var(--fb);background:var(--bg);color:var(--tx);
 
 /* ── SECTIONS GRID ──────────────────────────────────────────────── */
 .sgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
-.scard{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);
-  padding:13px;box-shadow:var(--sh)}
+.scard{background:var(--sf);border:1px solid var(--bd);border-radius:14px;
+  padding:14px;box-shadow:0 2px 16px rgba(15,31,61,.07)}
 .scard.full{grid-column:1/-1}
 .scard-label{font-size:.62rem;font-weight:700;color:var(--sp);
-  text-transform:uppercase;letter-spacing:.7px;margin-bottom:6px;
+  text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;
   display:flex;align-items:center;gap:5px}
 .scard-val{font-size:.83rem;color:var(--tx);line-height:1.55}
 .scard-val.flag{color:#C62828;font-weight:600}
 
 /* ── VITALS ─────────────────────────────────────────────────────── */
 .vitals-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:16px}
-.vbox{background:var(--sf);border:1.5px solid var(--bd);border-radius:10px;
-  padding:10px 8px;text-align:center}
+.vbox{background:var(--sf);border:1.5px solid rgba(15,31,61,.12);border-radius:10px;
+  padding:10px 8px;text-align:center;transition:border-color .18s}
+.vbox:focus-within{border-color:var(--sp);box-shadow:0 0 0 3px rgba(0,137,123,.1)}
 .vbox-val{font-family:var(--fh);font-size:1rem;font-weight:800;color:var(--tx);
   letter-spacing:-.3px}
 .vbox-lbl{font-size:.6rem;font-weight:600;color:var(--tx3);
@@ -112,11 +115,11 @@ body{font-family:var(--fb);background:var(--bg);color:var(--tx);
 
 /* ── NOTES ──────────────────────────────────────────────────────── */
 .notes-wrap{margin-bottom:16px}
-.notes-field{width:100%;padding:11px 13px;border:1.5px solid var(--bd2);
+.notes-field{width:100%;padding:12px 14px;border:1.5px solid rgba(15,31,61,.12);
   border-radius:10px;font-family:var(--fb);font-size:.84rem;color:var(--tx);
-  background:var(--sf);resize:vertical;min-height:80px;outline:none;
-  transition:border .18s;line-height:1.6}
-.notes-field:focus{border-color:var(--sp)}
+  background:var(--sf);resize:vertical;min-height:100px;outline:none;
+  transition:all .18s;line-height:1.6}
+.notes-field:focus{border-color:var(--sp);box-shadow:0 0 0 3px rgba(0,137,123,.12)}
 
 /* ── HISTORY ACCORDION ──────────────────────────────────────────── */
 .acc{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);
@@ -149,11 +152,11 @@ body{font-family:var(--fb);background:var(--bg);color:var(--tx);
   cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;
   transition:all .18s}
 .btn-wa:hover{background:#1ebe5a}
-.btn-complete{flex:1;background:var(--sp);color:#fff;border:none;padding:12px 14px;
-  border-radius:10px;font-family:var(--fb);font-size:.84rem;font-weight:700;
+.btn-complete{flex:1;background:var(--sp);color:#fff;border:none;padding:14px 14px;
+  border-radius:10px;font-family:var(--fb);font-size:.88rem;font-weight:700;
   cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;
-  transition:all .18s}
-.btn-complete:hover{background:#00796B}
+  transition:all .18s;box-shadow:0 4px 20px rgba(0,137,123,.28);min-height:48px}
+.btn-complete:hover{background:#00796B;transform:translateY(-1px);box-shadow:0 6px 24px rgba(0,137,123,.35)}
 .btn-print{background:var(--bg2);color:var(--tx2);border:1px solid var(--bd);
   padding:12px 13px;border-radius:10px;font-family:var(--fb);font-size:.84rem;
   font-weight:500;cursor:pointer;transition:all .18s}
@@ -198,10 +201,10 @@ body{font-family:var(--fb);background:var(--bg);color:var(--tx);
 .sp-btn-i{font-size:1.6rem;display:block;margin-bottom:5px}
 .sp-btn-n{font-size:.8rem;font-weight:600;color:var(--tx)}
 .sp-btn.sel .sp-btn-n{color:var(--sp)}
-.sp-start{width:100%;padding:13px;background:var(--sp);color:#fff;border:none;
-  border-radius:10px;font-family:var(--fb);font-size:.9rem;font-weight:700;
-  cursor:pointer;transition:all .18s}
-.sp-start:hover{background:#00796B}
+.sp-start{width:100%;padding:15px;background:var(--sp);color:#fff;border:none;
+  border-radius:10px;font-family:var(--fb);font-size:.92rem;font-weight:700;
+  cursor:pointer;transition:all .18s;box-shadow:0 4px 20px rgba(0,137,123,.28);min-height:48px}
+.sp-start:hover{background:#00796B;transform:translateY(-1px);box-shadow:0 6px 24px rgba(0,137,123,.35)}
 
 /* ── MOBILE ─────────────────────────────────────────────────────── */
 @media(max-width:480px){
@@ -258,7 +261,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
         <linearGradient id="ppg" x1="5" y1="23" x2="30" y2="23"><stop offset="0%" stop-color="#3b82f6"/><stop offset="100%" stop-color="#00d4aa"/></linearGradient>
       </defs>
     </svg>
-    <span class="hdr-logo-t">Patient Brief</span>
+    <span class="hdr-logo-t">Smart<span>Brief</span> AI</span>
   </div>
   <div class="hdr-right">
     <span class="hdr-spec" id="hdrSpec">Dental</span>
