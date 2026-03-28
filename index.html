@@ -4,8 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>SmartBrief AI — Pre-Consultation Intelligence for Indian OPDs</title>
+<link rel="preconnect" href="https://fonts.bunny.net">
+<link rel="stylesheet" href="https://fonts.bunny.net/css?family=outfit:400;500;600;700;800|inter:400;500;600&display=swap">
 <style>
-@import url('https://fonts.bunny.net/css?family=outfit:400;500;600;700;800|inter:400;500;600&display=swap');
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --bg:#FAFBFF;--bg2:#F0F4FF;--bg3:#E8EEF8;
@@ -17,8 +18,8 @@
   --radius:14px;
   --sp:#00897B;--sp-soft:#E0F2F0;--sp-border:#80CBC4;
 }
-html{scroll-behavior:smooth;max-width:100%;overflow-x:hidden}
-body{font-family:'Inter','Google Sans','Roboto','Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;font-size:16px;overflow-x:hidden;width:100%;max-width:100%}
+html{scroll-behavior:smooth;max-width:100%;overflow-x:hidden;background:var(--bg)}
+body{font-family:'Inter','Google Sans','Roboto','Segoe UI',sans-serif;background:transparent;color:var(--text);line-height:1.6;font-size:16px;overflow-x:hidden;width:100%;max-width:100%}
 h1,h2,h3,h4,.syne{font-family:'Outfit','Google Sans Display','Google Sans','Product Sans','Roboto','Segoe UI',sans-serif}
 
 /* NAV */
@@ -252,9 +253,50 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
   font-stretch:normal!important;
   -webkit-font-smoothing:antialiased;
 }
+
+/* ── PREMIUM BUTTON POLISH ──────────────────────────────────── */
+.btn{min-height:44px;padding:12px 22px;transition:all .15s ease;letter-spacing:-.1px}
+.btn-primary{background:var(--sp);color:#fff;font-weight:600}
+.btn-primary:hover{background:#00796B;transform:translateY(-1px);box-shadow:0 5px 18px rgba(0,137,123,.28)}
+.btn-primary:active{transform:none;box-shadow:none}
+.btn-ghost{background:transparent;border:1.5px solid var(--sp);color:var(--sp)}
+.btn-ghost:hover{background:var(--sp-soft);border-color:var(--sp)}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none!important}
+
+/* ── CARD HOVER POLISH ───────────────────────────────────────── */
+.gap-card{transition:all .2s ease}
+.gap-card:hover{box-shadow:0 4px 20px rgba(15,31,61,.12);transform:translateY(-2px)}
+.step-card{transition:all .2s ease}
+.step-card:hover{box-shadow:0 4px 20px rgba(15,31,61,.12);transform:translateY(-2px)}
+.who-card{transition:all .2s ease}
+.who-card:hover{box-shadow:0 4px 20px rgba(15,31,61,.12);transform:translateY(-2px)}
+.beta-card{transition:all .2s ease}
+.beta-card:hover{box-shadow:0 4px 20px rgba(15,31,61,.12);transform:translateY(-2px)}
+.stat-card{transition:all .2s ease}
+.stat-card:hover{box-shadow:0 4px 20px rgba(15,31,61,.1);transform:translateY(-1px)}
+
+/* ── FLOATING BACKGROUND ORBS ───────────────────────────────── */
+.bg-orb{position:fixed;border-radius:50%;filter:blur(60px);pointer-events:none;z-index:-1;will-change:transform}
+.bg-orb-1{width:380px;height:380px;background:rgba(0,137,123,0.06);top:8%;left:3%;animation:float-orb-1 24s ease-in-out infinite}
+.bg-orb-2{width:260px;height:260px;background:rgba(15,31,61,0.04);top:45%;right:6%;animation:float-orb-2 28s ease-in-out infinite;animation-delay:-8s}
+.bg-orb-3{width:420px;height:420px;background:rgba(0,137,123,0.04);bottom:10%;left:15%;animation:float-orb-3 22s ease-in-out infinite;animation-delay:-14s}
+.bg-orb-4{width:200px;height:200px;background:rgba(15,31,61,0.05);top:25%;right:28%;animation:float-orb-4 18s ease-in-out infinite;animation-delay:-5s}
+.bg-orb-5{width:300px;height:300px;background:rgba(0,137,123,0.05);bottom:35%;right:4%;animation:float-orb-5 26s ease-in-out infinite;animation-delay:-18s}
+@keyframes float-orb-1{0%,100%{transform:translate(0,0)}25%{transform:translate(45px,-35px)}50%{transform:translate(25px,55px)}75%{transform:translate(-35px,20px)}}
+@keyframes float-orb-2{0%,100%{transform:translate(0,0)}30%{transform:translate(-55px,30px)}60%{transform:translate(35px,-45px)}85%{transform:translate(-25px,-15px)}}
+@keyframes float-orb-3{0%,100%{transform:translate(0,0)}20%{transform:translate(65px,25px)}55%{transform:translate(-45px,-55px)}80%{transform:translate(20px,30px)}}
+@keyframes float-orb-4{0%,100%{transform:translate(0,0)}35%{transform:translate(-35px,45px)}70%{transform:translate(55px,-25px)}}
+@keyframes float-orb-5{0%,100%{transform:translate(0,0)}25%{transform:translate(-65px,-30px)}55%{transform:translate(25px,65px)}80%{transform:translate(45px,-35px)}}
+@media(prefers-reduced-motion:reduce){.bg-orb{animation:none}}
 </style>
 </head>
 <body>
+<!-- FLOATING BACKGROUND ORBS -->
+<div class="bg-orb bg-orb-1" aria-hidden="true"></div>
+<div class="bg-orb bg-orb-2" aria-hidden="true"></div>
+<div class="bg-orb bg-orb-3" aria-hidden="true"></div>
+<div class="bg-orb bg-orb-4" aria-hidden="true"></div>
+<div class="bg-orb bg-orb-5" aria-hidden="true"></div>
 
 <!-- NAV -->
 <nav>
