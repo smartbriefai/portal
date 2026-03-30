@@ -4,6 +4,7 @@
   "outputDirectory": ".",
   "buildCommand": null,
   "installCommand": null,
+  "alias": ["portal-igoyogioo1-4478s-projects.vercel.app"],
   "functions": {
     "api/chat.js": {
       "maxDuration": 30
