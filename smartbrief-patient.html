@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>SmartBrief AI — Patient Brief</title>
+<link rel="preconnect" href="https://fonts.bunny.net">
+<link rel="stylesheet" href="https://fonts.bunny.net/css?family=outfit:400;500;600;700;800|inter:400;500;600&display=swap">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{max-width:100%;overflow-x:hidden;scroll-behavior:smooth}
+:root{
+  --bg:#FAFBFF;--bg2:#F0F4FF;--bg3:#E8EEF8;--sf:#FFF;
+  --tx:#0F1F3D;--tx2:#4A5E80;--tx3:#8A9BBF;
+  --bd:#DDE3F0;--bd2:#C8D2E8;
+  --sh:0 2px 12px rgba(15,31,61,.07);
+  --sh2:0 4px 24px rgba(15,31,61,.11);
+  --r:12px;
+  --sp:#00897B;--ss:#E0F2F0;--sb:#80CBC4;
+  --fh:'Outfit','Google Sans Display','Google Sans','Product Sans','Roboto','Segoe UI',sans-serif;
+  --fb:'Inter','Google Sans','Roboto','Segoe UI',sans-serif;
+}
+html{background:var(--bg)}
+body{font-family:var(--fb);background:transparent;color:var(--tx);
+  -webkit-font-smoothing:antialiased;width:100%;max-width:100%;overflow-x:hidden;
+  font-size:15px;line-height:1.6}
+
+/* ── HEADER ────────────────────────────────────────────────────── */
+.hdr{
+  background:var(--sf);border-bottom:1px solid var(--bd);
+  padding:12px 16px;display:flex;align-items:center;
+  justify-content:space-between;position:sticky;top:0;z-index:50;
+  gap:10px;overflow:hidden;box-shadow:0 1px 8px rgba(15,31,61,.05)}
+.hdr-logo{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.hdr-logo-t{font-family:var(--fh);font-weight:800;font-size:.9rem;color:var(--tx);letter-spacing:-.2px}
+.hdr-logo-t span{color:var(--sp)}
+.hdr-right{display:flex;gap:7px;flex-shrink:0}
+.hdr-spec{font-size:.67rem;font-weight:700;padding:3px 10px;border-radius:10px;
+  background:var(--ss);color:var(--sp);border:1px solid var(--sb)}
+
+/* ── LAYOUT ────────────────────────────────────────────────────── */
+.wrap{max-width:680px;margin:0 auto;padding:20px 16px 80px}
+
+/* ── PATIENT BANNER ────────────────────────────────────────────── */
+.ptbanner{
+  background:var(--sf);border:1px solid var(--bd);border-radius:16px;
+  padding:16px;margin-bottom:16px;display:flex;align-items:center;gap:12px;
+  box-shadow:0 4px 32px rgba(15,31,61,.08)}
+.ptav{
+  width:46px;height:46px;border-radius:12px;background:var(--sp);
+  color:#fff;font-family:var(--fh);font-size:1.1rem;font-weight:800;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ptinfo{flex:1;min-width:0}
+.ptname{font-family:var(--fh);font-size:1rem;font-weight:800;color:var(--tx);
+  letter-spacing:-.2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ptmeta{font-size:.73rem;color:var(--tx3);margin-top:2px}
+.pttok{font-family:var(--fh);font-size:1.4rem;font-weight:800;color:var(--sp)}
+.pttok-l{font-size:.63rem;color:var(--tx3);text-align:right}
+
+/* ── ALLERGY ────────────────────────────────────────────────────── */
+.allergybox{
+  background:#FFF3F3;border:2px solid #FFCDD2;border-radius:var(--r);
+  padding:14px 16px;margin-bottom:16px;
+  display:flex;align-items:flex-start;gap:10px}
+.allergybox.ok{background:#E8F5E9;border-color:#A5D6A7}
+.allergy-icon{font-size:1.3rem;flex-shrink:0;margin-top:1px}
+.allergy-body{}
+.allergy-title{font-family:var(--fh);font-size:.82rem;font-weight:700;
+  color:#C62828;margin-bottom:3px}
+.allergybox.ok .allergy-title{color:#2E7D32}
+.allergy-detail{font-size:.8rem;color:#E57373;line-height:1.5}
+.allergybox.ok .allergy-detail{color:#4CAF50}
+
+/* ── SECTIONS GRID ──────────────────────────────────────────────── */
+.sgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.scard{background:var(--sf);border:1px solid var(--bd);border-radius:14px;
+  padding:14px;box-shadow:0 2px 16px rgba(15,31,61,.07)}
+.scard.full{grid-column:1/-1}
+.scard-label{font-size:.62rem;font-weight:700;color:var(--sp);
+  text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;
+  display:flex;align-items:center;gap:5px}
+.scard-val{font-size:.83rem;color:var(--tx);line-height:1.55}
+.scard-val.flag{color:#C62828;font-weight:600}
+
+/* ── VITALS ─────────────────────────────────────────────────────── */
+.vitals-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:16px}
+.vbox{background:var(--sf);border:1.5px solid rgba(15,31,61,.12);border-radius:10px;
+  padding:10px 8px;text-align:center;transition:border-color .18s}
+.vbox:focus-within{border-color:var(--sp);box-shadow:0 0 0 3px rgba(0,137,123,.1)}
+.vbox-val{font-family:var(--fh);font-size:1rem;font-weight:800;color:var(--tx);
+  letter-spacing:-.3px}
+.vbox-lbl{font-size:.6rem;font-weight:600;color:var(--tx3);
+  text-transform:uppercase;letter-spacing:.4px;margin-top:2px}
+.vbox input{font-family:var(--fh);font-size:.92rem;font-weight:700;color:var(--tx);
+  width:100%;border:none;background:none;text-align:center;outline:none;
+  letter-spacing:-.2px}
+.vbox input::placeholder{color:var(--tx3);font-weight:400;font-size:.8rem}
+
+/* ── CHECKLIST ──────────────────────────────────────────────────── */
+.section-title{font-family:var(--fh);font-size:.84rem;font-weight:800;color:var(--tx);
+  margin-bottom:10px;display:flex;align-items:center;gap:7px;letter-spacing:-.1px}
+.checklist{display:flex;flex-direction:column;gap:7px;margin-bottom:16px}
+.chk{display:flex;align-items:center;gap:9px;padding:10px 12px;
+  background:var(--sf);border:1.5px solid var(--bd);border-radius:9px;
+  cursor:pointer;transition:all .15s;box-shadow:var(--sh)}
+.chk:hover{border-color:var(--sb);background:var(--ss)}
+.chk.done{background:var(--ss);border-color:var(--sb)}
+.chk input[type=checkbox]{accent-color:var(--sp);width:15px;height:15px;flex-shrink:0;cursor:pointer}
+.chk-text{font-size:.82rem;color:var(--tx);flex:1;line-height:1.4}
+.chk.done .chk-text{text-decoration:line-through;color:var(--tx3)}
+.chk-priority{font-size:.62rem;font-weight:700;padding:2px 7px;border-radius:8px;
+  flex-shrink:0}
+.p-high{background:#FFF3E0;color:#E65100}
+.p-std{background:var(--bg3);color:var(--tx3)}
+
+/* ── NOTES ──────────────────────────────────────────────────────── */
+.notes-wrap{margin-bottom:16px}
+.notes-field{width:100%;padding:12px 14px;border:1.5px solid rgba(15,31,61,.12);
+  border-radius:10px;font-family:var(--fb);font-size:.84rem;color:var(--tx);
+  background:var(--sf);resize:vertical;min-height:100px;outline:none;
+  transition:all .18s;line-height:1.6}
+.notes-field:focus{border-color:var(--sp);box-shadow:0 0 0 3px rgba(0,137,123,.12)}
+
+/* ── HISTORY ACCORDION ──────────────────────────────────────────── */
+.acc{background:var(--sf);border:1px solid var(--bd);border-radius:var(--r);
+  margin-bottom:10px;overflow:hidden;box-shadow:var(--sh)}
+.acc-hdr{display:flex;align-items:center;justify-content:space-between;
+  padding:12px 14px;cursor:pointer;gap:8px}
+.acc-title{font-family:var(--fh);font-size:.8rem;font-weight:700;color:var(--tx)}
+.acc-arrow{font-size:.8rem;color:var(--tx3);transition:transform .2s;flex-shrink:0}
+.acc-arrow.open{transform:rotate(180deg)}
+.acc-body{padding:0 14px 13px;font-size:.81rem;color:var(--tx2);line-height:1.65;
+  display:none}
+.acc-body.open{display:block}
+
+/* ── VISIT HISTORY ──────────────────────────────────────────────── */
+.vh-list{display:flex;flex-direction:column;gap:8px}
+.vh-card{background:var(--bg2);border-radius:9px;padding:10px 12px;
+  border-left:3px solid var(--sp)}
+.vh-date{font-size:.7rem;font-weight:700;color:var(--sp);margin-bottom:3px}
+.vh-text{font-size:.79rem;color:var(--tx2);line-height:1.5}
+
+/* ── ACTIONS ────────────────────────────────────────────────────── */
+.actions-bar{
+  position:fixed;bottom:0;left:0;right:0;
+  background:var(--sf);border-top:1px solid var(--bd);
+  padding:10px 16px max(10px,env(safe-area-inset-bottom));
+  display:flex;gap:8px;z-index:60;
+  box-shadow:0 -4px 20px rgba(15,31,61,.08)}
+.btn-wa{flex:1;background:#25D366;color:#fff;border:none;padding:12px 14px;
+  border-radius:10px;font-family:var(--fb);font-size:.84rem;font-weight:700;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;
+  transition:all .18s}
+.btn-wa:hover{background:#1ebe5a}
+.btn-complete{flex:1;background:var(--sp);color:#fff;border:none;padding:14px 14px;
+  border-radius:10px;font-family:var(--fb);font-size:.88rem;font-weight:700;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;
+  transition:all .18s;box-shadow:0 4px 20px rgba(0,137,123,.28);min-height:48px}
+.btn-complete:hover{background:#00796B;transform:translateY(-1px);box-shadow:0 6px 24px rgba(0,137,123,.35)}
+.btn-print{background:var(--bg2);color:var(--tx2);border:1px solid var(--bd);
+  padding:12px 13px;border-radius:10px;font-family:var(--fb);font-size:.84rem;
+  font-weight:500;cursor:pointer;transition:all .18s}
+.btn-print:hover{border-color:var(--sp);color:var(--sp)}
+
+/* ── DISCLAIMER ─────────────────────────────────────────────────── */
+.disclaimer{background:#FFFDE7;border:1px solid #FFE082;border-radius:10px;
+  padding:11px 14px;margin-bottom:16px;font-size:.73rem;color:#6D4C41;
+  line-height:1.5;display:flex;gap:7px;align-items:flex-start}
+
+/* ── DONE STATE ─────────────────────────────────────────────────── */
+.done-banner{display:none;background:#E8F5E9;border:1.5px solid #A5D6A7;
+  border-radius:var(--r);padding:16px;text-align:center;margin-bottom:16px}
+.done-banner.show{display:block}
+.done-banner h3{font-family:var(--fh);font-size:.9rem;font-weight:800;
+  color:#2E7D32;margin-bottom:4px}
+.done-banner p{font-size:.78rem;color:#4CAF50}
+
+/* ── PRINT ──────────────────────────────────────────────────────── */
+@media print{
+  .hdr,.actions-bar,.disclaimer{display:none}
+  .wrap{padding:0;max-width:100%}
+  .chk,.scard,.ptbanner,.acc{box-shadow:none;break-inside:avoid}
+  body{font-size:13px}
+  .allergybox{border-width:1.5px}
+}
+
+/* ── SPECIALTY PICKER ───────────────────────────────────────────── */
+#specPicker{
+  position:fixed;inset:0;background:rgba(15,31,61,.5);z-index:200;
+  display:flex;align-items:center;justify-content:center;padding:20px}
+.spcrd{background:var(--sf);border-radius:16px;width:100%;max-width:360px;
+  padding:28px 24px;box-shadow:var(--sh2)}
+.spcrd-t{font-family:var(--fh);font-size:1.1rem;font-weight:800;color:var(--tx);
+  margin-bottom:5px}
+.spcrd-s{font-size:.82rem;color:var(--tx2);margin-bottom:18px;line-height:1.5}
+.sp-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:16px}
+.sp-btn{padding:14px 10px;border:1.5px solid var(--bd2);border-radius:10px;
+  background:var(--bg);cursor:pointer;text-align:center;transition:all .18s;
+  font-family:var(--fb)}
+.sp-btn:hover,.sp-btn.sel{border-color:var(--sp);background:var(--ss)}
+.sp-btn-i{font-size:1.6rem;display:block;margin-bottom:5px}
+.sp-btn-n{font-size:.8rem;font-weight:600;color:var(--tx)}
+.sp-btn.sel .sp-btn-n{color:var(--sp)}
+.sp-start{width:100%;padding:15px;background:var(--sp);color:#fff;border:none;
+  border-radius:10px;font-family:var(--fb);font-size:.92rem;font-weight:700;
+  cursor:pointer;transition:all .18s;box-shadow:0 4px 20px rgba(0,137,123,.28);min-height:48px}
+.sp-start:hover{background:#00796B;transform:translateY(-1px);box-shadow:0 6px 24px rgba(0,137,123,.35)}
+
+/* ── MOBILE ─────────────────────────────────────────────────────── */
+@media(max-width:480px){
+  .sgrid{grid-template-columns:1fr}
+  .scard.full{grid-column:1}
+  .vitals-grid{grid-template-columns:1fr 1fr}
+  .wrap{padding:14px 13px 90px}
+  .ptbanner{padding:12px}
+  .ptname{font-size:.92rem}
+}
+@media(max-width:360px){
+  .vitals-grid{grid-template-columns:1fr 1fr}
+  .actions-bar{gap:6px}
+  .btn-wa,.btn-complete{font-size:.78rem;padding:11px 10px}
+}
+
+/* FONT OVERRIDE — ensures headings never use Arial/Helvetica regardless of CDN status */
+h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
+  font-family:'Outfit','Google Sans Display','Google Sans','Product Sans','Roboto','Segoe UI',sans-serif!important;
+  font-weight:800!important;
+  font-stretch:normal!important;
+  -webkit-font-smoothing:antialiased;
+}
+</style>
+</head>
+<body>
+
+<!-- SPECIALTY PICKER (shown first) -->
+<div id="specPicker">
+  <div class="spcrd">
+    <div class="spcrd-t">SmartBrief AI</div>
+    <div class="spcrd-s">Select the specialty to load the correct patient brief.</div>
+    <div class="sp-grid">
+      <button class="sp-btn sel" data-s="den" onclick="pickSpec('den',this)"><span class="sp-btn-i">🦷</span><span class="sp-btn-n">Dental</span></button>
+      <button class="sp-btn" data-s="ent" onclick="pickSpec('ent',this)"><span class="sp-btn-i">👂</span><span class="sp-btn-n">ENT</span></button>
+      <button class="sp-btn" data-s="gyn" onclick="pickSpec('gyn',this)"><span class="sp-btn-i">🌸</span><span class="sp-btn-n">Gynaecology</span></button>
+      <button class="sp-btn" data-s="gen" onclick="pickSpec('gen',this)"><span class="sp-btn-i">🩺</span><span class="sp-btn-n">General Medicine</span></button>
+    </div>
+    <button class="sp-start" onclick="startBrief()">Open Patient Brief →</button>
+  </div>
+</div>
+
+<!-- HEADER -->
+<div class="hdr" id="mainHdr" style="display:none">
+  <div class="hdr-logo">
+    <svg width="26" height="26" viewBox="0 0 36 36" fill="none">
+      <rect width="36" height="36" rx="9" fill="url(#plg)"/>
+      <rect x="9" y="6" width="14" height="19" rx="2" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.25)" stroke-width="1"/>
+      <path d="M12 11h8M12 14.5h8M12 18h5" stroke="rgba(255,255,255,0.45)" stroke-width="1.2" stroke-linecap="round"/>
+      <path d="M5 23L9 23L11.5 18L15 27L18 15L21 24.5L23.5 23L30 23" stroke="url(#ppg)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <circle cx="30" cy="23" r="2.5" fill="#00d4aa"/>
+      <defs>
+        <linearGradient id="plg" x1="0" y1="0" x2="36" y2="36"><stop offset="0%" stop-color="#0d1f40"/><stop offset="100%" stop-color="#0a2655"/></linearGradient>
+        <linearGradient id="ppg" x1="5" y1="23" x2="30" y2="23"><stop offset="0%" stop-color="#3b82f6"/><stop offset="100%" stop-color="#00d4aa"/></linearGradient>
+      </defs>
+    </svg>
+    <span class="hdr-logo-t">Smart<span>Brief</span> AI</span>
+  </div>
+  <div class="hdr-right">
+    <span class="hdr-spec" id="hdrSpec">Dental</span>
+    <span style="font-size:.72rem;color:var(--tx3)" id="hdrDate"></span>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="wrap" id="mainWrap" style="display:none">
+
+  <!-- DONE BANNER -->
+  <div class="done-banner" id="doneBanner">
+    <h3>✓ Consultation Complete</h3>
+    <p>Patient marked as done. Notes saved to session.</p>
+  </div>
+
+  <!-- PATIENT BANNER -->
+  <div class="ptbanner">
+    <div class="ptav" id="ptav">R</div>
+    <div class="ptinfo">
+      <div class="ptname" id="ptName">Mr. Ramesh K.</div>
+      <div class="ptmeta" id="ptMeta">Token T1 · Dental OPD · Old prescription uploaded</div>
+    </div>
+    <div style="text-align:right;flex-shrink:0">
+      <div class="pttok" id="ptTok">T1</div>
+      <div class="pttok-l">Token</div>
+    </div>
+  </div>
+
+  <!-- ALLERGY BOX -->
+  <div class="allergybox" id="allergyBox">
+    <span class="allergy-icon">⚠️</span>
+    <div class="allergy-body">
+      <div class="allergy-title" id="allergyTitle">ALLERGY / CLINICAL FLAG</div>
+      <div class="allergy-detail" id="allergyDetail">Penicillin allergy — avoid penicillin-based antibiotics</div>
+    </div>
+  </div>
+
+  <!-- INFO GRID -->
+  <div class="sgrid">
+    <div class="scard">
+      <div class="scard-label">🩺 Chief Complaint</div>
+      <div class="scard-val" id="cc">Lower molar pain (L) × 3 weeks. Cold sensitivity.</div>
+    </div>
+    <div class="scard">
+      <div class="scard-label">📋 Visit Type</div>
+      <div class="scard-val" id="vtype">Old prescription uploaded</div>
+    </div>
+    <div class="scard">
+      <div class="scard-label">🗂 Relevant History</div>
+      <div class="scard-val" id="hist">RCT UR6 — 2021. Regular scaling. No systemic conditions.</div>
+    </div>
+    <div class="scard">
+      <div class="scard-label">💊 Current Medications</div>
+      <div class="scard-val" id="meds">None currently.</div>
+    </div>
+  </div>
+
+  <!-- VITALS -->
+  <div class="section-title">📊 Vitals Entry</div>
+  <div class="vitals-grid">
+    <div class="vbox">
+      <input type="text" placeholder="120/80" id="vBP">
+      <div class="vbox-lbl">BP mmHg</div>
+    </div>
+    <div class="vbox">
+      <input type="number" placeholder="65" id="vWt">
+      <div class="vbox-lbl">Weight kg</div>
+    </div>
+    <div class="vbox">
+      <input type="number" placeholder="37.0" step="0.1" id="vTemp">
+      <div class="vbox-lbl">Temp °C</div>
+    </div>
+    <div class="vbox">
+      <input type="number" placeholder="98" id="vSpo2">
+      <div class="vbox-lbl">SpO₂ %</div>
+    </div>
+  </div>
+
+  <!-- CHECKLIST -->
+  <div class="section-title">✅ Action Checklist</div>
+  <div class="checklist" id="checklist"></div>
+
+  <!-- DOCTOR NOTES -->
+  <div class="notes-wrap">
+    <div class="section-title">📝 Doctor Notes</div>
+    <textarea class="notes-field" id="notesField" placeholder="Findings, plan, advice…"></textarea>
+  </div>
+
+  <!-- VISIT HISTORY ACCORDION -->
+  <div class="acc" id="histAcc">
+    <div class="acc-hdr" onclick="togAcc('histBody','histArr')">
+      <span class="acc-title">🕐 Previous Visit History</span>
+      <span class="acc-arrow" id="histArr">▼</span>
+    </div>
+    <div class="acc-body" id="histBody">
+      <div class="vh-list" id="vhList"></div>
+    </div>
+  </div>
+
+  <!-- LAB REQUEST ACCORDION -->
+  <div class="acc">
+    <div class="acc-hdr" onclick="togAcc('labBody','labArr')">
+      <span class="acc-title">🔬 Lab Test Request Slip</span>
+      <span class="acc-arrow" id="labArr">▼</span>
+    </div>
+    <div class="acc-body" id="labBody">
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:10px" id="labTests">
+        <label style="display:flex;align-items:center;gap:8px;font-size:.82rem;color:var(--tx)">
+          <input type="checkbox" style="accent-color:var(--sp)"> CBC (Complete Blood Count)
+        </label>
+        <label style="display:flex;align-items:center;gap:8px;font-size:.82rem;color:var(--tx)">
+          <input type="checkbox" style="accent-color:var(--sp)"> Blood Glucose (Fasting + PP)
+        </label>
+        <label style="display:flex;align-items:center;gap:8px;font-size:.82rem;color:var(--tx)">
+          <input type="checkbox" style="accent-color:var(--sp)"> HbA1c
+        </label>
+        <label style="display:flex;align-items:center;gap:8px;font-size:.82rem;color:var(--tx)">
+          <input type="checkbox" style="accent-color:var(--sp)"> LFT (Liver Function Test)
+        </label>
+        <label style="display:flex;align-items:center;gap:8px;font-size:.82rem;color:var(--tx)">
+          <input type="checkbox" style="accent-color:var(--sp)"> KFT (Kidney Function Test)
+        </label>
+        <label style="display:flex;align-items:center;gap:8px;font-size:.82rem;color:var(--tx)">
+          <input type="checkbox" style="accent-color:var(--sp)"> Urine Routine
+        </label>
+        <label style="display:flex;align-items:center;gap:8px;font-size:.82rem;color:var(--tx)">
+          <input type="checkbox" style="accent-color:var(--sp)"> X-Ray (as clinically indicated)
+        </label>
+        <label style="display:flex;align-items:center;gap:8px;font-size:.82rem;color:var(--tx)">
+          <input type="checkbox" style="accent-color:var(--sp)"> ECG
+        </label>
+      </div>
+      <div style="margin-bottom:8px">
+        <div style="font-size:.7rem;font-weight:700;color:var(--tx2);margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px">Additional Instructions</div>
+        <textarea style="width:100%;padding:8px 10px;border:1.5px solid var(--bd2);border-radius:8px;font-family:var(--fb);font-size:.82rem;color:var(--tx);background:var(--bg);min-height:54px;outline:none;resize:vertical" placeholder="e.g. Fasting required. Report to lab by 8 AM."></textarea>
+      </div>
+      <button onclick="printLabSlip()" style="width:100%;padding:10px;background:var(--bg2);border:1px solid var(--bd);border-radius:8px;font-family:var(--fb);font-size:.82rem;font-weight:600;color:var(--tx2);cursor:pointer">🖨 Print Lab Request Slip</button>
+    </div>
+  </div>
+
+  <!-- DISCLAIMER -->
+  <div class="disclaimer">
+    <span>⚠️</span>
+    <span>SmartBrief AI is a pre-consultation intelligence tool — <strong>NOT a diagnostic system</strong>. All clinical decisions must be made by a qualified healthcare professional. This is beta demo data only — do not enter real patient information.</span>
+  </div>
+
+</div>
+
+<!-- ACTIONS BAR -->
+<div class="actions-bar" id="actionsBar" style="display:none">
+  <button class="btn-wa" onclick="shareWA()">💬 WhatsApp</button>
+  <button class="btn-complete" id="completeBtn" onclick="markDone()">✓ Complete</button>
+  <button class="btn-print" onclick="window.print()" title="Print">🖨</button>
+</div>
+
+<!-- TOAST -->
+<div id="toast" style="position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(8px);
+  background:var(--tx);color:#fff;padding:9px 18px;border-radius:10px;font-size:.8rem;
+  font-weight:500;z-index:300;opacity:0;transition:all .25s;pointer-events:none;
+  white-space:nowrap;box-shadow:0 4px 18px rgba(15,31,61,.2)"></div>
+
+<script>
+// ══ DATA ══════════════════════════════════════════════════════════
+const SP_DATA = {
+  den:{c:'#00897B',s:'#E0F2F0',b:'#80CBC4',n:'Dental',
+    patients:[
+      {t:'T1',nm:'Mr. Ramesh K.',sb:'Old prescription uploaded',
+       al:'Penicillin allergy — avoid penicillin-based antibiotics',
+       cc:'Lower molar pain (L) × 3 weeks. Cold sensitivity.',
+       h:'RCT UR6 — 2021. Regular scaling. No systemic conditions.',
+       mx:'None currently.',
+       ac:[{t:'Periapical X-ray (LL6)',p:'high'},{t:'Pulp vitality test',p:'high'},
+           {t:'Cold test',p:'std'},{t:'Review uploaded prescription',p:'std'}],
+       hist:[{d:'Nov 2021',tx:'RCT — UR6. No complications.'},
+             {d:'Mar 2023',tx:'Scaling done. OHI given.'}]},
+      {t:'T2',nm:'Mrs. Shanthi R.',sb:'Walk-in',al:'',
+       cc:'Gum bleeding upper front × 2 weeks. Sensitivity.',
+       h:'No prior dental treatment. No systemic conditions.',mx:'None.',
+       ac:[{t:'Oral hygiene assessment',p:'high'},{t:'Probing depth chart',p:'high'},
+           {t:'OHI counselling',p:'std'}],hist:[]},
+      {t:'T3',nm:'Mr. Vinod A.',sb:'Walk-in, waiting',al:'',
+       cc:'Broken tooth upper right.',h:'No records.',mx:'None.',
+       ac:[{t:'Clinical examination',p:'high'},{t:'OPG if indicated',p:'std'}],hist:[]}
+    ]},
+  ent:{c:'#1565C0',s:'#E3F0FF',b:'#90CAF9',n:'ENT',
+    patients:[
+      {t:'T1',nm:'Mr. Arjun S.',sb:'Audiometry report uploaded',
+       al:'Aspirin sensitivity — check analgesic choice',
+       cc:'Bilateral hearing loss, progressive × 6 months. Tinnitus.',
+       h:'Audiometry — 2024. No prior surgery.',mx:'None.',
+       ac:[{t:'Weber test',p:'high'},{t:'Rinne test',p:'high'},
+           {t:'Review uploaded audiogram',p:'high'},{t:'PTA interpretation',p:'std'}],
+       hist:[{d:'Aug 2024',tx:'Audiometry — mild bilateral sensorineural loss.'}]},
+      {t:'T2',nm:'Mrs. Priya M.',sb:'Walk-in',al:'',
+       cc:'Right ear pain × 2 days. Discharge.',h:'No prior ENT history.',mx:'None.',
+       ac:[{t:'Otoscopy',p:'high'},{t:'Tuning fork tests',p:'high'},
+           {t:'Swab if discharge',p:'std'}],hist:[]},
+      {t:'T3',nm:'Master Kiran K.',sb:'Walk-in, paediatric',al:'',
+       cc:'Recurrent tonsillitis × 4 episodes this year.',
+       h:'No surgery. Last antibiotic 3 weeks ago.',mx:'Amoxicillin (last course).',
+       ac:[{t:'Throat examination',p:'high'},{t:'Tonsil grading',p:'high'},
+           {t:'Referral if Grade 3+',p:'std'}],hist:[]}
+    ]},
+  gyn:{c:'#C2185B',s:'#FCE4EC',b:'#F48FB1',n:'Gynaecology',
+    patients:[
+      {t:'T1',nm:'Mrs. Kavitha N.',sb:'Blood report uploaded',
+       al:'G2P1 · Previous LSCS · GDM flag — monitor glucose',
+       cc:'Antenatal 28 weeks. Swelling in feet. Fatigue.',
+       h:'G2P1L1A0. Previous LSCS 2021. GDM controlled on diet.',
+       mx:'Iron + Folic acid, Calcium.',
+       ac:[{t:'BP + weight check',p:'high'},{t:'Fundal height measurement',p:'high'},
+           {t:'Glucose review',p:'high'},{t:'Growth scan if due',p:'std'}],
+       hist:[{d:'24 weeks',tx:'Anomaly scan — normal. GDM screen — 1hr 145mg/dl.'},
+             {d:'20 weeks',tx:'Booking visit. BP normal. Haemoglobin 10.8.'}]},
+      {t:'T2',nm:'Mrs. Lakshmi R.',sb:'Walk-in',al:'',
+       cc:'Irregular periods × 6 months. Weight gain. Acne.',
+       h:'No prior gynaecology treatment. LMP 8 weeks ago.',mx:'None.',
+       ac:[{t:'USS pelvis',p:'high'},{t:'TSH, LH, FSH, AMH panel',p:'high'},
+           {t:'Weight + BMI record',p:'std'}],hist:[]},
+      {t:'T3',nm:'Mrs. Deepa S.',sb:'Antenatal 20wk',al:'',
+       cc:'Antenatal 20 weeks. Routine visit.',
+       h:'G1P0. No complications.',mx:'Iron + Folic acid.',
+       ac:[{t:'Anomaly scan if not done',p:'high'},{t:'BP + weight',p:'high'},
+           {t:'Haemoglobin check',p:'std'}],hist:[]}
+    ]},
+  gen:{c:'#2E7D32',s:'#E8F5E9',b:'#A5D6A7',n:'General Medicine',
+    patients:[
+      {t:'T1',nm:'Mr. Senthil V.',sb:'Blood report (HbA1c 9.1%)',
+       al:'HbA1c 9.1% — poorly controlled T2DM. Review medication.',
+       cc:'T2DM + HTN follow-up. Fatigue. Occasional dizziness.',
+       h:'T2DM 8 years. HTN 3 years. No renal issues.',
+       mx:'Metformin 500mg BD, Amlodipine 5mg OD.',
+       ac:[{t:'Review blood report',p:'high'},{t:'Check BP + HR',p:'high'},
+           {t:'Medication compliance check',p:'high'},{t:'Foot examination',p:'std'}],
+       hist:[{d:'Dec 2025',tx:'HbA1c 8.4%. BP 138/88. Metformin dose maintained.'},
+             {d:'Sep 2025',tx:'HbA1c 8.9%. Started Amlodipine 5mg.'}]},
+      {t:'T2',nm:'Mrs. Radha K.',sb:'BP monitoring visit',al:'',
+       cc:'BP monitoring visit. No new complaints.',
+       h:'HTN 2 years.',mx:'Telmisartan 40mg OD.',
+       ac:[{t:'BP both arms',p:'high'},{t:'Weight check',p:'std'},
+           {t:'Medication review',p:'std'}],hist:[]},
+      {t:'T3',nm:'Mr. Prakash R.',sb:'Walk-in, fever',al:'',
+       cc:'Fever × 3 days. Body aches. No cough.',
+       h:'No significant past history.',mx:'Paracetamol (self-medicated).',
+       ac:[{t:'Temperature check',p:'high'},{t:'CBC + CRP',p:'high'},
+           {t:'Malaria card test',p:'std'},{t:'Dengue NS1 if indicated',p:'std'}],hist:[]}
+    ]}
+};
+
+// ══ STATE ═════════════════════════════════════════════════════════
+let cs='den', cp=null;
+
+// ══ SPEC PICKER ════════════════════════════════════════════════════
+function pickSpec(s,btn){
+  cs=s;
+  document.querySelectorAll('.sp-btn').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+}
+function startBrief(){
+  const d=SP_DATA[cs];
+  document.documentElement.style.setProperty('--sp',d.c);
+  document.documentElement.style.setProperty('--ss',d.s);
+  document.documentElement.style.setProperty('--sb',d.b);
+  document.getElementById('specPicker').style.display='none';
+  document.getElementById('mainHdr').style.display='flex';
+  document.getElementById('mainWrap').style.display='block';
+  document.getElementById('actionsBar').style.display='flex';
+  document.getElementById('hdrSpec').textContent=d.n;
+  document.getElementById('hdrDate').textContent=
+    new Date().toLocaleDateString('en-IN',{day:'numeric',month:'short'});
+  // Load first patient
+  loadPatient(d.patients[0]);
+}
+
+// ══ LOAD PATIENT ════════════════════════════════════════════════════
+function loadPatient(p){
+  cp=p;
+  const d=SP_DATA[cs];
+  // Header
+  document.getElementById('ptav').textContent=p.nm.charAt(0);
+  document.getElementById('ptName').textContent=p.nm;
+  document.getElementById('ptMeta').textContent=`Token ${p.t} · ${d.n} OPD · ${p.sb}`;
+  document.getElementById('ptTok').textContent=p.t;
+  // Allergy
+  const abox=document.getElementById('allergyBox');
+  if(p.al){
+    abox.className='allergybox';
+    document.getElementById('allergyTitle').textContent='⚠ ALLERGY / CLINICAL FLAG';
+    document.getElementById('allergyDetail').textContent=p.al;
+  } else {
+    abox.className='allergybox ok';
+    document.getElementById('allergyTitle').textContent='✓ No Known Allergies';
+    document.getElementById('allergyDetail').textContent='No allergies or flags on record for this patient.';
+    document.querySelector('.allergy-icon').textContent='✅';
+  }
+  // Info
+  document.getElementById('cc').textContent=p.cc;
+  document.getElementById('vtype').textContent=p.sb;
+  document.getElementById('hist').textContent=p.h;
+  document.getElementById('meds').textContent=p.mx;
+  // Checklist
+  const cl=document.getElementById('checklist');
+  cl.innerHTML=p.ac.map((a,i)=>`
+    <div class="chk" id="chk${i}" onclick="togChk(${i})">
+      <input type="checkbox" id="cb${i}">
+      <span class="chk-text">${a.t}</span>
+      <span class="chk-priority ${a.p==='high'?'p-high':'p-std'}">${a.p==='high'?'Priority':'Routine'}</span>
+    </div>`).join('');
+  // Visit history
+  const vh=document.getElementById('vhList');
+  if(p.hist&&p.hist.length){
+    vh.innerHTML=p.hist.map(v=>`
+      <div class="vh-card">
+        <div class="vh-date">${v.d}</div>
+        <div class="vh-text">${v.tx}</div>
+      </div>`).join('');
+  } else {
+    vh.innerHTML='<div style="font-size:.8rem;color:var(--tx3);padding:8px 0">No previous visit history on record.</div>';
+  }
+  // Reset
+  document.getElementById('notesField').value='';
+  document.getElementById('doneBanner').classList.remove('show');
+  document.getElementById('completeBtn').disabled=false;
+  document.getElementById('completeBtn').textContent='✓ Complete';
+  // Clear vitals
+  ['vBP','vWt','vTemp','vSpo2'].forEach(id=>document.getElementById(id).value='');
+}
+
+// ══ ACTIONS ════════════════════════════════════════════════════════
+function togChk(i){
+  const c=document.getElementById('cb'+i),d=document.getElementById('chk'+i);
+  c.checked=!c.checked;d.classList.toggle('done',c.checked);
+}
+function togAcc(bodyId,arrowId){
+  const b=document.getElementById(bodyId),a=document.getElementById(arrowId);
+  b.classList.toggle('open');a.classList.toggle('open');
+}
+function markDone(){
+  document.getElementById('doneBanner').classList.add('show');
+  document.getElementById('completeBtn').disabled=true;
+  document.getElementById('completeBtn').textContent='✓ Done';
+  document.getElementById('doneBanner').scrollIntoView({behavior:'smooth'});
+  toast('Consultation complete ✓');
+}
+function shareWA(){
+  if(!cp)return;
+  const notes=document.getElementById('notesField').value.trim();
+  const bp=document.getElementById('vBP').value;
+  const wt=document.getElementById('vWt').value;
+  let txt=`*SmartBrief AI — Patient Brief*\n\n`;
+  txt+=`Patient: ${cp.nm} (${cp.t})\n`;
+  txt+=`Specialty: ${SP_DATA[cs].n}\n`;
+  txt+=`Complaint: ${cp.cc}\n`;
+  if(bp||wt)txt+=`Vitals: BP ${bp||'—'}, Wt ${wt||'—'}kg\n`;
+  if(cp.al)txt+=`⚠ Flag: ${cp.al}\n`;
+  if(notes)txt+=`\nNotes: ${notes}`;
+  txt+=`\n\n_Demo data — SmartBrief AI Beta_`;
+  window.open('https://wa.me/919488907730?text='+encodeURIComponent(txt),'_blank');
+}
+function printLabSlip(){toast('Opening print — select lab slip from print preview');window.print();}
+
+// ══ TOAST ══════════════════════════════════════════════════════════
+let tt;
+function toast(m){
+  const e=document.getElementById('toast');e.textContent=m;
+  e.style.opacity='1';e.style.transform='translateX(-50%) translateY(0)';
+  clearTimeout(tt);tt=setTimeout(()=>{
+    e.style.opacity='0';e.style.transform='translateX(-50%) translateY(8px)';
+  },3000);
+}
+</script>
+<!-- ====== SmartBrief AI Analytics — purely additive, zero impact on existing code ====== -->
+<script>
+(function(){
+  'use strict';
+  // ========== PASTE YOUR GOOGLE APPS SCRIPT URL BELOW ==========
+  var ANALYTICS_ENDPOINT = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
+  // ===============================================================
+
+  try {
+    var proto = window.location.protocol;
+    if(proto === 'file:' || proto === 'content:') return;
+    if(!ANALYTICS_ENDPOINT || ANALYTICS_ENDPOINT.indexOf('YOUR_GOOGLE') !== -1) return;
+  } catch(e){ return; }
+
+  var sid;
+  try {
+    sid = sessionStorage.getItem('smb_sid');
+    if(!sid){ sid = 'sid_'+Math.random().toString(36).slice(2)+Date.now().toString(36); sessionStorage.setItem('smb_sid',sid); }
+  } catch(e){ sid = 'ns_'+Math.random().toString(36).slice(2); }
+
+  function track(evt, extra){
+    try {
+      var d = {event_type:evt, page:window.location.pathname, specialty_selected:'', section_viewed:'', cta_clicked:'', referrer:document.referrer, user_agent:navigator.userAgent, session_id:sid};
+      if(extra){ for(var k in extra){ if(Object.prototype.hasOwnProperty.call(extra,k)) d[k]=extra[k]; } }
+      var b = JSON.stringify(d), sent = false;
+      if(navigator.sendBeacon){ try{ sent = navigator.sendBeacon(ANALYTICS_ENDPOINT, new Blob([b],{type:'application/json'})); }catch(e){} }
+      if(!sent){ fetch(ANALYTICS_ENDPOINT,{method:'POST',body:b,headers:{'Content-Type':'application/json'},keepalive:true}).catch(function(){}); }
+    } catch(e){}
+  }
+
+  // 1. page_view
+  try { track('page_view'); } catch(e){}
+
+  // 2. cta_click — wa.me links and inter-file navigation
+  try {
+    document.addEventListener('click',function(ev){
+      try {
+        var el = ev.target.closest('a,button'); if(!el) return;
+        var href = (el.getAttribute('href')||'').toLowerCase();
+        var lbl = el.textContent.trim().slice(0,60);
+        if(href.indexOf('wa.me')!==-1 || href.indexOf('dashboard')!==-1 || href.indexOf('patient')!==-1)
+          track('cta_click',{cta_clicked:lbl});
+      } catch(e){}
+    },true);
+  } catch(e){}
+
+})();
+</script>
+</body>
+</html>

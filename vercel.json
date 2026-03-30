@@ -1,0 +1,23 @@
+{
+  "version": 2,
+  "framework": null,
+  "outputDirectory": ".",
+  "buildCommand": null,
+  "installCommand": null,
+  "alias": ["portal-igoyogioo1-4478s-projects.vercel.app"],
+  "functions": {
+    "api/chat.js": {
+      "maxDuration": 30
+    }
+  },
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        { "key": "Access-Control-Allow-Origin", "value": "*" },
+        { "key": "Access-Control-Allow-Methods", "value": "POST, OPTIONS" },
+        { "key": "Access-Control-Allow-Headers", "value": "Content-Type" }
+      ]
+    }
+  ]
+}

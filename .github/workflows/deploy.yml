@@ -1,0 +1,25 @@
+name: Deploy SmartBrief AI
+on:
+  push:
+    branches:
+      - claude/build-smartbrief-ai-ZcAAG
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: claude/build-smartbrief-ai-ZcAAG
+      - name: Deploy to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./
+          publish_branch: gh-pages
+          keep_files: false
+          exclude_assets: '.github,api,vercel.json'
+          commit_message: "Deploy SmartBrief AI ${{ github.sha }}"
