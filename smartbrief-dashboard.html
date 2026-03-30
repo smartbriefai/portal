@@ -790,6 +790,21 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
 @keyframes float-orb-4{0%,100%{transform:translate(0,0)}35%{transform:translate(-35px,45px)}70%{transform:translate(55px,-25px)}}
 @keyframes float-orb-5{0%,100%{transform:translate(0,0)}25%{transform:translate(-65px,-30px)}55%{transform:translate(25px,65px)}80%{transform:translate(45px,-35px)}}
 @media(prefers-reduced-motion:reduce){.bg-orb{animation:none}}
+/* ── DRUG AUTOCOMPLETE DROPDOWN ─────────────────────────────── */
+.rx-ac-dropdown{position:fixed;background:var(--sf);border:1px solid var(--bd);
+  border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.12);z-index:1000;
+  max-height:220px;overflow-y:auto;display:none;overflow-x:hidden}
+.rx-ac-dropdown::-webkit-scrollbar{width:4px}
+.rx-ac-dropdown::-webkit-scrollbar-track{background:transparent}
+.rx-ac-dropdown::-webkit-scrollbar-thumb{background:var(--sb);border-radius:4px}
+.rx-ac-item{padding:10px 14px;cursor:pointer;display:flex;align-items:baseline;
+  gap:6px;white-space:nowrap;overflow:hidden}
+.rx-ac-item:hover,.rx-ac-item.rac-active{background:rgba(0,137,123,.08)}
+.rx-ac-name{font-size:13px;font-weight:600;color:var(--tx);flex-shrink:0}
+.rx-ac-generic{font-size:11px;color:var(--tx);opacity:.5;overflow:hidden;
+  text-overflow:ellipsis}
+.rx-ac-cat{font-size:10px;color:var(--tx3);margin-left:auto;flex-shrink:0;
+  padding-left:8px}
 </style>
 </head>
 <body>
@@ -986,7 +1001,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
                 <div class="rx-drug-row">
                   <div class="rx-drug-num">1</div>
                   <div style="flex:1;display:grid;grid-template-columns:1.5fr 0.8fr 0.8fr;gap:6px">
-                    <input class="finput" type="text" placeholder="Drug name" style="margin:0">
+                    <input class="finput rx-dn" type="text" placeholder="Drug name" style="margin:0" autocomplete="off">
                     <input class="finput" type="text" placeholder="Dose" style="margin:0">
                     <input class="finput" type="text" placeholder="Duration" style="margin:0">
                   </div>
@@ -994,7 +1009,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
                 <div class="rx-drug-row">
                   <div class="rx-drug-num">2</div>
                   <div style="flex:1;display:grid;grid-template-columns:1.5fr 0.8fr 0.8fr;gap:6px">
-                    <input class="finput" type="text" placeholder="Drug name" style="margin:0">
+                    <input class="finput rx-dn" type="text" placeholder="Drug name" style="margin:0" autocomplete="off">
                     <input class="finput" type="text" placeholder="Dose" style="margin:0">
                     <input class="finput" type="text" placeholder="Duration" style="margin:0">
                   </div>
@@ -1853,7 +1868,7 @@ function addRxDrug(){
   const row=document.createElement('div');row.className='rx-drug-row';
   row.innerHTML=`<div class="rx-drug-num">${rxDrugCount}</div>
     <div style="flex:1;display:grid;grid-template-columns:1.5fr 0.8fr 0.8fr;gap:6px">
-      <input class="finput" type="text" placeholder="Drug name" style="margin:0">
+      <input class="finput rx-dn" type="text" placeholder="Drug name" style="margin:0" autocomplete="off">
       <input class="finput" type="text" placeholder="Dose" style="margin:0">
       <input class="finput" type="text" placeholder="Duration" style="margin:0">
     </div>`;
@@ -2751,6 +2766,213 @@ initTheme();
     });
   } catch(e){}
 
+})();
+</script>
+
+<!-- ── DRUG AUTOCOMPLETE DROPDOWN ─────────────────────────────── -->
+<div id="rxAcDropdown" class="rx-ac-dropdown"></div>
+
+<script>
+(function(){
+  /* ── DRUG LIST (82 drugs, 10 categories) ───────────────────── */
+  const DRUG_LIST=[
+    // Antibiotics
+    {name:'Amoxicillin',generic:'amoxicillin',category:'Antibiotic'},
+    {name:'Amoxicillin-Clavulanate',generic:'co-amoxiclav',category:'Antibiotic'},
+    {name:'Azithromycin',generic:'azithromycin',category:'Antibiotic'},
+    {name:'Cefixime',generic:'cefixime',category:'Antibiotic'},
+    {name:'Cefpodoxime',generic:'cefpodoxime',category:'Antibiotic'},
+    {name:'Ciprofloxacin',generic:'ciprofloxacin',category:'Antibiotic'},
+    {name:'Doxycycline',generic:'doxycycline',category:'Antibiotic'},
+    {name:'Metronidazole',generic:'metronidazole',category:'Antibiotic'},
+    {name:'Norfloxacin',generic:'norfloxacin',category:'Antibiotic'},
+    {name:'Tinidazole',generic:'tinidazole',category:'Antibiotic'},
+    // Analgesics / Antipyretics
+    {name:'Paracetamol',generic:'acetaminophen',category:'Analgesic'},
+    {name:'Ibuprofen',generic:'ibuprofen',category:'Analgesic'},
+    {name:'Diclofenac',generic:'diclofenac sodium',category:'Analgesic'},
+    {name:'Naproxen',generic:'naproxen',category:'Analgesic'},
+    {name:'Aspirin',generic:'acetylsalicylic acid',category:'Analgesic'},
+    {name:'Tramadol',generic:'tramadol hydrochloride',category:'Analgesic'},
+    {name:'Aceclofenac',generic:'aceclofenac',category:'Analgesic'},
+    {name:'Mefenamic Acid',generic:'mefenamic acid',category:'Analgesic'},
+    // Antihypertensives
+    {name:'Amlodipine',generic:'amlodipine besylate',category:'Antihypertensive'},
+    {name:'Atenolol',generic:'atenolol',category:'Antihypertensive'},
+    {name:'Enalapril',generic:'enalapril maleate',category:'Antihypertensive'},
+    {name:'Losartan',generic:'losartan potassium',category:'Antihypertensive'},
+    {name:'Telmisartan',generic:'telmisartan',category:'Antihypertensive'},
+    {name:'Ramipril',generic:'ramipril',category:'Antihypertensive'},
+    {name:'Metoprolol',generic:'metoprolol succinate',category:'Antihypertensive'},
+    {name:'Nifedipine',generic:'nifedipine',category:'Antihypertensive'},
+    // Antidiabetics
+    {name:'Metformin',generic:'metformin hydrochloride',category:'Antidiabetic'},
+    {name:'Glibenclamide',generic:'glyburide',category:'Antidiabetic'},
+    {name:'Glimepiride',generic:'glimepiride',category:'Antidiabetic'},
+    {name:'Sitagliptin',generic:'sitagliptin phosphate',category:'Antidiabetic'},
+    {name:'Vildagliptin',generic:'vildagliptin',category:'Antidiabetic'},
+    {name:'Empagliflozin',generic:'empagliflozin',category:'Antidiabetic'},
+    {name:'Dapagliflozin',generic:'dapagliflozin',category:'Antidiabetic'},
+    // Gastrointestinal
+    {name:'Omeprazole',generic:'omeprazole',category:'GI'},
+    {name:'Pantoprazole',generic:'pantoprazole sodium',category:'GI'},
+    {name:'Rabeprazole',generic:'rabeprazole sodium',category:'GI'},
+    {name:'Ranitidine',generic:'ranitidine hydrochloride',category:'GI'},
+    {name:'Domperidone',generic:'domperidone',category:'GI'},
+    {name:'Ondansetron',generic:'ondansetron hydrochloride',category:'GI'},
+    {name:'Dicyclomine',generic:'dicycloverine',category:'GI'},
+    {name:'Loperamide',generic:'loperamide hydrochloride',category:'GI'},
+    {name:'Lactulose',generic:'lactulose',category:'GI'},
+    // Respiratory
+    {name:'Salbutamol',generic:'albuterol',category:'Respiratory'},
+    {name:'Montelukast',generic:'montelukast sodium',category:'Respiratory'},
+    {name:'Cetirizine',generic:'cetirizine hydrochloride',category:'Respiratory'},
+    {name:'Levocetrizine',generic:'levocetirizine dihydrochloride',category:'Respiratory'},
+    {name:'Fexofenadine',generic:'fexofenadine hydrochloride',category:'Respiratory'},
+    {name:'Budesonide',generic:'budesonide',category:'Respiratory'},
+    {name:'Fluticasone',generic:'fluticasone propionate',category:'Respiratory'},
+    {name:'Chlorpheniramine',generic:'chlorphenamine maleate',category:'Respiratory'},
+    // Vitamins & Supplements
+    {name:'Vitamin C',generic:'ascorbic acid',category:'Supplement'},
+    {name:'Vitamin D3',generic:'cholecalciferol',category:'Supplement'},
+    {name:'Vitamin B12',generic:'cyanocobalamin',category:'Supplement'},
+    {name:'Folic Acid',generic:'folate',category:'Supplement'},
+    {name:'Ferrous Sulphate',generic:'iron(II) sulfate',category:'Supplement'},
+    {name:'Calcium Carbonate',generic:'calcium carbonate',category:'Supplement'},
+    {name:'Zinc Sulphate',generic:'zinc sulfate',category:'Supplement'},
+    {name:'Multivitamin',generic:'multivitamin complex',category:'Supplement'},
+    // Steroids / Anti-inflammatory
+    {name:'Prednisolone',generic:'prednisolone',category:'Steroid'},
+    {name:'Dexamethasone',generic:'dexamethasone',category:'Steroid'},
+    {name:'Hydrocortisone',generic:'hydrocortisone',category:'Steroid'},
+    {name:'Betamethasone',generic:'betamethasone valerate',category:'Steroid'},
+    {name:'Methylprednisolone',generic:'methylprednisolone',category:'Steroid'},
+    // Cardiovascular
+    {name:'Atorvastatin',generic:'atorvastatin calcium',category:'Cardiovascular'},
+    {name:'Rosuvastatin',generic:'rosuvastatin calcium',category:'Cardiovascular'},
+    {name:'Clopidogrel',generic:'clopidogrel bisulfate',category:'Cardiovascular'},
+    {name:'Digoxin',generic:'digoxin',category:'Cardiovascular'},
+    {name:'Furosemide',generic:'furosemide',category:'Cardiovascular'},
+    {name:'Spironolactone',generic:'spironolactone',category:'Cardiovascular'},
+    {name:'Isosorbide Mononitrate',generic:'isosorbide mononitrate',category:'Cardiovascular'},
+    {name:'Warfarin',generic:'warfarin sodium',category:'Cardiovascular'},
+    // Neurological / Psychiatric
+    {name:'Alprazolam',generic:'alprazolam',category:'Neurological'},
+    {name:'Clonazepam',generic:'clonazepam',category:'Neurological'},
+    {name:'Amitriptyline',generic:'amitriptyline hydrochloride',category:'Neurological'},
+    {name:'Sertraline',generic:'sertraline hydrochloride',category:'Neurological'},
+    {name:'Escitalopram',generic:'escitalopram oxalate',category:'Neurological'},
+    {name:'Gabapentin',generic:'gabapentin',category:'Neurological'},
+    {name:'Pregabalin',generic:'pregabalin',category:'Neurological'},
+    {name:'Phenytoin',generic:'phenytoin sodium',category:'Neurological'},
+    {name:'Levodopa',generic:'levodopa / carbidopa',category:'Neurological'},
+    {name:'Zolpidem',generic:'zolpidem tartrate',category:'Neurological'}
+  ];
+
+  /* ── MODULE VARS ─────────────────────────────────────────────── */
+  const drop=document.getElementById('rxAcDropdown');
+  let activeInput=null,activeIdx=-1,filtered=[];
+
+  /* ── HELPERS ─────────────────────────────────────────────────── */
+  function pos(){
+    if(!activeInput)return;
+    const r=activeInput.getBoundingClientRect();
+    drop.style.left=r.left+'px';
+    drop.style.top=(r.bottom+2)+'px';
+    drop.style.width=r.width+'px';
+  }
+
+  function hide(){
+    drop.style.display='none';
+    activeIdx=-1;
+  }
+
+  function show(items){
+    filtered=items;
+    drop.innerHTML='';
+    items.forEach(function(d,i){
+      const el=document.createElement('div');
+      el.className='rx-ac-item';
+      el.innerHTML='<span class="rx-ac-name">'+d.name+'</span>'
+        +'<span class="rx-ac-generic">'+d.generic+'</span>'
+        +'<span class="rx-ac-cat">'+d.category+'</span>';
+      el.addEventListener('mousedown',function(e){
+        e.preventDefault();
+        select(d.name);
+      });
+      drop.appendChild(el);
+    });
+    pos();
+    drop.style.display='block';
+    activeIdx=-1;
+  }
+
+  function highlight(idx){
+    const items=drop.querySelectorAll('.rx-ac-item');
+    items.forEach(function(el,i){
+      el.classList.toggle('rac-active',i===idx);
+    });
+    if(items[idx])items[idx].scrollIntoView({block:'nearest'});
+  }
+
+  function select(name){
+    if(activeInput)activeInput.value=name;
+    hide();
+    if(activeInput)activeInput.focus();
+  }
+
+  /* ── INPUT HANDLER (delegated on #rxDrugs) ───────────────────── */
+  const container=document.getElementById('rxDrugs');
+  if(container){
+    container.addEventListener('keyup',function(e){
+      const inp=e.target;
+      if(!inp.classList.contains('rx-dn'))return;
+      const val=inp.value.trim().toLowerCase();
+      if(val.length<2){hide();return;}
+      activeInput=inp;
+      const res=DRUG_LIST.filter(function(d){
+        return d.name.toLowerCase().startsWith(val)||d.generic.toLowerCase().startsWith(val);
+      }).slice(0,6);
+      if(res.length)show(res);else hide();
+    });
+
+    container.addEventListener('keydown',function(e){
+      if(drop.style.display==='none')return;
+      if(e.key==='ArrowDown'){
+        e.preventDefault();
+        activeIdx=Math.min(activeIdx+1,filtered.length-1);
+        highlight(activeIdx);
+      } else if(e.key==='ArrowUp'){
+        e.preventDefault();
+        activeIdx=Math.max(activeIdx-1,0);
+        highlight(activeIdx);
+      } else if(e.key==='Enter'){
+        if(activeIdx>=0&&filtered[activeIdx]){
+          e.preventDefault();
+          select(filtered[activeIdx].name);
+        }
+      } else if(e.key==='Escape'){
+        hide();
+      }
+    });
+
+    container.addEventListener('focusin',function(e){
+      if(e.target.classList.contains('rx-dn'))activeInput=e.target;
+    });
+
+    container.addEventListener('focusout',function(e){
+      if(e.target.classList.contains('rx-dn'))setTimeout(hide,150);
+    });
+  }
+
+  /* ── REPOSITION ON SCROLL / RESIZE ──────────────────────────── */
+  window.addEventListener('scroll',pos,true);
+  window.addEventListener('resize',pos);
+
+  /* ── OUTSIDE CLICK ───────────────────────────────────────────── */
+  document.addEventListener('mousedown',function(e){
+    if(!drop.contains(e.target)&&e.target!==activeInput)hide();
+  });
 })();
 </script>
 </body>
