@@ -26,6 +26,8 @@ html{max-width:100%;overflow-x:hidden;background:var(--bg)}
 }
 html,body{height:100%;width:100%;max-width:100%;font-family:var(--fb);background:transparent;color:var(--tx);
   -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:hidden}
+/* Ensure html always shows --bg so dark mode variable change is visible */
+html{background:var(--bg)}
 
 /* ── LOGIN ─────────────────────────────────────────────────────── */
 #loginScreen{
@@ -158,7 +160,7 @@ html,body{height:100%;width:100%;max-width:100%;font-family:var(--fb);background
 .scl{font-size:.66rem;color:var(--tx3);margin-top:3px;text-transform:uppercase;letter-spacing:.5px}
 
 /* ── TABS ──────────────────────────────────────────────────────── */
-.tabs{display:flex !important;position:sticky;top:0;z-index:9;
+.tabs{display:flex !important;position:sticky;top:60px;z-index:9;
   background:var(--sf);border-bottom:1px solid var(--bd);
   padding:0 16px;gap:2px;overflow-x:auto;flex-shrink:0;
   -webkit-overflow-scrolling:touch}
@@ -688,6 +690,8 @@ html,body{height:100%;width:100%;max-width:100%;font-family:var(--fb);background
   .panel{border-radius:12px}
   .rx-drug-row>div{grid-template-columns:1.2fr 0.65fr 0.65fr!important}
   .shortcuts{display:none}
+  .tabs{top:50px}
+  .rx-ac-dropdown{max-width:calc(100vw - 24px)!important}
   .mnav{display:flex;position:fixed;bottom:0;left:0;right:0;width:100%;
     background:var(--sf);border-top:1px solid var(--bd);z-index:50;
     padding:6px 0 max(6px,env(safe-area-inset-bottom))}
@@ -700,6 +704,16 @@ html,body{height:100%;width:100%;max-width:100%;font-family:var(--fb);background
   .main{padding-bottom:66px}
 }
 @media(min-width:769px){.mnav{display:none}}
+/* ── MOBILE FONT SIZE — prevents iOS Safari input zoom ──────── */
+@media(max-width:480px){
+  .finput,.ftextarea,.fselect{font-size:16px!important}
+  .ai-textarea,.ai-input,.ai-select{font-size:16px!important}
+  .minput,.mtextarea{font-size:16px!important}
+  .linput,.vinput,.notesfield{font-size:16px!important}
+  .statsbar{grid-template-columns:1fr 1fr}
+  .cgrid,.ai-cgrid{grid-template-columns:1fr!important}
+  .btnadd{padding:8px 10px;font-size:.76rem}
+}
 
 /* FONT OVERRIDE — ensures headings never use Arial/Helvetica regardless of CDN status */
 h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
@@ -715,7 +729,14 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
   --tx:#E6EDF3;--tx2:#8B949E;--tx3:#484F58;
   --bd:#21262D;--bd2:#30363D;
   --sh:0 2px 12px rgba(0,0,0,.35);--sh2:0 4px 28px rgba(0,0,0,.55);
+  background:var(--bg);
 }
+[data-theme="dark"] body,[data-theme="dark"] #dashScreen,
+[data-theme="dark"] .dwrap,[data-theme="dark"] .main{background:var(--bg)}
+[data-theme="dark"] .content{background:var(--bg)}
+[data-theme="dark"] .sc{background:var(--sf)}
+[data-theme="dark"] .panel{background:var(--sf);border-color:var(--bd)}
+[data-theme="dark"] .bg-orb{opacity:.04}
 [data-theme="dark"] .sidebar,
 [data-theme="dark"] .mhdr,
 [data-theme="dark"] .api-settings,
@@ -753,6 +774,10 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
 [data-theme="dark"] .demo-banner{background:var(--bg3)!important;border-color:var(--bd)!important}
 [data-theme="dark"] .allergybox{background:#1a0d0d!important;border-color:#4a1a1a!important}
 [data-theme="dark"] .noallergy{background:#0d1a0d!important;border-color:#1a3a1a!important}
+[data-theme="dark"] .rx-ac-dropdown{background:var(--sf)!important;border-color:var(--bd)!important}
+[data-theme="dark"] .rx-ac-item:hover,[data-theme="dark"] .rx-ac-item.rac-active{background:rgba(0,137,123,.15)!important}
+[data-theme="dark"] .rx-ac-name{color:var(--tx)!important}
+[data-theme="dark"] .rx-ac-generic{color:var(--tx2)!important;opacity:.7}
 
 /* ── PAGE-TURN ANIMATION ────────────────────────────────────────── */
 @keyframes pageTurnIn{
@@ -2159,6 +2184,8 @@ function hideTokenDisplay(){
 // ══ TABS ══════════════════════════════════════════════════════════
 const TAB_IDS=['queue','rx','referral','followup','report','aibrief','drugsafe','voice'];
 function showTab(t){
+  const mainEl=document.querySelector('.main');
+  if(mainEl)mainEl.scrollTop=0;
   TAB_IDS.forEach(id=>{
     const c=document.getElementById('tabcontent-'+id);
     const b=document.getElementById('tab-'+id);

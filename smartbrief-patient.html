@@ -214,6 +214,14 @@ body{font-family:var(--fb);background:transparent;color:var(--tx);
   .wrap{padding:14px 13px 90px}
   .ptbanner{padding:12px}
   .ptname{font-size:.92rem}
+  /* Prevent iOS Safari zoom on input focus (font-size < 16px triggers zoom) */
+  .vbox input,.notes-field{font-size:16px!important}
+  input[type=text],input[type=number],textarea,select{font-size:16px!important}
+  /* Touch targets */
+  .btn-complete,.btn-wa{min-height:48px}
+  .sp-start{min-height:52px}
+  .chk{min-height:44px}
+  .scard{padding:12px}
 }
 @media(max-width:360px){
   .vitals-grid{grid-template-columns:1fr 1fr}
