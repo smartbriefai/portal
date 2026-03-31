@@ -26,6 +26,8 @@ html{max-width:100%;overflow-x:hidden;background:var(--bg)}
 }
 html,body{height:100%;width:100%;max-width:100%;font-family:var(--fb);background:transparent;color:var(--tx);
   -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:hidden}
+/* Ensure html always shows --bg so dark mode variable change is visible */
+html{background:var(--bg)}
 
 /* ── LOGIN ─────────────────────────────────────────────────────── */
 #loginScreen{
@@ -85,7 +87,7 @@ html,body{height:100%;width:100%;max-width:100%;font-family:var(--fb);background
   transition:all .15s;text-align:left}
 .sbnav li button:hover{background:var(--bg2);color:var(--tx);border-left-color:var(--bd2)}
 .sbnav li.active button{background:var(--ss);color:var(--sp);font-weight:600;border-left-color:var(--sp)}
-.ni{font-size:.92rem;width:18px;text-align:center;flex-shrink:0}
+.ni{width:16px;height:16px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
 .spectiles{padding:0 7px;display:flex;flex-direction:column;gap:3px;margin-bottom:8px}
 .stile{display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:8px;
   cursor:pointer;border:1.5px solid transparent;transition:all .15s}
@@ -158,10 +160,10 @@ html,body{height:100%;width:100%;max-width:100%;font-family:var(--fb);background
 .scl{font-size:.66rem;color:var(--tx3);margin-top:3px;text-transform:uppercase;letter-spacing:.5px}
 
 /* ── TABS ──────────────────────────────────────────────────────── */
-.tabs{display:flex !important;position:sticky;top:0;z-index:9;
+.tabs{display:flex !important;position:sticky;top:60px;z-index:9;
   background:var(--sf);border-bottom:1px solid var(--bd);
   padding:0 16px;gap:2px;overflow-x:auto;flex-shrink:0;
-  -webkit-overflow-scrolling:touch}
+  -webkit-overflow-scrolling:touch;scrollbar-width:none}
 .tabs::-webkit-scrollbar{display:none}
 /* Custom scrollbars — thin, teal thumb */
 ::-webkit-scrollbar{width:5px;height:5px}
@@ -171,7 +173,7 @@ html,body{height:100%;width:100%;max-width:100%;font-family:var(--fb);background
 .tab{padding:0 14px;height:44px;border:none;background:none;font-family:var(--fb);
   font-size:.82rem;font-weight:500;color:var(--tx2);cursor:pointer;
   border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap;
-  display:inline-flex;align-items:center}
+  display:inline-flex;align-items:center;flex-shrink:0;gap:5px}
 .tab:hover{color:var(--tx)}
 .tab.active{color:var(--sp);border-bottom-color:var(--sp);font-weight:600;background:var(--ss)}
 
@@ -688,6 +690,8 @@ html,body{height:100%;width:100%;max-width:100%;font-family:var(--fb);background
   .panel{border-radius:12px}
   .rx-drug-row>div{grid-template-columns:1.2fr 0.65fr 0.65fr!important}
   .shortcuts{display:none}
+  .tabs{top:50px}
+  .rx-ac-dropdown{max-width:calc(100vw - 24px)!important}
   .mnav{display:flex;position:fixed;bottom:0;left:0;right:0;width:100%;
     background:var(--sf);border-top:1px solid var(--bd);z-index:50;
     padding:6px 0 max(6px,env(safe-area-inset-bottom))}
@@ -700,6 +704,30 @@ html,body{height:100%;width:100%;max-width:100%;font-family:var(--fb);background
   .main{padding-bottom:66px}
 }
 @media(min-width:769px){.mnav{display:none}}
+/* ── MOBILE FONT SIZE — prevents iOS Safari input zoom ──────── */
+@media(max-width:480px){
+  .finput,.ftextarea,.fselect{font-size:16px!important}
+  .ai-textarea,.ai-input,.ai-select{font-size:16px!important}
+  .minput,.mtextarea{font-size:16px!important}
+  .linput,.vinput,.notesfield{font-size:16px!important}
+  .statsbar{grid-template-columns:1fr 1fr}
+  .cgrid,.ai-cgrid{grid-template-columns:1fr!important}
+  .btnadd{padding:8px 10px;font-size:.76rem}
+}
+
+/* ── MOBILE ≤600px — stats, overflow, button widths ──────────── */
+@media(max-width:600px){
+  .statsbar{grid-template-columns:1fr 1fr!important}
+  .scn{font-size:clamp(20px,5vw,28px)!important}
+  .scl{font-size:11px}
+  .tabs{top:50px}
+  .timerwrap{display:none}
+  .btngen{width:100%!important;box-sizing:border-box!important;white-space:normal!important;font-size:14px!important;min-height:48px}
+  .main{overflow-x:hidden}
+  .dwrap{overflow-x:hidden}
+  .finput,.ftextarea,.fselect{width:100%;box-sizing:border-box}
+  .mnavbtn-i{display:flex;align-items:center;justify-content:center;line-height:0}
+}
 
 /* FONT OVERRIDE — ensures headings never use Arial/Helvetica regardless of CDN status */
 h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
@@ -715,7 +743,14 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
   --tx:#E6EDF3;--tx2:#8B949E;--tx3:#484F58;
   --bd:#21262D;--bd2:#30363D;
   --sh:0 2px 12px rgba(0,0,0,.35);--sh2:0 4px 28px rgba(0,0,0,.55);
+  background:var(--bg);
 }
+[data-theme="dark"] body,[data-theme="dark"] #dashScreen,
+[data-theme="dark"] .dwrap,[data-theme="dark"] .main{background:var(--bg)}
+[data-theme="dark"] .content{background:var(--bg)}
+[data-theme="dark"] .sc{background:var(--sf)}
+[data-theme="dark"] .panel{background:var(--sf);border-color:var(--bd)}
+[data-theme="dark"] .bg-orb{opacity:.04}
 [data-theme="dark"] .sidebar,
 [data-theme="dark"] .mhdr,
 [data-theme="dark"] .api-settings,
@@ -753,6 +788,10 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
 [data-theme="dark"] .demo-banner{background:var(--bg3)!important;border-color:var(--bd)!important}
 [data-theme="dark"] .allergybox{background:#1a0d0d!important;border-color:#4a1a1a!important}
 [data-theme="dark"] .noallergy{background:#0d1a0d!important;border-color:#1a3a1a!important}
+[data-theme="dark"] .rx-ac-dropdown{background:var(--sf)!important;border-color:var(--bd)!important}
+[data-theme="dark"] .rx-ac-item:hover,[data-theme="dark"] .rx-ac-item.rac-active{background:rgba(0,137,123,.15)!important}
+[data-theme="dark"] .rx-ac-name{color:var(--tx)!important}
+[data-theme="dark"] .rx-ac-generic{color:var(--tx2)!important;opacity:.7}
 
 /* ── PAGE-TURN ANIMATION ────────────────────────────────────────── */
 @keyframes pageTurnIn{
@@ -790,6 +829,21 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
 @keyframes float-orb-4{0%,100%{transform:translate(0,0)}35%{transform:translate(-35px,45px)}70%{transform:translate(55px,-25px)}}
 @keyframes float-orb-5{0%,100%{transform:translate(0,0)}25%{transform:translate(-65px,-30px)}55%{transform:translate(25px,65px)}80%{transform:translate(45px,-35px)}}
 @media(prefers-reduced-motion:reduce){.bg-orb{animation:none}}
+/* ── DRUG AUTOCOMPLETE DROPDOWN ─────────────────────────────── */
+.rx-ac-dropdown{position:fixed;background:var(--sf);border:1px solid var(--bd);
+  border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.12);z-index:1000;
+  max-height:220px;overflow-y:auto;display:none;overflow-x:hidden}
+.rx-ac-dropdown::-webkit-scrollbar{width:4px}
+.rx-ac-dropdown::-webkit-scrollbar-track{background:transparent}
+.rx-ac-dropdown::-webkit-scrollbar-thumb{background:var(--sb);border-radius:4px}
+.rx-ac-item{padding:10px 14px;cursor:pointer;display:flex;align-items:baseline;
+  gap:6px;white-space:nowrap;overflow:hidden}
+.rx-ac-item:hover,.rx-ac-item.rac-active{background:rgba(0,137,123,.08)}
+.rx-ac-name{font-size:13px;font-weight:600;color:var(--tx);flex-shrink:0}
+.rx-ac-generic{font-size:11px;color:var(--tx);opacity:.5;overflow:hidden;
+  text-overflow:ellipsis}
+.rx-ac-cat{font-size:10px;color:var(--tx3);margin-left:auto;flex-shrink:0;
+  padding-left:8px}
 </style>
 </head>
 <body>
@@ -856,14 +910,14 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
       </div>
       <div class="sbsec">Navigation</div>
       <ul class="sbnav">
-        <li class="active"><button onclick="showTab('queue')"><span class="ni">📋</span>Today's Queue</button></li>
-        <li><button onclick="openModal()"><span class="ni">➕</span>Add Patient</button></li>
-        <li><button onclick="showTab('rx')"><span class="ni">💊</span>Rx Generator</button></li>
-        <li><button onclick="showTab('followup')"><span class="ni">📲</span>Follow-up Reminders</button></li>
-        <li><button onclick="showTab('report')"><span class="ni">📊</span>Daily Report</button></li>
-        <li><button onclick="showTokenDisplay()"><span class="ni">🖥</span>Queue Display</button></li>
-        <li><button onclick="toast('Settings — coming soon')"><span class="ni">⚙️</span>Settings</button></li>
-        <li><button onclick="openApiSettings()"><span class="ni">🤖</span>AI Settings</button></li>
+        <li class="active"><button onclick="showTab('queue')"><span class="ni"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 16 16"><rect x="3.5" y="2.5" width="9" height="12" rx="1.5"/><path d="M6 2.5V2a2 2 0 0 1 4 0v.5"/><path d="M5.5 7.5h5M5.5 10.5h3.5"/></svg></span>Today's Queue</button></li>
+        <li><button onclick="openModal()"><span class="ni"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 16 16"><circle cx="8" cy="8" r="5.5"/><path d="M8 5.5v5M5.5 8h5"/></svg></span>Add Patient</button></li>
+        <li><button onclick="showTab('rx')"><span class="ni"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 16 16"><path d="M4.5 11.5L11.5 4.5"/><path d="M3 9a3 3 0 0 0 4.24 4.24l1-1M5.76 2.76a3 3 0 0 1 4.24 4.24l-1 1"/></svg></span>Rx Generator</button></li>
+        <li><button onclick="showTab('followup')"><span class="ni"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 16 16"><rect x="2.5" y="3.5" width="11" height="10" rx="1.5"/><path d="M5.5 2v3M10.5 2v3M2.5 7h11"/></svg></span>Follow-up Reminders</button></li>
+        <li><button onclick="showTab('report')"><span class="ni"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 16 16"><path d="M2.5 13h11M4.5 10V7M8 10V5M11.5 10V8.5"/></svg></span>Daily Report</button></li>
+        <li><button onclick="showTokenDisplay()"><span class="ni"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 16 16"><rect x="2" y="3" width="12" height="8.5" rx="1.5"/><path d="M5.5 14h5M8 11.5V14"/></svg></span>Queue Display</button></li>
+        <li><button onclick="toast('Settings — coming soon')"><span class="ni"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 16 16"><circle cx="8" cy="8" r="2.5"/><path d="M8 2.5v1M8 12.5v1M13.5 8h-1M3.5 8h-1M11.8 4.2l-.7.7M5 11l-.7.7M11.8 11.8l-.7-.7M5 5l-.7-.7"/></svg></span>Settings</button></li>
+        <li><button onclick="openApiSettings()"><span class="ni"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 16 16"><path d="M8 2v2.5M8 11.5V14M2 8h2.5M11.5 8H14"/><path d="M4.2 4.2l1.8 1.8M10 10l1.8 1.8M10 4.2L8.2 6M5.8 10.2l-1.8 1.6"/><circle cx="8" cy="8" r="2"/></svg></span>AI Settings</button></li>
       </ul>
       <div class="sbsec">Specialty</div>
       <div class="spectiles">
@@ -916,14 +970,14 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
 
       <!-- FEATURE TABS -->
       <div class="tabs">
-        <button class="tab active" id="tab-queue" onclick="showTab('queue')">📋 Queue & Brief</button>
-        <button class="tab" id="tab-rx" onclick="showTab('rx')">💊 Rx Generator</button>
-        <button class="tab" id="tab-referral" onclick="showTab('referral')">📩 Referral / Cert</button>
-        <button class="tab" id="tab-followup" onclick="showTab('followup')">📲 Follow-up</button>
-        <button class="tab" id="tab-report" onclick="showTab('report')">📊 Daily Report</button>
-        <button class="tab ai-tab" id="tab-aibrief" onclick="showTab('aibrief')" title="AI-powered patient brief from complaint text">🤖 AI Brief</button>
-        <button class="tab ai-tab" id="tab-drugsafe" onclick="showTab('drugsafe')" title="AI drug interaction checker">⚗️ Drug Safety</button>
-        <button class="tab ai-tab" id="tab-voice" onclick="showTab('voice')" title="Speak your findings — AI structures them">🎙️ Voice Notes</button>
+        <button class="tab active" id="tab-queue" onclick="showTab('queue')"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 16 16"><rect x="3.5" y="2.5" width="9" height="12" rx="1.5"/><path d="M6 2.5V2a2 2 0 0 1 4 0v.5"/><path d="M5.5 7.5h5M5.5 10.5h3.5"/></svg>Queue & Brief</button>
+        <button class="tab" id="tab-rx" onclick="showTab('rx')"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 16 16"><path d="M4.5 11.5L11.5 4.5"/><path d="M3 9a3 3 0 0 0 4.24 4.24l1-1M5.76 2.76a3 3 0 0 1 4.24 4.24l-1 1"/></svg>Rx Generator</button>
+        <button class="tab" id="tab-referral" onclick="showTab('referral')"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 16 16"><path d="M9 2H5a1.5 1.5 0 0 0-1.5 1.5v9A1.5 1.5 0 0 0 5 14h6a1.5 1.5 0 0 0 1.5-1.5V6z"/><path d="M9 2v4h3.5"/><path d="M6 9.5h4M6 12h2.5"/></svg>Referral / Cert</button>
+        <button class="tab" id="tab-followup" onclick="showTab('followup')"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 16 16"><rect x="2.5" y="3.5" width="11" height="10" rx="1.5"/><path d="M5.5 2v3M10.5 2v3M2.5 7h11"/></svg>Follow-up</button>
+        <button class="tab" id="tab-report" onclick="showTab('report')"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 16 16"><path d="M2.5 13h11M4.5 10V7M8 10V5M11.5 10V8.5"/></svg>Daily Report</button>
+        <button class="tab ai-tab" id="tab-aibrief" onclick="showTab('aibrief')" title="AI-powered patient brief from complaint text"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 16 16"><path d="M8 2v2.5M8 11.5V14M2 8h2.5M11.5 8H14"/><path d="M4.2 4.2l1.8 1.8M10 10l1.8 1.8M10 4.2L8.2 6M5.8 10.2l-1.8 1.6"/><circle cx="8" cy="8" r="2"/></svg>AI Brief</button>
+        <button class="tab ai-tab" id="tab-drugsafe" onclick="showTab('drugsafe')" title="AI drug interaction checker"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 16 16"><path d="M8 2L3 4.5v4C3 11.5 8 14 8 14s5-2.5 5-5.5v-4z"/><path d="M5.5 8l1.5 2 3.5-3"/></svg>Drug Safety</button>
+        <button class="tab ai-tab" id="tab-voice" onclick="showTab('voice')" title="Speak your findings — AI structures them"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 16 16"><rect x="6" y="2" width="4" height="6" rx="2"/><path d="M4 8a4 4 0 0 0 8 0M8 12v2"/></svg>Voice Notes</button>
       </div>
 
       <!-- ── TAB: QUEUE & BRIEF ── -->
@@ -932,18 +986,18 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
           <!-- QUEUE -->
           <div>
             <div class="panel">
-              <div class="phdr"><span class="ptitle">📋 Today's Queue</span><button class="pact" onclick="openModal()">+ Add</button></div>
+              <div class="phdr"><span class="ptitle">Today's Queue</span><button class="pact" onclick="openModal()">+ Add</button></div>
               <div class="qlist" id="qlist"></div>
             </div>
             <div class="panel">
-              <div class="phdr"><span class="ptitle">🕐 Activity Log</span></div>
+              <div class="phdr"><span class="ptitle">Activity Log</span></div>
               <div class="alog" id="alog"></div>
             </div>
           </div>
           <!-- BRIEF -->
           <div class="panel" id="briefpanel">
             <div class="phdr">
-              <span class="ptitle">🩺 Patient Brief</span>
+              <span class="ptitle">Patient Brief</span>
               <span style="font-size:.72rem;color:var(--tx3)" id="briefname">Select a patient</span>
             </div>
             <div id="briefcontent" style="padding:13px">
@@ -957,7 +1011,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
       <div id="tabcontent-rx" class="content" style="display:none">
         <div class="cgrid">
           <div class="panel" style="margin-bottom:0">
-            <div class="phdr"><span class="ptitle">💊 Prescription Generator</span></div>
+            <div class="phdr"><span class="ptitle">Prescription Generator</span></div>
             <div style="padding:14px">
               <div class="rx-header">
                 <div class="rx-header-name" id="rxDocName">Dr. — SmartBrief AI Clinic</div>
@@ -986,7 +1040,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
                 <div class="rx-drug-row">
                   <div class="rx-drug-num">1</div>
                   <div style="flex:1;display:grid;grid-template-columns:1.5fr 0.8fr 0.8fr;gap:6px">
-                    <input class="finput" type="text" placeholder="Drug name" style="margin:0">
+                    <input class="finput rx-dn" type="text" placeholder="Drug name" style="margin:0" autocomplete="off">
                     <input class="finput" type="text" placeholder="Dose" style="margin:0">
                     <input class="finput" type="text" placeholder="Duration" style="margin:0">
                   </div>
@@ -994,7 +1048,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
                 <div class="rx-drug-row">
                   <div class="rx-drug-num">2</div>
                   <div style="flex:1;display:grid;grid-template-columns:1.5fr 0.8fr 0.8fr;gap:6px">
-                    <input class="finput" type="text" placeholder="Drug name" style="margin:0">
+                    <input class="finput rx-dn" type="text" placeholder="Drug name" style="margin:0" autocomplete="off">
                     <input class="finput" type="text" placeholder="Dose" style="margin:0">
                     <input class="finput" type="text" placeholder="Duration" style="margin:0">
                   </div>
@@ -1009,14 +1063,14 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
                 <label class="flabel">Follow-up</label>
                 <input class="finput" id="rxFollowup" type="text" placeholder="e.g. Review after 3 days">
               </div>
-              <button class="btngen" onclick="generateRx()">⚡ Format Prescription →</button>
-              <button class="btngen" onclick="generateAiRx()" style="margin-top:6px;background:linear-gradient(135deg,#7B1FA2,#1565C0)">🤖 AI Rx Intelligence — Check Doses & Interactions →</button>
+              <button class="btngen" onclick="generateRx()">Format Prescription →</button>
+              <button class="btngen" onclick="generateAiRx()" style="margin-top:6px;background:linear-gradient(135deg,#7B1FA2,#1565C0)"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 16 16" style="flex-shrink:0"><path d="M8 2v2.5M8 11.5V14M2 8h2.5M11.5 8H14"/><path d="M4.2 4.2l1.8 1.8M10 10l1.8 1.8M10 4.2L8.2 6M5.8 10.2l-1.8 1.6"/><circle cx="8" cy="8" r="2"/></svg> AI Rx Intelligence — Check Doses &amp; Interactions →</button>
               <div id="rxAiResult" style="display:none;margin-top:12px;border-radius:10px;border:1.5px solid var(--sp);background:var(--bg);padding:14px 16px;font-size:.82rem;color:var(--tx);line-height:1.8;word-break:break-word;overflow-wrap:break-word"></div>
             </div>
           </div>
           <div>
             <div class="panel" id="rxOutputPanel" style="display:none;margin-bottom:0">
-              <div class="phdr"><span class="ptitle">📄 Prescription Preview</span></div>
+              <div class="phdr"><span class="ptitle">Prescription Preview</span></div>
               <div style="padding:14px">
                 <div id="rxPreview" style="font-size:.82rem;color:var(--tx);line-height:1.8;
                   background:var(--bg);border-radius:9px;padding:16px;border:1px solid var(--bd);
@@ -1043,7 +1097,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
             <!-- AI RX INTELLIGENCE PANEL -->
             <div class="panel" id="aiRxPanel" style="display:none;margin-bottom:0">
               <div class="phdr">
-                <span class="ptitle">🤖 AI Prescription Intelligence</span>
+                <span class="ptitle">AI Prescription Intelligence</span>
                 <span style="font-size:.65rem;background:#E8F0FE;color:#1565C0;padding:2px 7px;border-radius:8px;font-weight:700">LIVE AI</span>
               </div>
               <div style="padding:13px">
@@ -1059,7 +1113,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
         <div class="cgrid">
           <div>
             <div class="panel" style="margin-bottom:16px">
-              <div class="phdr"><span class="ptitle">📩 Referral Letter</span></div>
+              <div class="phdr"><span class="ptitle">Referral Letter</span></div>
               <div style="padding:14px">
                 <div class="frow">
                   <label class="flabel">Patient Name</label>
@@ -1082,12 +1136,12 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
                     <option>Emergency</option>
                   </select>
                 </div>
-                <button class="btngen" onclick="generateReferral()">⚡ Generate Referral Letter →</button>
+                <button class="btngen" onclick="generateReferral()">Generate Referral Letter →</button>
               </div>
             </div>
 
             <div class="panel">
-              <div class="phdr"><span class="ptitle">📋 Medical Certificate</span></div>
+              <div class="phdr"><span class="ptitle">Medical Certificate</span></div>
               <div style="padding:14px">
                 <div class="frow">
                   <label class="flabel">Patient Name</label>
@@ -1106,7 +1160,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
                   <div><label class="flabel">Rest Period</label><input class="finput" id="certDays" type="text" placeholder="3 days" style="margin:0"></div>
                   <div><label class="flabel">Diagnosis (optional)</label><input class="finput" id="certDiag" type="text" placeholder="e.g. Acute tonsillitis" style="margin:0"></div>
                 </div>
-                <button class="btngen" onclick="generateCert()">⚡ Generate Certificate →</button>
+                <button class="btngen" onclick="generateCert()">Generate Certificate →</button>
               </div>
             </div>
           </div>
@@ -1132,7 +1186,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
       <div id="tabcontent-followup" class="content" style="display:none">
         <div class="cgrid">
           <div class="panel" style="margin-bottom:0">
-            <div class="phdr"><span class="ptitle">📲 Schedule Follow-up Reminder</span></div>
+            <div class="phdr"><span class="ptitle">Schedule Follow-up Reminder</span></div>
             <div style="padding:14px">
               <div class="frow">
                 <label class="flabel">Patient Name</label>
@@ -1156,7 +1210,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
                 <label class="flabel">Reminder Message</label>
                 <textarea class="ftextarea" id="fuMsg" placeholder="e.g. Please return for your review appointment. Call 98765 43210 to book."></textarea>
               </div>
-              <button class="btngen" onclick="scheduleReminder()">📲 Schedule WhatsApp Reminder →</button>
+              <button class="btngen" onclick="scheduleReminder()">Schedule WhatsApp Reminder →</button>
               <div style="font-size:.75rem;color:var(--tx3);margin-top:8px;line-height:1.5">
                 In beta: generates a WhatsApp link you can send manually. Auto-send available in paid plan.
               </div>
@@ -1164,7 +1218,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
           </div>
 
           <div class="panel" style="margin-bottom:0">
-            <div class="phdr"><span class="ptitle">⏰ Scheduled Reminders</span><button class="pact" onclick="addDemoReminders()">+ Demo Data</button></div>
+            <div class="phdr"><span class="ptitle">Scheduled Reminders</span><button class="pact" onclick="addDemoReminders()">+ Demo Data</button></div>
             <div class="reminder-list" id="reminderList">
               <div style="padding:28px;text-align:center;font-size:.82rem;color:var(--tx3)">
                 No reminders scheduled yet.<br>Schedule a follow-up to see it here.
@@ -1177,7 +1231,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
       <!-- ── TAB: DAILY REPORT ── -->
       <div id="tabcontent-report" class="content" style="display:none">
         <div class="panel" style="margin-bottom:16px">
-          <div class="phdr"><span class="ptitle">📊 Today's OPD Summary</span><button class="pact" onclick="exportReport()">📄 Export PDF</button></div>
+          <div class="phdr"><span class="ptitle">Today's OPD Summary</span><button class="pact" onclick="exportReport()">📄 Export PDF</button></div>
           <div class="report-grid" id="reportGrid">
             <div class="rstat"><div class="rstat-n" id="rep-tot">3</div><div class="rstat-l">Total Patients</div></div>
             <div class="rstat"><div class="rstat-n" id="rep-done">0</div><div class="rstat-l">Completed</div></div>
@@ -1188,7 +1242,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
           </div>
         </div>
         <div class="panel">
-          <div class="phdr"><span class="ptitle">📋 Patient List — Today</span></div>
+          <div class="phdr"><span class="ptitle">Patient List — Today</span></div>
           <div style="padding:8px;overflow-x:auto">
             <table style="width:100%;border-collapse:collapse;font-size:.81rem">
               <thead>
@@ -1213,12 +1267,12 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
           <div>
             <div class="ai-panel">
               <div class="ai-panel-hdr">
-                <div class="ai-panel-title">🤖 AI Brief Generator <span class="ai-badge">LIVE AI</span></div>
+                <div class="ai-panel-title">AI Brief Generator <span class="ai-badge">LIVE AI</span></div>
                 <span class="ai-status" id="aiBriefStatus">Demo mode</span>
               </div>
               <div class="ai-panel-body">
                 <div class="demo-banner" id="aiBriefBanner">
-                  <span>⚡</span>
+                  <span><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 16 16"><path d="M8 2v2.5M8 11.5V14M2 8h2.5M11.5 8H14"/><path d="M4.2 4.2l1.8 1.8M10 10l1.8 1.8M10 4.2L8.2 6M5.8 10.2l-1.8 1.6"/><circle cx="8" cy="8" r="2"/></svg></span>
                   <div>
                     <strong>Demo mode</strong> — AI responses are simulated. Live AI is active when the proxy is configured.
                   </div>
@@ -1245,7 +1299,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
                   </select>
                 </div>
                 <button class="ai-run-btn" id="abRunBtn" onclick="runAiBrief()">
-                  ⚡ Generate Clinical Brief
+                  Generate Clinical Brief
                 </button>
               </div>
             </div>
@@ -1253,7 +1307,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
           <!-- Output side -->
           <div class="ai-panel">
             <div class="ai-panel-hdr">
-              <div class="ai-panel-title">📋 Generated Brief</div>
+              <div class="ai-panel-title">Generated Brief</div>
               <span class="ai-status" id="abOutStatus" style="display:none">Generating…</span>
             </div>
             <div class="ai-panel-body">
@@ -1282,12 +1336,12 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
           <div>
             <div class="ai-panel">
               <div class="ai-panel-hdr">
-                <div class="ai-panel-title">⚗️ Drug Safety Checker <span class="ai-badge">LIVE AI</span></div>
+                <div class="ai-panel-title">Drug Safety Checker <span class="ai-badge">LIVE AI</span></div>
                 <span class="ai-status" id="drgStatus">Demo mode</span>
               </div>
               <div class="ai-panel-body">
                 <div class="demo-banner" id="drgBanner">
-                  <span>⚗️</span>
+                  <span><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 16 16"><path d="M8 2L3 4.5v4C3 11.5 8 14 8 14s5-2.5 5-5.5v-4z"/><path d="M5.5 8l1.5 2 3.5-3"/></svg></span>
                   <div>
                     <strong>Demo mode</strong> — AI responses are simulated. Live AI is active when the proxy is configured.
                   </div>
@@ -1315,14 +1369,14 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
                   </div>
                 </div>
                 <button class="ai-run-btn" id="drgRunBtn" onclick="runDrugCheck()">
-                  ⚗️ Check Drug Safety
+                  Check Drug Safety
                 </button>
               </div>
             </div>
           </div>
           <div class="ai-panel">
             <div class="ai-panel-hdr">
-              <div class="ai-panel-title">🛡️ Safety Report</div>
+              <div class="ai-panel-title">Safety Report</div>
               <span class="ai-status" id="drgOutStatus" style="display:none">Analysing…</span>
             </div>
             <div class="ai-panel-body">
@@ -1346,12 +1400,12 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
           <div>
             <div class="ai-panel">
               <div class="ai-panel-hdr">
-                <div class="ai-panel-title">🎙️ Voice → Clinical Note <span class="ai-badge">LIVE AI</span></div>
+                <div class="ai-panel-title">Voice → Clinical Note <span class="ai-badge">LIVE AI</span></div>
                 <span class="ai-status" id="vcStatus">Ready</span>
               </div>
               <div class="ai-panel-body">
                 <div class="demo-banner" id="vcBanner">
-                  <span>🎙️</span>
+                  <span><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 16 16"><rect x="6" y="2" width="4" height="6" rx="2"/><path d="M4 8a4 4 0 0 0 8 0M8 12v2"/></svg></span>
                   <div>
                     <strong>Demo mode</strong> — AI responses are simulated. Live AI is active when the proxy is configured.
                   </div>
@@ -1362,7 +1416,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
                   <div class="vstep" id="vstep3"><div class="vstep-n">3</div><div class="vstep-l">Review & use</div></div>
                 </div>
                 <button class="voice-big-btn" id="voiceStartBtn" onclick="toggleVoice()">
-                  <span style="font-size:1.6rem">🎙️</span>
+                  <span><svg width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 16 16"><rect x="6" y="2" width="4" height="6" rx="2"/><path d="M4 8a4 4 0 0 0 8 0M8 12v2"/></svg></span>
                   <span id="voiceBtnLabel">Tap to start speaking</span>
                 </button>
                 <div class="voice-live-text" id="vcTranscript">Listening… speak your findings now</div>
@@ -1382,14 +1436,14 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
                   </select>
                 </div>
                 <button class="ai-run-btn" id="vcRunBtn" onclick="runVoiceNote()">
-                  ✨ Structure into Clinical Note
+                  Structure into Clinical Note
                 </button>
               </div>
             </div>
           </div>
           <div class="ai-panel">
             <div class="ai-panel-hdr">
-              <div class="ai-panel-title">📝 Structured Note</div>
+              <div class="ai-panel-title">Structured Note</div>
               <span class="ai-status" id="vcOutStatus" style="display:none">Writing…</span>
             </div>
             <div class="ai-panel-body">
@@ -1425,10 +1479,10 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
 
   <!-- MOBILE NAV -->
   <nav class="mnav">
-    <button class="mnavbtn a" onclick="showTab('queue');mnavA(this)"><span class="mnavbtn-i">📋</span>Queue</button>
-    <button class="mnavbtn" onclick="openModal()"><span class="mnavbtn-i">➕</span>Add</button>
-    <button class="mnavbtn" onclick="showTab('rx');mnavA(this)"><span class="mnavbtn-i">💊</span>Rx</button>
-    <button class="mnavbtn" onclick="showTab('report');mnavA(this)"><span class="mnavbtn-i">📊</span>Report</button>
+    <button class="mnavbtn a" onclick="showTab('queue');mnavA(this)"><span class="mnavbtn-i"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 16 16"><rect x="3.5" y="2.5" width="9" height="12" rx="1.5"/><path d="M6 2.5V2a2 2 0 0 1 4 0v.5"/><path d="M5.5 7.5h5M5.5 10.5h3.5"/></svg></span>Queue</button>
+    <button class="mnavbtn" onclick="openModal()"><span class="mnavbtn-i"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 16 16"><circle cx="8" cy="8" r="5.5"/><path d="M8 5.5v5M5.5 8h5"/></svg></span>Add</button>
+    <button class="mnavbtn" onclick="showTab('rx');mnavA(this)"><span class="mnavbtn-i"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 16 16"><path d="M4.5 11.5L11.5 4.5"/><path d="M3 9a3 3 0 0 0 4.24 4.24l1-1M5.76 2.76a3 3 0 0 1 4.24 4.24l-1 1"/></svg></span>Rx</button>
+    <button class="mnavbtn" onclick="showTab('report');mnavA(this)"><span class="mnavbtn-i"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 16 16"><path d="M2.5 13h11M4.5 10V7M8 10V5M11.5 10V8.5"/></svg></span>Report</button>
   </nav>
 </div>
 
@@ -1509,7 +1563,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
         <div style="margin-top:9px" id="aigenMsg">SmartBrief AI is generating the brief…</div>
       </div>
 
-      <button class="btngenbig" id="genbtn" onclick="generateBrief()">⚡ Generate AI Brief →</button>
+      <button class="btngenbig" id="genbtn" onclick="generateBrief()">Generate AI Brief →</button>
       <button class="btngenbig" id="addbtn" onclick="addToQueue()" style="display:none;background:var(--sp)">✓ Add to Queue →</button>
     </div>
   </div>
@@ -1853,7 +1907,7 @@ function addRxDrug(){
   const row=document.createElement('div');row.className='rx-drug-row';
   row.innerHTML=`<div class="rx-drug-num">${rxDrugCount}</div>
     <div style="flex:1;display:grid;grid-template-columns:1.5fr 0.8fr 0.8fr;gap:6px">
-      <input class="finput" type="text" placeholder="Drug name" style="margin:0">
+      <input class="finput rx-dn" type="text" placeholder="Drug name" style="margin:0" autocomplete="off">
       <input class="finput" type="text" placeholder="Dose" style="margin:0">
       <input class="finput" type="text" placeholder="Duration" style="margin:0">
     </div>`;
@@ -2144,6 +2198,8 @@ function hideTokenDisplay(){
 // ══ TABS ══════════════════════════════════════════════════════════
 const TAB_IDS=['queue','rx','referral','followup','report','aibrief','drugsafe','voice'];
 function showTab(t){
+  const mainEl=document.querySelector('.main');
+  if(mainEl)mainEl.scrollTop=0;
   TAB_IDS.forEach(id=>{
     const c=document.getElementById('tabcontent-'+id);
     const b=document.getElementById('tab-'+id);
@@ -2453,7 +2509,7 @@ Keep it clinical and concise. India-relevant.`;
     flag=>{
       if(flag==='__DEMO__'){
         streamIntoEl(outEl, DEMO_BRIEFS[spec]||DEMO_BRIEFS.gen, ()=>{
-          btn.disabled=false; btn.textContent='⚡ Generate Clinical Brief';
+          btn.disabled=false; btn.textContent='Generate Clinical Brief';
           actions.style.display='flex'; status.style.display='none';
           lastAiBrief=DEMO_BRIEFS[spec]||DEMO_BRIEFS.gen;
           logActivity('AI Brief (demo) — '+(name||'Patient')); toast('Brief ready ✓');
@@ -2461,13 +2517,13 @@ Keep it clinical and concise. India-relevant.`;
       } else {
         outEl.classList.remove('streaming');
         lastAiBrief=outEl.textContent;
-        btn.disabled=false; btn.textContent='⚡ Generate Clinical Brief';
+        btn.disabled=false; btn.textContent='Generate Clinical Brief';
         actions.style.display='flex'; status.style.display='none';
         logActivity('AI Brief — '+(name||'Patient')); toast('Brief ready ✓');
       }
     },
     err=>{
-      btn.disabled=false; btn.textContent='⚡ Generate Clinical Brief';
+      btn.disabled=false; btn.textContent='Generate Clinical Brief';
       status.style.display='none'; outEl.classList.add('show');
       outEl.textContent='❌ Error: '+err+'\n\nCheck HF token or try demo mode.';
       toast('Error: '+err.slice(0,40));
@@ -2751,6 +2807,213 @@ initTheme();
     });
   } catch(e){}
 
+})();
+</script>
+
+<!-- ── DRUG AUTOCOMPLETE DROPDOWN ─────────────────────────────── -->
+<div id="rxAcDropdown" class="rx-ac-dropdown"></div>
+
+<script>
+(function(){
+  /* ── DRUG LIST (82 drugs, 10 categories) ───────────────────── */
+  const DRUG_LIST=[
+    // Antibiotics
+    {name:'Amoxicillin',generic:'amoxicillin',category:'Antibiotic'},
+    {name:'Amoxicillin-Clavulanate',generic:'co-amoxiclav',category:'Antibiotic'},
+    {name:'Azithromycin',generic:'azithromycin',category:'Antibiotic'},
+    {name:'Cefixime',generic:'cefixime',category:'Antibiotic'},
+    {name:'Cefpodoxime',generic:'cefpodoxime',category:'Antibiotic'},
+    {name:'Ciprofloxacin',generic:'ciprofloxacin',category:'Antibiotic'},
+    {name:'Doxycycline',generic:'doxycycline',category:'Antibiotic'},
+    {name:'Metronidazole',generic:'metronidazole',category:'Antibiotic'},
+    {name:'Norfloxacin',generic:'norfloxacin',category:'Antibiotic'},
+    {name:'Tinidazole',generic:'tinidazole',category:'Antibiotic'},
+    // Analgesics / Antipyretics
+    {name:'Paracetamol',generic:'acetaminophen',category:'Analgesic'},
+    {name:'Ibuprofen',generic:'ibuprofen',category:'Analgesic'},
+    {name:'Diclofenac',generic:'diclofenac sodium',category:'Analgesic'},
+    {name:'Naproxen',generic:'naproxen',category:'Analgesic'},
+    {name:'Aspirin',generic:'acetylsalicylic acid',category:'Analgesic'},
+    {name:'Tramadol',generic:'tramadol hydrochloride',category:'Analgesic'},
+    {name:'Aceclofenac',generic:'aceclofenac',category:'Analgesic'},
+    {name:'Mefenamic Acid',generic:'mefenamic acid',category:'Analgesic'},
+    // Antihypertensives
+    {name:'Amlodipine',generic:'amlodipine besylate',category:'Antihypertensive'},
+    {name:'Atenolol',generic:'atenolol',category:'Antihypertensive'},
+    {name:'Enalapril',generic:'enalapril maleate',category:'Antihypertensive'},
+    {name:'Losartan',generic:'losartan potassium',category:'Antihypertensive'},
+    {name:'Telmisartan',generic:'telmisartan',category:'Antihypertensive'},
+    {name:'Ramipril',generic:'ramipril',category:'Antihypertensive'},
+    {name:'Metoprolol',generic:'metoprolol succinate',category:'Antihypertensive'},
+    {name:'Nifedipine',generic:'nifedipine',category:'Antihypertensive'},
+    // Antidiabetics
+    {name:'Metformin',generic:'metformin hydrochloride',category:'Antidiabetic'},
+    {name:'Glibenclamide',generic:'glyburide',category:'Antidiabetic'},
+    {name:'Glimepiride',generic:'glimepiride',category:'Antidiabetic'},
+    {name:'Sitagliptin',generic:'sitagliptin phosphate',category:'Antidiabetic'},
+    {name:'Vildagliptin',generic:'vildagliptin',category:'Antidiabetic'},
+    {name:'Empagliflozin',generic:'empagliflozin',category:'Antidiabetic'},
+    {name:'Dapagliflozin',generic:'dapagliflozin',category:'Antidiabetic'},
+    // Gastrointestinal
+    {name:'Omeprazole',generic:'omeprazole',category:'GI'},
+    {name:'Pantoprazole',generic:'pantoprazole sodium',category:'GI'},
+    {name:'Rabeprazole',generic:'rabeprazole sodium',category:'GI'},
+    {name:'Ranitidine',generic:'ranitidine hydrochloride',category:'GI'},
+    {name:'Domperidone',generic:'domperidone',category:'GI'},
+    {name:'Ondansetron',generic:'ondansetron hydrochloride',category:'GI'},
+    {name:'Dicyclomine',generic:'dicycloverine',category:'GI'},
+    {name:'Loperamide',generic:'loperamide hydrochloride',category:'GI'},
+    {name:'Lactulose',generic:'lactulose',category:'GI'},
+    // Respiratory
+    {name:'Salbutamol',generic:'albuterol',category:'Respiratory'},
+    {name:'Montelukast',generic:'montelukast sodium',category:'Respiratory'},
+    {name:'Cetirizine',generic:'cetirizine hydrochloride',category:'Respiratory'},
+    {name:'Levocetrizine',generic:'levocetirizine dihydrochloride',category:'Respiratory'},
+    {name:'Fexofenadine',generic:'fexofenadine hydrochloride',category:'Respiratory'},
+    {name:'Budesonide',generic:'budesonide',category:'Respiratory'},
+    {name:'Fluticasone',generic:'fluticasone propionate',category:'Respiratory'},
+    {name:'Chlorpheniramine',generic:'chlorphenamine maleate',category:'Respiratory'},
+    // Vitamins & Supplements
+    {name:'Vitamin C',generic:'ascorbic acid',category:'Supplement'},
+    {name:'Vitamin D3',generic:'cholecalciferol',category:'Supplement'},
+    {name:'Vitamin B12',generic:'cyanocobalamin',category:'Supplement'},
+    {name:'Folic Acid',generic:'folate',category:'Supplement'},
+    {name:'Ferrous Sulphate',generic:'iron(II) sulfate',category:'Supplement'},
+    {name:'Calcium Carbonate',generic:'calcium carbonate',category:'Supplement'},
+    {name:'Zinc Sulphate',generic:'zinc sulfate',category:'Supplement'},
+    {name:'Multivitamin',generic:'multivitamin complex',category:'Supplement'},
+    // Steroids / Anti-inflammatory
+    {name:'Prednisolone',generic:'prednisolone',category:'Steroid'},
+    {name:'Dexamethasone',generic:'dexamethasone',category:'Steroid'},
+    {name:'Hydrocortisone',generic:'hydrocortisone',category:'Steroid'},
+    {name:'Betamethasone',generic:'betamethasone valerate',category:'Steroid'},
+    {name:'Methylprednisolone',generic:'methylprednisolone',category:'Steroid'},
+    // Cardiovascular
+    {name:'Atorvastatin',generic:'atorvastatin calcium',category:'Cardiovascular'},
+    {name:'Rosuvastatin',generic:'rosuvastatin calcium',category:'Cardiovascular'},
+    {name:'Clopidogrel',generic:'clopidogrel bisulfate',category:'Cardiovascular'},
+    {name:'Digoxin',generic:'digoxin',category:'Cardiovascular'},
+    {name:'Furosemide',generic:'furosemide',category:'Cardiovascular'},
+    {name:'Spironolactone',generic:'spironolactone',category:'Cardiovascular'},
+    {name:'Isosorbide Mononitrate',generic:'isosorbide mononitrate',category:'Cardiovascular'},
+    {name:'Warfarin',generic:'warfarin sodium',category:'Cardiovascular'},
+    // Neurological / Psychiatric
+    {name:'Alprazolam',generic:'alprazolam',category:'Neurological'},
+    {name:'Clonazepam',generic:'clonazepam',category:'Neurological'},
+    {name:'Amitriptyline',generic:'amitriptyline hydrochloride',category:'Neurological'},
+    {name:'Sertraline',generic:'sertraline hydrochloride',category:'Neurological'},
+    {name:'Escitalopram',generic:'escitalopram oxalate',category:'Neurological'},
+    {name:'Gabapentin',generic:'gabapentin',category:'Neurological'},
+    {name:'Pregabalin',generic:'pregabalin',category:'Neurological'},
+    {name:'Phenytoin',generic:'phenytoin sodium',category:'Neurological'},
+    {name:'Levodopa',generic:'levodopa / carbidopa',category:'Neurological'},
+    {name:'Zolpidem',generic:'zolpidem tartrate',category:'Neurological'}
+  ];
+
+  /* ── MODULE VARS ─────────────────────────────────────────────── */
+  const drop=document.getElementById('rxAcDropdown');
+  let activeInput=null,activeIdx=-1,filtered=[];
+
+  /* ── HELPERS ─────────────────────────────────────────────────── */
+  function pos(){
+    if(!activeInput)return;
+    const r=activeInput.getBoundingClientRect();
+    drop.style.left=r.left+'px';
+    drop.style.top=(r.bottom+2)+'px';
+    drop.style.width=r.width+'px';
+  }
+
+  function hide(){
+    drop.style.display='none';
+    activeIdx=-1;
+  }
+
+  function show(items){
+    filtered=items;
+    drop.innerHTML='';
+    items.forEach(function(d,i){
+      const el=document.createElement('div');
+      el.className='rx-ac-item';
+      el.innerHTML='<span class="rx-ac-name">'+d.name+'</span>'
+        +'<span class="rx-ac-generic">'+d.generic+'</span>'
+        +'<span class="rx-ac-cat">'+d.category+'</span>';
+      el.addEventListener('mousedown',function(e){
+        e.preventDefault();
+        select(d.name);
+      });
+      drop.appendChild(el);
+    });
+    pos();
+    drop.style.display='block';
+    activeIdx=-1;
+  }
+
+  function highlight(idx){
+    const items=drop.querySelectorAll('.rx-ac-item');
+    items.forEach(function(el,i){
+      el.classList.toggle('rac-active',i===idx);
+    });
+    if(items[idx])items[idx].scrollIntoView({block:'nearest'});
+  }
+
+  function select(name){
+    if(activeInput)activeInput.value=name;
+    hide();
+    if(activeInput)activeInput.focus();
+  }
+
+  /* ── INPUT HANDLER (delegated on #rxDrugs) ───────────────────── */
+  const container=document.getElementById('rxDrugs');
+  if(container){
+    container.addEventListener('keyup',function(e){
+      const inp=e.target;
+      if(!inp.classList.contains('rx-dn'))return;
+      const val=inp.value.trim().toLowerCase();
+      if(val.length<2){hide();return;}
+      activeInput=inp;
+      const res=DRUG_LIST.filter(function(d){
+        return d.name.toLowerCase().startsWith(val)||d.generic.toLowerCase().startsWith(val);
+      }).slice(0,6);
+      if(res.length)show(res);else hide();
+    });
+
+    container.addEventListener('keydown',function(e){
+      if(drop.style.display==='none')return;
+      if(e.key==='ArrowDown'){
+        e.preventDefault();
+        activeIdx=Math.min(activeIdx+1,filtered.length-1);
+        highlight(activeIdx);
+      } else if(e.key==='ArrowUp'){
+        e.preventDefault();
+        activeIdx=Math.max(activeIdx-1,0);
+        highlight(activeIdx);
+      } else if(e.key==='Enter'){
+        if(activeIdx>=0&&filtered[activeIdx]){
+          e.preventDefault();
+          select(filtered[activeIdx].name);
+        }
+      } else if(e.key==='Escape'){
+        hide();
+      }
+    });
+
+    container.addEventListener('focusin',function(e){
+      if(e.target.classList.contains('rx-dn'))activeInput=e.target;
+    });
+
+    container.addEventListener('focusout',function(e){
+      if(e.target.classList.contains('rx-dn'))setTimeout(hide,150);
+    });
+  }
+
+  /* ── REPOSITION ON SCROLL / RESIZE ──────────────────────────── */
+  window.addEventListener('scroll',pos,true);
+  window.addEventListener('resize',pos);
+
+  /* ── OUTSIDE CLICK ───────────────────────────────────────────── */
+  document.addEventListener('mousedown',function(e){
+    if(!drop.contains(e.target)&&e.target!==activeInput)hide();
+  });
 })();
 </script>
 </body>

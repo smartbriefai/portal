@@ -275,28 +275,66 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
 .stat-card{transition:all .2s ease}
 .stat-card:hover{box-shadow:0 8px 32px rgba(15,31,61,.1);transform:translateY(-2px)}
 
-/* ── FLOATING BACKGROUND ORBS ───────────────────────────────── */
-.bg-orb{position:fixed;border-radius:50%;filter:blur(80px);pointer-events:none;z-index:-1;will-change:transform}
-.bg-orb-1{width:600px;height:600px;background:rgba(0,137,123,0.12);top:5%;left:-5%;animation:float-orb-1 24s ease-in-out infinite alternate;animation-delay:0s}
-.bg-orb-2{width:520px;height:520px;background:rgba(15,31,61,0.15);top:30%;right:-5%;animation:float-orb-2 28s ease-in-out infinite alternate;animation-delay:-5s}
-.bg-orb-3{width:650px;height:650px;background:rgba(0,137,123,0.07);top:55%;left:15%;animation:float-orb-3 22s ease-in-out infinite alternate;animation-delay:-10s}
-.bg-orb-4{width:520px;height:520px;background:rgba(38,198,176,0.09);bottom:2%;left:0%;animation:float-orb-4 26s ease-in-out infinite alternate;animation-delay:-15s}
-.bg-orb-5{width:500px;height:500px;background:rgba(15,31,61,0.10);bottom:20%;right:0%;animation:float-orb-5 30s ease-in-out infinite alternate;animation-delay:-20s}
-@keyframes float-orb-1{0%{transform:translate(0,0)}100%{transform:translate(40px,-50px)}}
-@keyframes float-orb-2{0%{transform:translate(0,0)}100%{transform:translate(-40px,40px)}}
-@keyframes float-orb-3{0%{transform:translate(0,0)}100%{transform:translate(35px,-45px)}}
-@keyframes float-orb-4{0%{transform:translate(0,0)}100%{transform:translate(45px,-40px)}}
-@keyframes float-orb-5{0%{transform:translate(0,0)}100%{transform:translate(-35px,50px)}}
-@media(prefers-reduced-motion:reduce){.bg-orb{animation:none}}
+/* ── MEDICAL ANIMATED BACKGROUND ────────────────────────────── */
+/* Layer 3: Gradient pulse (deepest) */
+.med-pulse{position:fixed;top:-50%;left:-50%;width:200%;height:200%;z-index:-2;
+  pointer-events:none;
+  background:radial-gradient(ellipse at 60% 40%,rgba(0,137,123,0.06) 0%,transparent 60%),
+             radial-gradient(ellipse at 30% 70%,rgba(15,31,61,0.08) 0%,transparent 50%);
+  animation:med-pulse-anim 12s ease-in-out infinite;will-change:transform}
+@keyframes med-pulse-anim{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+
+/* Layer 1: ECG heartbeat line */
+.ecg-wrap{position:fixed;bottom:15%;left:0;width:200%;height:70px;
+  pointer-events:none;z-index:-1;
+  animation:ecg-scroll 6s linear infinite;will-change:transform;overflow:hidden}
+.ecg-svg{width:100%;height:100%;display:block;overflow:visible}
+.ecg-path{stroke:rgba(0,137,123,0.25);stroke-width:1.5px;fill:none}
+@keyframes ecg-scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* Layer 2: Floating medical particles */
+.med-p{position:fixed;pointer-events:none;z-index:-1;will-change:transform}
+@keyframes med-float-a{0%{transform:translate(0,0) rotate(0deg)}100%{transform:translate(var(--px),var(--py)) rotate(180deg)}}
+/* Cross (medical plus) shape */
+.med-p.cross{width:14px;height:14px}
+.med-p.cross::before,.med-p.cross::after{content:'';position:absolute;background:rgba(0,137,123,0.13);border-radius:1px}
+.med-p.cross::before{width:14px;height:4px;top:5px;left:0}
+.med-p.cross::after{width:4px;height:14px;top:0;left:5px}
+/* Circle particle */
+.med-p.dot{width:6px;height:6px;border-radius:50%;background:rgba(15,31,61,0.11)}
+/* Diamond particle */
+.med-p.diam{width:8px;height:8px;background:rgba(0,137,123,0.1);transform:rotate(45deg)}
+@media(prefers-reduced-motion:reduce){.ecg-wrap,.med-p,.med-pulse{animation:none!important}}
 </style>
 </head>
 <body>
-<!-- FLOATING BACKGROUND ORBS -->
-<div class="bg-orb bg-orb-1" aria-hidden="true"></div>
-<div class="bg-orb bg-orb-2" aria-hidden="true"></div>
-<div class="bg-orb bg-orb-3" aria-hidden="true"></div>
-<div class="bg-orb bg-orb-4" aria-hidden="true"></div>
-<div class="bg-orb bg-orb-5" aria-hidden="true"></div>
+<!-- MEDICAL ANIMATED BACKGROUND -->
+<!-- Layer 3: gradient pulse -->
+<div class="med-pulse" aria-hidden="true"></div>
+<!-- Layer 1: ECG heartbeat line — two identical halves for seamless loop -->
+<div class="ecg-wrap" aria-hidden="true">
+  <svg class="ecg-svg" viewBox="0 0 2400 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path class="ecg-path" d="
+      M0,30 L180,30 L190,27 L200,30 L230,30 L234,28 L242,4 L247,52 L255,28 L260,30 L290,30 L300,22 L310,30 L600,30
+      L780,30 L790,27 L800,30 L830,30 L834,28 L842,4 L847,52 L855,28 L860,30 L890,30 L900,22 L910,30 L1200,30
+      L1380,30 L1390,27 L1400,30 L1430,30 L1434,28 L1442,4 L1447,52 L1455,28 L1460,30 L1490,30 L1500,22 L1510,30 L1800,30
+      L1980,30 L1990,27 L2000,30 L2030,30 L2034,28 L2042,4 L2047,52 L2055,28 L2060,30 L2090,30 L2100,22 L2110,30 L2400,30
+    "/>
+  </svg>
+</div>
+<!-- Layer 2: floating medical particles -->
+<div class="med-p cross" style="top:18%;left:4%;animation:med-float-a 18s ease-in-out infinite alternate;--px:22px;--py:-32px" aria-hidden="true"></div>
+<div class="med-p dot"   style="top:34%;left:13%;animation:med-float-a 23s ease-in-out infinite alternate;animation-delay:-5s;--px:-18px;--py:28px" aria-hidden="true"></div>
+<div class="med-p diam"  style="top:62%;left:22%;animation:med-float-a 16s ease-in-out infinite alternate;animation-delay:-8s;--px:28px;--py:-22px" aria-hidden="true"></div>
+<div class="med-p cross" style="top:12%;left:38%;animation:med-float-a 21s ease-in-out infinite alternate;animation-delay:-3s;--px:-24px;--py:18px;opacity:.55" aria-hidden="true"></div>
+<div class="med-p dot"   style="top:72%;left:48%;animation:med-float-a 25s ease-in-out infinite alternate;animation-delay:-12s;--px:32px;--py:-38px" aria-hidden="true"></div>
+<div class="med-p diam"  style="top:28%;left:58%;animation:med-float-a 19s ease-in-out infinite alternate;animation-delay:-7s;--px:-28px;--py:24px" aria-hidden="true"></div>
+<div class="med-p cross" style="top:55%;left:70%;animation:med-float-a 22s ease-in-out infinite alternate;animation-delay:-15s;--px:20px;--py:30px;opacity:.5" aria-hidden="true"></div>
+<div class="med-p dot"   style="top:8%;left:78%;animation:med-float-a 20s ease-in-out infinite alternate;animation-delay:-9s;--px:-14px;--py:-28px" aria-hidden="true"></div>
+<div class="med-p diam"  style="top:44%;left:86%;animation:med-float-a 24s ease-in-out infinite alternate;animation-delay:-11s;--px:22px;--py:18px" aria-hidden="true"></div>
+<div class="med-p cross" style="top:80%;left:91%;animation:med-float-a 17s ease-in-out infinite alternate;animation-delay:-4s;--px:-18px;--py:-14px;opacity:.5" aria-hidden="true"></div>
+<div class="med-p dot"   style="top:22%;left:96%;animation:med-float-a 26s ease-in-out infinite alternate;animation-delay:-18s;--px:10px;--py:36px" aria-hidden="true"></div>
+<div class="med-p diam"  style="top:65%;left:2%;animation:med-float-a 20s ease-in-out infinite alternate;animation-delay:-6s;--px:18px;--py:-18px" aria-hidden="true"></div>
 
 <!-- NAV -->
 <nav>
