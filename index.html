@@ -94,8 +94,10 @@ h1,h2,h3,h4,h5{
 #hero{
   min-height:100vh;
   padding:130px 48px 80px;
-  position:relative;overflow:hidden;
+  position:relative;
+  overflow:hidden;
   display:flex;align-items:flex-start;justify-content:center;
+  clip-path:inset(0);
 }
 #hero-canvas{
   position:absolute;inset:0;
@@ -333,6 +335,8 @@ h1,h2,h3,h4,h5{
   border-left:3px solid var(--teal);padding-left:14px;
 }
 .pquote-by{font-size:12px;color:var(--text3);margin-top:5px;font-style:normal}
+.pstat-n{transition:color 0.3s}
+.pstat-n.lit{color:var(--teal)}
 
 /* FEATURES */
 #features{padding:88px 48px;max-width:1120px;margin:0 auto}
@@ -646,11 +650,20 @@ input[type=range]#slider::-webkit-slider-thumb{
 
 <section id="proof">
   <div class="proof-inner">
-    <div class="pstat"><div class="pstat-n">4.2 min</div><div class="pstat-l">Saved per consultation</div></div>
+    <div class="pstat">
+      <div class="pstat-n" id="cnt-time">0</div>
+      <div class="pstat-l">Minutes saved per consultation</div>
+    </div>
     <div class="pdiv"></div>
-    <div class="pstat"><div class="pstat-n">82+</div><div class="pstat-l">India-market drugs checked</div></div>
+    <div class="pstat">
+      <div class="pstat-n" id="cnt-drugs">0</div>
+      <div class="pstat-l">India-market drugs checked</div>
+    </div>
     <div class="pdiv"></div>
-    <div class="pstat"><div class="pstat-n">4</div><div class="pstat-l">Specialties supported</div></div>
+    <div class="pstat">
+      <div class="pstat-n" id="cnt-specs">0</div>
+      <div class="pstat-l">Specialties supported</div>
+    </div>
     <div class="pdiv"></div>
     <div class="pquote">"The brief was ready before I sat down. Drug flags caught something I would have missed."<div class="pquote-by">- Dental surgeon, Chennai</div></div>
   </div>
@@ -908,6 +921,42 @@ function updateROI(){
 slider.addEventListener('input',updateROI);
 updateROI();
 
+function animateCounter(id,target,duration,suffix,decimal){
+  var el=document.getElementById(id);
+  if(!el)return;
+  var start=0,step=target/((duration/16));
+  var current=0;
+  el.classList.add('lit');
+  var timer=setInterval(function(){
+    current+=step;
+    if(current>=target){
+      current=target;
+      clearInterval(timer);
+      setTimeout(function(){el.classList.remove('lit')},400);
+    }
+    if(decimal){
+      el.textContent=current.toFixed(1)+(suffix||'');
+    } else {
+      el.textContent=Math.round(current)+(suffix||'');
+    }
+  },16);
+}
+
+var proofAnimated=false;
+function checkProof(){
+  if(proofAnimated)return;
+  var el=document.getElementById('proof');
+  if(!el)return;
+  if(el.getBoundingClientRect().top<window.innerHeight-80){
+    proofAnimated=true;
+    animateCounter('cnt-time',4.2,1200,'',true);
+    setTimeout(function(){animateCounter('cnt-drugs',82,1400,'+',false)},200);
+    setTimeout(function(){animateCounter('cnt-specs',4,800,'',false)},400);
+  }
+}
+window.addEventListener('scroll',checkProof);
+window.addEventListener('load',function(){setTimeout(checkProof,500)});
+
 window.addEventListener('scroll',function(){
   document.getElementById('nav').classList.toggle('solid',window.scrollY>40);
   document.querySelectorAll('.rev').forEach(function(el){
@@ -931,7 +980,7 @@ window.addEventListener('load',function(){
   function resize(){
     W=c.width=c.offsetWidth;
     H=c.height=c.offsetHeight;
-    ecgY=H*0.72;
+    ecgY=Math.min(H*0.68,H-60);
     COUNT=Math.floor((W*H)/14000);
     COUNT=Math.max(40,Math.min(COUNT,120));
     pts=[];
