@@ -7,6 +7,9 @@
 <link rel="preconnect" href="https://fonts.bunny.net">
 <link href="https://fonts.bunny.net/css?family=syne:400,500,600,700,800|dm-sans:300,400,500,600" rel="stylesheet">
 <style>
+@font-face{font-family:'Syne';src:local('Syne');font-display:swap}
+</style>
+<style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
 --navy:#0F1F3D;--navy-deep:#08132A;--teal:#00897B;--teal-mid:#00796B;
@@ -20,10 +23,11 @@
 --radius-sm:8px;--radius-md:12px;--radius-lg:16px;
 }
 html{scroll-behavior:smooth}
-body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text1);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body{background:var(--bg);font-family:'DM Sans','ui-sans-serif','-apple-system','BlinkMacSystemFont','Roboto','Segoe UI',sans-serif;color:var(--text1);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4,.nav-logo,.hero-title,.section-title,.feature-title,.hiw-title,.roi-title,.cta-title,.footer-logo,.stat-num,.roi-num,.proof-num,.pt-name,.dash-logo{font-family:'Syne','Google Sans Display','Google Sans','Product Sans','Roboto','Segoe UI',sans-serif !important;font-weight:800 !important}
 #main-nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:0 48px;height:64px;display:flex;align-items:center;justify-content:space-between;transition:background 0.3s,box-shadow 0.3s}
 #main-nav.scrolled{background:rgba(250,251,255,0.95);backdrop-filter:blur(12px);box-shadow:0 1px 0 var(--gray2)}
-.nav-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:20px;color:var(--navy);letter-spacing:-0.5px;text-decoration:none}
+.nav-logo{font-family:'Syne','Google Sans Display','Google Sans','Product Sans','Roboto','Segoe UI',sans-serif;font-weight:800;font-size:20px;color:var(--navy);letter-spacing:-0.5px;text-decoration:none}
 .nav-logo span{color:var(--teal)}
 .nav-links{display:flex;gap:32px;list-style:none}
 .nav-links a{font-size:14px;color:var(--text2);text-decoration:none;font-weight:500;transition:color 0.2s}
@@ -37,11 +41,11 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text1);ov
 .hero-grid{position:absolute;inset:0;background-image:linear-gradient(var(--gray2) 1px,transparent 1px),linear-gradient(90deg,var(--gray2) 1px,transparent 1px);background-size:48px 48px;opacity:0.7}
 .hero-glow{position:absolute;top:-120px;left:50%;transform:translateX(-50%);width:900px;height:600px;background:radial-gradient(ellipse at center,var(--teal-glow) 0%,transparent 70%)}
 .ecg-wrap{position:absolute;bottom:0;left:0;right:0;height:60px;pointer-events:none;opacity:0.15}
-.ecg-line{stroke:var(--teal);stroke-width:1.5;fill:none;stroke-dasharray:1200;stroke-dashoffset:1200;animation:ecgDraw 3s ease 1.5s forwards}
+.ecg-line{stroke:var(--teal);stroke-width:1.5;fill:none;stroke-dasharray:2000;stroke-dashoffset:2000;animation:ecgDraw 4s ease 0.8s forwards}
 .hero-inner{position:relative;z-index:1;max-width:1100px;width:100%;margin:0 auto;text-align:center}
 .hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--gray2);color:var(--text2);font-size:12px;font-weight:500;padding:6px 14px;border-radius:20px;margin-bottom:32px;box-shadow:var(--shadow-sm);opacity:0;transform:translateY(12px);animation:fadeUp 0.6s ease 0.1s forwards}
 .pulse{width:7px;height:7px;border-radius:50%;background:var(--teal);display:inline-block;animation:pulseAnim 2s infinite}
-.hero-title{font-family:'Syne',sans-serif;font-size:clamp(36px,5.5vw,64px);font-weight:800;line-height:1.08;letter-spacing:-1.5px;color:var(--navy);margin-bottom:24px;opacity:0;transform:translateY(16px);animation:fadeUp 0.7s ease 0.2s forwards}
+.hero-title{font-family:'Syne','Google Sans Display','Google Sans','Product Sans','Roboto','Segoe UI',sans-serif;font-size:clamp(36px,5.5vw,64px);font-weight:800 !important;line-height:1.08;letter-spacing:-1.5px;color:var(--navy);margin-bottom:24px;opacity:0;transform:translateY(16px);animation:fadeUp 0.7s ease 0.2s forwards}
 .accent{color:var(--teal);position:relative;display:inline-block}
 .accent::after{content:'';position:absolute;left:0;bottom:-4px;width:100%;height:3px;background:var(--teal);border-radius:2px;transform:scaleX(0);animation:underlineIn 0.5s ease 0.9s forwards}
 .hero-sub{font-size:clamp(15px,1.8vw,18px);color:var(--text2);max-width:540px;margin:0 auto 40px;line-height:1.75;opacity:0;transform:translateY(16px);animation:fadeUp 0.7s ease 0.35s forwards}
@@ -57,10 +61,11 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text1);ov
 .specialty-toggle{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
 .sp-btn{padding:8px 18px;border-radius:20px;font-size:13px;font-weight:600;border:1.5px solid var(--gray3);background:var(--surface);color:var(--text2);cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif;box-shadow:var(--shadow-sm)}
 .sp-btn:hover{border-color:var(--teal);color:var(--teal)}
-@keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
-@keyframes pulseAnim{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.85)}}
-@keyframes underlineIn{to{transform:scaleX(1)}}
-@keyframes ecgDraw{to{stroke-dashoffset:0}}
+@keyframes fadeUp{0%{opacity:0;transform:translateY(16px)}100%{opacity:1;transform:translateY(0)}}
+@keyframes pulseAnim{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.4;transform:scale(0.75)}}
+@keyframes underlineIn{0%{transform:scaleX(0)}100%{transform:scaleX(1)}}
+@keyframes ecgDraw{0%{stroke-dashoffset:1200}100%{stroke-dashoffset:0}}
+@keyframes navFadeIn{0%{opacity:0;transform:translateY(-8px)}100%{opacity:1;transform:translateY(0)}}
 .reveal{opacity:0;transform:translateY(20px);transition:opacity 0.6s ease,transform 0.6s ease}
 .reveal.visible{opacity:1;transform:translateY(0)}
 @media(max-width:768px){
@@ -383,23 +388,18 @@ function updateROI(){
 }
 slider.addEventListener('input',updateROI);
 updateROI();
+function checkReveal(){
+  document.querySelectorAll('.reveal').forEach(el=>{
+    if(el.getBoundingClientRect().top<window.innerHeight-80)el.classList.add('visible');
+  });
+}
 window.addEventListener('scroll',()=>{
   document.getElementById('main-nav').classList.toggle('scrolled',window.scrollY>40);
-  document.querySelectorAll('.reveal').forEach(el=>{
-    if(el.getBoundingClientRect().top<window.innerHeight-60)el.classList.add('visible');
-  });
+  checkReveal();
 });
-document.querySelectorAll('.reveal').forEach(el=>{
-  if(el.getBoundingClientRect().top<window.innerHeight-60)el.classList.add('visible');
-});
-</script>
-<script>
-window.addEventListener('scroll',()=>{
-  document.getElementById('main-nav').classList.toggle('scrolled',window.scrollY>40);
-  document.querySelectorAll('.reveal').forEach(el=>{
-    if(el.getBoundingClientRect().top<window.innerHeight-60)el.classList.add('visible');
-  });
-});
+checkReveal();
+setTimeout(checkReveal,300);
+setTimeout(checkReveal,800);
 </script>
 </body>
 </html>
