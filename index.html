@@ -665,7 +665,10 @@ input[type=range]#slider::-webkit-slider-thumb{
       <div class="pstat-l">Specialties supported</div>
     </div>
     <div class="pdiv"></div>
-    <div class="pquote">"The brief was ready before I sat down. Drug flags caught something I would have missed."<div class="pquote-by">- Dental surgeon, Chennai</div></div>
+    <div class="pstat">
+      <div class="pstat-n" id="cnt-intake">0</div>
+      <div class="pstat-l">Seconds for patient intake</div>
+    </div>
   </div>
 </section>
 
@@ -952,6 +955,7 @@ function checkProof(){
     animateCounter('cnt-time',4.2,1200,'',true);
     setTimeout(function(){animateCounter('cnt-drugs',82,1400,'+',false)},200);
     setTimeout(function(){animateCounter('cnt-specs',4,800,'',false)},400);
+    setTimeout(function(){animateCounter('cnt-intake',60,1000,'',false)},600);
   }
 }
 window.addEventListener('scroll',checkProof);
