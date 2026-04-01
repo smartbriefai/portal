@@ -554,6 +554,44 @@ input[type=range]#slider::-webkit-slider-thumb{
   #features,#hiw,#roi,#cta{padding-left:32px;padding-right:32px}
   .hiw-steps{gap:12px}
 }
+.db-queue-item{
+  background:var(--surface);border:1px solid var(--gray2);
+  border-radius:var(--r8);padding:11px 14px;
+  display:flex;align-items:center;gap:12px;
+  cursor:default;transition:background 0.15s;
+  margin-bottom:8px;
+}
+.db-queue-item.selected{
+  border-color:var(--teal);
+  background:var(--teal-light);
+}
+.db-token{
+  width:28px;height:28px;border-radius:6px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;flex-shrink:0;
+  font-family:'Plus Jakarta Sans',sans-serif;
+}
+.db-pt-name{font-size:13px;font-weight:600;color:var(--navy);flex:1}
+.db-pt-sub{font-size:11px;color:var(--gray3);margin-top:1px}
+.db-status{font-size:11px;font-weight:600;padding:3px 9px;border-radius:6px;white-space:nowrap}
+.db-detail{
+  background:var(--surface);border:1px solid var(--gray2);
+  border-radius:var(--r8);padding:14px;
+  opacity:0;transform:translateY(6px);
+  transition:opacity 0.4s ease,transform 0.4s ease;
+  margin-top:8px;
+}
+.db-detail.show{opacity:1;transform:none}
+.db-detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.db-detail-cell{background:var(--gray1);border-radius:6px;padding:8px 10px}
+.db-detail-lbl{font-size:10px;color:var(--gray3);font-weight:600;letter-spacing:0.5px;text-transform:uppercase;margin-bottom:3px}
+.db-detail-val{font-size:12px;color:var(--navy);font-weight:500;line-height:1.4}
+.db-brief-box{background:var(--gray1);border-left:3px solid var(--teal);border-radius:var(--r8);padding:10px 12px;font-size:12px;color:var(--text2);line-height:1.6;margin-bottom:8px}
+.db-flag{background:#FFF3E0;border:1px solid #FFCC80;border-radius:6px;padding:4px 10px;font-size:11px;color:#BF360C;font-weight:500;display:inline-block;margin-right:6px;margin-bottom:4px}
+.db-check{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--text2);margin-bottom:5px}
+.db-check-box{width:13px;height:13px;border:1.5px solid var(--gray3);border-radius:3px;flex-shrink:0}
+.db-check-box.done{background:var(--teal);border-color:var(--teal)}
+@keyframes dbFade{0%{opacity:0;transform:translateY(4px)}100%{opacity:1;transform:none}}
 </style>
 </head>
 <body>
@@ -604,44 +642,29 @@ input[type=range]#slider::-webkit-slider-thumb{
           <div class="db-url">smartbrief.ai / dashboard</div>
         </div>
         <div class="db-bar">
-          <div style="display:flex;align-items:center">
-            <div class="db-brand">SmartBrief AI</div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div class="db-brand">SmartBrief<sup style="font-size:8px;font-weight:700;color:#00897B;letter-spacing:1.5px;vertical-align:super;margin-left:1px">AI</sup></div>
             <div class="db-sp" id="sp-badge" style="background:var(--dental)">Dental OPD</div>
           </div>
-          <div class="db-meta" id="db-date">Wed, 1 Apr 2026 · 9 patients today</div>
+          <div id="db-date" class="db-meta">Wed, 1 Apr 2026 · 3 patients today</div>
         </div>
         <div class="db-body">
           <div class="db-side">
-            <div class="db-nav on"><span class="db-dot"></span>AI Brief</div>
-            <div class="db-nav"><span class="db-dot"></span>Drug Safety</div>
-            <div class="db-nav"><span class="db-dot"></span>AI Rx</div>
-            <div class="db-nav"><span class="db-dot"></span>Patient Queue</div>
-            <div class="db-nav"><span class="db-dot"></span>Voice Notes</div>
-            <div class="db-nav"><span class="db-dot"></span>Follow-up</div>
+            <div class="db-nav on" id="tab-queue"><span class="db-dot"></span>Today's Queue</div>
+            <div class="db-nav" id="tab-rx"><span class="db-dot"></span>Rx Generator</div>
+            <div class="db-nav" id="tab-fu"><span class="db-dot"></span>Follow-up Reminders</div>
+            <div class="db-nav" id="tab-rep"><span class="db-dot"></span>Daily Report</div>
+            <div class="db-nav" id="tab-set"><span class="db-dot"></span>Settings</div>
+            <div class="db-nav" id="tab-ai"><span class="db-dot"></span>AI Settings</div>
           </div>
           <div class="db-main">
-            <div class="stats">
-              <div class="stat"><div class="stat-n" id="st-p" style="color:var(--teal)">9</div><div class="stat-l">Patients today</div></div>
-              <div class="stat"><div class="stat-n" id="st-f" style="color:#E65100">2</div><div class="stat-l">Drug flags</div></div>
-              <div class="stat"><div class="stat-n" style="color:var(--teal)">4.2 min</div><div class="stat-l">Consult saved</div></div>
+            <div class="stats" id="db-stats">
+              <div class="stat"><div class="stat-n" style="color:var(--teal)" id="st-tot">3</div><div class="stat-l">Today's patients</div></div>
+              <div class="stat"><div class="stat-n" style="color:#1565C0" id="st-rdy">2</div><div class="stat-l">Briefs ready</div></div>
+              <div class="stat"><div class="stat-n" style="color:#E65100" id="st-con">0</div><div class="stat-l">In consult</div></div>
+              <div class="stat"><div class="stat-n" style="color:var(--teal)" id="st-don">0</div><div class="stat-l">Done today</div></div>
             </div>
-            <div class="pt-card">
-              <div class="pt-top">
-                <div>
-                  <div class="pt-name" id="pt-n">Meera Krishnamurthy</div>
-                  <div class="pt-meta" id="pt-m">38 yrs · F · Tooth sensitivity, lower left molar</div>
-                </div>
-                <span class="pt-badge" id="pt-b" style="background:#FFF3E0;color:#E65100">Drug flag</span>
-              </div>
-              <div class="brief-lbl">AI clinical brief</div>
-              <div class="brief-txt" id="pt-brief">3-week cold sensitivity in lower left molar. On Metformin 500mg (Type 2 DM) and Amlodipine 5mg (hypertension). Avoid NSAIDs - paracetamol preferred.</div>
-              <div class="pills" id="pt-pills">
-                <span class="pill">Metformin 500mg</span>
-                <span class="pill w">Ibuprofen - avoid</span>
-                <span class="pill">Amoxicillin - safe</span>
-                <span class="pill">Paracetamol - preferred</span>
-              </div>
-            </div>
+            <div id="db-content"></div>
           </div>
         </div>
       </div>
@@ -1091,6 +1114,103 @@ window.addEventListener('load',function(){
   });
   draw();
 })();
+
+var dbPatients=[
+  {t:'T1',tc:'#E0F2F1',tf:'#00695C',nm:'Meera Krishnamurthy',sb:'Tooth sensitivity · Dental',
+   status:'Brief Ready',sc:'#E0F2F1',stc:'#00695C',
+   cc:'Lower molar pain (L) x 3 weeks. Cold sensitivity.',
+   hist:'Type 2 DM · Hypertension · No allergies',
+   meds:'Metformin 500mg · Amlodipine 5mg',
+   vt:'Follow-up',
+   brief:'3-week cold sensitivity lower left molar. Avoid NSAIDs - paracetamol preferred. Check for dentinal hypersensitivity vs pulpitis.',
+   flags:['Ibuprofen - avoid','Aspirin - avoid'],
+   checks:['Periapical X-ray','Pulp vitality test','Desensitising paste']},
+  {t:'T2',tc:'#FFF3E0',tf:'#E65100',nm:'Rajesh Venkataraman',sb:'Root canal follow-up · Dental',
+   status:'Next ↑',sc:'#FFF8E1',stc:'#F57F17',
+   cc:'Post-RCT sensitivity, 2 days.',
+   hist:'No chronic conditions · Penicillin allergy',
+   meds:'None current',
+   vt:'Review',
+   brief:'Post root canal sensitivity day 2. Penicillin allergy flagged - use Azithromycin if antibiotic needed. Normal post-procedure discomfort expected.',
+   flags:['Penicillin - allergy on record'],
+   checks:['Check temp restoration','Review X-ray','Prescribe if indicated']},
+  {t:'T3',tc:'#F3E5F5',tf:'#7B1FA2',nm:'Priya Sundaram',sb:'Scaling consult · Dental',
+   status:'Waiting',sc:'#F5F5F5',stc:'#9E9E9E',
+   cc:'Bleeding gums, bad breath.',
+   hist:'No significant history',
+   meds:'None',
+   vt:'New Visit',
+   brief:'Presents with gingivitis symptoms. No systemic conditions. Scaling and oral hygiene instruction indicated.',
+   flags:[],
+   checks:['Periodontal charting','Oral hygiene instruction','Schedule scaling']}
+];
+
+var dbState=0;
+var dbPhase=0;
+var dbTimer=null;
+var dbSelected=-1;
+
+function renderQueue(selectedIdx){
+  var html='';
+  dbPatients.forEach(function(p,i){
+    var sel=i===selectedIdx;
+    html+='<div class="db-queue-item'+(sel?' selected':'')+'" style="animation:dbFade 0.3s ease '+(i*0.08)+'s both">';
+    html+='<div class="db-token" style="background:'+p.tc+';color:'+p.tf+'">'+p.t+'</div>';
+    html+='<div style="flex:1"><div class="db-pt-name">'+p.nm+'</div><div class="db-pt-sub">'+p.sb+'</div></div>';
+    html+='<div class="db-status" style="background:'+p.sc+';color:'+p.stc+'">'+p.status+'</div>';
+    html+='</div>';
+  });
+  return html;
+}
+
+function renderDetail(p,showBrief){
+  var html='<div class="db-detail'+(showBrief?' show':'')+'">';
+  html+='<div class="db-detail-grid">';
+  html+='<div class="db-detail-cell"><div class="db-detail-lbl">Chief complaint</div><div class="db-detail-val">'+p.cc+'</div></div>';
+  html+='<div class="db-detail-cell"><div class="db-detail-lbl">Relevant history</div><div class="db-detail-val">'+p.hist+'</div></div>';
+  html+='<div class="db-detail-cell"><div class="db-detail-lbl">Current medications</div><div class="db-detail-val">'+p.meds+'</div></div>';
+  html+='<div class="db-detail-cell"><div class="db-detail-lbl">Visit type</div><div class="db-detail-val">'+p.vt+'</div></div>';
+  html+='</div>';
+  if(showBrief){
+    html+='<div style="font-size:10px;color:var(--gray3);font-weight:600;letter-spacing:0.5px;text-transform:uppercase;margin-bottom:6px">AI clinical brief</div>';
+    html+='<div class="db-brief-box">'+p.brief+'</div>';
+    if(p.flags.length){
+      html+='<div style="margin-bottom:8px">';
+      p.flags.forEach(function(f){html+='<span class="db-flag">⚠ '+f+'</span>';});
+      html+='</div>';
+    }
+    p.checks.forEach(function(c,i){
+      html+='<div class="db-check"><div class="db-check-box'+(i===0?' done':'')+'" style="'+(i===0?'display:flex;align-items:center;justify-content:center':'')+'">'+( i===0?'<svg width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M1 4l2 2 4-4" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>':'')+'</div>'+c+'</div>';
+    });
+  }
+  html+='</div>';
+  return html;
+}
+
+function dbStep(){
+  var content=document.getElementById('db-content');
+  if(!content)return;
+  if(dbPhase===0){
+    content.innerHTML=renderQueue(-1);
+    setTimeout(function(){dbPhase=1;dbStep();},1800);
+  } else if(dbPhase===1){
+    content.innerHTML=renderQueue(0)+renderDetail(dbPatients[0],false);
+    setTimeout(function(){
+      var d=content.querySelector('.db-detail');
+      if(d)d.classList.add('show');
+    },100);
+    setTimeout(function(){dbPhase=2;dbStep();},2200);
+  } else if(dbPhase===2){
+    content.innerHTML=renderQueue(0)+renderDetail(dbPatients[0],true);
+    setTimeout(function(){
+      var d=content.querySelector('.db-detail');
+      if(d)d.classList.add('show');
+    },100);
+    setTimeout(function(){dbPhase=0;dbStep();},3500);
+  }
+}
+
+setTimeout(function(){dbStep();},1200);
 </script>
 
 </body>
