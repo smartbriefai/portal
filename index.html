@@ -63,6 +63,16 @@ h1,h2,h3,h4,h5{
   font-weight:800;font-size:20px;
   color:var(--navy);text-decoration:none;
   letter-spacing:-0.4px;font-synthesis:none;
+  display:flex;align-items:center;gap:10px;
+}
+.logo-mark{display:flex;align-items:center;flex-shrink:0}
+.logo-text{display:flex;align-items:baseline;gap:4px}
+.logo-ai{
+  font-size:11px;font-weight:700;
+  color:#fff;background:var(--teal);
+  padding:2px 6px;border-radius:4px;
+  letter-spacing:0.5px;vertical-align:middle;
+  font-family:'DM Sans',sans-serif;
 }
 .nav-logo em{color:var(--teal);font-style:normal}
 .nav-mid{display:flex;gap:28px;list-style:none}
@@ -91,7 +101,9 @@ h1,h2,h3,h4,h5{
   position:absolute;inset:0;
   width:100%;height:100%;
   pointer-events:none;z-index:0;
+  border-radius:0;
 }
+#hero{isolation:isolate}
 .hero-glow{
   position:absolute;
   top:-100px;left:50%;transform:translateX(-50%);
@@ -533,7 +545,16 @@ input[type=range]#slider::-webkit-slider-thumb{
 <body>
 
 <nav id="nav">
-  <a href="#" class="nav-logo">Smart<em>Brief</em> AI</a>
+  <a href="#" class="nav-logo">
+  <span class="logo-mark">
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="28" height="28" rx="8" fill="#0F1F3D"/>
+      <path d="M4 14 L8 14 L10 9 L12 19 L14 14 L16 11 L18 17 L20 14 L24 14" stroke="#00897B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <circle cx="22" cy="14" r="2" fill="#00897B" opacity="0.6"/>
+    </svg>
+  </span>
+  <span class="logo-text">Smart<em>Brief</em> <span class="logo-ai">AI</span></span>
+</a>
   <ul class="nav-mid">
     <li><a href="#features">Features</a></li>
     <li><a href="#hiw">How it works</a></li>
@@ -729,6 +750,79 @@ input[type=range]#slider::-webkit-slider-thumb{
   </div>
 </section>
 
+<section id="compare" style="padding:88px 48px;background:var(--gray1)">
+  <div style="max-width:1000px;margin:0 auto">
+    <div class="eyebrow rev" style="text-align:center">Why SmartBrief AI</div>
+    <h2 class="sec-title rev" style="text-align:center;margin-bottom:8px">Built differently<br>from everything else</h2>
+    <p style="text-align:center;font-size:16px;color:var(--text2);margin-bottom:52px;max-width:480px;margin-left:auto;margin-right:auto" class="rev">Every other tool manages your clinic after the patient arrives. SmartBrief works before.</p>
+    <div style="overflow-x:auto">
+      <table style="width:100%;border-collapse:collapse;background:var(--surface);border-radius:var(--r16);overflow:hidden;box-shadow:var(--sh-md)">
+        <thead>
+          <tr style="background:var(--navy)">
+            <th style="padding:16px 20px;text-align:left;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:700;color:rgba(255,255,255,0.5);width:28%">Capability</th>
+            <th style="padding:16px 20px;text-align:center;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:700;color:var(--teal)">SmartBrief AI</th>
+            <th style="padding:16px 20px;text-align:center;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:700;color:rgba(255,255,255,0.5)">Practo Ray</th>
+            <th style="padding:16px 20px;text-align:center;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:700;color:rgba(255,255,255,0.5)">MyOPD</th>
+            <th style="padding:16px 20px;text-align:center;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:700;color:rgba(255,255,255,0.5)">Healcard</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid var(--gray2)">
+            <td style="padding:14px 20px;font-size:14px;font-weight:600;color:var(--navy)">Pre-consultation AI brief</td>
+            <td style="padding:14px 20px;text-align:center"><span style="color:var(--teal);font-size:18px;font-weight:700">&#10003;</span></td>
+            <td style="padding:14px 20px;text-align:center;font-size:13px;color:var(--gray3)">-</td>
+            <td style="padding:14px 20px;text-align:center;font-size:13px;color:var(--gray3)">-</td>
+            <td style="padding:14px 20px;text-align:center;font-size:13px;color:var(--gray3)">-</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--gray2);background:var(--gray1)">
+            <td style="padding:14px 20px;font-size:14px;font-weight:600;color:var(--navy)">Drug safety flags</td>
+            <td style="padding:14px 20px;text-align:center"><span style="color:var(--teal);font-size:18px;font-weight:700">&#10003;</span></td>
+            <td style="padding:14px 20px;text-align:center;font-size:13px;color:var(--gray3)">-</td>
+            <td style="padding:14px 20px;text-align:center;font-size:13px;color:var(--gray3)">-</td>
+            <td style="padding:14px 20px;text-align:center"><span style="color:var(--teal);font-size:16px">&#10003;</span></td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--gray2)">
+            <td style="padding:14px 20px;font-size:14px;font-weight:600;color:var(--navy)">Patient fills intake before visit</td>
+            <td style="padding:14px 20px;text-align:center"><span style="color:var(--teal);font-size:18px;font-weight:700">&#10003;</span></td>
+            <td style="padding:14px 20px;text-align:center;font-size:13px;color:var(--gray3)">-</td>
+            <td style="padding:14px 20px;text-align:center;font-size:13px;color:var(--gray3)">-</td>
+            <td style="padding:14px 20px;text-align:center;font-size:13px;color:var(--gray3)">-</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--gray2);background:var(--gray1)">
+            <td style="padding:14px 20px;font-size:14px;font-weight:600;color:var(--navy)">AI prescription suggestions</td>
+            <td style="padding:14px 20px;text-align:center"><span style="color:var(--teal);font-size:18px;font-weight:700">&#10003;</span></td>
+            <td style="padding:14px 20px;text-align:center;font-size:13px;color:var(--gray3)">-</td>
+            <td style="padding:14px 20px;text-align:center;font-size:13px;color:var(--gray3)">-</td>
+            <td style="padding:14px 20px;text-align:center"><span style="color:var(--teal);font-size:16px">&#10003;</span></td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--gray2)">
+            <td style="padding:14px 20px;font-size:14px;font-weight:600;color:var(--navy)">Specialty-specific workflow</td>
+            <td style="padding:14px 20px;text-align:center"><span style="color:var(--teal);font-size:18px;font-weight:700">&#10003;</span></td>
+            <td style="padding:14px 20px;text-align:center"><span style="color:var(--teal);font-size:16px">&#10003;</span></td>
+            <td style="padding:14px 20px;text-align:center"><span style="color:var(--teal);font-size:16px">&#10003;</span></td>
+            <td style="padding:14px 20px;text-align:center"><span style="color:var(--teal);font-size:16px">&#10003;</span></td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--gray2);background:var(--gray1)">
+            <td style="padding:14px 20px;font-size:14px;font-weight:600;color:var(--navy)">No app install for patient</td>
+            <td style="padding:14px 20px;text-align:center"><span style="color:var(--teal);font-size:18px;font-weight:700">&#10003;</span></td>
+            <td style="padding:14px 20px;text-align:center;font-size:13px;color:var(--gray3)">-</td>
+            <td style="padding:14px 20px;text-align:center"><span style="color:var(--teal);font-size:16px">&#10003;</span></td>
+            <td style="padding:14px 20px;text-align:center;font-size:13px;color:var(--gray3)">-</td>
+          </tr>
+          <tr>
+            <td style="padding:14px 20px;font-size:14px;font-weight:600;color:var(--navy)">Works on any phone, WhatsApp</td>
+            <td style="padding:14px 20px;text-align:center"><span style="color:var(--teal);font-size:18px;font-weight:700">&#10003;</span></td>
+            <td style="padding:14px 20px;text-align:center;font-size:13px;color:var(--gray3)">-</td>
+            <td style="padding:14px 20px;text-align:center;font-size:13px;color:var(--gray3)">-</td>
+            <td style="padding:14px 20px;text-align:center;font-size:13px;color:var(--gray3)">-</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="text-align:center;font-size:12px;color:var(--gray3);margin-top:16px">Based on publicly available product information. Practo Ray, MyOPD, Healcard are independent products.</p>
+  </div>
+</section>
+
 <section id="cta">
   <h2 class="cta-t rev">Ready to see it in your clinic?</h2>
   <p class="cta-s rev">Request a live demo. We will walk you through the full workflow for your specialty - no commitment required.</p>
@@ -920,8 +1014,9 @@ window.addEventListener('load',function(){
 
     /* move particles */
     pts.forEach(function(p){
-      p.x+=p.vx;
-      p.y+=p.vy;
+      p.vx*=0.999;p.vy*=0.999;
+      p.x+=p.vx*0.7;
+      p.y+=p.vy*0.7;
       if(p.x<-20)p.x=W+20;
       if(p.x>W+20)p.x=-20;
       if(p.y<-20)p.y=H+20;
@@ -949,7 +1044,7 @@ window.addEventListener('load',function(){
         var dy=pts[i].y-pts[j].y;
         var d=Math.sqrt(dx*dx+dy*dy);
         if(d<CONNECT){
-          var a=(1-d/CONNECT)*0.18;
+          var a=(1-d/CONNECT)*0.10;
           ctx.beginPath();
           ctx.moveTo(pts[i].x,pts[i].y);
           ctx.lineTo(pts[j].x,pts[j].y);
