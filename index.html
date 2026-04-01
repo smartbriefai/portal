@@ -108,7 +108,116 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text1);ov
     <div id="dashboard-placeholder" style="height:40px"></div>
   </div>
 </section>
-<!-- sections added in 2B and 2C -->
+    <!-- DASHBOARD PREVIEW -->
+    <div class="dashboard-wrap" style="margin:48px auto 0;max-width:1000px;width:100%;opacity:0;transform:translateY(24px);animation:fadeUp 0.8s ease 0.9s forwards">
+      <div style="background:var(--surface);border:1px solid var(--gray2);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-lg)">
+        <div style="background:var(--gray1);border-bottom:1px solid var(--gray2);padding:10px 16px;display:flex;align-items:center;gap:8px">
+          <div style="width:11px;height:11px;border-radius:50%;background:#FF5F57"></div>
+          <div style="width:11px;height:11px;border-radius:50%;background:#FEBC2E"></div>
+          <div style="width:11px;height:11px;border-radius:50%;background:#28C840"></div>
+          <div style="flex:1;background:var(--surface);border:1px solid var(--gray2);border-radius:6px;padding:5px 12px;font-size:12px;color:var(--text3);margin:0 12px;font-family:monospace">portal-igoyogioo1-4478s-projects.vercel.app/smartbrief-dashboard.html</div>
+        </div>
+        <div style="background:var(--surface);border-bottom:1px solid var(--gray2);padding:13px 20px;display:flex;align-items:center;justify-content:space-between">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div style="font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--navy)">SmartBrief AI</div>
+            <div id="sp-badge" style="font-size:11px;padding:3px 10px;border-radius:10px;font-weight:600;color:#fff;background:var(--dental);transition:background 0.3s">Dental OPD</div>
+          </div>
+          <div id="dash-date" style="font-size:12px;color:var(--gray3)">Wed, 1 Apr 2026 · 9 patients today</div>
+        </div>
+        <div style="display:grid;grid-template-columns:188px 1fr">
+          <div style="background:var(--surface);border-right:1px solid var(--gray2);padding:12px 0;min-height:300px">
+            <div style="padding:9px 18px;font-size:13px;color:var(--teal);background:var(--teal-light);border-left:3px solid var(--teal);font-weight:500;display:flex;align-items:center;gap:10px"><span style="width:6px;height:6px;border-radius:50%;background:currentColor;opacity:0.5;flex-shrink:0;display:inline-block"></span>AI Brief</div>
+            <div style="padding:9px 18px;font-size:13px;color:var(--text2);border-left:3px solid transparent;display:flex;align-items:center;gap:10px"><span style="width:6px;height:6px;border-radius:50%;background:currentColor;opacity:0.5;flex-shrink:0;display:inline-block"></span>Drug Safety</div>
+            <div style="padding:9px 18px;font-size:13px;color:var(--text2);border-left:3px solid transparent;display:flex;align-items:center;gap:10px"><span style="width:6px;height:6px;border-radius:50%;background:currentColor;opacity:0.5;flex-shrink:0;display:inline-block"></span>AI Rx</div>
+            <div style="padding:9px 18px;font-size:13px;color:var(--text2);border-left:3px solid transparent;display:flex;align-items:center;gap:10px"><span style="width:6px;height:6px;border-radius:50%;background:currentColor;opacity:0.5;flex-shrink:0;display:inline-block"></span>Patient Queue</div>
+            <div style="padding:9px 18px;font-size:13px;color:var(--text2);border-left:3px solid transparent;display:flex;align-items:center;gap:10px"><span style="width:6px;height:6px;border-radius:50%;background:currentColor;opacity:0.5;flex-shrink:0;display:inline-block"></span>Voice Notes</div>
+            <div style="padding:9px 18px;font-size:13px;color:var(--text2);border-left:3px solid transparent;display:flex;align-items:center;gap:10px"><span style="width:6px;height:6px;border-radius:50%;background:currentColor;opacity:0.5;flex-shrink:0;display:inline-block"></span>Follow-up</div>
+          </div>
+          <div style="padding:18px;display:flex;flex-direction:column;gap:13px;background:var(--gray1)">
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+              <div style="background:var(--surface);border:1px solid var(--gray2);border-radius:var(--radius-sm);padding:13px;text-align:center"><div id="st-patients" style="font-family:'Syne',sans-serif;font-size:22px;font-weight:700;color:var(--teal)">9</div><div style="font-size:11px;color:var(--gray3);margin-top:3px">Patients today</div></div>
+              <div style="background:var(--surface);border:1px solid var(--gray2);border-radius:var(--radius-sm);padding:13px;text-align:center"><div id="st-flags" style="font-family:'Syne',sans-serif;font-size:22px;font-weight:700;color:#E65100">2</div><div style="font-size:11px;color:var(--gray3);margin-top:3px">Drug flags</div></div>
+              <div style="background:var(--surface);border:1px solid var(--gray2);border-radius:var(--radius-sm);padding:13px;text-align:center"><div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:700;color:var(--teal)">4.2 min</div><div style="font-size:11px;color:var(--gray3);margin-top:3px">Consult time saved</div></div>
+            </div>
+            <div style="background:var(--surface);border:1px solid var(--gray2);border-radius:var(--radius-md);padding:15px">
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px">
+                <div><div id="pt-name" style="font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:var(--navy)">Meera Krishnamurthy</div><div id="pt-meta" style="font-size:12px;color:var(--gray3);margin-top:3px">38 yrs · F · Tooth sensitivity, lower left molar</div></div>
+                <span id="pt-badge" style="font-size:11px;padding:3px 10px;border-radius:8px;font-weight:600;background:#FFF3E0;color:#E65100;white-space:nowrap">Drug flag</span>
+              </div>
+              <div style="font-size:10px;color:var(--gray3);margin-bottom:6px;font-weight:600;letter-spacing:0.6px;text-transform:uppercase">AI clinical brief</div>
+              <div id="pt-brief" style="font-size:13px;color:var(--text2);line-height:1.65;background:var(--gray1);padding:11px 13px;border-radius:var(--radius-sm);border-left:3px solid var(--teal)">3-week cold sensitivity in lower left molar. On Metformin 500mg (Type 2 DM) and Amlodipine 5mg (hypertension). Avoid NSAIDs — paracetamol preferred.</div>
+              <div id="pt-drugs" style="display:flex;gap:7px;flex-wrap:wrap;margin-top:10px">
+                <span style="background:var(--gray1);border:1px solid var(--gray2);border-radius:6px;font-size:12px;padding:4px 10px;color:var(--navy);font-weight:500">Metformin 500mg</span>
+                <span style="background:#FFF3E0;border:1px solid #FFCC80;border-radius:6px;font-size:12px;padding:4px 10px;color:#BF360C;font-weight:500">Ibuprofen — avoid</span>
+                <span style="background:var(--gray1);border:1px solid var(--gray2);border-radius:6px;font-size:12px;padding:4px 10px;color:var(--navy);font-weight:500">Amoxicillin — safe</span>
+                <span style="background:var(--gray1);border:1px solid var(--gray2);border-radius:6px;font-size:12px;padding:4px 10px;color:var(--navy);font-weight:500">Paracetamol — preferred</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROOF STRIP -->
+<section id="proof-strip" style="padding:40px 48px;border-top:1px solid var(--gray2);border-bottom:1px solid var(--gray2);background:var(--surface)">
+  <div style="max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap">
+    <div style="text-align:center"><div style="font-family:'Syne',sans-serif;font-size:32px;font-weight:800;color:var(--navy)">4.2 min</div><div style="font-size:13px;color:var(--text3);margin-top:4px">Saved per consultation</div></div>
+    <div style="width:1px;height:48px;background:var(--gray2)"></div>
+    <div style="text-align:center"><div style="font-family:'Syne',sans-serif;font-size:32px;font-weight:800;color:var(--navy)">82+</div><div style="font-size:13px;color:var(--text3);margin-top:4px">India-market drugs checked</div></div>
+    <div style="width:1px;height:48px;background:var(--gray2)"></div>
+    <div style="text-align:center"><div style="font-family:'Syne',sans-serif;font-size:32px;font-weight:800;color:var(--navy)">4</div><div style="font-size:13px;color:var(--text3);margin-top:4px">Specialties supported</div></div>
+    <div style="width:1px;height:48px;background:var(--gray2)"></div>
+    <div style="font-size:14px;color:var(--text2);line-height:1.6;max-width:300px;font-style:italic;border-left:3px solid var(--teal);padding-left:16px">"The brief was ready before I sat down. Drug flags caught something I would have missed."<div style="font-size:12px;color:var(--text3);margin-top:6px;font-style:normal">— Dental surgeon, Chennai</div></div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features" style="padding:96px 48px;max-width:1160px;margin:0 auto">
+  <div class="reveal" style="font-size:12px;font-weight:600;color:var(--teal);letter-spacing:1.2px;text-transform:uppercase;margin-bottom:12px">What it does</div>
+  <div class="reveal" style="font-family:'Syne',sans-serif;font-size:40px;font-weight:800;color:var(--navy);letter-spacing:-1px;line-height:1.1;margin-bottom:16px">Everything before<br>the doctor walks in</div>
+  <div class="reveal" style="font-size:16px;color:var(--text2);line-height:1.7;max-width:480px;margin-bottom:56px">Four capabilities. One workflow. Zero extra admin for your staff.</div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px">
+    <div class="reveal" style="background:var(--surface);border:1px solid var(--gray2);border-radius:var(--radius-lg);padding:28px;transition:box-shadow 0.2s,transform 0.2s;position:relative;overflow:hidden" onmouseenter="this.style.boxShadow='0 4px 24px rgba(15,31,61,0.10)';this.style.transform='translateY(-3px)'" onmouseleave="this.style.boxShadow='';this.style.transform=''">
+      <div style="width:44px;height:44px;background:var(--teal-light);border-radius:var(--radius-sm);margin-bottom:18px;display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg></div>
+      <div style="font-family:'Syne',sans-serif;font-size:17px;font-weight:700;color:var(--navy);margin-bottom:10px">AI clinical brief</div>
+      <div style="font-size:14px;color:var(--text2);line-height:1.65">Patient fills a structured intake form before arrival. AI converts it into a specialty-specific clinical brief — history, complaints, and context structured for how you think.</div>
+      <span style="display:inline-block;font-size:11px;font-weight:600;color:var(--teal);background:var(--teal-light);padding:3px 10px;border-radius:10px;margin-top:14px">Pre-consultation</span>
+    </div>
+    <div class="reveal" style="background:var(--surface);border:1px solid var(--gray2);border-radius:var(--radius-lg);padding:28px;transition:box-shadow 0.2s,transform 0.2s;position:relative;overflow:hidden" onmouseenter="this.style.boxShadow='0 4px 24px rgba(15,31,61,0.10)';this.style.transform='translateY(-3px)'" onmouseleave="this.style.boxShadow='';this.style.transform=''">
+      <div style="width:44px;height:44px;background:var(--teal-light);border-radius:var(--radius-sm);margin-bottom:18px;display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg></div>
+      <div style="font-family:'Syne',sans-serif;font-size:17px;font-weight:700;color:var(--navy);margin-bottom:10px">Drug safety flags</div>
+      <div style="font-size:14px;color:var(--text2);line-height:1.65">Automatic interaction checks across 82 India-market drugs. Contraindications and allergy alerts surface before you prescribe — not after the patient has left.</div>
+      <span style="display:inline-block;font-size:11px;font-weight:600;color:var(--teal);background:var(--teal-light);padding:3px 10px;border-radius:10px;margin-top:14px">Patient safety</span>
+    </div>
+    <div class="reveal" style="background:var(--surface);border:1px solid var(--gray2);border-radius:var(--radius-lg);padding:28px;transition:box-shadow 0.2s,transform 0.2s;position:relative;overflow:hidden" onmouseenter="this.style.boxShadow='0 4px 24px rgba(15,31,61,0.10)';this.style.transform='translateY(-3px)'" onmouseleave="this.style.boxShadow='';this.style.transform=''">
+      <div style="width:44px;height:44px;background:var(--teal-light);border-radius:var(--radius-sm);margin-bottom:18px;display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg></div>
+      <div style="font-family:'Syne',sans-serif;font-size:17px;font-weight:700;color:var(--navy);margin-bottom:10px">AI Rx intelligence</div>
+      <div style="font-size:14px;color:var(--text2);line-height:1.65">Prescription suggestions based on complaint, patient history, and drug safety profile — reviewed and signed by you. Cuts prescription time without cutting clinical judgment.</div>
+      <span style="display:inline-block;font-size:11px;font-weight:600;color:var(--teal);background:var(--teal-light);padding:3px 10px;border-radius:10px;margin-top:14px">AI-assisted</span>
+    </div>
+    <div class="reveal" style="background:var(--surface);border:1px solid var(--gray2);border-radius:var(--radius-lg);padding:28px;transition:box-shadow 0.2s,transform 0.2s" onmouseenter="this.style.boxShadow='0 4px 24px rgba(15,31,61,0.10)';this.style.transform='translateY(-3px)'" onmouseleave="this.style.boxShadow='';this.style.transform=''">
+      <div style="width:44px;height:44px;background:var(--teal-light);border-radius:var(--radius-sm);margin-bottom:18px;display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"/></svg></div>
+      <div style="font-family:'Syne',sans-serif;font-size:17px;font-weight:700;color:var(--navy);margin-bottom:10px">Voice notes</div>
+      <div style="font-size:14px;color:var(--text2);line-height:1.65">Dictate clinical notes during or after consultation. Transcribed, timestamped, and attached to the patient record automatically.</div>
+      <span style="display:inline-block;font-size:11px;font-weight:600;color:var(--teal);background:var(--teal-light);padding:3px 10px;border-radius:10px;margin-top:14px">Hands-free</span>
+    </div>
+    <div class="reveal" style="background:var(--surface);border:1px solid var(--gray2);border-radius:var(--radius-lg);padding:28px;transition:box-shadow 0.2s,transform 0.2s" onmouseenter="this.style.boxShadow='0 4px 24px rgba(15,31,61,0.10)';this.style.transform='translateY(-3px)'" onmouseleave="this.style.boxShadow='';this.style.transform=''">
+      <div style="width:44px;height:44px;background:var(--teal-light);border-radius:var(--radius-sm);margin-bottom:18px;display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
+      <div style="font-family:'Syne',sans-serif;font-size:17px;font-weight:700;color:var(--navy);margin-bottom:10px">Patient queue</div>
+      <div style="font-size:14px;color:var(--text2);line-height:1.65">See your full day at a glance — who has completed intake, who is pending, which patients have flagged conditions requiring attention before they enter.</div>
+      <span style="display:inline-block;font-size:11px;font-weight:600;color:var(--teal);background:var(--teal-light);padding:3px 10px;border-radius:10px;margin-top:14px">OPD workflow</span>
+    </div>
+    <div class="reveal" style="background:var(--surface);border:1px solid var(--gray2);border-radius:var(--radius-lg);padding:28px;transition:box-shadow 0.2s,transform 0.2s" onmouseenter="this.style.boxShadow='0 4px 24px rgba(15,31,61,0.10)';this.style.transform='translateY(-3px)'" onmouseleave="this.style.boxShadow='';this.style.transform=''">
+      <div style="width:44px;height:44px;background:var(--teal-light);border-radius:var(--radius-sm);margin-bottom:18px;display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg></div>
+      <div style="font-family:'Syne',sans-serif;font-size:17px;font-weight:700;color:var(--navy);margin-bottom:10px">Follow-up workflow</div>
+      <div style="font-size:14px;color:var(--text2);line-height:1.65">Automated follow-up reminders sent to patients after consultation. Review responses before the next visit — no manual tracking required.</div>
+      <span style="display:inline-block;font-size:11px;font-weight:600;color:var(--teal);background:var(--teal-light);padding:3px 10px;border-radius:10px;margin-top:14px">Retention</span>
+    </div>
+  </div>
+</section>
+<!-- sections added in 2C -->
 <script>
 window.addEventListener('scroll',()=>{
   document.getElementById('main-nav').classList.toggle('scrolled',window.scrollY>40);
