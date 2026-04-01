@@ -217,7 +217,142 @@ body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text1);ov
     </div>
   </div>
 </section>
-<!-- sections added in 2C -->
+<!-- HOW IT WORKS -->
+<section id="how-it-works" style="background:#08132A;padding:96px 48px;position:relative;overflow:hidden">
+  <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:800px;height:400px;background:radial-gradient(ellipse,rgba(0,137,123,0.08) 0%,transparent 70%);pointer-events:none"></div>
+  <div style="max-width:1000px;margin:0 auto;position:relative;z-index:1">
+    <div class="reveal" style="font-size:12px;font-weight:600;color:var(--teal);letter-spacing:1.2px;text-transform:uppercase;margin-bottom:12px">The workflow</div>
+    <div class="reveal" style="font-family:'Syne',sans-serif;font-size:40px;font-weight:800;color:#fff;letter-spacing:-1px;margin-bottom:56px">Four steps. Zero friction.</div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative">
+      <div style="position:absolute;top:28px;left:12.5%;right:12.5%;height:1px;background:linear-gradient(90deg,#00897B,rgba(0,137,123,0.2));z-index:0"></div>
+      <div class="reveal" style="text-align:center;padding:0 16px;position:relative;z-index:1">
+        <div style="width:56px;height:56px;border-radius:50%;background:var(--teal);color:#fff;font-family:'Syne',sans-serif;font-size:20px;font-weight:800;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;border:3px solid #08132A;box-shadow:0 0 0 1px var(--teal)">1</div>
+        <div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:#fff;margin-bottom:10px">Patient receives link</div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.5);line-height:1.65">Sent via WhatsApp or SMS before appointment. Opens on any phone — no app needed.</div>
+      </div>
+      <div class="reveal" style="text-align:center;padding:0 16px;position:relative;z-index:1">
+        <div style="width:56px;height:56px;border-radius:50%;background:var(--teal);color:#fff;font-family:'Syne',sans-serif;font-size:20px;font-weight:800;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;border:3px solid #08132A;box-shadow:0 0 0 1px var(--teal)">2</div>
+        <div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:#fff;margin-bottom:10px">Intake form completed</div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.5);line-height:1.65">Structured questions for your specialty. Takes 3–5 minutes. Works in English and Tamil.</div>
+      </div>
+      <div class="reveal" style="text-align:center;padding:0 16px;position:relative;z-index:1">
+        <div style="width:56px;height:56px;border-radius:50%;background:var(--teal);color:#fff;font-family:'Syne',sans-serif;font-size:20px;font-weight:800;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;border:3px solid #08132A;box-shadow:0 0 0 1px var(--teal)">3</div>
+        <div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:#fff;margin-bottom:10px">AI brief generated</div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.5);line-height:1.65">Clinical summary, drug flags, and Rx suggestions ready before the patient arrives.</div>
+      </div>
+      <div class="reveal" style="text-align:center;padding:0 16px;position:relative;z-index:1">
+        <div style="width:56px;height:56px;border-radius:50%;background:var(--teal);color:#fff;font-family:'Syne',sans-serif;font-size:20px;font-weight:800;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;border:3px solid #08132A;box-shadow:0 0 0 1px var(--teal)">4</div>
+        <div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:#fff;margin-bottom:10px">Doctor reviews and consults</div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.5);line-height:1.65">Brief opens in dashboard. Prescribe, dictate notes, schedule follow-up — all in one screen.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROI -->
+<section id="roi" style="background:var(--navy);padding:96px 48px">
+  <div style="max-width:680px;margin:0 auto;text-align:center">
+    <div class="reveal" style="font-size:12px;font-weight:600;color:var(--teal);letter-spacing:1.2px;text-transform:uppercase;margin-bottom:12px">The numbers</div>
+    <div class="reveal" style="font-family:'Syne',sans-serif;font-size:40px;font-weight:800;color:#fff;letter-spacing:-1px;margin-bottom:12px">What this means for your clinic</div>
+    <div class="reveal" style="font-size:16px;color:rgba(255,255,255,0.5);margin-bottom:48px">Drag to match your OPD volume</div>
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:8px">
+      <span style="font-size:13px;color:rgba(255,255,255,0.4);min-width:60px;text-align:left">5 / day</span>
+      <input type="range" id="roi-slider" min="5" max="60" value="20" step="1" style="flex:1;-webkit-appearance:none;appearance:none;height:4px;border-radius:2px;background:rgba(255,255,255,0.12);outline:none;cursor:pointer">
+      <span style="font-size:13px;color:rgba(255,255,255,0.4);min-width:60px;text-align:right">60 / day</span>
+    </div>
+    <div style="font-size:13px;color:rgba(255,255,255,0.6);text-align:center;margin-bottom:36px">Calculating for <strong id="pt-count" style="color:#fff;font-weight:600">20 patients per day</strong></div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:40px">
+      <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:var(--radius-md);padding:24px 16px;text-align:center"><div id="time-saved" style="font-family:'Syne',sans-serif;font-size:32px;font-weight:800;color:var(--teal)">84 min</div><div style="font-size:12px;color:rgba(255,255,255,0.4);margin-top:6px;line-height:1.4">Time saved<br>daily</div></div>
+      <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:var(--radius-md);padding:24px 16px;text-align:center"><div id="extra-pts" style="font-family:'Syne',sans-serif;font-size:32px;font-weight:800;color:var(--teal)">+4</div><div style="font-size:12px;color:rgba(255,255,255,0.4);margin-top:6px;line-height:1.4">Additional patients<br>per day possible</div></div>
+      <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:var(--radius-md);padding:24px 16px;text-align:center"><div id="monthly-rev" style="font-family:'Syne',sans-serif;font-size:32px;font-weight:800;color:var(--teal)">₹31K</div><div style="font-size:12px;color:rgba(255,255,255,0.4);margin-top:6px;line-height:1.4">Estimated added<br>revenue per month</div></div>
+    </div>
+    <a href="#cta-footer" class="btn-primary" style="font-size:15px;padding:14px 36px;display:inline-block">Start free trial</a>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta-footer" style="background:var(--teal);padding:80px 48px;text-align:center">
+  <div class="reveal" style="font-family:'Syne',sans-serif;font-size:40px;font-weight:800;color:#fff;letter-spacing:-1px;margin-bottom:16px">Ready to see it in your clinic?</div>
+  <div class="reveal" style="font-size:17px;color:rgba(255,255,255,0.75);margin-bottom:36px;max-width:440px;margin-left:auto;margin-right:auto;line-height:1.7">Request a live demo. We will walk you through the full workflow for your specialty — no commitment required.</div>
+  <a href="mailto:hello@smartbrief.ai" style="background:#fff;color:var(--teal);padding:14px 32px;border-radius:var(--radius-sm);font-size:15px;font-weight:700;text-decoration:none;display:inline-block;box-shadow:0 4px 16px rgba(0,0,0,0.12);transition:transform 0.15s" onmouseenter="this.style.transform='translateY(-2px)'" onmouseleave="this.style.transform=''">Request demo</a>
+</section>
+
+<!-- FOOTER -->
+<footer style="background:#08132A;padding:48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:24px">
+  <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:18px;color:#fff">Smart<span style="color:var(--teal)">Brief</span> AI</div>
+  <div style="font-size:12px;color:rgba(255,255,255,0.3)">Dental · ENT · Gynaecology · General Medicine</div>
+  <div style="display:flex;gap:24px">
+    <a href="smartbrief-dashboard.html" style="font-size:13px;color:rgba(255,255,255,0.4);text-decoration:none">Dashboard</a>
+    <a href="smartbrief-patient.html" style="font-size:13px;color:rgba(255,255,255,0.4);text-decoration:none">Patient portal</a>
+  </div>
+  <div style="font-size:12px;color:rgba(255,255,255,0.25)">© 2026 SmartBrief AI · Chennai, India</div>
+</footer>
+
+<script>
+const specialties={
+  dental:{badge:'Dental OPD',color:'#00897B',patients:'9',flags:'2',flagColor:'#E65100',
+    name:'Meera Krishnamurthy',meta:'38 yrs · F · Tooth sensitivity, lower left molar',
+    badgeText:'Drug flag',badgeBg:'#FFF3E0',badgeFg:'#E65100',
+    brief:'3-week cold sensitivity in lower left molar. On Metformin 500mg (Type 2 DM) and Amlodipine 5mg (hypertension). Avoid NSAIDs — paracetamol preferred.',
+    drugs:[{t:'Metformin 500mg',w:0},{t:'Ibuprofen — avoid',w:1},{t:'Amoxicillin — safe',w:0},{t:'Paracetamol — preferred',w:0}]},
+  ent:{badge:'ENT OPD',color:'#1565C0',patients:'12',flags:'1',flagColor:'#E65100',
+    name:'Rajan Subramanian',meta:'52 yrs · M · Chronic sinusitis, nasal congestion',
+    badgeText:'Drug flag',badgeBg:'#FFF3E0',badgeFg:'#E65100',
+    brief:'6-month nasal congestion and postnasal drip. On Warfarin for atrial fibrillation — avoid aspirin and NSAIDs, bleeding risk elevated. Saline irrigation preferred.',
+    drugs:[{t:'Warfarin — active',w:0},{t:'Aspirin — avoid',w:1},{t:'Fluticasone — safe',w:0},{t:'Cetirizine — safe',w:0}]},
+  gynae:{badge:'Gynaecology OPD',color:'#AD1457',patients:'7',flags:'0',flagColor:'#00897B',
+    name:'Divya Anand',meta:'29 yrs · F · Irregular cycles, 3-month history',
+    badgeText:'Clear',badgeBg:'#E0F2F1',badgeFg:'#00695C',
+    brief:'Irregular menstrual cycles over 3 months. No current medications. BMI 26. Mild fatigue. Thyroid profile and hormonal panel recommended before treatment.',
+    drugs:[{t:'No current medications',w:0},{t:'Iron supplements — consider',w:0},{t:'Folic acid — safe',w:0}]},
+  general:{badge:'General Medicine OPD',color:'#4527A0',patients:'18',flags:'3',flagColor:'#E65100',
+    name:'Suresh Venkataraman',meta:'61 yrs · M · Uncontrolled hypertension, fatigue',
+    badgeText:'Drug flag',badgeBg:'#FFF3E0',badgeFg:'#E65100',
+    brief:'BP 162/98 today. On Atenolol 50mg and Losartan 50mg. Fatigue may relate to beta-blocker effect. Renal function and potassium check advised.',
+    drugs:[{t:'Atenolol 50mg',w:0},{t:'Losartan 50mg',w:0},{t:'NSAIDs — avoid',w:1},{t:'Amlodipine — consider',w:0}]}
+};
+function switchSpecialty(key,el){
+  document.querySelectorAll('.sp-btn').forEach(b=>{b.classList.remove('active');b.style.background='';b.style.borderColor='';b.style.color='';});
+  el.classList.add('active');
+  const s=specialties[key];
+  el.style.background=s.color;el.style.borderColor=s.color;el.style.color='#fff';
+  document.getElementById('sp-badge').textContent=s.badge;
+  document.getElementById('sp-badge').style.background=s.color;
+  document.getElementById('st-patients').textContent=s.patients;
+  document.getElementById('st-patients').style.color=s.color;
+  const fl=document.getElementById('st-flags');
+  fl.textContent=s.flags;fl.style.color=s.flagColor;
+  document.getElementById('pt-name').textContent=s.name;
+  document.getElementById('pt-meta').textContent=s.meta;
+  const pb=document.getElementById('pt-badge');
+  pb.textContent=s.badgeText;pb.style.background=s.badgeBg;pb.style.color=s.badgeFg;
+  document.getElementById('pt-brief').textContent=s.brief;
+  document.getElementById('dash-date').textContent='Wed, 1 Apr 2026 · '+s.patients+' patients today';
+  document.getElementById('pt-drugs').innerHTML=s.drugs.map(d=>`<span style="background:${d.w?'#FFF3E0':'var(--gray1)'};border:1px solid ${d.w?'#FFCC80':'var(--gray2)'};border-radius:6px;font-size:12px;padding:4px 10px;color:${d.w?'#BF360C':'var(--navy)'};font-weight:500">${d.t}</span>`).join('');
+}
+const slider=document.getElementById('roi-slider');
+function updateROI(){
+  const n=parseInt(slider.value);
+  document.getElementById('pt-count').textContent=n+' patients per day';
+  const mins=Math.round(n*4.2);
+  document.getElementById('time-saved').textContent=mins+' min';
+  const extra=Math.round(mins/20);
+  document.getElementById('extra-pts').textContent='+'+extra;
+  const rev=Math.round(extra*300*26/1000);
+  document.getElementById('monthly-rev').textContent='₹'+rev+'K';
+}
+slider.addEventListener('input',updateROI);
+updateROI();
+window.addEventListener('scroll',()=>{
+  document.getElementById('main-nav').classList.toggle('scrolled',window.scrollY>40);
+  document.querySelectorAll('.reveal').forEach(el=>{
+    if(el.getBoundingClientRect().top<window.innerHeight-60)el.classList.add('visible');
+  });
+});
+document.querySelectorAll('.reveal').forEach(el=>{
+  if(el.getBoundingClientRect().top<window.innerHeight-60)el.classList.add('visible');
+});
+</script>
 <script>
 window.addEventListener('scroll',()=>{
   document.getElementById('main-nav').classList.toggle('scrolled',window.scrollY>40);
