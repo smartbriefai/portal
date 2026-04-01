@@ -112,10 +112,11 @@ h1,h2,h3,h4,h5{
 #hero-canvas{
   position:absolute;inset:0;
   width:100%;height:100%;
-  pointer-events:none;z-index:0;
-  border-radius:0;
+  pointer-events:none;
+  z-index:0;
+  will-change:transform;
 }
-#hero{isolation:isolate}
+#hero{isolation:isolate;overflow:hidden}
 .hero-glow{
   position:absolute;
   top:-100px;left:50%;transform:translateX(-50%);
@@ -223,6 +224,8 @@ h1,h2,h3,h4,h5{
 .db-wrap{
   margin:44px auto 0;max-width:960px;
   opacity:0;animation:up 0.8s cubic-bezier(0.22,1,0.36,1) 1.0s forwards;
+  position:relative;z-index:2;
+  will-change:transform;
 }
 .db-frame{
   background:var(--surface);
@@ -230,6 +233,7 @@ h1,h2,h3,h4,h5{
   border-radius:var(--r16);
   overflow:hidden;
   box-shadow:var(--sh-lg);
+  isolation:isolate;
 }
 .db-chrome{
   background:var(--gray1);border-bottom:1px solid var(--gray2);
@@ -259,10 +263,12 @@ h1,h2,h3,h4,h5{
   transition:background 0.3s;
 }
 .db-meta{font-size:12px;color:var(--gray3)}
-.db-body{display:grid;grid-template-columns:180px 1fr}
+.db-body{display:grid;grid-template-columns:180px 1fr;height:280px}
 .db-side{
   background:var(--surface);border-right:1px solid var(--gray2);
   padding:10px 0;
+  overflow:hidden;
+  height:100%;
 }
 .db-nav{
   padding:8px 16px;font-size:13px;color:var(--text2);
@@ -274,7 +280,13 @@ h1,h2,h3,h4,h5{
   border-left-color:var(--teal);font-weight:600;
 }
 .db-dot{width:6px;height:6px;border-radius:50%;background:currentColor;opacity:0.5;flex-shrink:0}
-.db-main{padding:16px;display:flex;flex-direction:column;gap:12px;background:var(--gray1)}
+.db-main{
+  padding:14px;display:flex;flex-direction:column;gap:10px;
+  background:var(--gray1);
+  overflow:hidden;
+  height:100%;
+  position:relative;
+}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .stat{
   background:var(--surface);border:1px solid var(--gray2);
@@ -556,10 +568,11 @@ input[type=range]#slider::-webkit-slider-thumb{
 }
 .db-queue-item{
   background:var(--surface);border:1px solid var(--gray2);
-  border-radius:var(--r8);padding:11px 14px;
-  display:flex;align-items:center;gap:12px;
-  cursor:default;transition:background 0.15s;
-  margin-bottom:8px;
+  border-radius:var(--r8);padding:9px 12px;
+  display:flex;align-items:center;gap:10px;
+  cursor:default;transition:background 0.15s,border-color 0.15s;
+  margin-bottom:6px;
+  flex-shrink:0;
 }
 .db-queue-item.selected{
   border-color:var(--teal);
@@ -576,10 +589,11 @@ input[type=range]#slider::-webkit-slider-thumb{
 .db-status{font-size:11px;font-weight:600;padding:3px 9px;border-radius:6px;white-space:nowrap}
 .db-detail{
   background:var(--surface);border:1px solid var(--gray2);
-  border-radius:var(--r8);padding:14px;
-  opacity:0;transform:translateY(6px);
-  transition:opacity 0.4s ease,transform 0.4s ease;
-  margin-top:8px;
+  border-radius:var(--r8);padding:10px 12px;
+  opacity:0;transform:translateY(4px);
+  transition:opacity 0.35s ease,transform 0.35s ease;
+  margin-top:6px;
+  flex-shrink:0;
 }
 .db-detail.show{opacity:1;transform:none}
 .db-detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
@@ -658,13 +672,13 @@ input[type=range]#slider::-webkit-slider-thumb{
             <div class="db-nav" id="tab-ai"><span class="db-dot"></span>AI Settings</div>
           </div>
           <div class="db-main">
-            <div class="stats" id="db-stats">
+            <div class="stats" id="db-stats" style="flex-shrink:0">
               <div class="stat"><div class="stat-n" style="color:var(--teal)" id="st-tot">3</div><div class="stat-l">Today's patients</div></div>
               <div class="stat"><div class="stat-n" style="color:#1565C0" id="st-rdy">2</div><div class="stat-l">Briefs ready</div></div>
               <div class="stat"><div class="stat-n" style="color:#E65100" id="st-con">0</div><div class="stat-l">In consult</div></div>
               <div class="stat"><div class="stat-n" style="color:var(--teal)" id="st-don">0</div><div class="stat-l">Done today</div></div>
             </div>
-            <div id="db-content"></div>
+            <div id="db-content" style="flex:1;overflow:hidden;position:relative;min-height:0"></div>
           </div>
         </div>
       </div>
@@ -1187,26 +1201,43 @@ function renderDetail(p,showBrief){
   return html;
 }
 
+function dbFadeTransition(fn){
+  var content=document.getElementById('db-content');
+  if(!content)return;
+  content.style.opacity='0';
+  content.style.transition='opacity 0.25s ease';
+  setTimeout(function(){
+    fn();
+    content.style.opacity='1';
+  },260);
+}
+
 function dbStep(){
   var content=document.getElementById('db-content');
   if(!content)return;
   if(dbPhase===0){
-    content.innerHTML=renderQueue(-1);
-    setTimeout(function(){dbPhase=1;dbStep();},1800);
+    dbFadeTransition(function(){
+      content.innerHTML=renderQueue(-1);
+    });
+    setTimeout(function(){dbPhase=1;dbStep();},2200);
   } else if(dbPhase===1){
-    content.innerHTML=renderQueue(0)+renderDetail(dbPatients[0],false);
-    setTimeout(function(){
-      var d=content.querySelector('.db-detail');
-      if(d)d.classList.add('show');
-    },100);
-    setTimeout(function(){dbPhase=2;dbStep();},2200);
+    dbFadeTransition(function(){
+      content.innerHTML=renderQueue(0)+renderDetail(dbPatients[0],false);
+      setTimeout(function(){
+        var d=content.querySelector('.db-detail');
+        if(d)d.classList.add('show');
+      },80);
+    });
+    setTimeout(function(){dbPhase=2;dbStep();},2600);
   } else if(dbPhase===2){
-    content.innerHTML=renderQueue(0)+renderDetail(dbPatients[0],true);
-    setTimeout(function(){
-      var d=content.querySelector('.db-detail');
-      if(d)d.classList.add('show');
-    },100);
-    setTimeout(function(){dbPhase=0;dbStep();},3500);
+    dbFadeTransition(function(){
+      content.innerHTML=renderQueue(0)+renderDetail(dbPatients[0],true);
+      setTimeout(function(){
+        var d=content.querySelector('.db-detail');
+        if(d)d.classList.add('show');
+      },80);
+    });
+    setTimeout(function(){dbPhase=0;dbStep();},4000);
   }
 }
 
