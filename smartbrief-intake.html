@@ -446,18 +446,49 @@ function buildReview(){
   var spNames={dental:'Dental',ent:'ENT',gynae:'Gynaecology',general:'General Medicine'};
   var rc=document.getElementById('review-content');
   rc.innerHTML='';
-  var items=[
+  var basics=[
     {label:'Name',value:S.name},
     {label:'Age & Gender',value:(S.age||'')+(S.gender?' · '+S.gender:'')},
     {label:'Specialty',value:spNames[S.sp]||S.sp},
-    {label:'Symptoms',value:S.symptoms.length?S.symptoms.join(', '):'—'},
-    {label:'Description',value:S.desc||'—'},
-    {label:'Medical history',value:(S.conditions&&S.conditions.length?S.conditions.join(', '):'')+(S.history?' '+S.history:'')+''},
+  ];
+  basics.forEach(function(item){
+    if(!item.value)return;
+    var card=document.createElement('div');
+    card.style.cssText='background:var(--surface);border:1px solid var(--gray2);border-radius:var(--r12);padding:13px 16px';
+    card.innerHTML='<div style="font-size:11px;font-weight:700;color:var(--text3);letter-spacing:0.5px;text-transform:uppercase;margin-bottom:4px">'+item.label+'</div><div style="font-size:15px;color:var(--text1);line-height:1.5">'+item.value+'</div>';
+    rc.appendChild(card);
+  });
+  if(S.symptoms.length){
+    var sc=document.createElement('div');
+    sc.style.cssText='background:var(--surface);border:1px solid var(--gray2);border-radius:var(--r12);padding:13px 16px';
+    sc.innerHTML='<div style="font-size:11px;font-weight:700;color:var(--text3);letter-spacing:0.5px;text-transform:uppercase;margin-bottom:8px">Selected symptoms</div><div style="display:flex;flex-wrap:wrap;gap:6px">'+S.symptoms.map(function(s){return'<span style="background:var(--teal-light);color:#00695C;border-radius:20px;padding:4px 12px;font-size:13px;font-weight:500">'+s+'</span>'}).join('')+'</div>';
+    rc.appendChild(sc);
+  }
+  if(S.aiHelped&&S.aiChat.length){
+    var ac=document.createElement('div');
+    ac.style.cssText='background:var(--teal-light);border:1px solid rgba(0,137,123,0.2);border-radius:var(--r12);padding:13px 16px';
+    var qaHTML='<div style="font-size:11px;font-weight:700;color:#00695C;letter-spacing:0.5px;text-transform:uppercase;margin-bottom:10px">AI symptom conversation</div>';
+    S.aiChat.forEach(function(m){
+      qaHTML+='<div style="margin-bottom:8px"><div style="font-size:12px;font-weight:600;color:#00695C;margin-bottom:2px">'+m.q+'</div><div style="font-size:14px;color:var(--text1)">'+m.a+'</div></div>';
+    });
+    if(S.aiSummary){
+      qaHTML+='<div style="border-top:1px solid rgba(0,137,123,0.2);padding-top:10px;margin-top:4px"><div style="font-size:12px;font-weight:700;color:#00695C;margin-bottom:4px">Clinical summary for doctor</div><div style="font-size:14px;color:var(--text1);line-height:1.6">'+S.aiSummary+'</div></div>';
+    }
+    ac.innerHTML=qaHTML;
+    rc.appendChild(ac);
+  } else if(S.desc){
+    var dc=document.createElement('div');
+    dc.style.cssText='background:var(--surface);border:1px solid var(--gray2);border-radius:var(--r12);padding:13px 16px';
+    dc.innerHTML='<div style="font-size:11px;font-weight:700;color:var(--text3);letter-spacing:0.5px;text-transform:uppercase;margin-bottom:4px">Description</div><div style="font-size:15px;color:var(--text1);line-height:1.6">'+S.desc+'</div>';
+    rc.appendChild(dc);
+  }
+  var others=[
+    {label:'Medical history',value:(S.conditions&&S.conditions.length&&S.conditions[0]!==''?S.conditions.join(', '):'')+(S.history?' · '+S.history:'')},
     {label:'Current medications',value:S.meds||'None mentioned'},
     {label:'Allergies',value:S.allergy||'None mentioned'}
   ];
-  items.forEach(function(item){
-    if(!item.value||item.value==='—'&&item.label!=='Description')return;
+  others.forEach(function(item){
+    if(!item.value)return;
     var card=document.createElement('div');
     card.style.cssText='background:var(--surface);border:1px solid var(--gray2);border-radius:var(--r12);padding:13px 16px';
     card.innerHTML='<div style="font-size:11px;font-weight:700;color:var(--text3);letter-spacing:0.5px;text-transform:uppercase;margin-bottom:4px">'+item.label+'</div><div style="font-size:15px;color:var(--text1);line-height:1.5">'+item.value+'</div>';
@@ -466,8 +497,37 @@ function buildReview(){
 }
 
 function submitIntake(){
-  document.getElementById('done-name').textContent=S.name;
   var spNames={dental:'Dental OPD',ent:'ENT OPD',gynae:'Gynaecology OPD',general:'General Medicine OPD'};
+  var spKeys={dental:'den',ent:'ent',gynae:'gyn',general:'gen'};
+  var now=new Date();
+  var token='T'+(Math.floor(Math.random()*90)+10);
+  var entry={
+    id:'intake-'+Date.now(),
+    nm:S.name,
+    age:S.age,
+    gender:S.gender,
+    sb:S.symptoms.length?S.symptoms.slice(0,2).join(', '):'Walk-in',
+    sp:spKeys[S.sp]||'gen',
+    spName:spNames[S.sp]||'General Medicine OPD',
+    t:token,
+    status:'Brief Ready',
+    submittedAt:now.toISOString(),
+    symptoms:S.symptoms,
+    description:S.aiHelped&&S.aiSummary?S.aiSummary:S.desc,
+    aiHelped:S.aiHelped,
+    aiChat:S.aiChat,
+    aiSummary:S.aiSummary||'',
+    history:(S.conditions&&S.conditions.length?S.conditions.join(', '):'')+' '+( S.history||''),
+    meds:S.meds||'',
+    allergy:S.allergy||'',
+    fromIntake:true
+  };
+  try{
+    var existing=JSON.parse(localStorage.getItem('sb_intake_queue')||'[]');
+    existing.push(entry);
+    localStorage.setItem('sb_intake_queue',JSON.stringify(existing));
+  }catch(e){}
+  document.getElementById('done-name').textContent=S.name;
   document.getElementById('done-sp').textContent=spNames[S.sp]||'';
   go('s5');
 }
