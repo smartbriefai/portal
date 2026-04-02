@@ -406,6 +406,26 @@ function sendAIMessage(){
   setTimeout(function(){askNextAIQuestion();},500);
 }
 
+function buildFallbackSummary(){
+  if(!S.aiChat||!S.aiChat.length)return S.desc||'Patient submitted intake form.';
+  var qs=aiQuestions[S.sp]||aiQuestions.general;
+  var parts=[];
+  S.aiChat.forEach(function(m,i){
+    var q=qs[i]||'';
+    var a=m.a||'';
+    if(!a)return;
+    if(i===0)parts.push('Problem duration: '+a+'.');
+    else if(q.toLowerCase().indexOf('fever')>-1)parts.push('Fever: '+a+'.');
+    else if(q.toLowerCase().indexOf('pain')>-1||q.toLowerCase().indexOf('discomfort')>-1)parts.push('Pain/discomfort: '+a+'.');
+    else if(q.toLowerCase().indexOf('medicine')>-1||q.toLowerCase().indexOf('medic')>-1)parts.push('Medications taken: '+a+'.');
+    else if(q.toLowerCase().indexOf('menstrual')>-1||q.toLowerCase().indexOf('cycle')>-1)parts.push('Menstrual: '+a+'.');
+    else if(q.toLowerCase().indexOf('eat')>-1||q.toLowerCase().indexOf('drink')>-1)parts.push('Oral intake: '+a+'.');
+    else if(q.toLowerCase().indexOf('scale')>-1||q.toLowerCase().indexOf('rate')>-1)parts.push('Severity: '+a+'.');
+    else parts.push(a+'.');
+  });
+  return parts.join(' ');
+}
+
 function generateAISummary(){
   addAIBubble('ai','Thank you. Let me summarise what you have told me for the doctor...');
   var transcript=S.aiChat.map(function(m){return 'Q: '+m.q+'\nA: '+m.a}).join('\n\n');
@@ -416,9 +436,13 @@ function generateAISummary(){
     headers:{'Content-Type':'application/json'},
     body:JSON.stringify({messages:[{role:'user',content:prompt}]})
   })
-  .then(function(r){return r.json()})
+  .then(function(r){
+    if(!r.ok)throw new Error('proxy error');
+    return r.json();
+  })
   .then(function(data){
-    var summary=data&&data.choices&&data.choices[0]&&data.choices[0].message&&data.choices[0].message.content?data.choices[0].message.content.trim():'Patient reports: '+S.aiChat.map(function(m){return m.a}).join('. ');
+    var raw=data&&data.choices&&data.choices[0]&&data.choices[0].message&&data.choices[0].message.content?data.choices[0].message.content.trim():'';
+    var summary=raw||buildFallbackSummary();
     S.aiSummary=summary;
     S.aiHelped=true;
     addAIBubble('ai','Here is your summary. You can use it or go back to edit.');
@@ -427,8 +451,7 @@ function generateAISummary(){
     document.getElementById('ai-input-area').style.display='none';
   })
   .catch(function(){
-    var qs=aiQuestions[S.sp]||aiQuestions.general;
-    var fallback=S.aiChat.map(function(m,i){return(qs[i]?qs[i].replace(/\?/,'')+': ':'')+m.a}).join('. ');
+    var fallback=buildFallbackSummary();
     S.aiSummary=fallback;
     S.aiHelped=true;
     document.getElementById('ai-summary').textContent=fallback;
