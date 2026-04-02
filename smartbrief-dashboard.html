@@ -918,6 +918,44 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
   text-overflow:ellipsis}
 .rx-ac-cat{font-size:10px;color:var(--tx3);margin-left:auto;flex-shrink:0;
   padding-left:8px}
+
+/* ── FREEMIUM COUNTER PILL ──────────────────────────────────────── */
+.brief-counter-pill{
+  display:inline-flex;align-items:center;gap:5px;
+  background:rgba(0,191,165,0.12);border:1.5px solid rgba(0,191,165,0.3);
+  border-radius:20px;padding:4px 10px;
+  font-size:.72rem;font-weight:700;color:#00bfa5;
+  cursor:default;white-space:nowrap;flex-shrink:0;
+}
+.brief-counter-pill.warn{background:rgba(255,152,0,0.12);border-color:rgba(255,152,0,0.35);color:#e65100}
+.brief-counter-pill.limit{background:rgba(198,40,40,0.10);border-color:rgba(198,40,40,0.3);color:#c62828}
+
+/* ── SOFT PAYWALL MODAL ─────────────────────────────────────────── */
+#paywallModal{
+  display:none;position:fixed;inset:0;z-index:10000;
+  background:rgba(0,0,0,0.7);align-items:center;justify-content:center;
+  padding:20px}
+#paywallModal.show{display:flex}
+.paywall-card{
+  background:#fff;border-radius:16px;padding:36px 32px;
+  max-width:440px;width:100%;
+  box-shadow:0 24px 72px rgba(0,0,0,0.22);
+  text-align:center;position:relative}
+.paywall-icon{width:56px;height:56px;border-radius:16px;
+  background:rgba(0,191,165,0.12);display:flex;align-items:center;justify-content:center;
+  margin:0 auto 18px;font-size:1.6rem}
+.paywall-title{font-family:var(--fh);font-size:1.2rem;font-weight:800;
+  color:var(--tx);margin-bottom:8px;letter-spacing:-.3px;line-height:1.3}
+.paywall-sub{font-size:.88rem;color:var(--tx2);margin-bottom:22px;line-height:1.6}
+.paywall-cta{width:100%;padding:14px;background:#00bfa5;color:#fff;border:none;
+  border-radius:10px;font-family:var(--fb);font-size:.94rem;font-weight:700;
+  cursor:pointer;transition:all .18s;box-shadow:0 4px 20px rgba(0,191,165,0.3);
+  margin-bottom:10px}
+.paywall-cta:hover{background:#00a896;transform:translateY(-1px)}
+.paywall-reset{font-size:.77rem;color:var(--tx3);margin-bottom:14px}
+.paywall-dismiss{font-size:.78rem;color:var(--tx3);text-decoration:underline;
+  cursor:pointer;background:none;border:none;font-family:var(--fb)}
+.paywall-dismiss:hover{color:var(--tx2)}
 </style>
 </head>
 <body>
@@ -1023,6 +1061,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
           </div>
         </div>
         <div class="mhdr-r">
+          <span class="brief-counter-pill" id="briefCounterPill" data-brief-counter>0 / 10 free briefs used</span>
           <div class="timerwrap">
             <span style="font-size:.71rem;color:var(--tx3)">Consult</span>
             <span class="timerdisp" id="timerdisp">00:00</span>
@@ -1064,7 +1103,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
           <!-- QUEUE -->
           <div>
             <div class="panel">
-              <div class="phdr"><span class="ptitle">Today's Queue</span><button class="pact" onclick="openModal()">+ Add</button></div>
+              <div class="phdr"><span class="ptitle">Today's Queue</span><button class="pact" style="margin-right:4px;background:rgba(0,191,165,0.1);color:#00bfa5;border:1px solid rgba(0,191,165,0.3)" onclick="openWAModal()" data-whatsapp-share>Share Intake Link</button><button class="pact" onclick="openModal()">+ Add</button></div>
               <div class="qlist" id="qlist"></div>
             </div>
             <div class="panel">
@@ -1965,6 +2004,14 @@ function generateBrief(){
   document.getElementById('genbtn').style.display='none';
   document.getElementById('aigen').style.display='block';
   setTimeout(()=>{
+    // Freemium counter
+    let briefCount=parseInt(localStorage.getItem('sb_brief_count')||'0',10);
+    if(!localStorage.getItem('sb_first_use_date'))localStorage.setItem('sb_first_use_date',Date.now().toString());
+    briefCount++;
+    localStorage.setItem('sb_brief_count',briefCount.toString());
+    updateBriefCounter();
+    if(briefCount>=10)showPaywall();
+
     const np={id:'p'+Date.now(),t:'T'+tokCounter,nm,
       sb:addMode==='w'?'Walk-in, brief generated':'Document uploaded, brief generated',
       st:'ready',al,cc,h:'No prior history on record.',mx:'None declared.',
@@ -3108,24 +3155,37 @@ initTheme();
     </div>
 
     <div id="wa-tabs" style="display:flex;gap:6px;margin:16px 0 14px">
-      <button onclick="switchWATab('whatsapp')" id="tab-wa" style="flex:1;padding:8px;border-radius:8px;font-size:.8rem;font-weight:600;border:1.5px solid var(--sp);background:var(--ss);color:var(--sp);cursor:pointer;font-family:var(--fb)">WhatsApp message</button>
-      <button onclick="switchWATab('qr')" id="tab-qr" style="flex:1;padding:8px;border-radius:8px;font-size:.8rem;font-weight:600;border:1.5px solid var(--bd2);background:transparent;color:var(--tx2);cursor:pointer;font-family:var(--fb)">Walk-in QR code</button>
+      <button onclick="switchWATab('whatsapp')" id="tab-wa" style="flex:1;padding:8px;border-radius:8px;font-size:.8rem;font-weight:600;border:1.5px solid var(--sp);background:var(--ss);color:var(--sp);cursor:pointer;font-family:var(--fb)">Send via WhatsApp</button>
+      <button onclick="switchWATab('qr')" id="tab-qr" style="flex:1;padding:8px;border-radius:8px;font-size:.8rem;font-weight:600;border:1.5px solid var(--bd2);background:transparent;color:var(--tx2);cursor:pointer;font-family:var(--fb)">Walk-In QR Code</button>
     </div>
 
     <div id="wa-panel-whatsapp">
-      <div style="font-size:.72rem;font-weight:700;color:var(--tx3);margin-bottom:6px">MESSAGE TEMPLATE</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
+        <div>
+          <div style="font-size:.68rem;font-weight:700;color:var(--tx3);margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px">Patient Name</div>
+          <input id="wa-patient-name" type="text" placeholder="e.g. Mrs. Priya S." oninput="refreshWAMessage()" style="width:100%;padding:8px 10px;border:1.5px solid var(--bd2);border-radius:8px;font-family:var(--fb);font-size:.83rem;color:var(--tx);background:var(--bg);outline:none;transition:border-color .2s" onfocus="this.style.borderColor='var(--sp)'" onblur="this.style.borderColor='var(--bd2)'">
+        </div>
+        <div>
+          <div style="font-size:.68rem;font-weight:700;color:var(--tx3);margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px">Doctor Name</div>
+          <input id="wa-doctor-name" type="text" placeholder="e.g. Dr. Ramesh" oninput="refreshWAMessage()" style="width:100%;padding:8px 10px;border:1.5px solid var(--bd2);border-radius:8px;font-family:var(--fb);font-size:.83rem;color:var(--tx);background:var(--bg);outline:none;transition:border-color .2s" onfocus="this.style.borderColor='var(--sp)'" onblur="this.style.borderColor='var(--bd2)'">
+        </div>
+      </div>
+      <div style="font-size:.72rem;font-weight:700;color:var(--tx3);margin-bottom:6px">MESSAGE PREVIEW</div>
       <div id="wa-message-box" style="background:var(--bg2);border:1px solid var(--bd);border-radius:10px;padding:12px;font-size:.83rem;color:var(--tx);line-height:1.6;margin-bottom:12px;white-space:pre-wrap;word-break:break-word"></div>
       <div style="display:flex;gap:8px">
-        <button onclick="copyWAMessage()" id="btn-copy" style="flex:1;padding:10px;border-radius:8px;background:var(--bg2);border:1px solid var(--bd);font-size:.82rem;font-weight:600;color:var(--tx2);cursor:pointer;font-family:var(--fb);transition:all 0.15s">Copy message</button>
+        <button onclick="copyWAMessage()" id="btn-copy" style="flex:1;padding:10px;border-radius:8px;background:var(--bg2);border:1px solid var(--bd);font-size:.82rem;font-weight:600;color:var(--tx2);cursor:pointer;font-family:var(--fb);transition:all 0.15s">Copy Message</button>
         <button onclick="openWhatsApp()" style="flex:1;padding:10px;border-radius:8px;background:#25D366;border:none;font-size:.82rem;font-weight:600;color:#fff;cursor:pointer;font-family:var(--fb);transition:all 0.15s">Open WhatsApp</button>
       </div>
     </div>
 
-    <div id="wa-panel-qr" style="display:none;text-align:center">
-      <div style="font-size:.72rem;font-weight:700;color:var(--tx3);margin-bottom:10px">WALK-IN INTAKE — SHOW THIS TO PATIENT</div>
+    <div id="wa-panel-qr" style="display:none;text-align:center" data-qr-walkin>
+      <div style="font-size:.72rem;font-weight:700;color:var(--tx3);margin-bottom:10px">WALK-IN QR CODE — SHOW TO PATIENT AT RECEPTION</div>
       <div id="qr-container" style="display:inline-block;background:#fff;border:2px solid var(--bd);border-radius:12px;padding:16px;margin-bottom:12px"></div>
-      <div style="font-size:.8rem;color:var(--tx2);line-height:1.5;margin-bottom:12px">Patient scans this with their phone camera.<br>No app needed — opens directly in browser.</div>
-      <button onclick="printQR()" style="padding:10px 24px;border-radius:8px;background:var(--bg2);border:1px solid var(--bd);font-size:.82rem;font-weight:600;color:var(--tx2);cursor:pointer;font-family:var(--fb)">Print QR code</button>
+      <div style="font-size:.8rem;color:var(--tx2);line-height:1.5;margin-bottom:12px">Show this QR to walk-in patients. They scan and fill<br>the form on their phone before entering the consultation room.</div>
+      <div style="display:flex;gap:8px;justify-content:center">
+        <button onclick="downloadQR()" style="padding:10px 20px;border-radius:8px;background:#00bfa5;border:none;font-size:.82rem;font-weight:600;color:#fff;cursor:pointer;font-family:var(--fb)">Download QR</button>
+        <button onclick="printQR()" style="padding:10px 20px;border-radius:8px;background:var(--bg2);border:1px solid var(--bd);font-size:.82rem;font-weight:600;color:var(--tx2);cursor:pointer;font-family:var(--fb)">Print QR</button>
+      </div>
     </div>
   </div>
 </div>
@@ -3133,16 +3193,25 @@ initTheme();
 <script>
 var waModalOpen=false;
 var currentWATab='whatsapp';
-var INTAKE_URL=window.location.origin+'/smartbrief-patient.html';
+var INTAKE_URL='https://portal-igoyogioo1-4478s-projects.vercel.app/smartbrief-patient.html';
 
 function buildWAMessage(){
-  var spec=document.querySelector('.schip')||document.querySelector('[class*="schip"]');
-  var specName=spec?spec.textContent.trim():'SmartBrief';
-  return 'Hello,\n\nWe would like to make your upcoming visit as smooth as possible.\n\nPlease take 2 minutes to fill in a short health form before your appointment:\n\n'+INTAKE_URL+'\n\nThis helps Dr. '+specName+' prepare your consultation in advance.\n\nThank you.';
+  var patientName=document.getElementById('wa-patient-name').value.trim()||'[Patient Name]';
+  var doctorName=document.getElementById('wa-doctor-name').value.trim()||'[Doctor Name]';
+  var clinicChip=document.querySelector('.schip');
+  var clinicName=clinicChip?clinicChip.textContent.trim()+' Clinic':'SmartBrief AI Clinic';
+  return 'Dear '+patientName+',\n\n'+doctorName+'\'s clinic has requested you to fill a brief health summary before your appointment. It takes less than 2 minutes.\n\nFill here: '+INTAKE_URL+'\n\nThis helps your doctor prepare for your consultation in advance.\n— '+clinicName;
+}
+
+function refreshWAMessage(){
+  document.getElementById('wa-message-box').textContent=buildWAMessage();
 }
 
 function openWAModal(){
   document.getElementById('waModal').style.display='flex';
+  // Pre-fill doctor name from session
+  var docNameEl=document.getElementById('wa-doctor-name');
+  if(!docNameEl.value&&cu&&cu!=='Doctor')docNameEl.value='Dr. '+cu;
   document.getElementById('wa-message-box').textContent=buildWAMessage();
   generateQR();
   waModalOpen=true;
@@ -3208,12 +3277,67 @@ function printQR(){
   win.print();
 }
 
+function downloadQR(){
+  var canvas=document.querySelector('#qr-container canvas');
+  if(!canvas){toast('QR not ready — please wait a moment');return;}
+  var link=document.createElement('a');
+  link.download='smartbrief-walkin-qr.png';
+  link.href=canvas.toDataURL('image/png');
+  link.click();
+}
+
 document.addEventListener('keydown',function(e){
   if(e.key==='Escape'&&waModalOpen)closeWAModal();
 });
 document.getElementById('waModal').addEventListener('click',function(e){
   if(e.target===this)closeWAModal();
 });
+</script>
+
+<!-- ── SOFT PAYWALL MODAL ──────────────────────────────────────── -->
+<div id="paywallModal" aria-modal="true" role="dialog">
+  <div class="paywall-card">
+    <div class="paywall-icon">🔒</div>
+    <div class="paywall-title">You've used your 10 free briefs this month.</div>
+    <div class="paywall-sub">Continue with SmartBrief AI for ₹499/month — cancel anytime.</div>
+    <button class="paywall-cta" onclick="window.open('#','_blank')">Continue for ₹499/month</button>
+    <div class="paywall-reset" id="paywallResetDate"></div>
+    <br>
+    <button class="paywall-dismiss" onclick="dismissPaywall()">Remind me later</button>
+  </div>
+</div>
+
+<script>
+// ── FREEMIUM COUNTER ──────────────────────────────────────────────
+function updateBriefCounter(){
+  var count=parseInt(localStorage.getItem('sb_brief_count')||'0',10);
+  var pill=document.getElementById('briefCounterPill');
+  if(!pill)return;
+  pill.textContent=count+' / 10 free briefs used';
+  pill.classList.remove('warn','limit');
+  if(count>=10)pill.classList.add('limit');
+  else if(count>=7)pill.classList.add('warn');
+}
+
+function showPaywall(){
+  if(sessionStorage.getItem('sb_paywall_dismissed'))return;
+  var modal=document.getElementById('paywallModal');
+  var firstUse=parseInt(localStorage.getItem('sb_first_use_date')||Date.now().toString(),10);
+  var resetDate=new Date(firstUse+30*24*60*60*1000);
+  var opts={day:'numeric',month:'long',year:'numeric'};
+  document.getElementById('paywallResetDate').textContent='Resets on '+resetDate.toLocaleDateString('en-IN',opts);
+  modal.classList.add('show');
+}
+
+function dismissPaywall(){
+  sessionStorage.setItem('sb_paywall_dismissed','1');
+  document.getElementById('paywallModal').classList.remove('show');
+}
+
+// Init counter on page load
+document.addEventListener('DOMContentLoaded',function(){updateBriefCounter();});
+// Also update after login
+var _origLogin=typeof doLogin==='function'?doLogin:null;
 </script>
 
 </body>
