@@ -1820,6 +1820,7 @@ function doLogout(){
   document.getElementById('dashScreen').style.display='none';
   sel=null;stopTimer();queue=[];actLog=[];
   document.querySelectorAll('.spbtn').forEach(b=>b.classList.remove('sel'));
+  localStorage.removeItem('sb_intake_queue');
 }
 
 // ══ INIT ══════════════════════════════════════════════════════════
@@ -1836,6 +1837,37 @@ function initDash(){
   document.querySelectorAll('.stile').forEach(t=>t.classList.toggle('sel',t.dataset.s===cs));
   queue=SP[cs].p.map(p=>({...p}));
   tokCounter=queue.length+1;
+  (function(){
+    try{
+      var intakeQ=JSON.parse(localStorage.getItem('sb_intake_queue')||'[]');
+      var now=new Date();
+      intakeQ.forEach(function(entry){
+        if(entry.sp!==cs)return;
+        var alreadyIn=queue.some(function(q){return q.id===entry.id});
+        if(alreadyIn)return;
+        var age=entry.age?entry.age+' yrs':'';
+        var gender=entry.gender||'';
+        var meta=[age,gender,entry.sb].filter(Boolean).join(' · ');
+        queue.unshift({
+          id:entry.id,
+          nm:entry.nm,
+          sb:meta,
+          t:entry.t||'T?',
+          st:'ready',
+          tc:'#E0F2F1',tf:'#00695C',
+          cc:entry.symptoms&&entry.symptoms.length?entry.symptoms.join(', '):'See description',
+          h:entry.history||'No prior history on file.',
+          mx:entry.meds||'None declared.',
+          al:entry.allergy&&entry.allergy.toLowerCase()!=='none'?entry.allergy:'',
+          allergy:entry.allergy||'',
+          ac:[],
+          hist:[],
+          brief:entry.aiSummary||entry.description||'Patient submitted intake form. Review details in brief.',
+          fromIntake:true
+        });
+      });
+    }catch(e){}
+  })();
   renderQueue();updateStats();
   logActivity('Session started — '+SP[cs].n);
 }
@@ -1855,6 +1887,36 @@ function switchSpec(s,el){
   cs=s;applySpec(s);
   document.querySelectorAll('.stile').forEach(t=>t.classList.toggle('sel',t.dataset.s===s));
   queue=SP[s].p.map(p=>({...p}));tokCounter=queue.length+1;sel=null;
+  (function(){
+    try{
+      var intakeQ=JSON.parse(localStorage.getItem('sb_intake_queue')||'[]');
+      intakeQ.forEach(function(entry){
+        if(entry.sp!==s)return;
+        var alreadyIn=queue.some(function(q){return q.id===entry.id});
+        if(alreadyIn)return;
+        var age=entry.age?entry.age+' yrs':'';
+        var gender=entry.gender||'';
+        var meta=[age,gender,entry.sb].filter(Boolean).join(' · ');
+        queue.unshift({
+          id:entry.id,
+          nm:entry.nm,
+          sb:meta,
+          t:entry.t||'T?',
+          st:'ready',
+          tc:'#E0F2F1',tf:'#00695C',
+          cc:entry.symptoms&&entry.symptoms.length?entry.symptoms.join(', '):'See description',
+          h:entry.history||'No prior history on file.',
+          mx:entry.meds||'None declared.',
+          al:entry.allergy&&entry.allergy.toLowerCase()!=='none'?entry.allergy:'',
+          allergy:entry.allergy||'',
+          ac:[],
+          hist:[],
+          brief:entry.aiSummary||entry.description||'Patient submitted intake form. Review details in brief.',
+          fromIntake:true
+        });
+      });
+    }catch(e){}
+  })();
   renderQueue();updateStats();showPlaceholder();
   logActivity('Switched to '+SP[s].n);toast('Switched to '+SP[s].n);
   updateReport();
@@ -1907,8 +1969,8 @@ function selectPatient(id){
 function renderBrief(p){
   document.getElementById('briefcontent').innerHTML=`
     <div style="padding:0 0 0 0">
-      ${p.al
-        ?`<div class="allergybox"><span class="allergybox-i">⚠️</span><div class="allergybox-t">ALLERGY / CLINICAL FLAG<small>${p.al}</small></div></div>`
+      ${(p.al||(p.allergy&&p.allergy.toLowerCase()!=='none'&&p.allergy.trim()!==''))
+        ?`<div class="allergybox"><span class="allergybox-i">⚠️</span><div class="allergybox-t">ALLERGY / CLINICAL FLAG<small>${p.al||p.allergy}</small></div></div>`
         :`<div class="noallergy">✓ No known allergies on record</div>`}
       <div class="bsecs">
         <div class="bsec"><div class="bsec-l">Chief Complaint</div><div class="bsec-v">${p.cc}</div></div>
