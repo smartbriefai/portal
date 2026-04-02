@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>SmartBrief AI — Patient Intake</title>
+<link rel="preconnect" href="https://fonts.bunny.net">
+<link href="https://fonts.bunny.net/css?family=plus-jakarta-sans:400,500,600,700|dm-sans:400,500" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+--teal:#00897B;--teal-dark:#00796B;--teal-light:#E0F2F1;
+--navy:#0F1F3D;--bg:#FAFBFF;--surface:#FFFFFF;
+--gray1:#F4F6FB;--gray2:#E8EBF4;--gray3:#B0B8D0;
+--text1:#0F1F3D;--text2:#4A5568;--text3:#718096;
+--r8:8px;--r12:12px;--r16:16px;
+}
+html,body{min-height:100%;background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text1);-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:'Plus Jakarta Sans',sans-serif;font-synthesis:none}
+.screen{display:none;min-height:100vh;flex-direction:column}
+.screen.active{display:flex}
+.screen-header{background:var(--surface);border-bottom:1px solid var(--gray2);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10}
+.screen-body{flex:1;padding:24px 20px;max-width:520px;width:100%;margin:0 auto}
+.screen-footer{padding:16px 20px 32px;max-width:520px;width:100%;margin:0 auto}
+.progress-bar{height:3px;background:var(--gray2)}
+.progress-fill{height:100%;background:var(--teal);transition:width 0.4s ease;width:5%}
+.logo{font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:17px;color:var(--navy)}
+.logo em{color:var(--teal);font-style:normal}
+.logo sup{font-size:9px;font-weight:700;color:var(--teal);letter-spacing:1px;vertical-align:super;margin-left:1px}
+.lang-toggle{display:flex;background:var(--gray1);border-radius:var(--r8);padding:3px;gap:2px}
+.lang-btn{padding:6px 14px;border-radius:6px;border:none;background:transparent;font-size:13px;font-weight:500;color:var(--text3);cursor:pointer;font-family:'DM Sans',sans-serif}
+.lang-btn.active{background:var(--surface);color:var(--text1)}
+.btn-primary{width:100%;padding:15px;background:var(--teal);color:#fff;border:none;border-radius:var(--r12);font-family:'DM Sans',sans-serif;font-size:16px;font-weight:600;cursor:pointer;box-shadow:0 4px 16px rgba(0,137,123,0.25)}
+.btn-primary:disabled{background:var(--gray3);box-shadow:none;cursor:not-allowed}
+.btn-secondary{width:100%;padding:13px;background:transparent;color:var(--text2);border:1.5px solid var(--gray2);border-radius:var(--r12);font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;cursor:pointer;margin-top:10px}
+.sp-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:8px 0}
+.sp-card{background:var(--surface);border:2px solid var(--gray2);border-radius:var(--r16);padding:20px 16px;text-align:center;cursor:pointer;transition:border-color 0.2s,background 0.2s;position:relative}
+.sp-card.selected{border-color:var(--teal);background:var(--teal-light)}
+.sp-card.selected::after{content:'✓';position:absolute;top:8px;right:10px;font-size:12px;color:var(--teal);font-weight:700}
+.sp-icon{font-size:32px;margin-bottom:10px;display:block}
+.sp-name{font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:700;color:var(--navy);margin-bottom:3px}
+.sp-desc{font-size:12px;color:var(--text3)}
+.privacy-badge{display:flex;align-items:center;gap:8px;background:var(--teal-light);border-radius:var(--r8);padding:10px 14px;margin-bottom:20px}
+.privacy-text{font-size:12px;color:#00695C;line-height:1.4}
+.screen-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:22px;font-weight:800;color:var(--navy);line-height:1.2;margin-bottom:8px}
+.screen-sub{font-size:15px;color:var(--text2);line-height:1.6;margin-bottom:24px}
+.sec-label{font-size:11px;font-weight:700;color:var(--text3);letter-spacing:0.8px;text-transform:uppercase;margin-bottom:10px}
+.en{display:block}.ta{display:none}
+body.tamil .en{display:none}
+body.tamil .ta{display:block}
+</style>
+</head>
+<body>
+<div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
+
+<div class="screen active" id="s1">
+  <div class="screen-header">
+    <div class="logo">Smart<em>Brief</em><sup>AI</sup></div>
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="setLang('en',this)">English</button>
+      <button class="lang-btn" onclick="setLang('ta',this)">தமிழ்</button>
+    </div>
+  </div>
+  <div class="screen-body">
+    <div class="privacy-badge">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00695C" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      <div class="privacy-text"><span class="en">Your information is private and shared only with your doctor.</span><span class="ta">உங்கள் தகவல் தனிப்பட்டது — மருத்துவரிடம் மட்டுமே பகிரப்படும்.</span></div>
+    </div>
+    <div class="screen-title en">Help your doctor prepare for your visit</div>
+    <div class="screen-title ta">உங்கள் வருகைக்கு மருத்துவரை தயார்படுத்துங்கள்</div>
+    <div class="screen-sub en">Answer a few simple questions. Takes 2-3 minutes. No login needed.</div>
+    <div class="screen-sub ta">சில கேள்விகளுக்கு பதில் அளிக்கவும். 2-3 நிமிடங்கள் மட்டுமே.</div>
+    <div class="sec-label en">Select your clinic type</div>
+    <div class="sec-label ta">மருத்துவமனை வகையை தேர்ந்தெடுக்கவும்</div>
+    <div class="sp-grid">
+      <div class="sp-card" onclick="pickSp('dental',this)"><span class="sp-icon">🦷</span><div class="sp-name en">Dental</div><div class="sp-name ta">பல் மருத்துவம்</div><div class="sp-desc en">Teeth, gums, jaw</div><div class="sp-desc ta">பற்கள், ஈறுகள்</div></div>
+      <div class="sp-card" onclick="pickSp('ent',this)"><span class="sp-icon">👂</span><div class="sp-name en">ENT</div><div class="sp-name ta">காது மூக்கு தொண்டை</div><div class="sp-desc en">Ear, nose, throat</div><div class="sp-desc ta">காது, மூக்கு, தொண்டை</div></div>
+      <div class="sp-card" onclick="pickSp('gynae',this)"><span class="sp-icon">🌸</span><div class="sp-name en">Gynaecology</div><div class="sp-name ta">மகளிர் மருத்துவம்</div><div class="sp-desc en">Women's health</div><div class="sp-desc ta">பெண்கள் உடல்நலம்</div></div>
+      <div class="sp-card" onclick="pickSp('general',this)"><span class="sp-icon">🩺</span><div class="sp-name en">General Medicine</div><div class="sp-name ta">பொது மருத்துவம்</div><div class="sp-desc en">Fever, pain, diabetes</div><div class="sp-desc ta">காய்ச்சல், வலி, நீரிழிவு</div></div>
+    </div>
+  </div>
+  <div class="screen-footer">
+    <button class="btn-primary" id="btn1" onclick="go('s2')" disabled><span class="en">Continue</span><span class="ta">தொடரவும்</span></button>
+  </div>
+</div>
+
+<div id="s2-placeholder"></div>
+<div id="s3-placeholder"></div>
+<div id="s4-placeholder"></div>
+<div id="s5-placeholder"></div>
+
+<script>
+var S={sp:null,lang:'en',symptoms:[],desc:'',name:'',age:'',history:'',meds:'',aiChat:[],aiHelped:false};
+function setLang(l,btn){S.lang=l;document.querySelectorAll('.lang-btn').forEach(function(b){b.classList.remove('active')});btn.classList.add('active');l==='ta'?document.body.classList.add('tamil'):document.body.classList.remove('tamil')}
+function pickSp(sp,el){S.sp=sp;document.querySelectorAll('.sp-card').forEach(function(c){c.classList.remove('selected')});el.classList.add('selected');document.getElementById('btn1').disabled=false}
+function go(id){document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active')});var el=document.getElementById(id);if(el){el.classList.add('active')}window.scrollTo(0,0);var p={'s1':5,'s2':30,'s3':60,'s4':85,'s5':100};document.getElementById('prog').style.width=(p[id]||5)+'%'}
+</script>
+</body>
+</html>
