@@ -410,7 +410,7 @@ function generateAISummary(){
   addAIBubble('ai','Thank you. Let me summarise what you have told me for the doctor...');
   var transcript=S.aiChat.map(function(m){return 'Q: '+m.q+'\nA: '+m.a}).join('\n\n');
   var specialty={dental:'dental',ent:'ENT',gynae:'gynaecology',general:'general medicine'}[S.sp]||'general medicine';
-  var prompt='You are a clinical assistant helping summarise a patient self-reported symptom conversation for an Indian '+specialty+' doctor. Based on the following Q&A, write a 2-3 sentence clinical summary in plain English that the doctor can read in under 10 seconds. Be specific and factual. Do not add anything not mentioned by the patient. Do not use first person.\n\nPatient Q&A:\n'+transcript+'\n\nClinical summary:';
+  var prompt='You are a clinical assistant for an Indian '+specialty+' OPD doctor. A patient has answered questions about their symptoms. Write a clear 2-3 sentence clinical summary for the doctor. Use proper medical language. Start with the duration, then the main symptom, then relevant details. Do NOT use the patient answers verbatim — rewrite them professionally. Do not invent anything not mentioned.\n\nPatient answers:\n'+transcript+'\n\nClinical summary (start directly, no preamble):';
   fetch(AI_PROXY,{
     method:'POST',
     headers:{'Content-Type':'application/json'},
@@ -427,7 +427,8 @@ function generateAISummary(){
     document.getElementById('ai-input-area').style.display='none';
   })
   .catch(function(){
-    var fallback=S.aiChat.map(function(m){return m.a}).join('. ');
+    var qs=aiQuestions[S.sp]||aiQuestions.general;
+    var fallback=S.aiChat.map(function(m,i){return(qs[i]?qs[i].replace(/\?/,'')+': ':'')+m.a}).join('. ');
     S.aiSummary=fallback;
     S.aiHelped=true;
     document.getElementById('ai-summary').textContent=fallback;
