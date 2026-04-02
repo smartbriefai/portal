@@ -174,8 +174,80 @@ body.tamil .ta{display:block}
     <button class="btn-secondary" onclick="go('s2')"><span class="en">Back</span><span class="ta">பின்செல்</span></button>
   </div>
 </div>
-<div id="s4-placeholder"></div>
-<div id="s5-placeholder"></div>
+<div class="screen" id="s-ai">
+  <div class="screen-header">
+    <button onclick="go('s2')" style="background:none;border:none;cursor:pointer;padding:4px;color:var(--text2)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg></button>
+    <div class="logo">Smart<em>Brief</em><sup>AI</sup></div>
+    <div style="width:28px"></div>
+  </div>
+  <div class="screen-body">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px">
+      <div style="width:36px;height:36px;border-radius:10px;background:var(--teal);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3M12 17h.01"/></svg>
+      </div>
+      <div>
+        <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:700;color:var(--navy)" class="en">AI symptom helper</div>
+        <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:700;color:var(--navy)" class="ta">AI அறிகுறி உதவியாளர்</div>
+        <div style="font-size:12px;color:var(--text3)" class="en">Chat privately — your replies go only to your doctor</div>
+        <div style="font-size:12px;color:var(--text3)" class="ta">தனிப்பட்ட உரையாடல் — மருத்துவரிடம் மட்டுமே செல்லும்</div>
+      </div>
+    </div>
+    <div id="ai-chat" style="display:flex;flex-direction:column;gap:12px;margin-bottom:16px;min-height:200px"></div>
+    <div id="ai-input-area" style="display:none">
+      <textarea id="ai-user-input" rows="2" placeholder="Type your answer here..." style="width:100%;padding:12px 14px;border:1.5px solid var(--gray2);border-radius:var(--r12);font-family:'DM Sans',sans-serif;font-size:15px;color:var(--text1);background:var(--surface);resize:none;outline:none;margin-bottom:10px"></textarea>
+      <button onclick="sendAIMessage()" style="width:100%;padding:13px;background:var(--teal);color:#fff;border:none;border-radius:var(--r12);font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;cursor:pointer">
+        <span class="en">Send</span><span class="ta">அனுப்பு</span>
+      </button>
+    </div>
+    <div id="ai-quick-btns" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px"></div>
+    <div id="ai-done-area" style="display:none">
+      <div style="background:var(--teal-light);border-radius:var(--r12);padding:14px;margin-bottom:14px">
+        <div style="font-size:12px;font-weight:700;color:#00695C;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px" class="en">Your symptoms — summarised for doctor</div>
+        <div style="font-size:12px;font-weight:700;color:#00695C;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px" class="ta">மருத்துவருக்காக சுருக்கப்பட்ட அறிகுறிகள்</div>
+        <div id="ai-summary" style="font-size:14px;color:var(--text1);line-height:1.6"></div>
+      </div>
+      <button onclick="acceptAISummary()" class="btn-primary"><span class="en">Use this description</span><span class="ta">இந்த விளக்கத்தை பயன்படுத்து</span></button>
+      <button onclick="go('s2')" class="btn-secondary"><span class="en">Go back and edit</span><span class="ta">திரும்பி திருத்து</span></button>
+    </div>
+  </div>
+</div>
+
+<div class="screen" id="s4">
+  <div class="screen-header">
+    <button onclick="go('s3')" style="background:none;border:none;cursor:pointer;padding:4px;color:var(--text2)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg></button>
+    <div class="logo">Smart<em>Brief</em><sup>AI</sup></div>
+    <div style="width:28px"></div>
+  </div>
+  <div class="screen-body">
+    <div class="screen-title en">Review your information</div>
+    <div class="screen-title ta">உங்கள் தகவலை மதிப்பாய்வு செய்யவும்</div>
+    <div class="screen-sub en">Please check everything looks correct before submitting.</div>
+    <div class="screen-sub ta">சமர்ப்பிப்பதற்கு முன் எல்லாம் சரியாக உள்ளதா என்று சரிபாருங்கள்.</div>
+    <div id="review-content" style="display:flex;flex-direction:column;gap:12px"></div>
+  </div>
+  <div class="screen-footer">
+    <button class="btn-primary" onclick="submitIntake()"><span class="en">Submit to doctor</span><span class="ta">மருத்துவரிடம் சமர்ப்பி</span></button>
+    <button class="btn-secondary" onclick="go('s3')"><span class="en">Back</span><span class="ta">பின்செல்</span></button>
+  </div>
+</div>
+
+<div class="screen" id="s5">
+  <div class="screen-body" style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding-top:80px">
+    <div style="width:72px;height:72px;border-radius:50%;background:var(--teal-light);display:flex;align-items:center;justify-content:center;margin-bottom:24px">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2.5" stroke-linecap="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+    </div>
+    <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:24px;font-weight:800;color:var(--navy);margin-bottom:12px" class="en">Your form is submitted</div>
+    <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:24px;font-weight:800;color:var(--navy);margin-bottom:12px" class="ta">உங்கள் படிவம் சமர்ப்பிக்கப்பட்டது</div>
+    <div style="font-size:16px;color:var(--text2);line-height:1.7;max-width:320px;margin-bottom:32px" class="en">Your doctor has been notified and will review your brief before your consultation. Please arrive at the clinic as scheduled.</div>
+    <div style="font-size:16px;color:var(--text2);line-height:1.7;max-width:320px;margin-bottom:32px" class="ta">உங்கள் மருத்துவர் அறிவிக்கப்பட்டுள்ளார். திட்டமிட்டபடி கிளினிக்கிற்கு வாருங்கள்.</div>
+    <div style="background:var(--gray1);border-radius:var(--r12);padding:16px 20px;width:100%;max-width:320px">
+      <div style="font-size:13px;font-weight:600;color:var(--text3);margin-bottom:4px" class="en">Submitted for</div>
+      <div style="font-size:13px;font-weight:600;color:var(--text3);margin-bottom:4px" class="ta">சமர்ப்பிக்கப்பட்டது</div>
+      <div id="done-name" style="font-family:'Plus Jakarta Sans',sans-serif;font-size:17px;font-weight:700;color:var(--navy)"></div>
+      <div id="done-sp" style="font-size:13px;color:var(--text2);margin-top:2px"></div>
+    </div>
+  </div>
+</div>
 
 <script>
 var S={sp:null,lang:'en',symptoms:[],desc:'',name:'',age:'',history:'',meds:'',aiChat:[],aiHelped:false};
@@ -250,6 +322,160 @@ function buildConditionChips(){
     wrap.appendChild(chip);
   });
 }
+
+var AI_PROXY='https://smartbrief-proxy.vercel.app/api/chat';
+var aiStep=0;
+var aiQuestions={
+  dental:['How long have you had this problem?','Does the pain come and go or is it constant?','Does anything make it worse — like hot drinks, cold food, or biting?','Have you had any dental work done recently?','On a scale of 1 to 10, how would you rate the pain?'],
+  ent:['How long have you had this problem?','Is it on one side or both sides?','Do you have fever or any other symptoms along with this?','Have you tried any medicines — did they help?','Does it affect your sleep or daily activities?'],
+  gynae:['How long have you had this problem?','Is this related to your menstrual cycle in any way?','Can you describe where exactly you feel the discomfort — lower abdomen, back, or elsewhere?','Have you noticed any unusual changes — in discharge, bleeding, or swelling?','Have you been under stress or had any major changes recently?'],
+  general:['How long have you had this problem?','Do you have fever — if yes, how high?','Is the pain or discomfort in one place or all over?','Have you taken any medicines — if yes, which ones?','Are you able to eat and drink normally?']
+};
+
+function startAIChat(){
+  aiStep=0;
+  S.aiChat=[];
+  S.aiHelped=false;
+  document.getElementById('ai-done-area').style.display='none';
+  document.getElementById('ai-input-area').style.display='none';
+  var chat=document.getElementById('ai-chat');
+  chat.innerHTML='';
+  addAIBubble('ai','Hello! I will ask you a few simple questions to help describe your symptoms to the doctor. Please answer in your own words — there are no wrong answers.');
+  setTimeout(function(){askNextAIQuestion();},600);
+}
+
+function addAIBubble(role,text){
+  var chat=document.getElementById('ai-chat');
+  var div=document.createElement('div');
+  div.style.cssText='display:flex;'+(role==='ai'?'justify-content:flex-start':'justify-content:flex-end');
+  var bubble=document.createElement('div');
+  bubble.style.cssText='max-width:80%;padding:12px 15px;border-radius:'+(role==='ai'?'4px 16px 16px 16px':'16px 4px 16px 16px')+';background:'+(role==='ai'?'var(--surface)':'var(--teal)')+';color:'+(role==='ai'?'var(--text1)':'#fff')+';font-size:15px;line-height:1.6;border:1px solid '+(role==='ai'?'var(--gray2)':'transparent');
+  bubble.textContent=text;
+  div.appendChild(bubble);
+  chat.appendChild(div);
+  chat.scrollTop=chat.scrollHeight;
+}
+
+function askNextAIQuestion(){
+  var qs=aiQuestions[S.sp]||aiQuestions.general;
+  if(aiStep<qs.length){
+    addAIBubble('ai',qs[aiStep]);
+    document.getElementById('ai-input-area').style.display='block';
+    document.getElementById('ai-quick-btns').innerHTML='';
+    if(aiStep===0){
+      var times=['Just started today','A few days','About a week','More than a week','Over a month'];
+      showQuickReplies(times);
+    }
+    if(aiStep===4){
+      var levels=['1-2 (mild)','3-4','5-6 (moderate)','7-8','9-10 (severe)'];
+      showQuickReplies(levels);
+    }
+  } else {
+    generateAISummary();
+  }
+}
+
+function showQuickReplies(options){
+  var wrap=document.getElementById('ai-quick-btns');
+  wrap.innerHTML='';
+  options.forEach(function(opt){
+    var btn=document.createElement('button');
+    btn.textContent=opt;
+    btn.style.cssText='padding:8px 14px;border-radius:20px;border:1.5px solid var(--gray2);background:var(--surface);color:var(--text2);font-size:13px;font-weight:500;cursor:pointer;font-family:\'DM Sans\',sans-serif';
+    btn.onclick=function(){
+      document.getElementById('ai-user-input').value=opt;
+      sendAIMessage();
+    };
+    wrap.appendChild(btn);
+  });
+}
+
+function sendAIMessage(){
+  var input=document.getElementById('ai-user-input');
+  var text=input.value.trim();
+  if(!text)return;
+  addAIBubble('user',text);
+  S.aiChat.push({q:(aiQuestions[S.sp]||aiQuestions.general)[aiStep],a:text});
+  input.value='';
+  document.getElementById('ai-input-area').style.display='none';
+  document.getElementById('ai-quick-btns').innerHTML='';
+  aiStep++;
+  setTimeout(function(){askNextAIQuestion();},500);
+}
+
+function generateAISummary(){
+  addAIBubble('ai','Thank you. Let me summarise what you have told me for the doctor...');
+  var transcript=S.aiChat.map(function(m){return 'Q: '+m.q+'\nA: '+m.a}).join('\n\n');
+  var specialty={dental:'dental',ent:'ENT',gynae:'gynaecology',general:'general medicine'}[S.sp]||'general medicine';
+  var prompt='You are a clinical assistant helping summarise a patient self-reported symptom conversation for an Indian '+specialty+' doctor. Based on the following Q&A, write a 2-3 sentence clinical summary in plain English that the doctor can read in under 10 seconds. Be specific and factual. Do not add anything not mentioned by the patient. Do not use first person.\n\nPatient Q&A:\n'+transcript+'\n\nClinical summary:';
+  fetch(AI_PROXY,{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({messages:[{role:'user',content:prompt}]})
+  })
+  .then(function(r){return r.json()})
+  .then(function(data){
+    var summary=data&&data.choices&&data.choices[0]&&data.choices[0].message&&data.choices[0].message.content?data.choices[0].message.content.trim():'Patient reports: '+S.aiChat.map(function(m){return m.a}).join('. ');
+    S.aiSummary=summary;
+    S.aiHelped=true;
+    addAIBubble('ai','Here is your summary. You can use it or go back to edit.');
+    document.getElementById('ai-summary').textContent=summary;
+    document.getElementById('ai-done-area').style.display='block';
+    document.getElementById('ai-input-area').style.display='none';
+  })
+  .catch(function(){
+    var fallback=S.aiChat.map(function(m){return m.a}).join('. ');
+    S.aiSummary=fallback;
+    S.aiHelped=true;
+    document.getElementById('ai-summary').textContent=fallback;
+    document.getElementById('ai-done-area').style.display='block';
+  });
+}
+
+function acceptAISummary(){
+  S.desc=S.aiSummary;
+  var fd=document.getElementById('free-desc');
+  if(fd)fd.value=S.aiSummary;
+  go('s3');
+}
+
+function buildReview(){
+  var spNames={dental:'Dental',ent:'ENT',gynae:'Gynaecology',general:'General Medicine'};
+  var rc=document.getElementById('review-content');
+  rc.innerHTML='';
+  var items=[
+    {label:'Name',value:S.name},
+    {label:'Age & Gender',value:(S.age||'')+(S.gender?' · '+S.gender:'')},
+    {label:'Specialty',value:spNames[S.sp]||S.sp},
+    {label:'Symptoms',value:S.symptoms.length?S.symptoms.join(', '):'—'},
+    {label:'Description',value:S.desc||'—'},
+    {label:'Medical history',value:(S.conditions&&S.conditions.length?S.conditions.join(', '):'')+(S.history?' '+S.history:'')+''},
+    {label:'Current medications',value:S.meds||'None mentioned'},
+    {label:'Allergies',value:S.allergy||'None mentioned'}
+  ];
+  items.forEach(function(item){
+    if(!item.value||item.value==='—'&&item.label!=='Description')return;
+    var card=document.createElement('div');
+    card.style.cssText='background:var(--surface);border:1px solid var(--gray2);border-radius:var(--r12);padding:13px 16px';
+    card.innerHTML='<div style="font-size:11px;font-weight:700;color:var(--text3);letter-spacing:0.5px;text-transform:uppercase;margin-bottom:4px">'+item.label+'</div><div style="font-size:15px;color:var(--text1);line-height:1.5">'+item.value+'</div>';
+    rc.appendChild(card);
+  });
+}
+
+function submitIntake(){
+  document.getElementById('done-name').textContent=S.name;
+  var spNames={dental:'Dental OPD',ent:'ENT OPD',gynae:'Gynaecology OPD',general:'General Medicine OPD'};
+  document.getElementById('done-sp').textContent=spNames[S.sp]||'';
+  go('s5');
+}
+
+var _origGo=go;
+go=function(id){
+  if(id==='s-ai'){startAIChat()}
+  if(id==='s4'){buildReview()}
+  _origGo(id);
+};
+
 </script>
 </body>
 </html>
