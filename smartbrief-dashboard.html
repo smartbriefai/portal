@@ -207,6 +207,16 @@ html{background:var(--bg)}
 .btnadd:hover{background:#00796B;transform:translateY(-1px);
   box-shadow:0 4px 16px rgba(0,137,123,0.32);}
 .btnadd:active{transform:translateY(0);box-shadow:none;}
+.btnwa{
+  display:inline-flex;align-items:center;gap:7px;
+  background:#25D366;color:#fff;border:none;
+  padding:10px 16px;border-radius:var(--radius-btn,10px);
+  font-family:var(--fb);font-size:.85rem;font-weight:600;
+  cursor:pointer;transition:all 0.18s cubic-bezier(0.22,1,0.36,1);
+  box-shadow:0 2px 8px rgba(37,211,102,0.25);
+}
+.btnwa:hover{background:#1ebe5d;transform:translateY(-1px);box-shadow:0 4px 16px rgba(37,211,102,0.32)}
+.btnwa:active{transform:translateY(0)}
 .token-display-btn{background:none;color:var(--tx2);border:1.5px solid rgba(15,31,61,.18);
   padding:8px 13px;border-radius:8px;font-family:var(--fb);font-size:.79rem;font-weight:600;
   cursor:pointer;display:flex;align-items:center;gap:4px;transition:all .18s}
@@ -1020,6 +1030,10 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
           </div>
           <button class="token-display-btn" onclick="showTokenDisplay()" title="Show queue on TV/display screen">📺 Display</button>
           <button class="dark-toggle" id="darkToggle" onclick="toggleDark()" title="Toggle dark mode">🌙</button>
+          <button class="btnwa" id="btnWA" onclick="openWAModal()" title="Share intake form via WhatsApp">
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 1.846.418 3.596 1.162 5.156L0 24l6.99-1.135A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.006-1.371l-.36-.214-3.733.605.638-3.618-.235-.372A9.818 9.818 0 012.182 12c0-5.419 4.399-9.818 9.818-9.818 5.419 0 9.818 4.399 9.818 9.818 0 5.419-4.399 9.818-9.818 9.818z"/></svg>
+  Share intake
+</button>
           <button class="btnadd" onclick="openModal()">+ Add Patient</button>
         </div>
       </div>
@@ -3080,5 +3094,127 @@ initTheme();
   });
 })();
 </script>
+<div id="waModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(15,31,61,0.45);align-items:center;justify-content:center">
+  <div style="background:#fff;border-radius:20px;padding:28px;max-width:440px;width:90%;box-shadow:0 24px 64px rgba(0,0,0,0.18);position:relative">
+    <button onclick="closeWAModal()" style="position:absolute;top:14px;right:16px;background:none;border:none;font-size:20px;color:#B0B8D0;cursor:pointer;line-height:1">×</button>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+      <div style="width:36px;height:36px;border-radius:10px;background:#E8F5E9;display:flex;align-items:center;justify-content:center">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 1.846.418 3.596 1.162 5.156L0 24l6.99-1.135A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.006-1.371l-.36-.214-3.733.605.638-3.618-.235-.372A9.818 9.818 0 012.182 12c0-5.419 4.399-9.818 9.818-9.818 5.419 0 9.818 4.399 9.818 9.818 0 5.419-4.399 9.818-9.818 9.818z"/></svg>
+      </div>
+      <div>
+        <div style="font-family:var(--fh);font-size:1rem;font-weight:800;color:var(--tx)">Share intake form</div>
+        <div style="font-size:.75rem;color:var(--tx3)">Send to patient via WhatsApp</div>
+      </div>
+    </div>
+
+    <div id="wa-tabs" style="display:flex;gap:6px;margin:16px 0 14px">
+      <button onclick="switchWATab('whatsapp')" id="tab-wa" style="flex:1;padding:8px;border-radius:8px;font-size:.8rem;font-weight:600;border:1.5px solid var(--sp);background:var(--ss);color:var(--sp);cursor:pointer;font-family:var(--fb)">WhatsApp message</button>
+      <button onclick="switchWATab('qr')" id="tab-qr" style="flex:1;padding:8px;border-radius:8px;font-size:.8rem;font-weight:600;border:1.5px solid var(--bd2);background:transparent;color:var(--tx2);cursor:pointer;font-family:var(--fb)">Walk-in QR code</button>
+    </div>
+
+    <div id="wa-panel-whatsapp">
+      <div style="font-size:.72rem;font-weight:700;color:var(--tx3);margin-bottom:6px">MESSAGE TEMPLATE</div>
+      <div id="wa-message-box" style="background:var(--bg2);border:1px solid var(--bd);border-radius:10px;padding:12px;font-size:.83rem;color:var(--tx);line-height:1.6;margin-bottom:12px;white-space:pre-wrap;word-break:break-word"></div>
+      <div style="display:flex;gap:8px">
+        <button onclick="copyWAMessage()" id="btn-copy" style="flex:1;padding:10px;border-radius:8px;background:var(--bg2);border:1px solid var(--bd);font-size:.82rem;font-weight:600;color:var(--tx2);cursor:pointer;font-family:var(--fb);transition:all 0.15s">Copy message</button>
+        <button onclick="openWhatsApp()" style="flex:1;padding:10px;border-radius:8px;background:#25D366;border:none;font-size:.82rem;font-weight:600;color:#fff;cursor:pointer;font-family:var(--fb);transition:all 0.15s">Open WhatsApp</button>
+      </div>
+    </div>
+
+    <div id="wa-panel-qr" style="display:none;text-align:center">
+      <div style="font-size:.72rem;font-weight:700;color:var(--tx3);margin-bottom:10px">WALK-IN INTAKE — SHOW THIS TO PATIENT</div>
+      <div id="qr-container" style="display:inline-block;background:#fff;border:2px solid var(--bd);border-radius:12px;padding:16px;margin-bottom:12px"></div>
+      <div style="font-size:.8rem;color:var(--tx2);line-height:1.5;margin-bottom:12px">Patient scans this with their phone camera.<br>No app needed — opens directly in browser.</div>
+      <button onclick="printQR()" style="padding:10px 24px;border-radius:8px;background:var(--bg2);border:1px solid var(--bd);font-size:.82rem;font-weight:600;color:var(--tx2);cursor:pointer;font-family:var(--fb)">Print QR code</button>
+    </div>
+  </div>
+</div>
+
+<script>
+var waModalOpen=false;
+var currentWATab='whatsapp';
+var INTAKE_URL=window.location.origin+'/smartbrief-patient.html';
+
+function buildWAMessage(){
+  var spec=document.querySelector('.schip')||document.querySelector('[class*="schip"]');
+  var specName=spec?spec.textContent.trim():'SmartBrief';
+  return 'Hello,\n\nWe would like to make your upcoming visit as smooth as possible.\n\nPlease take 2 minutes to fill in a short health form before your appointment:\n\n'+INTAKE_URL+'\n\nThis helps Dr. '+specName+' prepare your consultation in advance.\n\nThank you.';
+}
+
+function openWAModal(){
+  document.getElementById('waModal').style.display='flex';
+  document.getElementById('wa-message-box').textContent=buildWAMessage();
+  generateQR();
+  waModalOpen=true;
+}
+
+function closeWAModal(){
+  document.getElementById('waModal').style.display='none';
+  waModalOpen=false;
+}
+
+function switchWATab(tab){
+  currentWATab=tab;
+  document.getElementById('wa-panel-whatsapp').style.display=tab==='whatsapp'?'block':'none';
+  document.getElementById('wa-panel-qr').style.display=tab==='qr'?'block':'none';
+  var tabWA=document.getElementById('tab-wa');
+  var tabQR=document.getElementById('tab-qr');
+  if(tab==='whatsapp'){
+    tabWA.style.background='var(--ss)';tabWA.style.borderColor='var(--sp)';tabWA.style.color='var(--sp)';
+    tabQR.style.background='transparent';tabQR.style.borderColor='var(--bd2)';tabQR.style.color='var(--tx2)';
+  } else {
+    tabQR.style.background='var(--ss)';tabQR.style.borderColor='var(--sp)';tabQR.style.color='var(--sp)';
+    tabWA.style.background='transparent';tabWA.style.borderColor='var(--bd2)';tabWA.style.color='var(--tx2)';
+  }
+}
+
+function copyWAMessage(){
+  var msg=document.getElementById('wa-message-box').textContent;
+  navigator.clipboard.writeText(msg).then(function(){
+    var btn=document.getElementById('btn-copy');
+    btn.textContent='Copied!';
+    btn.style.color='var(--sp)';
+    btn.style.borderColor='var(--sp)';
+    setTimeout(function(){btn.textContent='Copy message';btn.style.color='';btn.style.borderColor='';},2000);
+  });
+}
+
+function openWhatsApp(){
+  var msg=encodeURIComponent(document.getElementById('wa-message-box').textContent);
+  window.open('https://wa.me/?text='+msg,'_blank');
+}
+
+function generateQR(){
+  var container=document.getElementById('qr-container');
+  container.innerHTML='';
+  var script=document.createElement('script');
+  script.src='https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js';
+  script.onload=function(){
+    new QRCode(container,{
+      text:INTAKE_URL,
+      width:180,height:180,
+      colorDark:'#0F1F3D',colorLight:'#ffffff',
+      correctLevel:QRCode.CorrectLevel.H
+    });
+  };
+  document.head.appendChild(script);
+}
+
+function printQR(){
+  var qrHTML=document.getElementById('qr-container').innerHTML;
+  var win=window.open('','_blank');
+  win.document.write('<html><body style="text-align:center;font-family:sans-serif;padding:40px"><h2 style="color:#0F1F3D">SmartBrief AI — Patient Intake</h2><p style="color:#718096;margin-bottom:20px">Scan with your phone camera to fill health form before consultation</p>'+qrHTML+'<p style="color:#B0B8D0;font-size:12px;margin-top:20px">'+INTAKE_URL+'</p></body></html>');
+  win.document.close();
+  win.print();
+}
+
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape'&&waModalOpen)closeWAModal();
+});
+document.getElementById('waModal').addEventListener('click',function(e){
+  if(e.target===this)closeWAModal();
+});
+</script>
+
 </body>
 </html>
