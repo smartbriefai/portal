@@ -84,8 +84,96 @@ body.tamil .ta{display:block}
   </div>
 </div>
 
-<div id="s2-placeholder"></div>
-<div id="s3-placeholder"></div>
+<div class="screen" id="s2">
+  <div class="screen-header">
+    <button onclick="go('s1')" style="background:none;border:none;cursor:pointer;padding:4px;color:var(--text2)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg></button>
+    <div class="logo">Smart<em>Brief</em><sup>AI</sup></div>
+    <div style="width:28px"></div>
+  </div>
+  <div class="screen-body">
+    <div class="screen-title en">What brings you in today?</div>
+    <div class="screen-title ta">இன்று என்ன பிரச்சனையுடன் வந்திருக்கிறீர்கள்?</div>
+    <div class="screen-sub en">Select all that apply. You can choose more than one.</div>
+    <div class="screen-sub ta">பொருந்தும் அனைத்தையும் தேர்ந்தெடுக்கவும்.</div>
+    <div id="symptom-list" style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px"></div>
+    <div style="background:var(--gray1);border:1.5px dashed var(--gray3);border-radius:var(--r12);padding:16px;margin-bottom:16px">
+      <div class="sec-label en" style="margin-bottom:8px">Or describe in your own words</div>
+      <div class="sec-label ta" style="margin-bottom:8px">அல்லது உங்கள் சொந்த வார்த்தைகளில் விவரிக்கவும்</div>
+      <textarea id="free-desc" rows="3" placeholder="Type here... e.g. I have pain on the left side of my jaw" style="width:100%;border:1px solid var(--gray2);border-radius:var(--r8);padding:10px 12px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text1);background:var(--surface);resize:none;outline:none" oninput="S.desc=this.value;checkS2()"></textarea>
+    </div>
+    <div id="ai-help-banner" style="background:linear-gradient(135deg,#E0F2F1,#E8EBF4);border:1px solid var(--teal-light);border-radius:var(--r12);padding:14px 16px;cursor:pointer;display:flex;align-items:center;gap:12px" onclick="go('s-ai')">
+      <div style="width:36px;height:36px;border-radius:10px;background:var(--teal);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3M12 17h.01"/></svg>
+      </div>
+      <div>
+        <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:700;color:var(--navy)" class="en">Not sure how to describe it?</div>
+        <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:700;color:var(--navy)" class="ta">எப்படி விவரிப்பது என்று தெரியவில்லையா?</div>
+        <div style="font-size:12px;color:var(--text2);margin-top:2px" class="en">Let AI help you explain your symptoms to the doctor</div>
+        <div style="font-size:12px;color:var(--text2);margin-top:2px" class="ta">AI உங்கள் அறிகுறிகளை மருத்துவரிடம் விளக்க உதவும்</div>
+      </div>
+      <svg style="margin-left:auto;flex-shrink:0" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+    </div>
+  </div>
+  <div class="screen-footer">
+    <button class="btn-primary" id="btn2" onclick="go('s3')" disabled><span class="en">Continue</span><span class="ta">தொடரவும்</span></button>
+    <button class="btn-secondary" onclick="go('s1')"><span class="en">Back</span><span class="ta">பின்செல்</span></button>
+  </div>
+</div>
+<div class="screen" id="s3">
+  <div class="screen-header">
+    <button onclick="go('s2')" style="background:none;border:none;cursor:pointer;padding:4px;color:var(--text2)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg></button>
+    <div class="logo">Smart<em>Brief</em><sup>AI</sup></div>
+    <div style="width:28px"></div>
+  </div>
+  <div class="screen-body">
+    <div class="screen-title en">A little about you</div>
+    <div class="screen-title ta">உங்களைப் பற்றி சிறிது</div>
+    <div class="screen-sub en">This helps the doctor understand your background.</div>
+    <div class="screen-sub ta">இது மருத்துவர் உங்கள் பின்னணியை புரிந்துகொள்ள உதவும்.</div>
+    <div style="margin-bottom:14px">
+      <div class="sec-label en">Your name</div>
+      <div class="sec-label ta">உங்கள் பெயர்</div>
+      <input id="inp-name" type="text" placeholder="e.g. Meera Krishnamurthy" style="width:100%;padding:13px 14px;border:1.5px solid var(--gray2);border-radius:var(--r12);font-family:'DM Sans',sans-serif;font-size:15px;color:var(--text1);background:var(--surface);outline:none" oninput="S.name=this.value;checkS3()">
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+      <div>
+        <div class="sec-label en">Age</div>
+        <div class="sec-label ta">வயது</div>
+        <input id="inp-age" type="number" placeholder="e.g. 34" style="width:100%;padding:13px 14px;border:1.5px solid var(--gray2);border-radius:var(--r12);font-family:'DM Sans',sans-serif;font-size:15px;color:var(--text1);background:var(--surface);outline:none" oninput="S.age=this.value;checkS3()">
+      </div>
+      <div>
+        <div class="sec-label en">Gender</div>
+        <div class="sec-label ta">பாலினம்</div>
+        <select id="inp-gender" style="width:100%;padding:13px 14px;border:1.5px solid var(--gray2);border-radius:var(--r12);font-family:'DM Sans',sans-serif;font-size:15px;color:var(--text1);background:var(--surface);outline:none" onchange="S.gender=this.value;checkS3()">
+          <option value="">Select</option>
+          <option value="Female">Female</option>
+          <option value="Male">Male</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+    </div>
+    <div style="margin-bottom:14px">
+      <div class="sec-label en">Any known medical conditions?</div>
+      <div class="sec-label ta">தெரிந்த மருத்துவ நிலைகள் ஏதேனும் உள்ளதா?</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px" id="condition-chips"></div>
+      <input id="inp-history" type="text" placeholder="e.g. Diabetes, Hypertension, Thyroid..." style="width:100%;padding:13px 14px;border:1.5px solid var(--gray2);border-radius:var(--r12);font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text1);background:var(--surface);outline:none" oninput="S.history=this.value">
+    </div>
+    <div style="margin-bottom:14px">
+      <div class="sec-label en">Current medications (if any)</div>
+      <div class="sec-label ta">தற்போதைய மருந்துகள் (ஏதேனும் இருந்தால்)</div>
+      <input id="inp-meds" type="text" placeholder="e.g. Metformin 500mg, Amlodipine 5mg" style="width:100%;padding:13px 14px;border:1.5px solid var(--gray2);border-radius:var(--r12);font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text1);background:var(--surface);outline:none" oninput="S.meds=this.value">
+    </div>
+    <div>
+      <div class="sec-label en">Any allergies?</div>
+      <div class="sec-label ta">ஏதேனும் ஒவ்வாமை உள்ளதா?</div>
+      <input id="inp-allergy" type="text" placeholder="e.g. Penicillin, Aspirin, or None" style="width:100%;padding:13px 14px;border:1.5px solid var(--gray2);border-radius:var(--r12);font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text1);background:var(--surface);outline:none" oninput="S.allergy=this.value">
+    </div>
+  </div>
+  <div class="screen-footer">
+    <button class="btn-primary" id="btn3" onclick="go('s4')" disabled><span class="en">Continue</span><span class="ta">தொடரவும்</span></button>
+    <button class="btn-secondary" onclick="go('s2')"><span class="en">Back</span><span class="ta">பின்செல்</span></button>
+  </div>
+</div>
 <div id="s4-placeholder"></div>
 <div id="s5-placeholder"></div>
 
@@ -93,7 +181,75 @@ body.tamil .ta{display:block}
 var S={sp:null,lang:'en',symptoms:[],desc:'',name:'',age:'',history:'',meds:'',aiChat:[],aiHelped:false};
 function setLang(l,btn){S.lang=l;document.querySelectorAll('.lang-btn').forEach(function(b){b.classList.remove('active')});btn.classList.add('active');l==='ta'?document.body.classList.add('tamil'):document.body.classList.remove('tamil')}
 function pickSp(sp,el){S.sp=sp;document.querySelectorAll('.sp-card').forEach(function(c){c.classList.remove('selected')});el.classList.add('selected');document.getElementById('btn1').disabled=false}
-function go(id){document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active')});var el=document.getElementById(id);if(el){el.classList.add('active')}window.scrollTo(0,0);var p={'s1':5,'s2':30,'s3':60,'s4':85,'s5':100};document.getElementById('prog').style.width=(p[id]||5)+'%'}
+function go(id){
+  if(id==='s3'){buildConditionChips();buildSymptomList()}
+  document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active')});
+  var el=document.getElementById(id);
+  if(el){el.classList.add('active')}
+  window.scrollTo(0,0);
+  var p={'s1':5,'s2':30,'s-ai':45,'s3':65,'s4':88,'s5':100};
+  document.getElementById('prog').style.width=(p[id]||5)+'%';
+}
+
+function checkS2(){
+  var hasSymptom=S.symptoms.length>0;
+  var hasDesc=S.desc.trim().length>3;
+  document.getElementById('btn2').disabled=!(hasSymptom||hasDesc);
+}
+
+function checkS3(){
+  var n=document.getElementById('inp-name').value.trim();
+  var a=document.getElementById('inp-age').value.trim();
+  var g=document.getElementById('inp-gender').value;
+  document.getElementById('btn3').disabled=!(n&&a&&g);
+}
+
+var SYMPTOMS={
+  dental:['Toothache or pain','Sensitivity to hot or cold','Bleeding gums','Swollen jaw or face','Tooth broken or chipped','Bad breath','Mouth sore or ulcer','Loose tooth','Other'],
+  ent:['Ear pain or discharge','Blocked or stuffy nose','Sore throat','Difficulty swallowing','Hearing loss','Dizziness or vertigo','Snoring or sleep issues','Nosebleed','Other'],
+  gynae:['Irregular or missed periods','Pelvic or lower abdominal pain','Unusual discharge','Itching or burning sensation','Heavy or painful periods','Bloating or swelling','Pain during intercourse','Breast changes or pain','Pregnancy related concern','Other'],
+  general:['Fever or chills','Headache','Body pain or weakness','Cough or cold','Vomiting or nausea','Loose motions or constipation','Chest pain or breathlessness','High blood sugar or diabetes','Blood pressure concern','Fatigue or tiredness','Other']
+};
+
+var CONDITIONS=['Diabetes','Hypertension','Thyroid','Asthma','Heart disease','Kidney disease','None'];
+
+function buildSymptomList(){
+  var list=document.getElementById('symptom-list');
+  if(!list)return;
+  var syms=SYMPTOMS[S.sp]||SYMPTOMS.general;
+  list.innerHTML='';
+  syms.forEach(function(sym){
+    var checked=S.symptoms.indexOf(sym)>-1;
+    var div=document.createElement('div');
+    div.style.cssText='display:flex;align-items:center;gap:12px;padding:13px 14px;background:var(--surface);border:2px solid '+(checked?'var(--teal)':'var(--gray2)')+';border-radius:var(--r12);cursor:pointer;transition:all 0.15s';
+    div.innerHTML='<div style="width:20px;height:20px;border-radius:6px;border:2px solid '+(checked?'var(--teal)':'var(--gray3)')+';background:'+(checked?'var(--teal)':'transparent')+';display:flex;align-items:center;justify-content:center;flex-shrink:0">'+(checked?'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>':'')+'</div><span style="font-size:15px;color:var(--text1)">'+sym+'</span>';
+    div.onclick=function(){
+      var idx=S.symptoms.indexOf(sym);
+      if(idx>-1){S.symptoms.splice(idx,1)}else{S.symptoms.push(sym)}
+      buildSymptomList();checkS2();
+    };
+    list.appendChild(div);
+  });
+}
+
+function buildConditionChips(){
+  var wrap=document.getElementById('condition-chips');
+  if(!wrap)return;
+  wrap.innerHTML='';
+  CONDITIONS.forEach(function(c){
+    var sel=S.conditions&&S.conditions.indexOf(c)>-1;
+    var chip=document.createElement('button');
+    chip.textContent=c;
+    chip.style.cssText='padding:7px 14px;border-radius:20px;border:1.5px solid '+(sel?'var(--teal)':'var(--gray2)')+';background:'+(sel?'var(--teal-light)':'var(--surface)')+';color:'+(sel?'var(--teal)':'var(--text2)')+';font-size:13px;font-weight:500;cursor:pointer;font-family:\'DM Sans\',sans-serif';
+    chip.onclick=function(){
+      if(!S.conditions)S.conditions=[];
+      var idx=S.conditions.indexOf(c);
+      if(idx>-1){S.conditions.splice(idx,1)}else{if(c==='None'){S.conditions=['None']}else{var ni=S.conditions.indexOf('None');if(ni>-1)S.conditions.splice(ni,1);S.conditions.push(c)}}
+      buildConditionChips();
+    };
+    wrap.appendChild(chip);
+  });
+}
 </script>
 </body>
 </html>
