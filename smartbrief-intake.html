@@ -48,6 +48,9 @@ h1,h2,h3{font-family:'Plus Jakarta Sans',sans-serif;font-synthesis:none}
 .en{display:block}.ta{display:none}
 body.tamil .en{display:none}
 body.tamil .ta{display:block}
+.chip-selected{background:var(--teal-light)!important;border-color:var(--teal)!important;color:var(--teal)!important}
+textarea:focus,input:focus,select:focus{border-color:var(--teal)!important;box-shadow:0 0 0 3px rgba(0,137,123,0.10)!important}
+@media(max-width:380px){.sp-grid{grid-template-columns:1fr}.sp-card{padding:16px 12px}}
 </style>
 </head>
 <body>
@@ -472,6 +475,7 @@ function submitIntake(){
 var _origGo=go;
 go=function(id){
   if(id==='s-ai'){startAIChat()}
+  if(id==='s3'){buildConditionChips();buildSymptomList()}
   if(id==='s4'){buildReview()}
   _origGo(id);
 };
