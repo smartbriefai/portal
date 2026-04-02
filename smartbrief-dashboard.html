@@ -1855,7 +1855,7 @@ function initDash(){
           t:entry.t||'T?',
           st:'ready',
           tc:'#E0F2F1',tf:'#00695C',
-          cc:entry.symptoms&&entry.symptoms.length?entry.symptoms.join(', '):'See description',
+          cc:entry.symptoms&&entry.symptoms.length?entry.symptoms.join(', '):(entry.description||entry.aiSummary||'Walk-in'),
           h:entry.history||'No prior history on file.',
           mx:entry.meds||'None declared.',
           al:entry.allergy&&entry.allergy.toLowerCase()!=='none'?entry.allergy:'',
@@ -1869,6 +1869,7 @@ function initDash(){
     }catch(e){}
   })();
   renderQueue();updateStats();
+  updateBriefCounter();
   logActivity('Session started — '+SP[cs].n);
 }
 
@@ -1904,7 +1905,7 @@ function switchSpec(s,el){
           t:entry.t||'T?',
           st:'ready',
           tc:'#E0F2F1',tf:'#00695C',
-          cc:entry.symptoms&&entry.symptoms.length?entry.symptoms.join(', '):'See description',
+          cc:entry.symptoms&&entry.symptoms.length?entry.symptoms.join(', '):(entry.description||entry.aiSummary||'Walk-in'),
           h:entry.history||'No prior history on file.',
           mx:entry.meds||'None declared.',
           al:entry.allergy&&entry.allergy.toLowerCase()!=='none'?entry.allergy:'',
@@ -1978,6 +1979,9 @@ function renderBrief(p){
         <div class="bsec"><div class="bsec-l">Current Medications</div><div class="bsec-v">${p.mx}</div></div>
         <div class="bsec"><div class="bsec-l">Visit Type</div><div class="bsec-v">${p.sb}</div></div>
       </div>
+      ${p.brief&&p.brief!=='Patient submitted intake form. Review details in brief.'?
+        `<div style="margin:12px 0;background:#E0F2F1;border-left:3px solid #00897B;border-radius:8px;padding:12px 14px"><div style="font-size:10px;font-weight:700;color:#00695C;letter-spacing:0.5px;text-transform:uppercase;margin-bottom:6px">AI clinical summary — from patient intake</div><div style="font-size:14px;color:#0F1F3D;line-height:1.65">${p.brief}</div></div>`
+        :''}
       <div style="font-family:var(--fh);font-size:.79rem;font-weight:700;color:var(--tx);margin-bottom:8px">Vitals Entry</div>
       <div class="vgrid">
         <div class="vfield"><span class="vlabel">BP (mmHg)</span><input class="vinput" type="text" placeholder="120/80"></div>
@@ -2700,6 +2704,7 @@ Keep it clinical and concise. India-relevant.`;
           actions.style.display='flex'; status.style.display='none';
           lastAiBrief=DEMO_BRIEFS[spec]||DEMO_BRIEFS.gen;
           logActivity('AI Brief (demo) — '+(name||'Patient')); toast('Brief ready ✓');
+          var bc=parseInt(localStorage.getItem('sb_brief_count')||'0',10);bc++;localStorage.setItem('sb_brief_count',bc.toString());updateBriefCounter();if(bc>=10)showPaywall();
         });
       } else {
         outEl.classList.remove('streaming');
@@ -2707,6 +2712,7 @@ Keep it clinical and concise. India-relevant.`;
         btn.disabled=false; btn.textContent='Generate Clinical Brief';
         actions.style.display='flex'; status.style.display='none';
         logActivity('AI Brief — '+(name||'Patient')); toast('Brief ready ✓');
+        var bc=parseInt(localStorage.getItem('sb_brief_count')||'0',10);bc++;localStorage.setItem('sb_brief_count',bc.toString());updateBriefCounter();if(bc>=10)showPaywall();
       }
     },
     err=>{
