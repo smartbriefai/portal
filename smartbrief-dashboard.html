@@ -252,8 +252,8 @@ html{background:var(--bg)}
 .tab.active{color:var(--sp);border-bottom-color:var(--sp);font-weight:600;background:var(--ss)}
 
 /* ── CONTENT ───────────────────────────────────────────────────── */
-.content{padding:18px 22px;flex:1;min-width:0;overflow-x:hidden;box-sizing:border-box}
-.cgrid{display:grid;grid-template-columns:310px 1fr;gap:18px;align-items:start;min-width:0}
+.content{padding:18px 22px;flex:1;min-width:0;overflow-x:hidden;box-sizing:border-box;contain:layout}
+.cgrid{display:grid;grid-template-columns:310px 1fr;gap:18px;align-items:start;min-width:0;min-height:480px}
 .cgrid > *{min-width:0}
 
 /* ── PANELS ────────────────────────────────────────────────────── */
@@ -1103,7 +1103,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
           <!-- QUEUE -->
           <div>
             <div class="panel">
-              <div class="phdr"><span class="ptitle">Today's Queue</span><button class="pact" style="margin-right:4px;background:rgba(0,191,165,0.1);color:#00bfa5;border:1px solid rgba(0,191,165,0.3)" onclick="openWAModal()" data-whatsapp-share>Share Intake Link</button><button class="pact" onclick="openModal()">+ Add</button></div>
+              <div class="phdr"><span class="ptitle">Today's Queue</span><button onclick="refreshIntakeQueue()" style="background:none;border:none;font-size:11px;color:var(--sp);font-weight:600;cursor:pointer;padding:0 0 0 8px;font-family:var(--fb)">↻ Refresh</button><button class="pact" style="margin-right:4px;background:rgba(0,191,165,0.1);color:#00bfa5;border:1px solid rgba(0,191,165,0.3)" onclick="openWAModal()" data-whatsapp-share>Share Intake Link</button><button class="pact" onclick="openModal()">+ Add</button></div>
               <div class="qlist" id="qlist"></div>
             </div>
             <div class="panel">
@@ -1842,7 +1842,9 @@ function initDash(){
       var intakeQ=JSON.parse(localStorage.getItem('sb_intake_queue')||'[]');
       var now=new Date();
       intakeQ.forEach(function(entry){
-        if(entry.sp!==cs)return;
+        var entrySpKey=(entry.sp||'').toLowerCase().replace('gynae','gyn').replace('general','gen').replace('dental','den');
+        var currentSpKey=(cs||'').toLowerCase();
+        if(entrySpKey!==currentSpKey)return;
         var alreadyIn=queue.some(function(q){return q.id===entry.id});
         if(alreadyIn)return;
         var age=entry.age?entry.age+' yrs':'';
@@ -1892,7 +1894,9 @@ function switchSpec(s,el){
     try{
       var intakeQ=JSON.parse(localStorage.getItem('sb_intake_queue')||'[]');
       intakeQ.forEach(function(entry){
-        if(entry.sp!==s)return;
+        var entrySpKey=(entry.sp||'').toLowerCase().replace('gynae','gyn').replace('general','gen').replace('dental','den');
+        var currentSpKey=(s||'').toLowerCase();
+        if(entrySpKey!==currentSpKey)return;
         var alreadyIn=queue.some(function(q){return q.id===entry.id});
         if(alreadyIn)return;
         var age=entry.age?entry.age+' yrs':'';
@@ -3406,6 +3410,34 @@ function dismissPaywall(){
 document.addEventListener('DOMContentLoaded',function(){updateBriefCounter();});
 // Also update after login
 var _origLogin=typeof doLogin==='function'?doLogin:null;
+
+function refreshIntakeQueue(){
+  var s=cs;
+  var intakeQ=[];
+  try{intakeQ=JSON.parse(localStorage.getItem('sb_intake_queue')||'[]')}catch(e){}
+  intakeQ.forEach(function(entry){
+    var entrySpKey=(entry.sp||'').toLowerCase().replace('gynae','gyn').replace('general','gen').replace('dental','den');
+    if(entrySpKey!==s)return;
+    var alreadyIn=queue.some(function(q){return q.id===entry.id});
+    if(alreadyIn)return;
+    var age=entry.age?entry.age+' yrs':'';
+    var gender=entry.gender||'';
+    var meta=[age,gender,entry.sb].filter(Boolean).join(' · ');
+    queue.unshift({
+      id:entry.id,nm:entry.nm,sb:meta,t:entry.t||'T?',st:'ready',
+      tc:'#E0F2F1',tf:'#00695C',
+      cc:entry.symptoms&&entry.symptoms.length?entry.symptoms.join(', '):(entry.description||entry.aiSummary||'Walk-in'),
+      h:entry.history||'No prior history on file.',
+      mx:entry.meds||'None declared.',
+      al:entry.allergy&&entry.allergy.toLowerCase()!=='none'?entry.allergy:'',
+      allergy:entry.allergy||'',
+      ac:[],brief:entry.aiSummary||entry.description||'',
+      fromIntake:true
+    });
+  });
+  renderQueue();updateStats();
+  toast('Queue refreshed');
+}
 </script>
 
 </body>
