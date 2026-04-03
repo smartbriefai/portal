@@ -526,6 +526,10 @@ html{background:var(--bg)}
   display:flex;align-items:center;justify-content:space-between;background:var(--sf)}
 .api-card-title{font-family:var(--fh);font-size:.9rem;font-weight:800;color:var(--tx)}
 .api-card-body{padding:18px}
+.privacy-qa{margin-bottom:16px;padding:14px;background:var(--bg2);border-radius:10px;border:1px solid var(--bd)}
+.privacy-q{font-size:.82rem;font-weight:700;color:var(--tx);margin-bottom:5px}
+.privacy-a{font-size:.78rem;color:var(--tx2);line-height:1.6}
+.privacy-contact{font-size:.75rem;color:var(--tx3);margin-top:16px;text-align:center}
 .api-warn{background:#FFF8E1;border:1px solid #FFE082;border-radius:9px;
   padding:10px 13px;font-size:.75rem;color:#6D4C41;line-height:1.5;margin-bottom:14px}
 .api-label{font-size:.71rem;font-weight:700;color:var(--tx2);
@@ -1752,6 +1756,27 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
         <div style="display:flex;align-items:flex-start;gap:8px">
           <span>🎙️</span><span><strong>Voice → Clinical Note</strong> — speak findings, get structured SOAP notes</span>
         </div>
+      </div>
+
+      <div style="border-top:1px solid var(--bd);margin:20px 0 16px;padding-top:16px">
+        <div style="font-size:.82rem;font-weight:700;color:var(--tx);margin-bottom:14px">🔒 Data & Privacy</div>
+        <div class="privacy-qa">
+          <div class="privacy-q">Where is patient data stored?</div>
+          <div class="privacy-a">Patient briefs are processed in real-time and not permanently stored on SmartBrief AI servers. Each brief exists for the duration of your session. No patient data is written to a database.</div>
+        </div>
+        <div class="privacy-qa">
+          <div class="privacy-q">Who can see patient information?</div>
+          <div class="privacy-a">Only you, the treating doctor, can see the brief generated for your patient. SmartBrief AI staff cannot access individual patient briefs. The AI model processes input and returns structured output — it does not retain any patient data.</div>
+        </div>
+        <div class="privacy-qa">
+          <div class="privacy-q">Does SmartBrief AI sell or share my data?</div>
+          <div class="privacy-a">No. SmartBrief AI does not sell, share, or monetise any patient or clinic data. Your clinic's usage data (brief count, specialty) is used only to manage your subscription tier.</div>
+        </div>
+        <div class="privacy-qa">
+          <div class="privacy-q">How do I delete my data?</div>
+          <div class="privacy-a">Your free brief counter and first-use date are stored locally in your browser only. To reset: open browser settings → clear site data for this URL. For account deletion, contact <a href="mailto:demo@smartbriefai.in" style="color:var(--sp)">demo@smartbriefai.in</a></div>
+        </div>
+        <div class="privacy-contact">Questions? <a href="mailto:demo@smartbriefai.in" style="color:var(--sp)">demo@smartbriefai.in</a></div>
       </div>
     </div>
   </div>

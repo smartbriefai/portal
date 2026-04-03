@@ -64,6 +64,38 @@ body.tamil .ta{display:block}
 .chip-selected{background:var(--teal-light)!important;border-color:var(--teal)!important;color:var(--teal)!important}
 textarea:focus,input:focus,select:focus{border-color:var(--teal)!important;box-shadow:0 0 0 3px rgba(0,137,123,0.10)!important}
 @media(max-width:380px){.sp-grid{grid-template-columns:1fr}.sp-card{padding:16px 12px}}
+.chip-grid{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0}
+.chip{padding:9px 16px;border:1.5px solid var(--gray2);border-radius:100px;font-size:14px;font-weight:500;color:var(--text2);cursor:pointer;background:var(--surface);transition:all 0.15s;-webkit-tap-highlight-color:transparent}
+.chip.selected{border-color:var(--teal);background:var(--teal-light);color:var(--teal-dark);font-weight:600}
+.spinner-ring{width:48px;height:48px;border:3px solid var(--gray2);border-top-color:var(--teal);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto}
+@keyframes spin{to{transform:rotate(360deg)}}
+.success-badge{display:flex;align-items:flex-start;gap:10px;background:#E0F2F1;border-radius:var(--r12);padding:14px;margin-bottom:20px;font-size:14px;color:#00695C;line-height:1.5}
+.brief-card{background:var(--surface);border:1.5px solid var(--gray2);border-radius:var(--r16,14px);overflow:hidden;margin-bottom:8px}
+.brief-header{background:var(--teal);padding:16px 20px}
+.brief-patient-name{font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:700;color:#fff}
+.brief-meta{font-size:13px;color:rgba(255,255,255,0.8);margin-top:4px}
+.brief-section{padding:14px 20px;border-bottom:1px solid var(--gray2);font-size:14px;color:var(--text1);line-height:1.6}
+.brief-section:empty{display:none}
+.brief-section:last-child{border-bottom:none}
+.brief-section strong{display:block;font-size:11px;font-weight:700;color:var(--text3);letter-spacing:0.6px;text-transform:uppercase;margin-bottom:5px}
+.privacy-badge{display:flex;align-items:flex-start;gap:10px;background:#E0F2F1;border-radius:var(--r12);padding:14px;font-size:13px;color:#00695C;line-height:1.5}
+.privacy-text{flex:1}
+.ai-chat-intro{display:flex;align-items:flex-start;gap:12px;margin-bottom:20px}
+.ai-avatar{width:40px;height:40px;border-radius:12px;background:var(--teal);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.chat-thread{display:flex;flex-direction:column;gap:10px;margin-bottom:16px;min-height:160px}
+.chat-bubble{max-width:82%;padding:11px 14px;border-radius:16px;font-size:14px;line-height:1.55}
+.chat-bubble.ai{background:var(--surface);border:1.5px solid var(--gray2);border-bottom-left-radius:4px;color:var(--text1);align-self:flex-start}
+.chat-bubble.user{background:var(--teal);color:#fff;border-bottom-right-radius:4px;align-self:flex-end}
+.typing-dots{display:flex;align-items:center;gap:5px;padding:14px 16px}
+.typing-dots span{width:7px;height:7px;border-radius:50%;background:var(--text3);animation:tdot 1.2s infinite}
+.typing-dots span:nth-child(2){animation-delay:0.2s}
+.typing-dots span:nth-child(3){animation-delay:0.4s}
+@keyframes tdot{0%,80%,100%{opacity:0.25;transform:scale(0.85)}40%{opacity:1;transform:scale(1)}}
+.chat-input-wrap{display:flex;gap:8px;align-items:flex-end}
+.chat-input{flex:1;padding:11px 14px;border:1.5px solid var(--gray2);border-radius:var(--r12);font-family:'DM Sans',sans-serif;font-size:15px;color:var(--text1);background:var(--surface);resize:none;outline:none;width:100%;box-sizing:border-box;margin-bottom:10px}
+.chat-input:focus{border-color:var(--teal)}
+.chat-send-btn{width:44px;height:44px;border-radius:var(--r12);background:var(--teal);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-bottom:10px}
+.chat-done-badge{display:flex;align-items:center;gap:8px;background:#E0F2F1;border-radius:var(--r12);padding:12px 14px;font-size:14px;color:#00695C;margin-bottom:14px;font-weight:600}
 </style>
 </head>
 <body>
@@ -186,7 +218,7 @@ textarea:focus,input:focus,select:focus{border-color:var(--teal)!important;box-s
     </div>
   </div>
   <div class="screen-footer">
-    <button class="btn-primary" id="btn3" onclick="go('s4')" disabled><span class="en">Continue</span><span class="ta">தொடரவும்</span></button>
+    <button class="btn-primary" id="btn3" onclick="go('s3b')" disabled><span class="en">Continue</span><span class="ta">தொடரவும்</span></button>
     <button class="btn-secondary" onclick="go('s2')"><span class="en">Back</span><span class="ta">பின்செல்</span></button>
   </div>
 </div>
@@ -228,6 +260,44 @@ textarea:focus,input:focus,select:focus{border-color:var(--teal)!important;box-s
   </div>
 </div>
 
+<div class="screen" id="s3b">
+  <div class="screen-header">
+    <button onclick="go('s3')" style="background:none;border:none;cursor:pointer;padding:4px;color:var(--text2)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg></button>
+    <div class="logo">Smart<em>Brief</em><sup>AI</sup></div>
+    <div style="width:28px"></div>
+  </div>
+  <div class="screen-body">
+    <div class="ai-chat-intro">
+      <div class="ai-avatar">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M12 2a9 9 0 0 1 9 9c0 3.5-2 6.5-5 8l-4 2-4-2c-3-1.5-5-4.5-5-8a9 9 0 0 1 9-9z"/><path d="M9 12h.01M12 12h.01M15 12h.01"/></svg>
+      </div>
+      <div>
+        <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:700;color:var(--navy)" class="en">A few quick questions</div>
+        <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:700;color:var(--navy)" class="ta">சில விரைவான கேள்விகள்</div>
+        <div style="font-size:12px;color:var(--text3)" class="en">Help your doctor understand your situation better</div>
+        <div style="font-size:12px;color:var(--text3)" class="ta">உங்கள் நிலைமையை மருத்துவர் சிறப்பாக புரிந்துகொள்ள உதவுங்கள்</div>
+      </div>
+    </div>
+    <div class="chat-thread" id="chat-thread"></div>
+    <div id="chat-input-area" style="display:none">
+      <div class="chat-input-wrap">
+        <textarea class="chat-input" id="chat-input" rows="2" placeholder="Type your reply..."></textarea>
+        <button class="chat-send-btn" id="chat-send-btn" onclick="sendChatReply()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </div>
+    </div>
+    <div id="chat-done-area" style="display:none">
+      <div class="chat-done-badge">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00897B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        <span class="en">All set — your doctor will see this</span>
+        <span class="ta">அனைத்தும் தயார் — மருத்துவர் இதை பார்ப்பார்</span>
+      </div>
+      <button class="btn-primary" onclick="go('s4')"><span class="en">Continue to review</span><span class="ta">மதிப்பாய்விற்கு தொடரவும்</span></button>
+    </div>
+  </div>
+</div>
+
 <div class="screen" id="s4">
   <div class="screen-header">
     <button onclick="go('s3')" style="background:none;border:none;cursor:pointer;padding:4px;color:var(--text2)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg></button>
@@ -248,19 +318,50 @@ textarea:focus,input:focus,select:focus{border-color:var(--teal)!important;box-s
 </div>
 
 <div class="screen" id="s5">
-  <div class="screen-body" style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding-top:80px">
-    <div style="width:72px;height:72px;border-radius:50%;background:var(--teal-light);display:flex;align-items:center;justify-content:center;margin-bottom:24px">
-      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2.5" stroke-linecap="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+  <div class="screen-header">
+    <div class="logo">Smart<em>Brief</em><sup>AI</sup></div>
+    <div style="width:20px"></div>
+  </div>
+  <div class="screen-body">
+    <div id="s5-loading" style="text-align:center;padding:60px 0">
+      <div class="spinner-ring"></div>
+      <div class="screen-sub en" style="margin-top:20px">Preparing your brief for the doctor...</div>
+      <div class="screen-sub ta" style="margin-top:20px">மருத்துவருக்காக உங்கள் சுருக்கம் தயாரிக்கப்படுகிறது...</div>
     </div>
-    <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:24px;font-weight:800;color:var(--navy);margin-bottom:12px" class="en">Your form is submitted</div>
-    <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:24px;font-weight:800;color:var(--navy);margin-bottom:12px" class="ta">உங்கள் படிவம் சமர்ப்பிக்கப்பட்டது</div>
-    <div style="font-size:16px;color:var(--text2);line-height:1.7;max-width:320px;margin-bottom:32px" class="en">Your doctor has been notified and will review your brief before your consultation. Please arrive at the clinic as scheduled.</div>
-    <div style="font-size:16px;color:var(--text2);line-height:1.7;max-width:320px;margin-bottom:32px" class="ta">உங்கள் மருத்துவர் அறிவிக்கப்பட்டுள்ளார். திட்டமிட்டபடி கிளினிக்கிற்கு வாருங்கள்.</div>
-    <div style="background:var(--gray1);border-radius:var(--r12);padding:16px 20px;width:100%;max-width:320px">
-      <div style="font-size:13px;font-weight:600;color:var(--text3);margin-bottom:4px" class="en">Submitted for</div>
-      <div style="font-size:13px;font-weight:600;color:var(--text3);margin-bottom:4px" class="ta">சமர்ப்பிக்கப்பட்டது</div>
-      <div id="done-name" style="font-family:'Plus Jakarta Sans',sans-serif;font-size:17px;font-weight:700;color:var(--navy)"></div>
-      <div id="done-sp" style="font-size:13px;color:var(--text2);margin-top:2px"></div>
+
+    <div id="s5-content" style="display:none">
+      <div class="success-badge">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00897B" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+        <span class="en">Your brief is ready. The doctor will review this before your consultation.</span>
+        <span class="ta">உங்கள் சுருக்கம் தயாராக உள்ளது. மருத்துவர் ஆலோசனைக்கு முன் இதை பார்ப்பார்.</span>
+      </div>
+
+      <div class="brief-card">
+        <div class="brief-header">
+          <div class="brief-patient-name" id="b-name"></div>
+          <div class="brief-meta" id="b-meta"></div>
+        </div>
+        <div class="brief-section" id="b-complaint"></div>
+        <div class="brief-section" id="b-flags"></div>
+        <div class="brief-section" id="b-history"></div>
+        <div class="brief-section" id="b-summary"></div>
+      </div>
+
+      <div class="privacy-badge" style="margin-top:16px">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00695C" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <div class="privacy-text">
+          <span class="en">This brief is shared only with your doctor. SmartBrief AI does not store or sell your data.</span>
+          <span class="ta">இந்த சுருக்கம் உங்கள் மருத்துவரிடம் மட்டுமே பகிரப்படும்.</span>
+        </div>
+      </div>
+    </div>
+
+    <div id="s5-error" style="display:none;text-align:center;padding:40px 0">
+      <div class="screen-sub en">Could not generate AI brief. Your details have been saved — the doctor will still receive your information.</div>
+      <div class="screen-sub ta">AI சுருக்கம் உருவாக்க முடியவில்லை. உங்கள் விவரங்கள் சேமிக்கப்பட்டன.</div>
+      <button class="btn-secondary" onclick="generateAIBrief()" style="margin-top:16px">
+        <span class="en">Try again</span><span class="ta">மீண்டும் முயற்சி</span>
+      </button>
     </div>
   </div>
 </div>
@@ -284,7 +385,7 @@ function go(id){
   var el=document.getElementById(id);
   if(el){el.classList.add('active')}
   window.scrollTo(0,0);
-  var p={'s1':5,'s2':30,'s-ai':45,'s3':65,'s4':88,'s5':100};
+  var p={'s1':5,'s2':30,'s-ai':45,'s3':55,'s3b':70,'s4':85,'s5':100};
   document.getElementById('prog').style.width=(p[id]||5)+'%';
 }
 
@@ -580,15 +681,240 @@ function submitIntake(){
     existing.push(entry);
     localStorage.setItem('sb_intake_queue',JSON.stringify(existing));
   }catch(e){}
-  document.getElementById('done-name').textContent=S.name;
-  document.getElementById('done-sp').textContent=spNames[S.sp]||'';
   go('s5');
+  generateAIBrief();
 }
+
+function buildPrompt(){
+  var sp={'dental':'Dental OPD','ent':'ENT OPD','gynae':'Gynaecology OPD','general':'General Medicine OPD'};
+  var chatSection=S.chatContext?'\nAI clarification Q&A:\n'+S.chatContext+'\n':'';
+  return 'Generate a structured clinical patient brief for a '+(sp[S.sp]||'clinic')+' doctor.\n\n'+
+    'Patient: '+S.name+', '+S.age+' years, '+(S.gender||'not specified')+'\n'+
+    'Allergies: '+(S.allergy||'None reported')+'\n'+
+    'Symptoms selected: '+(S.symptoms.join(', ')||'None selected')+'\n'+
+    'Patient description: '+(S.aiHelped&&S.aiSummary?S.aiSummary:S.desc||'None')+'\n'+
+    chatSection+
+    'Existing conditions: '+((S.conditions&&S.conditions.length?S.conditions.join(', '):'')+' '+(S.history||'')).trim()+'\n'+
+    'Current medications: '+(S.meds||'None')+'\n'+
+    'Recent tests: '+(S.tests||'None')+'\n\n'+
+    'Return a structured brief with these exact sections:\n'+
+    'CHIEF COMPLAINT: (one sentence summarising the primary complaint)\n'+
+    'CLINICAL FLAGS: (allergy warnings, urgent or red-flag symptoms — be specific, or write "None")\n'+
+    'RELEVANT HISTORY: (conditions, medications, and anything from the AI Q&A that adds context)\n'+
+    'DOCTOR PREP NOTE: (2-3 sentences — what to examine, ask, or watch for during this consult)\n\n'+
+    'Use the AI clarification answers to enrich each section where relevant. Keep it clinical, concise, and factual. This is pre-consultation intelligence — not a diagnosis.';
+}
+
+function showBrief(text){
+  document.getElementById('s5-loading').style.display='none';
+  document.getElementById('s5-content').style.display='block';
+  document.getElementById('b-name').textContent=S.name||'Patient';
+  var sp={'dental':'Dental OPD','ent':'ENT OPD','gynae':'Gynaecology OPD','general':'General Medicine OPD'};
+  document.getElementById('b-meta').textContent=S.age+' yrs · '+(S.gender||'')+' · '+(sp[S.sp]||'');
+  function extract(label,txt){
+    var re=new RegExp(label+':\\s*([\\s\\S]*?)(?=\\n[A-Z ]+:|$)','i');
+    var m=txt.match(re);
+    return m?m[1].trim():'';
+  }
+  var complaint=extract('CHIEF COMPLAINT',text);
+  var flags=extract('CLINICAL FLAGS',text);
+  var history=extract('RELEVANT HISTORY',text);
+  var note=extract('DOCTOR PREP NOTE',text);
+  var bComplaint=document.getElementById('b-complaint');
+  var bFlags=document.getElementById('b-flags');
+  var bHistory=document.getElementById('b-history');
+  var bSummary=document.getElementById('b-summary');
+  if(complaint){bComplaint.innerHTML='<strong>Chief Complaint</strong>'+complaint;}
+  if(flags&&flags.toLowerCase()!=='none'&&flags.toLowerCase()!=='none reported'){
+    bFlags.innerHTML='<strong style="color:#E65100">⚠ Clinical Flags</strong>'+flags;
+    bFlags.style.background='#FFF3E0';
+  }
+  if(history){bHistory.innerHTML='<strong>Relevant History</strong>'+history;}
+  if(note){bSummary.innerHTML='<strong>Doctor Prep Note</strong>'+note;}
+}
+
+function generateAIBrief(){
+  document.getElementById('s5-loading').style.display='block';
+  document.getElementById('s5-content').style.display='none';
+  document.getElementById('s5-error').style.display='none';
+  fetch(AI_PROXY,{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({messages:[{role:'user',content:buildPrompt()}]})
+  })
+  .then(function(r){return r.json()})
+  .then(function(data){
+    var text=data&&data.choices&&data.choices[0]&&data.choices[0].message&&data.choices[0].message.content
+      ?data.choices[0].message.content.trim():'';
+    if(!text)throw new Error('empty');
+    showBrief(text);
+  })
+  .catch(function(){
+    var fallback=
+      'CHIEF COMPLAINT: '+(S.symptoms.join(', ')||S.desc||'Not specified')+'\n'+
+      'CLINICAL FLAGS: '+(S.allergy?'Allergy: '+S.allergy:'None reported')+'\n'+
+      'RELEVANT HISTORY: '+((S.conditions&&S.conditions.length?S.conditions.join(', '):'')||S.history||'None')+'. Medications: '+(S.meds||'None')+'\n'+
+      'DOCTOR PREP NOTE: Patient completed intake form. Please review symptoms and history directly.';
+    showBrief(fallback);
+  });
+}
+
+// Screen 3B — AI clarification chat
+var chatQuestions={
+  dental:[
+    'How long have you had this dental issue?',
+    'Is the pain constant or does it come and go?',
+    'Does anything make the pain better or worse (e.g. hot/cold drinks, chewing)?',
+    'Have you had any dental treatment recently?'
+  ],
+  ent:[
+    'How long have you had this symptom?',
+    'Is it getting worse, better, or staying the same?',
+    'Does it affect one side or both sides?',
+    'Have you had a fever or difficulty breathing?'
+  ],
+  gynae:[
+    'How long have you had this concern?',
+    'Does it relate to your menstrual cycle?',
+    'Have you experienced this before?',
+    'Are you currently on any hormonal medication or contraceptive?'
+  ],
+  general:[
+    'How long have you been feeling this way?',
+    'Is it constant or does it come and go?',
+    'Have you had a fever, chills, or unusual fatigue?',
+    'Has anyone at home had similar symptoms recently?'
+  ]
+};
+var chatQuestionsTa={
+  dental:[
+    'இந்த பல் பிரச்சினை எவ்வளவு நாளாக உள்ளது?',
+    'வலி தொடர்ந்து இருக்கிறதா அல்லது வந்து போகிறதா?',
+    'சூடான/குளிர்ந்த பானங்கள் அல்லது மெல்லும்போது வலி அதிகமாகிறதா?',
+    'சமீபத்தில் ஏதேனும் பல் சிகிச்சை எடுத்துள்ளீர்களா?'
+  ],
+  ent:[
+    'இந்த அறிகுறி எவ்வளவு நாளாக உள்ளது?',
+    'மோசமாகிறதா, குணமாகிறதா அல்லது அதே நிலையில் உள்ளதா?',
+    'ஒரு பக்கம் மட்டுமா அல்லது இரு பக்கமும் பாதிக்கிறதா?',
+    'காய்ச்சல் அல்லது சுவாசிக்கும் சிரமம் உள்ளதா?'
+  ],
+  gynae:[
+    'இந்த பிரச்சினை எவ்வளவு நாளாக உள்ளது?',
+    'இது மாதவிடாய் சுழற்சியுடன் தொடர்புடையதா?',
+    'இதற்கு முன்பு இப்படி ஆனதுண்டா?',
+    'தற்போது ஏதேனும் ஹார்மோன் மருந்து அல்லது கருத்தடை எடுக்கிறீர்களா?'
+  ],
+  general:[
+    'இப்படி உணர எவ்வளவு நாளாகிறது?',
+    'தொடர்ந்து இருக்கிறதா அல்லது வந்து போகிறதா?',
+    'காய்ச்சல், குளிர்ந்து நடுங்குதல் அல்லது அயர்ச்சி உள்ளதா?',
+    'வீட்டில் யாரேனும் சமீபத்தில் இதேபோல் இருந்தார்களா?'
+  ]
+};
+var chatState={questions:[],idx:0,answers:[],tid:null};
+
+function initChat(){
+  var thread=document.getElementById('chat-thread');
+  var inputArea=document.getElementById('chat-input-area');
+  var doneArea=document.getElementById('chat-done-area');
+  thread.innerHTML='';
+  inputArea.style.display='none';
+  doneArea.style.display='none';
+  var sp=S.sp||'general';
+  var qs=S.lang==='ta'?(chatQuestionsTa[sp]||chatQuestionsTa.general):(chatQuestions[sp]||chatQuestions.general);
+  chatState.questions=qs;
+  chatState.idx=0;
+  chatState.answers=[];
+  // First AI bubble after short delay
+  var typingId=showTyping();
+  chatState.tid=setTimeout(function(){
+    removeTyping(typingId);
+    addBubble('ai',qs[0]);
+    inputArea.style.display='block';
+    var inp=document.getElementById('chat-input');
+    if(inp){inp.value='';inp.focus();}
+  },700);
+}
+
+function sendChatReply(){
+  var inp=document.getElementById('chat-input');
+  var val=(inp?inp.value:'').trim();
+  if(!val)return;
+  inp.value='';
+  addBubble('user',val);
+  chatState.answers.push({q:chatState.questions[chatState.idx],a:val});
+  chatState.idx++;
+  var inputArea=document.getElementById('chat-input-area');
+  inputArea.style.display='none';
+  if(chatState.idx<chatState.questions.length){
+    var typingId=showTyping();
+    chatState.tid=setTimeout(function(){
+      removeTyping(typingId);
+      addBubble('ai',chatState.questions[chatState.idx]);
+      inputArea.style.display='block';
+      var i=document.getElementById('chat-input');
+      if(i){i.value='';i.focus();}
+    },800);
+  } else {
+    endChat();
+  }
+}
+
+function endChat(){
+  // Build chatContext string for buildPrompt
+  S.chatContext=chatState.answers.map(function(qa,i){return 'Q'+(i+1)+': '+qa.q+'\nA: '+qa.a;}).join('\n');
+  var typingId=showTyping();
+  chatState.tid=setTimeout(function(){
+    removeTyping(typingId);
+    var doneMsg=S.lang==='ta'
+      ?'நன்றி! உங்கள் பதில்கள் உங்கள் மருத்துவரின் brief-ல் சேர்க்கப்படும்.'
+      :'Thank you! Your answers will be included in your doctor\'s brief.';
+    addBubble('ai',doneMsg);
+    document.getElementById('chat-done-area').style.display='block';
+  },600);
+}
+
+function addBubble(type,text){
+  var thread=document.getElementById('chat-thread');
+  var div=document.createElement('div');
+  div.className='chat-bubble '+type;
+  div.textContent=text;
+  thread.appendChild(div);
+  thread.scrollTop=thread.scrollHeight;
+}
+
+function showTyping(){
+  var thread=document.getElementById('chat-thread');
+  var div=document.createElement('div');
+  div.className='chat-bubble ai typing-dots';
+  div.innerHTML='<span></span><span></span><span></span>';
+  var id='td-'+Date.now();
+  div.id=id;
+  thread.appendChild(div);
+  thread.scrollTop=thread.scrollHeight;
+  return id;
+}
+
+function removeTyping(id){
+  var el=document.getElementById(id);
+  if(el)el.parentNode.removeChild(el);
+}
+
+document.addEventListener('DOMContentLoaded',function(){
+  var ci=document.getElementById('chat-input');
+  if(ci){
+    ci.addEventListener('keydown',function(e){
+      if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChatReply();}
+    });
+  }
+});
 
 var _origGo=go;
 go=function(id){
   if(id==='s-ai'){startAIChat()}
   if(id==='s3'){buildConditionChips();buildSymptomList()}
+  if(id==='s3b'){initChat()}
   if(id==='s4'){buildReview()}
   _origGo(id);
 };
