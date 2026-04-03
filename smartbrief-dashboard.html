@@ -211,15 +211,24 @@ html{background:var(--bg)}
 .timerdisp.running{color:var(--sp)}
 .timerbtn{background:none;border:none;cursor:pointer;font-size:.72rem;
   font-weight:600;color:var(--sp);font-family:var(--fb)}
-.btnadd{background:var(--sp);color:#fff;border:none;padding:10px 20px;
-  border-radius:var(--radius-btn);font-weight:600;
-  font-family:var(--fb);font-size:.82rem;cursor:pointer;
+.btnadd{
+  background:var(--sp);color:#fff;border:none;
+  padding:10px 20px;border-radius:10px;
+  font-weight:700;font-family:var(--fh);font-size:.85rem;
+  cursor:pointer;letter-spacing:-0.1px;
   display:flex;align-items:center;gap:5px;
-  transition:var(--transition);white-space:nowrap;min-height:44px;
-  box-shadow:0 2px 8px rgba(0,137,123,0.25);}
-.btnadd:hover{background:#00796B;transform:translateY(-1px);
-  box-shadow:0 4px 16px rgba(0,137,123,0.32);}
-.btnadd:active{transform:translateY(0);box-shadow:none;}
+  white-space:nowrap;min-height:44px;
+  transition:all 0.2s cubic-bezier(0.22,1,0.36,1);
+  box-shadow:0 4px 14px rgba(0,137,123,0.30),0 1px 3px rgba(0,137,123,0.15);
+  position:relative;overflow:hidden;
+}
+.btnadd::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,0.12) 0%,transparent 60%);
+  pointer-events:none;
+}
+.btnadd:hover{background:#00796B;transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,137,123,0.38)}
+.btnadd:active{transform:translateY(0);box-shadow:0 2px 6px rgba(0,137,123,0.2)}
 .btnwa{
   display:inline-flex;align-items:center;gap:7px;
   background:#25D366;color:#fff;border:none;
@@ -669,9 +678,12 @@ html{background:var(--bg)}
   font-family:var(--fb);font-size:.86rem;color:var(--tx);background:var(--bg);
   outline:none;cursor:pointer}
 .ai-run-btn{width:100%;padding:12px;background:linear-gradient(135deg,#7C3AED,#2563EB);
-  color:#fff;border:none;border-radius:10px;font-family:var(--fb);font-size:.9rem;
-  font-weight:700;cursor:pointer;transition:all .2s;display:flex;align-items:center;
-  justify-content:center;gap:7px;margin-top:6px}
+  color:#fff;border:none;border-radius:10px;font-family:var(--fh);font-size:.9rem;
+  font-weight:700;letter-spacing:-0.2px;cursor:pointer;
+  transition:all 0.2s cubic-bezier(0.22,1,0.36,1);
+  display:flex;align-items:center;justify-content:center;gap:7px;margin-top:6px;
+  box-shadow:0 4px 14px rgba(124,58,237,0.28);
+  position:relative;overflow:hidden;}
 .ai-run-btn:hover{opacity:.9;transform:translateY(-1px);
   box-shadow:0 5px 18px rgba(124,58,237,.3)}
 .ai-run-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
@@ -1035,18 +1047,13 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
     <!-- SIDEBAR -->
     <aside class="sidebar">
       <div class="sblogo">
-        <svg width="26" height="26" viewBox="0 0 36 36" fill="none">
-          <rect width="36" height="36" rx="9" fill="url(#slg1)"/>
-          <rect x="9" y="6" width="14" height="19" rx="2" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.25)" stroke-width="1"/>
-          <path d="M12 11h8M12 14.5h8M12 18h5" stroke="rgba(255,255,255,0.45)" stroke-width="1.2" stroke-linecap="round"/>
-          <path d="M5 23L9 23L11.5 18L15 27L18 15L21 24.5L23.5 23L30 23" stroke="url(#slg2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-          <circle cx="30" cy="23" r="2.5" fill="#00d4aa"/>
-          <defs>
-            <linearGradient id="slg1" x1="0" y1="0" x2="36" y2="36"><stop offset="0%" stop-color="#0d1f40"/><stop offset="100%" stop-color="#0a2655"/></linearGradient>
-            <linearGradient id="slg2" x1="5" y1="23" x2="30" y2="23"><stop offset="0%" stop-color="#3b82f6"/><stop offset="100%" stop-color="#00d4aa"/></linearGradient>
-          </defs>
+        <svg width="26" height="26" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
+          <rect width="32" height="32" rx="8" fill="#0F1F3D"/>
+          <rect x="1" y="1" width="30" height="30" rx="7" stroke="rgba(0,137,123,0.3)" stroke-width="1"/>
+          <path d="M5 16 L9 16 L11 10 L13 22 L15 16 L17 12 L19 19 L21 16 L27 16" stroke="#00897B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <circle cx="25" cy="16" r="1" fill="#00897B"/>
         </svg>
-        <span class="sblogo-t">SmartBrief<sup style="font-size:9px;font-weight:700;color:#00897B;letter-spacing:1.5px;vertical-align:super;margin-left:2px">AI</sup></span>
+        <span class="sblogo-t">Smart<em style="color:#00897B;font-style:normal">Brief</em><sup style="font-size:9px;font-weight:700;color:#00897B;letter-spacing:1px;vertical-align:super;margin-left:2px">AI</sup></span>
       </div>
       <div class="sbsec">Navigation</div>
       <ul class="sbnav">
