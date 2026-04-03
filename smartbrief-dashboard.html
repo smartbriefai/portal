@@ -14,6 +14,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>SmartBrief AI — Dashboard</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/favicon.svg">
+<meta name="theme-color" content="#0F1F3D">
 <link rel="preconnect" href="https://fonts.bunny.net">
 <link rel="stylesheet" href="https://fonts.bunny.net/css?family=outfit:400;500;600;700;800|inter:400;500;600&display=swap">
 <style>
@@ -748,21 +751,26 @@ html{background:var(--bg)}
   .sidebar{display:none}
   .cgrid{grid-template-columns:1fr;gap:12px}
   .main{height:100vh;overflow-y:auto;overflow-x:hidden;width:100%}
-  .statsbar{grid-template-columns:1fr 1fr}
+  .statsbar{grid-template-columns:repeat(4,1fr);gap:6px;overflow-x:auto}
+  .sc{min-width:72px;flex-shrink:0}
   .sc{padding:10px 12px}
   .scn{font-size:1.5rem}
   .scl{font-size:.65rem}
   .bsecs{grid-template-columns:1fr}
   .vgrid{grid-template-columns:1fr 1fr}
-  .mhdr{padding:10px 13px;gap:8px;flex-wrap:nowrap}
+  .mhdr{padding:8px 12px;gap:6px;flex-wrap:nowrap;min-height:48px;overflow:hidden}
+  .mhdr-l{flex:1;min-width:0;overflow:hidden}
+  .mdate{font-size:.62rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .mspec{font-size:.85rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:160px}
   .mhdr-r{gap:6px}
   .btnadd{padding:8px 12px;font-size:.78rem}
   .timerwrap{padding:6px 9px}
   .timerdisp{font-size:.8rem}
   .token-display-btn{display:none}
   .content{padding:12px 13px}
-  .tabs{padding:8px 13px 0;gap:1px;overflow-x:auto;white-space:nowrap}
-  .tab{padding:7px 10px;font-size:.75rem;white-space:nowrap}
+  .tabs{padding:6px 10px 0;gap:2px;overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .tabs::-webkit-scrollbar{display:none}
+  .tab{padding:7px 11px;font-size:.73rem;white-space:nowrap;flex-shrink:0}
   .report-grid{grid-template-columns:1fr 1fr;gap:8px;padding:10px}
   .rstat{padding:10px 6px}
   .rstat-n{font-size:1.2rem}
@@ -786,6 +794,16 @@ html{background:var(--bg)}
   .mnavbtn.a,.mnavbtn:hover{color:var(--sp)}
   .mnavbtn-i{font-size:1.1rem}
   .main{padding-bottom:66px}
+}
+@media(max-width:390px){
+  .statsbar{grid-template-columns:repeat(2,1fr);gap:6px}
+  .scn{font-size:1.3rem}
+  .mhdr-r{gap:4px}
+  .btnadd{padding:7px 10px;font-size:.72rem}
+  .btnadd span:last-child{display:none}
+  .tab{padding:6px 9px;font-size:.7rem}
+  .schip{font-size:.6rem;padding:2px 7px}
+  .mspec{font-size:.8rem;max-width:130px}
 }
 @media(min-width:769px){.mnav{display:none}}
 /* ── MOBILE FONT SIZE — prevents iOS Safari input zoom ──────── */
