@@ -64,6 +64,22 @@ body.tamil .ta{display:block}
 .chip-selected{background:var(--teal-light)!important;border-color:var(--teal)!important;color:var(--teal)!important}
 textarea:focus,input:focus,select:focus{border-color:var(--teal)!important;box-shadow:0 0 0 3px rgba(0,137,123,0.10)!important}
 @media(max-width:380px){.sp-grid{grid-template-columns:1fr}.sp-card{padding:16px 12px}}
+.chip-grid{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0}
+.chip{padding:9px 16px;border:1.5px solid var(--gray2);border-radius:100px;font-size:14px;font-weight:500;color:var(--text2);cursor:pointer;background:var(--surface);transition:all 0.15s;-webkit-tap-highlight-color:transparent}
+.chip.selected{border-color:var(--teal);background:var(--teal-light);color:var(--teal-dark);font-weight:600}
+.spinner-ring{width:48px;height:48px;border:3px solid var(--gray2);border-top-color:var(--teal);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto}
+@keyframes spin{to{transform:rotate(360deg)}}
+.success-badge{display:flex;align-items:flex-start;gap:10px;background:#E0F2F1;border-radius:var(--r12);padding:14px;margin-bottom:20px;font-size:14px;color:#00695C;line-height:1.5}
+.brief-card{background:var(--surface);border:1.5px solid var(--gray2);border-radius:var(--r16,14px);overflow:hidden;margin-bottom:8px}
+.brief-header{background:var(--teal);padding:16px 20px}
+.brief-patient-name{font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:700;color:#fff}
+.brief-meta{font-size:13px;color:rgba(255,255,255,0.8);margin-top:4px}
+.brief-section{padding:14px 20px;border-bottom:1px solid var(--gray2);font-size:14px;color:var(--text1);line-height:1.6}
+.brief-section:empty{display:none}
+.brief-section:last-child{border-bottom:none}
+.brief-section strong{display:block;font-size:11px;font-weight:700;color:var(--text3);letter-spacing:0.6px;text-transform:uppercase;margin-bottom:5px}
+.privacy-badge{display:flex;align-items:flex-start;gap:10px;background:#E0F2F1;border-radius:var(--r12);padding:14px;font-size:13px;color:#00695C;line-height:1.5}
+.privacy-text{flex:1}
 </style>
 </head>
 <body>
@@ -248,19 +264,50 @@ textarea:focus,input:focus,select:focus{border-color:var(--teal)!important;box-s
 </div>
 
 <div class="screen" id="s5">
-  <div class="screen-body" style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding-top:80px">
-    <div style="width:72px;height:72px;border-radius:50%;background:var(--teal-light);display:flex;align-items:center;justify-content:center;margin-bottom:24px">
-      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2.5" stroke-linecap="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+  <div class="screen-header">
+    <div class="logo">Smart<em>Brief</em><sup>AI</sup></div>
+    <div style="width:20px"></div>
+  </div>
+  <div class="screen-body">
+    <div id="s5-loading" style="text-align:center;padding:60px 0">
+      <div class="spinner-ring"></div>
+      <div class="screen-sub en" style="margin-top:20px">Preparing your brief for the doctor...</div>
+      <div class="screen-sub ta" style="margin-top:20px">மருத்துவருக்காக உங்கள் சுருக்கம் தயாரிக்கப்படுகிறது...</div>
     </div>
-    <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:24px;font-weight:800;color:var(--navy);margin-bottom:12px" class="en">Your form is submitted</div>
-    <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:24px;font-weight:800;color:var(--navy);margin-bottom:12px" class="ta">உங்கள் படிவம் சமர்ப்பிக்கப்பட்டது</div>
-    <div style="font-size:16px;color:var(--text2);line-height:1.7;max-width:320px;margin-bottom:32px" class="en">Your doctor has been notified and will review your brief before your consultation. Please arrive at the clinic as scheduled.</div>
-    <div style="font-size:16px;color:var(--text2);line-height:1.7;max-width:320px;margin-bottom:32px" class="ta">உங்கள் மருத்துவர் அறிவிக்கப்பட்டுள்ளார். திட்டமிட்டபடி கிளினிக்கிற்கு வாருங்கள்.</div>
-    <div style="background:var(--gray1);border-radius:var(--r12);padding:16px 20px;width:100%;max-width:320px">
-      <div style="font-size:13px;font-weight:600;color:var(--text3);margin-bottom:4px" class="en">Submitted for</div>
-      <div style="font-size:13px;font-weight:600;color:var(--text3);margin-bottom:4px" class="ta">சமர்ப்பிக்கப்பட்டது</div>
-      <div id="done-name" style="font-family:'Plus Jakarta Sans',sans-serif;font-size:17px;font-weight:700;color:var(--navy)"></div>
-      <div id="done-sp" style="font-size:13px;color:var(--text2);margin-top:2px"></div>
+
+    <div id="s5-content" style="display:none">
+      <div class="success-badge">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00897B" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+        <span class="en">Your brief is ready. The doctor will review this before your consultation.</span>
+        <span class="ta">உங்கள் சுருக்கம் தயாராக உள்ளது. மருத்துவர் ஆலோசனைக்கு முன் இதை பார்ப்பார்.</span>
+      </div>
+
+      <div class="brief-card">
+        <div class="brief-header">
+          <div class="brief-patient-name" id="b-name"></div>
+          <div class="brief-meta" id="b-meta"></div>
+        </div>
+        <div class="brief-section" id="b-complaint"></div>
+        <div class="brief-section" id="b-flags"></div>
+        <div class="brief-section" id="b-history"></div>
+        <div class="brief-section" id="b-summary"></div>
+      </div>
+
+      <div class="privacy-badge" style="margin-top:16px">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00695C" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <div class="privacy-text">
+          <span class="en">This brief is shared only with your doctor. SmartBrief AI does not store or sell your data.</span>
+          <span class="ta">இந்த சுருக்கம் உங்கள் மருத்துவரிடம் மட்டுமே பகிரப்படும்.</span>
+        </div>
+      </div>
+    </div>
+
+    <div id="s5-error" style="display:none;text-align:center;padding:40px 0">
+      <div class="screen-sub en">Could not generate AI brief. Your details have been saved — the doctor will still receive your information.</div>
+      <div class="screen-sub ta">AI சுருக்கம் உருவாக்க முடியவில்லை. உங்கள் விவரங்கள் சேமிக்கப்பட்டன.</div>
+      <button class="btn-secondary" onclick="generateAIBrief()" style="margin-top:16px">
+        <span class="en">Try again</span><span class="ta">மீண்டும் முயற்சி</span>
+      </button>
     </div>
   </div>
 </div>
@@ -580,9 +627,80 @@ function submitIntake(){
     existing.push(entry);
     localStorage.setItem('sb_intake_queue',JSON.stringify(existing));
   }catch(e){}
-  document.getElementById('done-name').textContent=S.name;
-  document.getElementById('done-sp').textContent=spNames[S.sp]||'';
   go('s5');
+  generateAIBrief();
+}
+
+function buildPrompt(){
+  var sp={'dental':'Dental OPD','ent':'ENT OPD','gynae':'Gynaecology OPD','general':'General Medicine OPD'};
+  return 'Generate a structured clinical patient brief for a '+(sp[S.sp]||'clinic')+' doctor.\n\n'+
+    'Patient: '+S.name+', '+S.age+' years, '+(S.gender||'not specified')+'\n'+
+    'Allergies: '+(S.allergy||'None reported')+'\n'+
+    'Symptoms selected: '+(S.symptoms.join(', ')||'None selected')+'\n'+
+    'Patient description: '+(S.aiHelped&&S.aiSummary?S.aiSummary:S.desc||'None')+'\n'+
+    'Existing conditions: '+((S.conditions&&S.conditions.length?S.conditions.join(', '):'')+' '+(S.history||'')).trim()+'\n'+
+    'Current medications: '+(S.meds||'None')+'\n'+
+    'Recent tests: '+(S.tests||'None')+'\n\n'+
+    'Return a structured brief with these exact sections:\n'+
+    'CHIEF COMPLAINT: (one sentence)\n'+
+    'CLINICAL FLAGS: (allergy warnings, urgent symptoms, or "None")\n'+
+    'RELEVANT HISTORY: (conditions + medications)\n'+
+    'DOCTOR PREP NOTE: (1-2 sentences on what to focus on)\n\n'+
+    'Keep it clinical, concise, factual. This is pre-consultation intelligence — not a diagnosis.';
+}
+
+function showBrief(text){
+  document.getElementById('s5-loading').style.display='none';
+  document.getElementById('s5-content').style.display='block';
+  document.getElementById('b-name').textContent=S.name||'Patient';
+  var sp={'dental':'Dental OPD','ent':'ENT OPD','gynae':'Gynaecology OPD','general':'General Medicine OPD'};
+  document.getElementById('b-meta').textContent=S.age+' yrs · '+(S.gender||'')+' · '+(sp[S.sp]||'');
+  function extract(label,txt){
+    var re=new RegExp(label+':\\s*([\\s\\S]*?)(?=\\n[A-Z ]+:|$)','i');
+    var m=txt.match(re);
+    return m?m[1].trim():'';
+  }
+  var complaint=extract('CHIEF COMPLAINT',text);
+  var flags=extract('CLINICAL FLAGS',text);
+  var history=extract('RELEVANT HISTORY',text);
+  var note=extract('DOCTOR PREP NOTE',text);
+  var bComplaint=document.getElementById('b-complaint');
+  var bFlags=document.getElementById('b-flags');
+  var bHistory=document.getElementById('b-history');
+  var bSummary=document.getElementById('b-summary');
+  if(complaint){bComplaint.innerHTML='<strong>Chief Complaint</strong>'+complaint;}
+  if(flags&&flags.toLowerCase()!=='none'&&flags.toLowerCase()!=='none reported'){
+    bFlags.innerHTML='<strong style="color:#E65100">⚠ Clinical Flags</strong>'+flags;
+    bFlags.style.background='#FFF3E0';
+  }
+  if(history){bHistory.innerHTML='<strong>Relevant History</strong>'+history;}
+  if(note){bSummary.innerHTML='<strong>Doctor Prep Note</strong>'+note;}
+}
+
+function generateAIBrief(){
+  document.getElementById('s5-loading').style.display='block';
+  document.getElementById('s5-content').style.display='none';
+  document.getElementById('s5-error').style.display='none';
+  fetch(AI_PROXY,{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({messages:[{role:'user',content:buildPrompt()}]})
+  })
+  .then(function(r){return r.json()})
+  .then(function(data){
+    var text=data&&data.choices&&data.choices[0]&&data.choices[0].message&&data.choices[0].message.content
+      ?data.choices[0].message.content.trim():'';
+    if(!text)throw new Error('empty');
+    showBrief(text);
+  })
+  .catch(function(){
+    var fallback=
+      'CHIEF COMPLAINT: '+(S.symptoms.join(', ')||S.desc||'Not specified')+'\n'+
+      'CLINICAL FLAGS: '+(S.allergy?'Allergy: '+S.allergy:'None reported')+'\n'+
+      'RELEVANT HISTORY: '+((S.conditions&&S.conditions.length?S.conditions.join(', '):'')||S.history||'None')+'. Medications: '+(S.meds||'None')+'\n'+
+      'DOCTOR PREP NOTE: Patient completed intake form. Please review symptoms and history directly.';
+    showBrief(fallback);
+  });
 }
 
 var _origGo=go;
