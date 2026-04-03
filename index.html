@@ -1080,8 +1080,8 @@ window.addEventListener('load',function(){
       pts.push({
         x:Math.random()*W,
         y:Math.random()*H,
-        vx:(Math.random()-0.5)*0.28,
-        vy:(Math.random()-0.5)*0.28,
+        vx:(Math.random()-0.5)*0.18,
+        vy:(Math.random()-0.5)*0.18,
         r:1+Math.random()*1.2,
         ph:Math.random()*Math.PI*2,
         sp:0.3+Math.random()*0.5,
@@ -1094,13 +1094,13 @@ window.addEventListener('load',function(){
 
   function draw(){
     ctx.clearRect(0,0,W,H);
-    t+=0.008;
+    t+=0.004;
 
     /* move particles */
     pts.forEach(function(p){
       p.vx*=0.999;p.vy*=0.999;
-      p.x+=p.vx*0.7;
-      p.y+=p.vy*0.7;
+      p.x+=p.vx*0.45;
+      p.y+=p.vy*0.45;
       if(p.x<-20)p.x=W+20;
       if(p.x>W+20)p.x=-20;
       if(p.y<-20)p.y=H+20;
@@ -1128,7 +1128,7 @@ window.addEventListener('load',function(){
         var dy=pts[i].y-pts[j].y;
         var d=Math.sqrt(dx*dx+dy*dy);
         if(d<CONNECT){
-          var a=(1-d/CONNECT)*0.10;
+          var a=(1-d/CONNECT)*0.13;
           ctx.beginPath();
           ctx.moveTo(pts[i].x,pts[i].y);
           ctx.lineTo(pts[j].x,pts[j].y);
