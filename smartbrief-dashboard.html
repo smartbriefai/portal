@@ -45,7 +45,7 @@ html{max-width:100%;overflow-x:hidden;background:var(--bg)}
 }
 ::selection{background:rgba(0,137,123,0.15);color:var(--tx)}
 *{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
-html,body{height:100%;width:100%;max-width:100%;font-family:var(--fb);background:transparent;color:var(--tx);
+html,body{height:100%;width:100%;max-width:100%;scroll-behavior:smooth;font-family:var(--fb);background:transparent;color:var(--tx);
   -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:hidden}
 /* Ensure html always shows --bg so dark mode variable change is visible */
 html{background:var(--bg)}
@@ -511,7 +511,8 @@ html{background:var(--bg)}
   padding:2px 6px;font-family:monospace;font-size:.67rem;color:var(--tx2);
   box-shadow:0 1px 0 var(--bd2)}
 .disclaimer{background:#FFFDE7;border-top:1px solid #FFE082;
-  padding:7px 22px;font-size:.7rem;color:#6D4C41;text-align:center;line-height:1.4}
+  padding:7px 22px;font-size:.7rem;color:#6D4C41;text-align:center;line-height:1.4;
+  width:100%;box-sizing:border-box;}
 
 /* ── AI FEATURES CSS ───────────────────────────────────────────── */
 
@@ -763,7 +764,7 @@ html{background:var(--bg)}
   .sidebar{display:none!important;width:0!important;min-width:0!important;max-width:0!important;flex:0!important}
   .main{width:100%!important;max-width:100%!important}
   .cgrid{grid-template-columns:1fr!important;gap:10px;min-height:0}
-  .main{height:100vh;overflow-y:auto;overflow-x:hidden;width:100%}
+  .main{height:100vh;overflow-y:auto;overflow-x:hidden;width:100%;-webkit-overflow-scrolling:touch;scroll-behavior:smooth}
   .statsbar{grid-template-columns:repeat(4,1fr);gap:6px;overflow-x:auto}
   .sc{padding:8px 6px;min-width:0;flex-shrink:0}
   .scn{font-size:1.2rem}
@@ -796,7 +797,7 @@ html{background:var(--bg)}
   .shortcuts{display:none}
   .tabs{top:50px}
   .rx-ac-dropdown{max-width:calc(100vw - 24px)!important}
-  .mnav{display:flex;position:fixed;bottom:0;left:0;right:0;width:100%;
+  .mnav{display:flex;position:fixed;bottom:0;left:0;right:0;width:100%;box-sizing:border-box;
     background:var(--sf);border-top:1px solid var(--bd);z-index:50;
     padding:6px 0 max(6px,env(safe-area-inset-bottom))}
   .mnavbtn{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;
