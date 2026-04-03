@@ -98,7 +98,7 @@ html{background:var(--bg)}
 
 /* ── DASH LAYOUT ───────────────────────────────────────────────── */
 #dashScreen{display:none;height:100vh;overflow:hidden}
-.dwrap{display:flex;height:100%}
+.dwrap{display:flex;height:100%;width:100%;overflow:hidden;position:relative;box-sizing:border-box}
 
 /* ── SIDEBAR ───────────────────────────────────────────────────── */
   .sidebar{
@@ -111,9 +111,6 @@ html{background:var(--bg)}
     border-right:1px solid var(--bd);
     overflow:hidden;
     box-sizing:border-box;
-    position:sticky;
-    top:0;
-    height:100vh;
     display:flex;flex-direction:column;overflow-y:auto;
   }
   .sblogo{
@@ -190,7 +187,7 @@ html{background:var(--bg)}
 .sbout:hover{color:#E53935}
 
 /* ── MAIN ──────────────────────────────────────────────────────── */
-.main{flex:1;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;min-width:0;max-width:calc(100% - var(--sw));box-sizing:border-box;}
+.main{flex:1;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;min-width:0;width:0;box-sizing:border-box}
 .mhdr{padding:16px 24px;border-bottom:1px solid var(--bd);
   display:flex;align-items:center;justify-content:space-between;flex-wrap:nowrap;overflow:hidden;min-height:52px;
   background:rgba(255,255,255,0.92);
@@ -277,26 +274,8 @@ html{background:var(--bg)}
 .tab.active{color:var(--sp);border-bottom-color:var(--sp);font-weight:600;background:var(--ss)}
 
 /* ── CONTENT ───────────────────────────────────────────────────── */
-.content{
-  padding:18px 22px;
-  flex:1;
-  min-width:0;
-  max-width:100%;
-  width:100%;
-  overflow-x:hidden;
-  box-sizing:border-box;
-  contain:layout style;
-}
-.cgrid{
-  display:grid;
-  grid-template-columns:310px 1fr;
-  gap:18px;
-  align-items:start;
-  min-width:0;
-  min-height:480px;
-  width:100%;
-  box-sizing:border-box;
-}
+.content{padding:18px 22px;width:100%;max-width:100%;min-width:0;box-sizing:border-box;overflow-x:hidden}
+.cgrid{display:grid;grid-template-columns:310px 1fr;gap:18px;align-items:start;min-width:0;width:100%;box-sizing:border-box;min-height:400px}
 .cgrid > *{min-width:0}
 
 /* ── PANELS ────────────────────────────────────────────────────── */
@@ -781,8 +760,9 @@ html{background:var(--bg)}
 
 /* ── MOBILE ────────────────────────────────────────────────────── */
 @media(max-width:768px){
-  .sidebar{display:none}
-  .cgrid{grid-template-columns:1fr;gap:12px}
+  .sidebar{display:none!important;width:0!important;min-width:0!important;max-width:0!important;flex:0!important}
+  .main{width:100%!important;max-width:100%!important}
+  .cgrid{grid-template-columns:1fr!important;gap:10px;min-height:0}
   .main{height:100vh;overflow-y:auto;overflow-x:hidden;width:100%}
   .statsbar{grid-template-columns:repeat(4,1fr);gap:6px;overflow-x:auto}
   .sc{padding:8px 6px;min-width:0;flex-shrink:0}
@@ -1155,6 +1135,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
       </div>
 
       <!-- ── TAB: QUEUE & BRIEF ── -->
+      <div id="tab-panels" style="flex:1;min-width:0;width:100%;overflow-x:hidden;box-sizing:border-box;position:relative">
       <div id="tabcontent-queue" class="content" style="display:block">
         <div class="cgrid">
           <!-- QUEUE -->
@@ -1639,6 +1620,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
           </div>
         </div>
       </div>
+      </div><!-- end tab-panels -->
 
       <div class="shortcuts">
         <div class="shortcut"><kbd>N</kbd><span>New patient</span></div>
