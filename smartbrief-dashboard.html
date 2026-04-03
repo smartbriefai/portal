@@ -525,7 +525,7 @@ html{background:var(--bg)}
 .api-card-hdr{padding:15px 18px;border-bottom:1px solid var(--bd);
   display:flex;align-items:center;justify-content:space-between;background:var(--sf)}
 .api-card-title{font-family:var(--fh);font-size:.9rem;font-weight:800;color:var(--tx)}
-.api-card-body{padding:18px}
+.api-card-body{padding:18px;max-height:75vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
 .privacy-qa{margin-bottom:16px;padding:14px;background:var(--bg2);border-radius:10px;border:1px solid var(--bd)}
 .privacy-q{font-size:.82rem;font-weight:700;color:var(--tx);margin-bottom:5px}
 .privacy-a{font-size:.78rem;color:var(--tx2);line-height:1.6}
@@ -1736,8 +1736,8 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
 </div>
 
 <!-- API SETTINGS MODAL -->
-<div class="api-settings" id="apiSettings">
-  <div class="api-card">
+<div class="api-settings" id="apiSettings" onclick="closeApiSettings()">
+  <div class="api-card" onclick="event.stopPropagation()">
     <div class="api-card-hdr">
       <span class="api-card-title">⚙️ AI Status</span>
       <button class="modalclose" onclick="closeApiSettings()">✕</button>
