@@ -523,6 +523,15 @@ input[type=range]#slider::-webkit-slider-thumb{
   font-size:30px;font-weight:800;color:var(--teal);font-synthesis:none;
 }
 .roi-l{font-size:12px;color:rgba(255,255,255,0.38);margin-top:5px;line-height:1.4}
+.roi-card--highlight{border:2px solid var(--teal);background:linear-gradient(135deg,rgba(0,137,123,0.06),rgba(0,137,123,0.02))}
+.roi-proof{font-size:11px;color:rgba(255,255,255,0.45);line-height:1.5;margin-top:8px;border-top:1px solid rgba(255,255,255,0.08);padding-top:8px}
+.roi-proof em{opacity:0.7;font-style:normal}
+.roi-math{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:20px 24px;margin:24px 0 20px;text-align:left;max-width:480px;margin-left:auto;margin-right:auto}
+.roi-math-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:700;color:var(--teal);letter-spacing:0.8px;text-transform:uppercase;margin-bottom:14px}
+.roi-math-row{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:rgba(255,255,255,0.65);padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.05)}
+.roi-math-row:last-child{border-bottom:none}
+.roi-math-total{font-size:15px;font-weight:700;color:#fff;padding-top:12px;margin-top:4px;border-top:1px solid rgba(255,255,255,0.15)!important}
+.roi-disclaimer{font-size:12px;color:rgba(255,255,255,0.35);line-height:1.6;max-width:480px;margin:0 auto 24px;text-align:center}
 
 /* CTA */
 #cta{background:var(--teal);padding:80px 48px;text-align:center}
@@ -853,11 +862,34 @@ input[type=range]#slider::-webkit-slider-thumb{
     </div>
     <div class="roi-cur">Calculating for <strong id="roi-n">20 patients per day</strong></div>
     <div class="roi-cards">
-      <div class="roi-card"><div class="roi-n" id="r-time">84 min</div><div class="roi-l">Time saved<br>daily</div></div>
-      <div class="roi-card"><div class="roi-n" id="r-pts">+4</div><div class="roi-l">Extra patients<br>per day</div></div>
-      <div class="roi-card"><div class="roi-n" id="r-rev">₹31K</div><div class="roi-l">Added revenue<br>per month</div></div>
+      <div class="roi-card">
+        <div class="roi-n" id="r-time">40 min</div>
+        <div class="roi-l">Intake time<br>saved daily</div>
+        <div class="roi-proof">2 min per patient × your volume<br><em>Source: Indian OPD clinical study, IJCMPH 2019</em></div>
+      </div>
+      <div class="roi-card">
+        <div class="roi-n" id="r-pts">+4</div>
+        <div class="roi-l">Extra consultations<br>possible per day</div>
+        <div class="roi-proof">Recovered time ÷ avg 10 min consult<br><em>Conservative estimate at 50% utilisation</em></div>
+      </div>
+      <div class="roi-card roi-card--highlight">
+        <div class="roi-n" id="r-rev">₹31K</div>
+        <div class="roi-l">Added revenue<br>per month</div>
+        <div class="roi-proof">Extra consults × ₹500 avg fee × 26 days × 60%<br><em>Chennai private clinic benchmark, Practo 2024</em></div>
+      </div>
     </div>
-    <a href="#cta" class="btn-teal" style="display:inline-block;font-size:15px;padding:14px 36px">Start free trial</a>
+    <div class="roi-math" id="roi-math">
+      <div class="roi-math-title">How we calculate this</div>
+      <div class="roi-math-row"><span>Intake time saved per patient</span><span>2 min</span></div>
+      <div class="roi-math-row"><span>Time saved daily (<span id="rm-pts">20</span> patients)</span><span id="rm-time">40 min</span></div>
+      <div class="roi-math-row"><span>Extra consultations possible</span><span id="rm-extra">+4 / day</span></div>
+      <div class="roi-math-row"><span>Avg consultation fee (Chennai)</span><span>₹500</span></div>
+      <div class="roi-math-row"><span>Working days per month</span><span>26</span></div>
+      <div class="roi-math-row"><span>Realisation rate (conservative)</span><span>60%</span></div>
+      <div class="roi-math-row roi-math-total"><span>Added revenue per month</span><span id="rm-rev">₹31,200</span></div>
+    </div>
+    <p class="roi-disclaimer">Revenue projection based on published Indian OPD workflow data. Actual results depend on clinic schedule and patient volume. SmartBrief AI costs ₹999/month — net benefit remains positive from day one.</p>
+    <a href="smartbrief-dashboard.html" class="btn-teal" style="display:inline-block;font-size:15px;padding:14px 36px">See the dashboard →</a>
   </div>
 </section>
 
@@ -1014,14 +1046,29 @@ function setSp(k,el){
 
 var slider=document.getElementById('slider');
 function updateROI(){
-  var n=parseInt(slider.value);
+  var n=parseInt(document.getElementById('slider').value);
   document.getElementById('roi-n').textContent=n+' patients per day';
-  var mins=Math.round(n*4.2);
-  document.getElementById('r-time').textContent=mins+' min';
-  var extra=Math.round(mins/20);
+  document.getElementById('rm-pts').textContent=n;
+
+  // 2 min saved per patient (source: IJCMPH 2019 Indian OPD study)
+  var minSaved=n*2;
+  var hrSaved=Math.floor(minSaved/60);
+  var minRem=minSaved%60;
+  var timeStr=hrSaved>0?(hrSaved+'h '+(minRem>0?minRem+'m':'')):minSaved+'m';
+  document.getElementById('r-time').textContent=timeStr.trim();
+  document.getElementById('rm-time').textContent=minSaved+' min';
+
+  // Extra consultations: saved time / 10 min avg consult / 2 (50% utilisation)
+  var extraRaw=minSaved/10;
+  var extra=Math.max(1,Math.round(extraRaw*0.5));
   document.getElementById('r-pts').textContent='+'+extra;
-  var rev=Math.round(extra*300*26/1000);
-  document.getElementById('r-rev').textContent='₹'+rev+'K';
+  document.getElementById('rm-extra').textContent='+'+extra+' / day';
+
+  // Revenue: extra consults × ₹500 avg fee × 26 working days × 60% realisation
+  var monthly=Math.round(extra*500*26*0.6);
+  var monthlyK=monthly>=1000?(Math.round(monthly/1000*10)/10)+'K':monthly;
+  document.getElementById('r-rev').textContent='₹'+monthlyK;
+  document.getElementById('rm-rev').textContent='₹'+monthly.toLocaleString('en-IN');
 }
 slider.addEventListener('input',updateROI);
 updateROI();
