@@ -89,8 +89,8 @@ h1,h2,h3,h4,h5{
   font-weight:800;font-size:20px;
   color:var(--navy);text-decoration:none;
   letter-spacing:-0.3px;font-synthesis:none;
-  display:inline-flex;align-items:center;gap:9px;
-  position:relative;
+  display:inline-flex;align-items:center;gap:7px;
+  position:relative;white-space:nowrap;
 }
 .nav-logo em,.footer-logo em{
   color:var(--teal);font-style:normal;font-weight:800;
@@ -594,7 +594,9 @@ input[type=range]#slider::-webkit-slider-thumb{
 /* MOBILE */
 @media(max-width:768px){
   #nav{padding:0 20px}
-  .nav-mid,.nav-link{display:none}
+  .nav-mid{display:none}
+  .nav-link{display:none}
+  .nav-link[href="smartbrief-intake.html"]{display:inline-flex;font-size:13px;padding:7px 12px;background:var(--teal);color:#fff;border-radius:8px;font-weight:600;margin-right:4px}
   #hero{padding:100px 20px 60px}
   .h-actions{flex-direction:column;align-items:stretch}
   .btn-teal,.btn-out{text-align:center}
@@ -666,15 +668,14 @@ input[type=range]#slider::-webkit-slider-thumb{
 <body>
 
 <nav id="nav">
-  <a href="#" class="nav-logo">
-  <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
+  <a href="#" class="nav-logo" style="gap:8px;letter-spacing:-0.5px"><svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
     <rect width="32" height="32" rx="8" fill="#0F1F3D"/>
     <rect x="1" y="1" width="30" height="30" rx="7" stroke="rgba(0,137,123,0.3)" stroke-width="1"/>
     <path d="M5 16 L9 16 L11 10 L13 22 L15 16 L17 12 L19 19 L21 16 L27 16" stroke="#00897B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
     <circle cx="25" cy="16" r="2.5" fill="none" stroke="#00897B" stroke-width="1.5"/>
     <circle cx="25" cy="16" r="1" fill="#00897B"/>
   </svg>
-  Smart<em>Brief</em><sup class="logo-sup">AI</sup>
+  Smart<em style="letter-spacing:0">Brief</em><sup class="logo-sup">AI</sup>
 </a>
   <ul class="nav-mid">
     <li><a href="#features">Features</a></li>
@@ -701,6 +702,12 @@ input[type=range]#slider::-webkit-slider-thumb{
     <div class="h-actions">
       <a href="#features" class="btn-teal">See how it works →</a>
       <a href="smartbrief-dashboard.html" class="btn-out">See the dashboard →</a>
+    </div>
+    <div style="margin-top:12px">
+      <a href="smartbrief-intake.html" style="font-size:13px;color:var(--teal);font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:6px">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Patient intake form →
+      </a>
     </div>
     <p style="font-size:13px;color:var(--text3);margin-top:10px;line-height:1.5">Used by dental, ENT, gynaecology and general medicine clinics in Chennai.</p>
     <p class="h-trust">Designed for <strong>Dental · ENT · Gynaecology · General Medicine</strong></p>
@@ -979,11 +986,12 @@ input[type=range]#slider::-webkit-slider-thumb{
     <path d="M5 16 L9 16 L11 10 L13 22 L15 16 L17 12 L19 19 L21 16 L27 16" stroke="#00897B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
     <circle cx="25" cy="16" r="1" fill="#00897B"/>
   </svg>
-  Smart<em>Brief</em><sup class="logo-sup" style="color:var(--teal)">AI</sup>
+  Smart<em style="letter-spacing:0">Brief</em><sup class="logo-sup" style="color:var(--teal)">AI</sup>
 </div>
   <div class="footer-sp">Dental · ENT · Gynaecology · General Medicine</div>
   <div class="footer-links">
     <a href="smartbrief-dashboard.html">Dashboard</a>
+    <a href="smartbrief-intake.html" style="color:rgba(0,137,123,0.7)">Patient Intake</a>
     <a href="smartbrief-patient.html">Patient portal</a>
   </div>
   <div class="footer-copy">© 2026 SmartBrief AI · Chennai, India</div>
