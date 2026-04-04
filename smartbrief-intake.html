@@ -2,12 +2,7 @@
 <!--
   SmartBrief AI - Pre-Consultation Intelligence Platform
   Copyright (c) 2026 Prabhu R. All rights reserved.
-  Product: SmartBrief AI (www.smartbriefai.in)
-  Author: Prabhu R, Chennai, India
-  Built: March-April 2026
   Digital fingerprint: SB-2026-PR-CHN-OPD-INTEL
-  Unauthorised copying, modification or distribution
-  is strictly prohibited without written permission.
 -->
 <html lang="en">
 <head>
@@ -18,181 +13,146 @@
 <link rel="apple-touch-icon" href="/favicon.svg">
 <meta name="theme-color" content="#0F1F3D">
 <link rel="preconnect" href="https://fonts.bunny.net">
-<link href="https://fonts.bunny.net/css?family=plus-jakarta-sans:400,500,600,700|dm-sans:400,500" rel="stylesheet">
+<link href="https://fonts.bunny.net/css?family=plus-jakarta-sans:400,600,700,800|dm-sans:400,500" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
---teal:#00897B;--teal-dark:#00796B;--teal-light:#E0F2F1;
---navy:#0F1F3D;--bg:#FAFBFF;--surface:#FFFFFF;
---gray1:#F4F6FB;--gray2:#E8EBF4;--gray3:#B0B8D0;
---text1:#0F1F3D;--text2:#4A5568;--text3:#718096;
---r8:8px;--r12:12px;--r16:16px;
+  --teal:#00897B;--teal-dk:#00695C;--teal-lt:#E0F2F1;
+  --navy:#0F1F3D;--bg:#F7F9FC;--sf:#FFFFFF;
+  --g1:#F0F4FA;--g2:#E2E8F0;--g3:#A0AEC0;
+  --t1:#0F1F3D;--t2:#4A5568;--t3:#718096;
+  --r10:10px;--r14:14px;
 }
-html,body{min-height:100%;background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text1);-webkit-font-smoothing:antialiased}
-h1,h2,h3{font-family:'Plus Jakarta Sans',sans-serif;font-synthesis:none}
-.screen{display:none;min-height:100vh;flex-direction:column}
-.screen.active{display:flex}
-.screen-header{background:var(--surface);border-bottom:1px solid var(--gray2);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10}
-.screen-body{flex:1;padding:24px 20px;max-width:520px;width:100%;margin:0 auto}
-.screen-footer{padding:16px 20px 32px;max-width:520px;width:100%;margin:0 auto}
-.progress-bar{height:3px;background:var(--gray2)}
-.progress-fill{height:100%;background:var(--teal);transition:width 0.4s ease;width:5%}
-.logo{font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:17px;color:var(--navy)}
+html,body{min-height:100%;background:var(--bg);font-family:"DM Sans",sans-serif;color:var(--t1);-webkit-font-smoothing:antialiased}
+.scr{display:none;min-height:100vh;flex-direction:column}
+.scr.on{display:flex}
+.hdr{background:var(--sf);border-bottom:1px solid var(--g2);padding:14px 18px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;gap:10px}
+.logo{font-family:"Plus Jakarta Sans",sans-serif;font-weight:800;font-size:16px;color:var(--navy)}
 .logo em{color:var(--teal);font-style:normal}
-.logo sup{font-size:9px;font-weight:700;color:var(--teal);letter-spacing:1px;vertical-align:super;margin-left:1px}
-.lang-toggle{display:flex;background:var(--gray1);border-radius:var(--r8);padding:3px;gap:2px}
-.lang-btn{padding:6px 14px;border-radius:6px;border:none;background:transparent;font-size:13px;font-weight:500;color:var(--text3);cursor:pointer;font-family:'DM Sans',sans-serif}
-.lang-btn.active{background:var(--surface);color:var(--text1)}
-.btn-primary{width:100%;padding:15px;background:var(--teal);color:#fff;border:none;border-radius:var(--r12);font-family:'DM Sans',sans-serif;font-size:16px;font-weight:600;cursor:pointer;box-shadow:0 4px 16px rgba(0,137,123,0.25)}
-.btn-primary:disabled{background:var(--gray3);box-shadow:none;cursor:not-allowed}
-.btn-secondary{width:100%;padding:13px;background:transparent;color:var(--text2);border:1.5px solid var(--gray2);border-radius:var(--r12);font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;cursor:pointer;margin-top:10px}
-.sp-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:8px 0}
-.sp-card{background:var(--surface);border:2px solid var(--gray2);border-radius:var(--r16);padding:20px 16px;text-align:center;cursor:pointer;transition:border-color 0.2s,background 0.2s;position:relative}
-.sp-card.selected{border-color:var(--teal);background:var(--teal-light)}
-.sp-card.selected::after{content:'✓';position:absolute;top:8px;right:10px;font-size:12px;color:var(--teal);font-weight:700}
-.sp-icon{font-size:32px;margin-bottom:10px;display:block}
-.sp-name{font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:700;color:var(--navy);margin-bottom:3px}
-.sp-desc{font-size:12px;color:var(--text3)}
-.privacy-badge{display:flex;align-items:center;gap:8px;background:var(--teal-light);border-radius:var(--r8);padding:10px 14px;margin-bottom:20px}
-.privacy-text{font-size:12px;color:#00695C;line-height:1.4}
-.screen-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:22px;font-weight:800;color:var(--navy);line-height:1.2;margin-bottom:8px}
-.screen-sub{font-size:15px;color:var(--text2);line-height:1.6;margin-bottom:24px}
-.sec-label{font-size:11px;font-weight:700;color:var(--text3);letter-spacing:0.8px;text-transform:uppercase;margin-bottom:10px}
+.logo sup{font-size:8px;color:var(--teal);letter-spacing:1px;vertical-align:super;margin-left:1px}
+.body{flex:1;padding:20px 18px;max-width:500px;width:100%;margin:0 auto}
+.foot{padding:14px 18px 32px;max-width:500px;width:100%;margin:0 auto}
+.pbar{height:3px;background:var(--g2);position:sticky;top:57px;z-index:9}
+.pfill{height:100%;background:var(--teal);transition:width 0.4s cubic-bezier(.4,0,.2,1)}
+.lr{display:flex;background:var(--g1);border-radius:8px;padding:3px;gap:2px}
+.lb{padding:6px 13px;border-radius:6px;border:none;background:transparent;font-size:13px;font-weight:500;color:var(--t3);cursor:pointer;font-family:"DM Sans",sans-serif;transition:all 0.15s}
+.lb.on{background:var(--sf);color:var(--t1);font-weight:600}
+.btn{width:100%;padding:15px;background:var(--teal);color:#fff;border:none;border-radius:var(--r14);font-family:"Plus Jakarta Sans",sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 16px rgba(0,137,123,0.22)}
+.btn:disabled{background:var(--g3);box-shadow:none;cursor:not-allowed}
+.btn:not(:disabled):active{transform:scale(0.98)}
+.btn2{width:100%;padding:13px;background:transparent;color:var(--t2);border:1.5px solid var(--g2);border-radius:var(--r14);font-family:"DM Sans",sans-serif;font-size:15px;font-weight:500;cursor:pointer;margin-top:10px}
+.bbtn{background:none;border:none;cursor:pointer;padding:4px;color:var(--t2);display:flex;align-items:center}
+.ttl{font-family:"Plus Jakarta Sans",sans-serif;font-size:22px;font-weight:800;color:var(--navy);line-height:1.2;margin-bottom:8px;letter-spacing:-0.3px}
+.sub{font-size:15px;color:var(--t2);line-height:1.6;margin-bottom:22px}
+.lbl{font-size:11px;font-weight:700;color:var(--t3);letter-spacing:0.8px;text-transform:uppercase;margin-bottom:8px}
+.inp{width:100%;padding:13px 14px;border:1.5px solid var(--g2);border-radius:var(--r10);font-family:"DM Sans",sans-serif;font-size:15px;color:var(--t1);background:var(--sf);outline:none;transition:border-color 0.15s}
+.inp:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(0,137,123,0.08)}
+.sel{width:100%;padding:13px 14px;border:1.5px solid var(--g2);border-radius:var(--r10);font-family:"DM Sans",sans-serif;font-size:15px;color:var(--t1);background:var(--sf);outline:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23718096' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
+.sel:focus{border-color:var(--teal)}
+.sp-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px}
+.sp{background:var(--sf);border:2px solid var(--g2);border-radius:16px;padding:18px 14px;text-align:center;cursor:pointer;transition:all 0.18s;position:relative}
+.sp:active{transform:scale(0.97)}
+.sp.on{border-color:var(--teal);background:var(--teal-lt)}
+.sp.on::after{content:"\2713";position:absolute;top:8px;right:10px;font-size:11px;color:var(--teal);font-weight:700}
+.sp-ico{font-size:28px;margin-bottom:8px;display:block}
+.sp-nm{font-family:"Plus Jakarta Sans",sans-serif;font-size:13px;font-weight:700;color:var(--navy);margin-bottom:2px}
+.sp-ds{font-size:11px;color:var(--t3)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{padding:9px 15px;border:1.5px solid var(--g2);border-radius:100px;font-size:14px;font-weight:500;color:var(--t2);cursor:pointer;background:var(--sf);transition:all 0.15s;user-select:none}
+.chip:active{transform:scale(0.96)}
+.chip.on{border-color:var(--teal);background:var(--teal-lt);color:var(--teal-dk);font-weight:600}
+.shld{display:flex;align-items:flex-start;gap:10px;background:var(--teal-lt);border-radius:var(--r10);padding:12px 14px;margin-bottom:20px}
+.shld-t{font-size:12px;color:var(--teal-dk);line-height:1.5;flex:1}
+.cwrap{display:flex;flex-direction:column;gap:10px;margin-bottom:14px;min-height:100px}
+.cb{max-width:84%;padding:12px 14px;border-radius:16px;font-size:14px;line-height:1.55;word-break:break-word}
+.cb.ai{background:var(--sf);border:1.5px solid var(--g2);border-bottom-left-radius:4px;color:var(--t1);align-self:flex-start}
+.cb.me{background:var(--teal);color:#fff;border-bottom-right-radius:4px;align-self:flex-end}
+.dots{display:flex;align-items:center;gap:5px;padding:13px 16px;background:var(--sf);border:1.5px solid var(--g2);border-radius:16px;border-bottom-left-radius:4px;align-self:flex-start;max-width:80px}
+.dots span{width:6px;height:6px;border-radius:50%;background:var(--g3);animation:td 1.2s infinite}
+.dots span:nth-child(2){animation-delay:.2s}
+.dots span:nth-child(3){animation-delay:.4s}
+@keyframes td{0%,80%,100%{opacity:.25;transform:scale(.85)}40%{opacity:1;transform:scale(1)}}
+.qrow{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:12px}
+.qb{padding:8px 14px;border-radius:100px;border:1.5px solid var(--teal-lt);background:var(--teal-lt);color:var(--teal-dk);font-size:13px;font-weight:600;cursor:pointer;transition:all 0.15s}
+.ciw{display:flex;gap:8px;align-items:flex-end;margin-top:4px}
+.cinp{flex:1;padding:11px 14px;border:1.5px solid var(--g2);border-radius:var(--r10);font-family:"DM Sans",sans-serif;font-size:15px;color:var(--t1);background:var(--sf);resize:none;outline:none;transition:border-color .15s}
+.cinp:focus{border-color:var(--teal)}
+.sbtn{width:44px;height:44px;min-width:44px;border-radius:var(--r10);background:var(--teal);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.sbtn:active{transform:scale(0.93)}
+.ai-hdr{display:flex;align-items:center;gap:12px;margin-bottom:18px;padding:14px;background:var(--sf);border-radius:var(--r14);border:1px solid var(--g2)}
+.ai-av{width:40px;height:40px;border-radius:12px;background:var(--teal);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.bcard{background:var(--sf);border:1.5px solid var(--g2);border-radius:var(--r14);overflow:hidden}
+.bh{background:var(--navy);padding:16px 18px}
+.bh-nm{font-family:"Plus Jakarta Sans",sans-serif;font-size:17px;font-weight:700;color:#fff}
+.bh-mt{font-size:12px;color:rgba(255,255,255,0.65);margin-top:3px}
+.bs{padding:13px 18px;border-bottom:1px solid var(--g2);font-size:14px;color:var(--t1);line-height:1.6}
+.bs:last-child{border-bottom:none}
+.bs-l{display:block;font-size:10px;font-weight:700;color:var(--t3);letter-spacing:0.6px;text-transform:uppercase;margin-bottom:4px}
+.flag-box{background:#FFF3E0;border-left:3px solid #FF8F00;padding:12px 14px;border-radius:0 8px 8px 0;font-size:14px;color:#E65100;line-height:1.55}
+.spin{width:44px;height:44px;border:3px solid var(--g2);border-top-color:var(--teal);border-radius:50%;animation:sp .8s linear infinite;margin:0 auto}
+@keyframes sp{to{transform:rotate(360deg)}}
+.sico{width:64px;height:64px;border-radius:50%;background:var(--teal-lt);display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
 .en{display:block}.ta{display:none}
 body.tamil .en{display:none}
 body.tamil .ta{display:block}
-.chip-selected{background:var(--teal-light)!important;border-color:var(--teal)!important;color:var(--teal)!important}
-textarea:focus,input:focus,select:focus{border-color:var(--teal)!important;box-shadow:0 0 0 3px rgba(0,137,123,0.10)!important}
-@media(max-width:380px){.sp-grid{grid-template-columns:1fr}.sp-card{padding:16px 12px}}
-.chip-grid{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0}
-.chip{padding:9px 16px;border:1.5px solid var(--gray2);border-radius:100px;font-size:14px;font-weight:500;color:var(--text2);cursor:pointer;background:var(--surface);transition:all 0.15s;-webkit-tap-highlight-color:transparent}
-.chip.selected{border-color:var(--teal);background:var(--teal-light);color:var(--teal-dark);font-weight:600}
-.spinner-ring{width:48px;height:48px;border:3px solid var(--gray2);border-top-color:var(--teal);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto}
-@keyframes spin{to{transform:rotate(360deg)}}
-.success-badge{display:flex;align-items:flex-start;gap:10px;background:#E0F2F1;border-radius:var(--r12);padding:14px;margin-bottom:20px;font-size:14px;color:#00695C;line-height:1.5}
-.brief-card{background:var(--surface);border:1.5px solid var(--gray2);border-radius:var(--r16,14px);overflow:hidden;margin-bottom:8px}
-.brief-header{background:var(--teal);padding:16px 20px}
-.brief-patient-name{font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:700;color:#fff}
-.brief-meta{font-size:13px;color:rgba(255,255,255,0.8);margin-top:4px}
-.brief-section{padding:14px 20px;border-bottom:1px solid var(--gray2);font-size:14px;color:var(--text1);line-height:1.6}
-.brief-section:empty{display:none}
-.brief-section:last-child{border-bottom:none}
-.brief-section strong{display:block;font-size:11px;font-weight:700;color:var(--text3);letter-spacing:0.6px;text-transform:uppercase;margin-bottom:5px}
-.privacy-badge{display:flex;align-items:flex-start;gap:10px;background:#E0F2F1;border-radius:var(--r12);padding:14px;font-size:13px;color:#00695C;line-height:1.5}
-.privacy-text{flex:1}
-.ai-chat-intro{display:flex;align-items:flex-start;gap:12px;margin-bottom:20px}
-.ai-avatar{width:40px;height:40px;border-radius:12px;background:var(--teal);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.chat-thread{display:flex;flex-direction:column;gap:10px;margin-bottom:16px;min-height:160px}
-.chat-bubble{max-width:82%;padding:11px 14px;border-radius:16px;font-size:14px;line-height:1.55}
-.chat-bubble.ai{background:var(--surface);border:1.5px solid var(--gray2);border-bottom-left-radius:4px;color:var(--text1);align-self:flex-start}
-.chat-bubble.user{background:var(--teal);color:#fff;border-bottom-right-radius:4px;align-self:flex-end}
-.typing-dots{display:flex;align-items:center;gap:5px;padding:14px 16px}
-.typing-dots span{width:7px;height:7px;border-radius:50%;background:var(--text3);animation:tdot 1.2s infinite}
-.typing-dots span:nth-child(2){animation-delay:0.2s}
-.typing-dots span:nth-child(3){animation-delay:0.4s}
-@keyframes tdot{0%,80%,100%{opacity:0.25;transform:scale(0.85)}40%{opacity:1;transform:scale(1)}}
-.chat-input-wrap{display:flex;gap:8px;align-items:flex-end}
-.chat-input{flex:1;padding:11px 14px;border:1.5px solid var(--gray2);border-radius:var(--r12);font-family:'DM Sans',sans-serif;font-size:15px;color:var(--text1);background:var(--surface);resize:none;outline:none;width:100%;box-sizing:border-box;margin-bottom:10px}
-.chat-input:focus{border-color:var(--teal)}
-.chat-send-btn{width:44px;height:44px;border-radius:var(--r12);background:var(--teal);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-bottom:10px}
-.chat-done-badge{display:flex;align-items:center;gap:8px;background:#E0F2F1;border-radius:var(--r12);padding:12px 14px;font-size:14px;color:#00695C;margin-bottom:14px;font-weight:600}
+@media(max-width:360px){.sp-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
-
-<div class="screen active" id="s1">
-  <div class="screen-header">
+<div class="pbar"><div class="pfill" id="prog" style="width:5%"></div></div>
+<div class="scr on" id="s1">
+  <div class="hdr">
     <div class="logo">Smart<em>Brief</em><sup>AI</sup></div>
-    <div class="lang-toggle">
-      <button class="lang-btn active" onclick="setLang('en',this)">English</button>
-      <button class="lang-btn" onclick="setLang('ta',this)">தமிழ்</button>
+    <div class="lr">
+      <button class="lb on" onclick="setL('en',this)">English</button>
+      <button class="lb" onclick="setL('ta',this)">தமிழ்</button>
     </div>
   </div>
-  <div class="screen-body">
-    <div class="privacy-badge">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00695C" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-      <div class="privacy-text"><span class="en">Your information is private and shared only with your doctor.</span><span class="ta">உங்கள் தகவல் தனிப்பட்டது — மருத்துவரிடம் மட்டுமே பகிரப்படும்.</span></div>
+  <div class="body">
+    <div class="shld">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#00695C" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      <div class="shld-t"><span class="en">Private — shared only with your doctor. No login needed.</span><span class="ta">தனிப்பட்டது — மருத்துவரிடம் மட்டுமே பகிரப்படும்.</span></div>
     </div>
-    <div class="screen-title en">Help your doctor prepare for your visit</div>
-    <div class="screen-title ta">உங்கள் வருகைக்கு மருத்துவரை தயார்படுத்துங்கள்</div>
-    <div class="screen-sub en">Answer a few simple questions. Takes 2-3 minutes. No login needed.</div>
-    <div class="screen-sub ta">சில கேள்விகளுக்கு பதில் அளிக்கவும். 2-3 நிமிடங்கள் மட்டுமே.</div>
-    <div class="sec-label en">Select your clinic type</div>
-    <div class="sec-label ta">மருத்துவமனை வகையை தேர்ந்தெடுக்கவும்</div>
+    <div class="ttl en">Help your doctor prepare</div>
+    <div class="ttl ta">மருத்துவரை தயார்படுத்துங்கள்</div>
+    <div class="sub en">2 minutes. No login. Completely private.</div>
+    <div class="sub ta">2 நிமிடம். உள்நுழைவு தேவையில்லை.</div>
+    <div class="lbl en">Select your clinic type</div>
+    <div class="lbl ta">மருத்துவமனை வகை</div>
     <div class="sp-grid">
-      <div class="sp-card" onclick="pickSp('dental',this)"><span class="sp-icon">🦷</span><div class="sp-name en">Dental</div><div class="sp-name ta">பல் மருத்துவம்</div><div class="sp-desc en">Teeth, gums, jaw</div><div class="sp-desc ta">பற்கள், ஈறுகள்</div></div>
-      <div class="sp-card" onclick="pickSp('ent',this)"><span class="sp-icon">👂</span><div class="sp-name en">ENT</div><div class="sp-name ta">காது மூக்கு தொண்டை</div><div class="sp-desc en">Ear, nose, throat</div><div class="sp-desc ta">காது, மூக்கு, தொண்டை</div></div>
-      <div class="sp-card" onclick="pickSp('gynae',this)"><span class="sp-icon">🌸</span><div class="sp-name en">Gynaecology</div><div class="sp-name ta">மகளிர் மருத்துவம்</div><div class="sp-desc en">Women's health</div><div class="sp-desc ta">பெண்கள் உடல்நலம்</div></div>
-      <div class="sp-card" onclick="pickSp('general',this)"><span class="sp-icon">🩺</span><div class="sp-name en">General Medicine</div><div class="sp-name ta">பொது மருத்துவம்</div><div class="sp-desc en">Fever, pain, diabetes</div><div class="sp-desc ta">காய்ச்சல், வலி, நீரிழிவு</div></div>
+      <div class="sp" onclick="pickSp('dental',this)"><span class="sp-ico">🦷</span><div class="sp-nm en">Dental</div><div class="sp-nm ta">பல் மருத்துவம்</div><div class="sp-ds en">Teeth, gums, jaw</div><div class="sp-ds ta">பற்கள், ஈறுகள்</div></div>
+      <div class="sp" onclick="pickSp('ent',this)"><span class="sp-ico">👂</span><div class="sp-nm en">ENT</div><div class="sp-nm ta">காது மூக்கு தொண்டை</div><div class="sp-ds en">Ear, nose, throat</div><div class="sp-ds ta">காது, மூக்கு</div></div>
+      <div class="sp" onclick="pickSp('gynae',this)"><span class="sp-ico">🌸</span><div class="sp-nm en">Gynaecology</div><div class="sp-nm ta">மகளிர் மருத்துவம்</div><div class="sp-ds en">Women's health</div><div class="sp-ds ta">பெண்கள் நலம்</div></div>
+      <div class="sp" onclick="pickSp('general',this)"><span class="sp-ico">🩺</span><div class="sp-nm en">General Medicine</div><div class="sp-nm ta">பொது மருத்துவம்</div><div class="sp-ds en">Fever, pain, BP</div><div class="sp-ds ta">காய்ச்சல், வலி</div></div>
     </div>
   </div>
-  <div class="screen-footer">
-    <button class="btn-primary" id="btn1" onclick="go('s2')" disabled><span class="en">Continue</span><span class="ta">தொடரவும்</span></button>
+  <div class="foot">
+    <button class="btn" id="btn1" onclick="nav('s2')" disabled><span class="en">Continue</span><span class="ta">தொடரவும்</span></button>
   </div>
 </div>
-
-<div class="screen" id="s2">
-  <div class="screen-header">
-    <button onclick="go('s1')" style="background:none;border:none;cursor:pointer;padding:4px;color:var(--text2)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg></button>
+<div class="scr" id="s2">
+  <div class="hdr">
+    <button class="bbtn" onclick="nav('s1')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg></button>
     <div class="logo">Smart<em>Brief</em><sup>AI</sup></div>
     <div style="width:28px"></div>
   </div>
-  <div class="screen-body">
-    <div class="screen-title en">What brings you in today?</div>
-    <div class="screen-title ta">இன்று என்ன பிரச்சனையுடன் வந்திருக்கிறீர்கள்?</div>
-    <div class="screen-sub en">Select all that apply. You can choose more than one.</div>
-    <div class="screen-sub ta">பொருந்தும் அனைத்தையும் தேர்ந்தெடுக்கவும்.</div>
-    <div id="symptom-list" style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px"></div>
-    <div style="background:var(--gray1);border:1.5px dashed var(--gray3);border-radius:var(--r12);padding:16px;margin-bottom:16px">
-      <div class="sec-label en" style="margin-bottom:8px">Or describe in your own words</div>
-      <div class="sec-label ta" style="margin-bottom:8px">அல்லது உங்கள் சொந்த வார்த்தைகளில் விவரிக்கவும்</div>
-      <textarea id="free-desc" rows="3" placeholder="Type here... e.g. I have pain on the left side of my jaw" style="width:100%;border:1px solid var(--gray2);border-radius:var(--r8);padding:10px 12px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text1);background:var(--surface);resize:none;outline:none" oninput="S.desc=this.value;checkS2()"></textarea>
-    </div>
-    <div id="ai-help-banner" style="background:linear-gradient(135deg,#E0F2F1,#E8EBF4);border:1px solid var(--teal-light);border-radius:var(--r12);padding:14px 16px;cursor:pointer;display:flex;align-items:center;gap:12px" onclick="go('s-ai')">
-      <div style="width:36px;height:36px;border-radius:10px;background:var(--teal);display:flex;align-items:center;justify-content:center;flex-shrink:0">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3M12 17h.01"/></svg>
-      </div>
-      <div>
-        <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:700;color:var(--navy)" class="en">Not sure how to describe it?</div>
-        <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:700;color:var(--navy)" class="ta">எப்படி விவரிப்பது என்று தெரியவில்லையா?</div>
-        <div style="font-size:12px;color:var(--text2);margin-top:2px" class="en">Let AI help you explain your symptoms to the doctor</div>
-        <div style="font-size:12px;color:var(--text2);margin-top:2px" class="ta">AI உங்கள் அறிகுறிகளை மருத்துவரிடம் விளக்க உதவும்</div>
-      </div>
-      <svg style="margin-left:auto;flex-shrink:0" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
-    </div>
-  </div>
-  <div class="screen-footer">
-    <button class="btn-primary" id="btn2" onclick="go('s3')" disabled><span class="en">Continue</span><span class="ta">தொடரவும்</span></button>
-    <button class="btn-secondary" onclick="go('s1')"><span class="en">Back</span><span class="ta">பின்செல்</span></button>
-  </div>
-</div>
-<div class="screen" id="s3">
-  <div class="screen-header">
-    <button onclick="go('s2')" style="background:none;border:none;cursor:pointer;padding:4px;color:var(--text2)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg></button>
-    <div class="logo">Smart<em>Brief</em><sup>AI</sup></div>
-    <div style="width:28px"></div>
-  </div>
-  <div class="screen-body">
-    <div class="screen-title en">A little about you</div>
-    <div class="screen-title ta">உங்களைப் பற்றி சிறிது</div>
-    <div class="screen-sub en">This helps the doctor understand your background.</div>
-    <div class="screen-sub ta">இது மருத்துவர் உங்கள் பின்னணியை புரிந்துகொள்ள உதவும்.</div>
+  <div class="body">
+    <div class="ttl en">About you</div>
+    <div class="ttl ta">உங்களைப் பற்றி</div>
+    <div class="sub en">Just the basics — takes 30 seconds.</div>
+    <div class="sub ta">அடிப்படை தகவல்கள் மட்டும்.</div>
     <div style="margin-bottom:14px">
-      <div class="sec-label en">Your name</div>
-      <div class="sec-label ta">உங்கள் பெயர்</div>
-      <input id="inp-name" type="text" placeholder="e.g. Meera Krishnamurthy" style="width:100%;padding:13px 14px;border:1.5px solid var(--gray2);border-radius:var(--r12);font-family:'DM Sans',sans-serif;font-size:15px;color:var(--text1);background:var(--surface);outline:none" oninput="S.name=this.value;checkS3()">
+      <div class="lbl en">Your name</div><div class="lbl ta">பெயர்</div>
+      <input id="i-nm" class="inp" type="text" placeholder="e.g. Meera K." oninput="S.nm=this.value;ck2()">
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
       <div>
-        <div class="sec-label en">Age</div>
-        <div class="sec-label ta">வயது</div>
-        <input id="inp-age" type="number" placeholder="e.g. 34" style="width:100%;padding:13px 14px;border:1.5px solid var(--gray2);border-radius:var(--r12);font-family:'DM Sans',sans-serif;font-size:15px;color:var(--text1);background:var(--surface);outline:none" oninput="S.age=this.value;checkS3()">
+        <div class="lbl en">Age</div><div class="lbl ta">வயது</div>
+        <input id="i-ag" class="inp" type="number" placeholder="34" oninput="S.ag=this.value;ck2()">
       </div>
       <div>
-        <div class="sec-label en">Gender</div>
-        <div class="sec-label ta">பாலினம்</div>
-        <select id="inp-gender" style="width:100%;padding:13px 14px;border:1.5px solid var(--gray2);border-radius:var(--r12);font-family:'DM Sans',sans-serif;font-size:15px;color:var(--text1);background:var(--surface);outline:none" onchange="S.gender=this.value;checkS3()">
+        <div class="lbl en">Gender</div><div class="lbl ta">பாலினம்</div>
+        <select id="i-gn" class="sel" onchange="S.gn=this.value;ck2()">
           <option value="">Select</option>
           <option value="Female">Female</option>
           <option value="Male">Male</option>
@@ -201,724 +161,20 @@ textarea:focus,input:focus,select:focus{border-color:var(--teal)!important;box-s
       </div>
     </div>
     <div style="margin-bottom:14px">
-      <div class="sec-label en">Any known medical conditions?</div>
-      <div class="sec-label ta">தெரிந்த மருத்துவ நிலைகள் ஏதேனும் உள்ளதா?</div>
-      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px" id="condition-chips"></div>
-      <input id="inp-history" type="text" placeholder="e.g. Diabetes, Hypertension, Thyroid..." style="width:100%;padding:13px 14px;border:1.5px solid var(--gray2);border-radius:var(--r12);font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text1);background:var(--surface);outline:none" oninput="S.history=this.value">
-    </div>
-    <div style="margin-bottom:14px">
-      <div class="sec-label en">Current medications (if any)</div>
-      <div class="sec-label ta">தற்போதைய மருந்துகள் (ஏதேனும் இருந்தால்)</div>
-      <input id="inp-meds" type="text" placeholder="e.g. Metformin 500mg, Amlodipine 5mg" style="width:100%;padding:13px 14px;border:1.5px solid var(--gray2);border-radius:var(--r12);font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text1);background:var(--surface);outline:none" oninput="S.meds=this.value">
+      <div class="lbl en">Known allergies (optional)</div><div class="lbl ta">ஒவ்வாமை</div>
+      <input id="i-al" class="inp" type="text" placeholder="e.g. Penicillin, or leave blank" oninput="S.al=this.value">
     </div>
     <div>
-      <div class="sec-label en">Any allergies?</div>
-      <div class="sec-label ta">ஏதேனும் ஒவ்வாமை உள்ளதா?</div>
-      <input id="inp-allergy" type="text" placeholder="e.g. Penicillin, Aspirin, or None" style="width:100%;padding:13px 14px;border:1.5px solid var(--gray2);border-radius:var(--r12);font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text1);background:var(--surface);outline:none" oninput="S.allergy=this.value">
+      <div class="lbl en">Current medications (optional)</div><div class="lbl ta">மருந்துகள்</div>
+      <input id="i-mx" class="inp" type="text" placeholder="e.g. Metformin 500mg" oninput="S.mx=this.value">
     </div>
   </div>
-  <div class="screen-footer">
-    <button class="btn-primary" id="btn3" onclick="go('s3b')" disabled><span class="en">Continue</span><span class="ta">தொடரவும்</span></button>
-    <button class="btn-secondary" onclick="go('s2')"><span class="en">Back</span><span class="ta">பின்செல்</span></button>
+  <div class="foot">
+    <button class="btn" id="btn2" onclick="nav('s3')" disabled><span class="en">Continue</span><span class="ta">தொடரவும்</span></button>
+    <button class="btn2" onclick="nav('s1')"><span class="en">Back</span><span class="ta">பின்செல்</span></button>
   </div>
 </div>
-<div class="screen" id="s-ai">
-  <div class="screen-header">
-    <button onclick="go('s2')" style="background:none;border:none;cursor:pointer;padding:4px;color:var(--text2)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg></button>
-    <div class="logo">Smart<em>Brief</em><sup>AI</sup></div>
-    <div style="width:28px"></div>
-  </div>
-  <div class="screen-body">
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px">
-      <div style="width:36px;height:36px;border-radius:10px;background:var(--teal);display:flex;align-items:center;justify-content:center;flex-shrink:0">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3M12 17h.01"/></svg>
-      </div>
-      <div>
-        <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:700;color:var(--navy)" class="en">AI symptom helper</div>
-        <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:700;color:var(--navy)" class="ta">AI அறிகுறி உதவியாளர்</div>
-        <div style="font-size:12px;color:var(--text3)" class="en">Chat privately — your replies go only to your doctor</div>
-        <div style="font-size:12px;color:var(--text3)" class="ta">தனிப்பட்ட உரையாடல் — மருத்துவரிடம் மட்டுமே செல்லும்</div>
-      </div>
-    </div>
-    <div id="ai-chat" style="display:flex;flex-direction:column;gap:12px;margin-bottom:16px;min-height:200px"></div>
-    <div id="ai-input-area" style="display:none">
-      <textarea id="ai-user-input" rows="2" placeholder="Type your answer here..." style="width:100%;padding:12px 14px;border:1.5px solid var(--gray2);border-radius:var(--r12);font-family:'DM Sans',sans-serif;font-size:15px;color:var(--text1);background:var(--surface);resize:none;outline:none;margin-bottom:10px"></textarea>
-      <button onclick="sendAIMessage()" style="width:100%;padding:13px;background:var(--teal);color:#fff;border:none;border-radius:var(--r12);font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;cursor:pointer">
-        <span class="en">Send</span><span class="ta">அனுப்பு</span>
-      </button>
-    </div>
-    <div id="ai-quick-btns" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px"></div>
-    <div id="ai-done-area" style="display:none">
-      <div style="background:var(--teal-light);border-radius:var(--r12);padding:14px;margin-bottom:14px">
-        <div style="font-size:12px;font-weight:700;color:#00695C;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px" class="en">Your symptoms — summarised for doctor</div>
-        <div style="font-size:12px;font-weight:700;color:#00695C;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px" class="ta">மருத்துவருக்காக சுருக்கப்பட்ட அறிகுறிகள்</div>
-        <div id="ai-summary" style="font-size:14px;color:var(--text1);line-height:1.6"></div>
-      </div>
-      <button onclick="acceptAISummary()" class="btn-primary"><span class="en">Use this description</span><span class="ta">இந்த விளக்கத்தை பயன்படுத்து</span></button>
-      <button onclick="go('s2')" class="btn-secondary"><span class="en">Go back and edit</span><span class="ta">திரும்பி திருத்து</span></button>
-    </div>
-  </div>
-</div>
-
-<div class="screen" id="s3b">
-  <div class="screen-header">
-    <button onclick="go('s3')" style="background:none;border:none;cursor:pointer;padding:4px;color:var(--text2)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg></button>
-    <div class="logo">Smart<em>Brief</em><sup>AI</sup></div>
-    <div style="width:28px"></div>
-  </div>
-  <div class="screen-body">
-    <div class="ai-chat-intro">
-      <div class="ai-avatar">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M12 2a9 9 0 0 1 9 9c0 3.5-2 6.5-5 8l-4 2-4-2c-3-1.5-5-4.5-5-8a9 9 0 0 1 9-9z"/><path d="M9 12h.01M12 12h.01M15 12h.01"/></svg>
-      </div>
-      <div>
-        <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:700;color:var(--navy)" class="en">A few quick questions</div>
-        <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:700;color:var(--navy)" class="ta">சில விரைவான கேள்விகள்</div>
-        <div style="font-size:12px;color:var(--text3)" class="en">Help your doctor understand your situation better</div>
-        <div style="font-size:12px;color:var(--text3)" class="ta">உங்கள் நிலைமையை மருத்துவர் சிறப்பாக புரிந்துகொள்ள உதவுங்கள்</div>
-      </div>
-    </div>
-    <div class="chat-thread" id="chat-thread"></div>
-    <div id="chat-input-area" style="display:none">
-      <div class="chat-input-wrap">
-        <textarea class="chat-input" id="chat-input" rows="2" placeholder="Type your reply..."></textarea>
-        <button class="chat-send-btn" id="chat-send-btn" onclick="sendChatReply()">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-        </button>
-      </div>
-    </div>
-    <div id="chat-done-area" style="display:none">
-      <div class="chat-done-badge">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00897B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-        <span class="en">All set — your doctor will see this</span>
-        <span class="ta">அனைத்தும் தயார் — மருத்துவர் இதை பார்ப்பார்</span>
-      </div>
-      <button class="btn-primary" onclick="go('s4')"><span class="en">Continue to review</span><span class="ta">மதிப்பாய்விற்கு தொடரவும்</span></button>
-    </div>
-  </div>
-</div>
-
-<div class="screen" id="s4">
-  <div class="screen-header">
-    <button onclick="go('s3')" style="background:none;border:none;cursor:pointer;padding:4px;color:var(--text2)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg></button>
-    <div class="logo">Smart<em>Brief</em><sup>AI</sup></div>
-    <div style="width:28px"></div>
-  </div>
-  <div class="screen-body">
-    <div class="screen-title en">Review your information</div>
-    <div class="screen-title ta">உங்கள் தகவலை மதிப்பாய்வு செய்யவும்</div>
-    <div class="screen-sub en">Please check everything looks correct before submitting.</div>
-    <div class="screen-sub ta">சமர்ப்பிப்பதற்கு முன் எல்லாம் சரியாக உள்ளதா என்று சரிபாருங்கள்.</div>
-    <div id="review-content" style="display:flex;flex-direction:column;gap:12px"></div>
-  </div>
-  <div class="screen-footer">
-    <button class="btn-primary" onclick="submitIntake()"><span class="en">Submit to doctor</span><span class="ta">மருத்துவரிடம் சமர்ப்பி</span></button>
-    <button class="btn-secondary" onclick="go('s3')"><span class="en">Back</span><span class="ta">பின்செல்</span></button>
-  </div>
-</div>
-
-<div class="screen" id="s5">
-  <div class="screen-header">
-    <div class="logo">Smart<em>Brief</em><sup>AI</sup></div>
-    <div style="width:20px"></div>
-  </div>
-  <div class="screen-body">
-    <div id="s5-loading" style="text-align:center;padding:60px 0">
-      <div class="spinner-ring"></div>
-      <div class="screen-sub en" style="margin-top:20px">Preparing your brief for the doctor...</div>
-      <div class="screen-sub ta" style="margin-top:20px">மருத்துவருக்காக உங்கள் சுருக்கம் தயாரிக்கப்படுகிறது...</div>
-    </div>
-
-    <div id="s5-content" style="display:none">
-      <div class="success-badge">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00897B" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
-        <span class="en">Your brief is ready. The doctor will review this before your consultation.</span>
-        <span class="ta">உங்கள் சுருக்கம் தயாராக உள்ளது. மருத்துவர் ஆலோசனைக்கு முன் இதை பார்ப்பார்.</span>
-      </div>
-
-      <div class="brief-card">
-        <div class="brief-header">
-          <div class="brief-patient-name" id="b-name"></div>
-          <div class="brief-meta" id="b-meta"></div>
-        </div>
-        <div class="brief-section" id="b-complaint"></div>
-        <div class="brief-section" id="b-flags"></div>
-        <div class="brief-section" id="b-history"></div>
-        <div class="brief-section" id="b-summary"></div>
-      </div>
-
-      <div class="privacy-badge" style="margin-top:16px">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00695C" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        <div class="privacy-text">
-          <span class="en">This brief is shared only with your doctor. SmartBrief AI does not store or sell your data.</span>
-          <span class="ta">இந்த சுருக்கம் உங்கள் மருத்துவரிடம் மட்டுமே பகிரப்படும்.</span>
-        </div>
-      </div>
-    </div>
-
-    <div id="s5-error" style="display:none;text-align:center;padding:40px 0">
-      <div class="screen-sub en">Could not generate AI brief. Your details have been saved — the doctor will still receive your information.</div>
-      <div class="screen-sub ta">AI சுருக்கம் உருவாக்க முடியவில்லை. உங்கள் விவரங்கள் சேமிக்கப்பட்டன.</div>
-      <button class="btn-secondary" onclick="generateAIBrief()" style="margin-top:16px">
-        <span class="en">Try again</span><span class="ta">மீண்டும் முயற்சி</span>
-      </button>
-    </div>
-  </div>
-</div>
-
-<script>
-var S={sp:null,lang:'en',symptoms:[],desc:'',name:'',age:'',history:'',meds:'',aiChat:[],aiHelped:false};
-function setLang(l,btn){
-  S.lang=l;
-  document.querySelectorAll('.lang-btn').forEach(function(b){b.classList.remove('active')});
-  btn.classList.add('active');
-  l==='ta'?document.body.classList.add('tamil'):document.body.classList.remove('tamil');
-  var fd=document.getElementById('free-desc');
-  if(fd)fd.placeholder=l==='ta'?'இங்கே தட்டச்சு செய்யுங்கள்... உதா: என் தாடையில் இடது பக்கம் வலிக்கிறது':'Type here... e.g. I have pain on the left side of my jaw';
-  var ai=document.getElementById('ai-user-input');
-  if(ai)ai.placeholder=l==='ta'?'உங்கள் பதிலை இங்கே தட்டச்சு செய்யுங்கள்...':'Type your answer here...';
-}
-function pickSp(sp,el){S.sp=sp;document.querySelectorAll('.sp-card').forEach(function(c){c.classList.remove('selected')});el.classList.add('selected');document.getElementById('btn1').disabled=false}
-function go(id){
-  if(id==='s3'){buildConditionChips();buildSymptomList()}
-  document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active')});
-  var el=document.getElementById(id);
-  if(el){el.classList.add('active')}
-  window.scrollTo(0,0);
-  var p={'s1':5,'s2':30,'s-ai':45,'s3':55,'s3b':70,'s4':85,'s5':100};
-  document.getElementById('prog').style.width=(p[id]||5)+'%';
-}
-
-function checkS2(){
-  var hasSymptom=S.symptoms.length>0;
-  var hasDesc=S.desc.trim().length>3;
-  document.getElementById('btn2').disabled=!(hasSymptom||hasDesc);
-}
-
-function checkS3(){
-  var n=document.getElementById('inp-name').value.trim();
-  var a=document.getElementById('inp-age').value.trim();
-  var g=document.getElementById('inp-gender').value;
-  document.getElementById('btn3').disabled=!(n&&a&&g);
-}
-
-var SYMPTOMS={
-  dental:['Toothache or pain','Sensitivity to hot or cold','Bleeding gums','Swollen jaw or face','Tooth broken or chipped','Bad breath','Mouth sore or ulcer','Loose tooth','Other'],
-  ent:['Ear pain or discharge','Blocked or stuffy nose','Sore throat','Difficulty swallowing','Hearing loss','Dizziness or vertigo','Snoring or sleep issues','Nosebleed','Other'],
-  gynae:['Irregular or missed periods','Pelvic or lower abdominal pain','Unusual discharge','Itching or burning sensation','Heavy or painful periods','Bloating or swelling','Pain during intercourse','Breast changes or pain','Pregnancy related concern','Other'],
-  general:['Fever or chills','Headache','Body pain or weakness','Cough or cold','Vomiting or nausea','Loose motions or constipation','Chest pain or breathlessness','High blood sugar or diabetes','Blood pressure concern','Fatigue or tiredness','Other']
-};
-
-var CONDITIONS=['Diabetes','Hypertension','Thyroid','Asthma','Heart disease','Kidney disease','None'];
-
-function buildSymptomList(){
-  var list=document.getElementById('symptom-list');
-  if(!list)return;
-  var syms=SYMPTOMS[S.sp]||SYMPTOMS.general;
-  list.innerHTML='';
-  syms.forEach(function(sym){
-    var checked=S.symptoms.indexOf(sym)>-1;
-    var div=document.createElement('div');
-    div.style.cssText='display:flex;align-items:center;gap:12px;padding:13px 14px;background:var(--surface);border:2px solid '+(checked?'var(--teal)':'var(--gray2)')+';border-radius:var(--r12);cursor:pointer;transition:all 0.15s';
-    div.innerHTML='<div style="width:20px;height:20px;border-radius:6px;border:2px solid '+(checked?'var(--teal)':'var(--gray3)')+';background:'+(checked?'var(--teal)':'transparent')+';display:flex;align-items:center;justify-content:center;flex-shrink:0">'+(checked?'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg>':'')+'</div><span style="font-size:15px;color:var(--text1)">'+sym+'</span>';
-    div.onclick=function(){
-      var idx=S.symptoms.indexOf(sym);
-      if(idx>-1){S.symptoms.splice(idx,1)}else{S.symptoms.push(sym)}
-      buildSymptomList();checkS2();
-    };
-    list.appendChild(div);
-  });
-}
-
-function buildConditionChips(){
-  var wrap=document.getElementById('condition-chips');
-  if(!wrap)return;
-  wrap.innerHTML='';
-  CONDITIONS.forEach(function(c){
-    var sel=S.conditions&&S.conditions.indexOf(c)>-1;
-    var chip=document.createElement('button');
-    chip.textContent=c;
-    chip.style.cssText='padding:7px 14px;border-radius:20px;border:1.5px solid '+(sel?'var(--teal)':'var(--gray2)')+';background:'+(sel?'var(--teal-light)':'var(--surface)')+';color:'+(sel?'var(--teal)':'var(--text2)')+';font-size:13px;font-weight:500;cursor:pointer;font-family:\'DM Sans\',sans-serif';
-    chip.onclick=function(){
-      if(!S.conditions)S.conditions=[];
-      var idx=S.conditions.indexOf(c);
-      if(idx>-1){S.conditions.splice(idx,1)}else{if(c==='None'){S.conditions=['None']}else{var ni=S.conditions.indexOf('None');if(ni>-1)S.conditions.splice(ni,1);S.conditions.push(c)}}
-      buildConditionChips();
-    };
-    wrap.appendChild(chip);
-  });
-}
-
-var AI_PROXY='https://smartbrief-proxy.vercel.app/api/chat';
-var aiStep=0;
-var aiQuestions={
-  dental:['How long have you had this problem?','Does the pain come and go or is it constant?','Does anything make it worse — like hot drinks, cold food, or biting?','Have you had any dental work done recently?','On a scale of 1 to 10, how would you rate the pain?'],
-  ent:['How long have you had this problem?','Is it on one side or both sides?','Do you have fever or any other symptoms along with this?','Have you tried any medicines — did they help?','Does it affect your sleep or daily activities?'],
-  gynae:['How long have you had this problem?','Is this related to your menstrual cycle in any way?','Can you describe where exactly you feel the discomfort — lower abdomen, back, or elsewhere?','Have you noticed any unusual changes — in discharge, bleeding, or swelling?','Have you been under stress or had any major changes recently?'],
-  general:['How long have you had this problem?','Do you have fever — if yes, how high?','Is the pain or discomfort in one place or all over?','Have you taken any medicines — if yes, which ones?','Are you able to eat and drink normally?']
-};
-var aiQuestionsTa={
-  dental:['இந்த பிரச்சனை எவ்வளவு நாளாக உள்ளது?','வலி வந்து போகிறதா அல்லது தொடர்ச்சியாக உள்ளதா?','சூடான பானங்கள், குளிர்ந்த உணவு அல்லது கடிக்கும்போது வலி அதிகமாகுமா?','சமீபத்தில் பல் சிகிச்சை ஏதேனும் செய்தீர்களா?','1 முதல் 10 வரை வலியை எவ்வாறு மதிப்பிடுவீர்கள்?'],
-  ent:['இந்த பிரச்சனை எவ்வளவு நாளாக உள்ளது?','ஒரு பக்கத்தில் மட்டுமா அல்லது இரு பக்கங்களிலும் உள்ளதா?','காய்ச்சல் அல்லது வேறு அறிகுறிகள் உள்ளனவா?','ஏதேனும் மருந்து எடுத்தீர்களா — உதவியதா?','தூக்கம் அல்லது தினசரி வேலைகளை பாதிக்கிறதா?'],
-  gynae:['இந்த பிரச்சனை எவ்வளவு நாளாக உள்ளது?','இது உங்கள் மாதவிடாய் சுழற்சியுடன் தொடர்புடையதா?','வலி அல்லது அசௌகரியம் எங்கே உணர்கிறீர்கள் — வயிற்றின் கீழ் பகுதி, முதுகு, அல்லது வேறு இடம்?','அசாதாரண மாற்றங்கள் — வெளியேற்றம், இரத்தப்போக்கு, அல்லது வீக்கம் — ஏதேனும் கவனித்தீர்களா?','சமீபத்தில் மன அழுத்தம் அல்லது பெரிய மாற்றங்கள் ஏதேனும் உள்ளனவா?'],
-  general:['இந்த பிரச்சனை எவ்வளவு நாளாக உள்ளது?','காய்ச்சல் உள்ளதா — இருந்தால் எவ்வளவு?','வலி அல்லது அசௌகரியம் ஒரு இடத்தில் மட்டுமா அல்லது எங்கும் உள்ளதா?','ஏதேனும் மருந்து எடுத்தீர்களா — எடுத்தால் எவை?','சாப்பிட மற்றும் குடிக்க முடிகிறதா?']
-};
-
-function startAIChat(){
-  aiStep=0;
-  S.aiChat=[];
-  S.aiHelped=false;
-  document.getElementById('ai-done-area').style.display='none';
-  document.getElementById('ai-input-area').style.display='none';
-  var chat=document.getElementById('ai-chat');
-  chat.innerHTML='';
-  var greeting=S.lang==='ta'?'வணக்கம்! உங்கள் அறிகுறிகளை மருத்துவரிடம் விளக்க சில எளிய கேள்விகள் கேட்கிறேன். உங்கள் சொந்த வார்த்தைகளில் பதில் சொல்லுங்கள் — தவறான பதில்கள் இல்லை.':'Hello! I will ask you a few simple questions to help describe your symptoms to the doctor. Please answer in your own words — there are no wrong answers.';
-  addAIBubble('ai',greeting);
-  setTimeout(function(){askNextAIQuestion();},600);
-}
-
-function addAIBubble(role,text){
-  var chat=document.getElementById('ai-chat');
-  var div=document.createElement('div');
-  div.style.cssText='display:flex;'+(role==='ai'?'justify-content:flex-start':'justify-content:flex-end');
-  var bubble=document.createElement('div');
-  bubble.style.cssText='max-width:80%;padding:12px 15px;border-radius:'+(role==='ai'?'4px 16px 16px 16px':'16px 4px 16px 16px')+';background:'+(role==='ai'?'var(--surface)':'var(--teal)')+';color:'+(role==='ai'?'var(--text1)':'#fff')+';font-size:15px;line-height:1.6;border:1px solid '+(role==='ai'?'var(--gray2)':'transparent');
-  bubble.textContent=text;
-  div.appendChild(bubble);
-  chat.appendChild(div);
-  chat.scrollTop=chat.scrollHeight;
-}
-
-function askNextAIQuestion(){
-  var qs=(S.lang==='ta'?aiQuestionsTa[S.sp]:aiQuestions[S.sp])||aiQuestions.general;
-  if(aiStep<qs.length){
-    addAIBubble('ai',qs[aiStep]);
-    document.getElementById('ai-input-area').style.display='block';
-    document.getElementById('ai-quick-btns').innerHTML='';
-    if(aiStep===0){
-      var times=S.lang==='ta'?['இன்று தான் ஆரம்பித்தது','சில நாட்களாக','ஒரு வாரம் சுமார்','ஒரு வாரத்திற்கும் மேல்','ஒரு மாதத்திற்கும் மேல்']:['Just started today','A few days','About a week','More than a week','Over a month'];
-      showQuickReplies(times);
-    }
-    if(aiStep===4){
-      var levels=S.lang==='ta'?['1-2 (மிகவும் குறைவு)','3-4','5-6 (நடுத்தரம்)','7-8','9-10 (மிகவும் அதிகம்)']:['1-2 (mild)','3-4','5-6 (moderate)','7-8','9-10 (severe)'];
-      showQuickReplies(levels);
-    }
-  } else {
-    generateAISummary();
-  }
-}
-
-function showQuickReplies(options){
-  var wrap=document.getElementById('ai-quick-btns');
-  wrap.innerHTML='';
-  options.forEach(function(opt){
-    var btn=document.createElement('button');
-    btn.textContent=opt;
-    btn.style.cssText='padding:8px 14px;border-radius:20px;border:1.5px solid var(--gray2);background:var(--surface);color:var(--text2);font-size:13px;font-weight:500;cursor:pointer;font-family:\'DM Sans\',sans-serif';
-    btn.onclick=function(){
-      document.getElementById('ai-user-input').value=opt;
-      sendAIMessage();
-    };
-    wrap.appendChild(btn);
-  });
-}
-
-function sendAIMessage(){
-  var input=document.getElementById('ai-user-input');
-  var text=input.value.trim();
-  if(!text)return;
-  addAIBubble('user',text);
-  S.aiChat.push({q:(aiQuestions[S.sp]||aiQuestions.general)[aiStep],a:text});
-  input.value='';
-  document.getElementById('ai-input-area').style.display='none';
-  document.getElementById('ai-quick-btns').innerHTML='';
-  aiStep++;
-  setTimeout(function(){askNextAIQuestion();},500);
-}
-
-function buildFallbackSummary(){
-  if(!S.aiChat||!S.aiChat.length)return S.desc||'Patient submitted intake form.';
-  var qs=aiQuestions[S.sp]||aiQuestions.general;
-  var parts=[];
-  S.aiChat.forEach(function(m,i){
-    var q=qs[i]||'';
-    var a=m.a||'';
-    if(!a)return;
-    if(i===0)parts.push('Problem duration: '+a+'.');
-    else if(q.toLowerCase().indexOf('fever')>-1)parts.push('Fever: '+a+'.');
-    else if(q.toLowerCase().indexOf('pain')>-1||q.toLowerCase().indexOf('discomfort')>-1)parts.push('Pain/discomfort: '+a+'.');
-    else if(q.toLowerCase().indexOf('medicine')>-1||q.toLowerCase().indexOf('medic')>-1)parts.push('Medications taken: '+a+'.');
-    else if(q.toLowerCase().indexOf('menstrual')>-1||q.toLowerCase().indexOf('cycle')>-1)parts.push('Menstrual: '+a+'.');
-    else if(q.toLowerCase().indexOf('eat')>-1||q.toLowerCase().indexOf('drink')>-1)parts.push('Oral intake: '+a+'.');
-    else if(q.toLowerCase().indexOf('scale')>-1||q.toLowerCase().indexOf('rate')>-1)parts.push('Severity: '+a+'.');
-    else parts.push(a+'.');
-  });
-  return parts.join(' ');
-}
-
-function generateAISummary(){
-  addAIBubble('ai',S.lang==='ta'?'நன்றி. நீங்கள் சொன்னதை மருத்துவருக்காக தொகுக்கிறேன்...':'Thank you. Let me summarise what you have told me for the doctor...');
-  var transcript=S.aiChat.map(function(m){return 'Q: '+m.q+'\nA: '+m.a}).join('\n\n');
-  var specialty={dental:'dental',ent:'ENT',gynae:'gynaecology',general:'general medicine'}[S.sp]||'general medicine';
-  var prompt='You are a clinical assistant for an Indian '+specialty+' OPD doctor. A patient has answered questions about their symptoms. Write a clear 2-3 sentence clinical summary for the doctor. Use proper medical language. Start with the duration, then the main symptom, then relevant details. Do NOT use the patient answers verbatim — rewrite them professionally. Do not invent anything not mentioned.\n\nPatient answers:\n'+transcript+'\n\nClinical summary (start directly, no preamble):';
-  fetch(AI_PROXY,{
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({messages:[{role:'user',content:prompt}]})
-  })
-  .then(function(r){
-    if(!r.ok)throw new Error('proxy error');
-    return r.json();
-  })
-  .then(function(data){
-    var raw=data&&data.choices&&data.choices[0]&&data.choices[0].message&&data.choices[0].message.content?data.choices[0].message.content.trim():'';
-    var summary=raw||buildFallbackSummary();
-    S.aiSummary=summary;
-    S.aiHelped=true;
-    addAIBubble('ai',S.lang==='ta'?'இதோ உங்கள் சுருக்கம். இதை பயன்படுத்தலாம் அல்லது திரும்பி திருத்தலாம்.':'Here is your summary. You can use it or go back to edit.');
-    document.getElementById('ai-summary').textContent=summary;
-    document.getElementById('ai-done-area').style.display='block';
-    document.getElementById('ai-input-area').style.display='none';
-  })
-  .catch(function(){
-    var fallback=buildFallbackSummary();
-    S.aiSummary=fallback;
-    S.aiHelped=true;
-    document.getElementById('ai-summary').textContent=fallback;
-    document.getElementById('ai-done-area').style.display='block';
-  });
-}
-
-function acceptAISummary(){
-  S.desc=S.aiSummary;
-  var fd=document.getElementById('free-desc');
-  if(fd)fd.value=S.aiSummary;
-  go('s3');
-}
-
-function buildReview(){
-  var spNames={dental:'Dental',ent:'ENT',gynae:'Gynaecology',general:'General Medicine'};
-  var rc=document.getElementById('review-content');
-  rc.innerHTML='';
-  var basics=[
-    {label:'Name',value:S.name},
-    {label:'Age & Gender',value:(S.age||'')+(S.gender?' · '+S.gender:'')},
-    {label:'Specialty',value:spNames[S.sp]||S.sp},
-  ];
-  basics.forEach(function(item){
-    if(!item.value)return;
-    var card=document.createElement('div');
-    card.style.cssText='background:var(--surface);border:1px solid var(--gray2);border-radius:var(--r12);padding:13px 16px';
-    card.innerHTML='<div style="font-size:11px;font-weight:700;color:var(--text3);letter-spacing:0.5px;text-transform:uppercase;margin-bottom:4px">'+item.label+'</div><div style="font-size:15px;color:var(--text1);line-height:1.5">'+item.value+'</div>';
-    rc.appendChild(card);
-  });
-  if(S.symptoms.length){
-    var sc=document.createElement('div');
-    sc.style.cssText='background:var(--surface);border:1px solid var(--gray2);border-radius:var(--r12);padding:13px 16px';
-    sc.innerHTML='<div style="font-size:11px;font-weight:700;color:var(--text3);letter-spacing:0.5px;text-transform:uppercase;margin-bottom:8px">Selected symptoms</div><div style="display:flex;flex-wrap:wrap;gap:6px">'+S.symptoms.map(function(s){return'<span style="background:var(--teal-light);color:#00695C;border-radius:20px;padding:4px 12px;font-size:13px;font-weight:500">'+s+'</span>'}).join('')+'</div>';
-    rc.appendChild(sc);
-  }
-  if(S.aiHelped&&S.aiChat.length){
-    var ac=document.createElement('div');
-    ac.style.cssText='background:var(--teal-light);border:1px solid rgba(0,137,123,0.2);border-radius:var(--r12);padding:13px 16px';
-    var qaHTML='<div style="font-size:11px;font-weight:700;color:#00695C;letter-spacing:0.5px;text-transform:uppercase;margin-bottom:10px">AI symptom conversation</div>';
-    S.aiChat.forEach(function(m){
-      qaHTML+='<div style="margin-bottom:8px"><div style="font-size:12px;font-weight:600;color:#00695C;margin-bottom:2px">'+m.q+'</div><div style="font-size:14px;color:var(--text1)">'+m.a+'</div></div>';
-    });
-    if(S.aiSummary){
-      qaHTML+='<div style="border-top:1px solid rgba(0,137,123,0.2);padding-top:10px;margin-top:4px"><div style="font-size:12px;font-weight:700;color:#00695C;margin-bottom:4px">Clinical summary for doctor</div><div style="font-size:14px;color:var(--text1);line-height:1.6">'+S.aiSummary+'</div></div>';
-    }
-    ac.innerHTML=qaHTML;
-    rc.appendChild(ac);
-  } else if(S.desc){
-    var dc=document.createElement('div');
-    dc.style.cssText='background:var(--surface);border:1px solid var(--gray2);border-radius:var(--r12);padding:13px 16px';
-    dc.innerHTML='<div style="font-size:11px;font-weight:700;color:var(--text3);letter-spacing:0.5px;text-transform:uppercase;margin-bottom:4px">Description</div><div style="font-size:15px;color:var(--text1);line-height:1.6">'+S.desc+'</div>';
-    rc.appendChild(dc);
-  }
-  var others=[
-    {label:'Medical history',value:(S.conditions&&S.conditions.length&&S.conditions[0]!==''?S.conditions.join(', '):'')+(S.history?' · '+S.history:'')},
-    {label:'Current medications',value:S.meds||'None mentioned'},
-    {label:'Allergies',value:S.allergy||'None mentioned'}
-  ];
-  others.forEach(function(item){
-    if(!item.value)return;
-    var card=document.createElement('div');
-    card.style.cssText='background:var(--surface);border:1px solid var(--gray2);border-radius:var(--r12);padding:13px 16px';
-    card.innerHTML='<div style="font-size:11px;font-weight:700;color:var(--text3);letter-spacing:0.5px;text-transform:uppercase;margin-bottom:4px">'+item.label+'</div><div style="font-size:15px;color:var(--text1);line-height:1.5">'+item.value+'</div>';
-    rc.appendChild(card);
-  });
-}
-
-function submitIntake(){
-  var spNames={dental:'Dental OPD',ent:'ENT OPD',gynae:'Gynaecology OPD',general:'General Medicine OPD'};
-  var spKeys={dental:'den',ent:'ent',gynae:'gyn',general:'gen'};
-  var now=new Date();
-  var token='T'+(Math.floor(Math.random()*90)+10);
-  var entry={
-    id:'intake-'+Date.now(),
-    nm:S.name,
-    age:S.age,
-    gender:S.gender,
-    sb:S.symptoms.length?S.symptoms.slice(0,2).join(', '):'Walk-in',
-    sp:spKeys[S.sp]||'gen',
-    spName:spNames[S.sp]||'General Medicine OPD',
-    t:token,
-    status:'Brief Ready',
-    submittedAt:now.toISOString(),
-    symptoms:S.symptoms,
-    description:S.aiHelped&&S.aiSummary?S.aiSummary:S.desc,
-    aiHelped:S.aiHelped,
-    aiChat:S.aiChat,
-    aiSummary:S.aiSummary||'',
-    history:(S.conditions&&S.conditions.length?S.conditions.join(', '):'')+' '+( S.history||''),
-    meds:S.meds||'',
-    allergy:S.allergy||'',
-    fromIntake:true
-  };
-  try{
-    var existing=JSON.parse(localStorage.getItem('sb_intake_queue')||'[]');
-    existing.push(entry);
-    localStorage.setItem('sb_intake_queue',JSON.stringify(existing));
-  }catch(e){}
-  go('s5');
-  generateAIBrief();
-}
-
-function buildPrompt(){
-  var sp={'dental':'Dental OPD','ent':'ENT OPD','gynae':'Gynaecology OPD','general':'General Medicine OPD'};
-  var chatSection=S.chatContext?'\nAI clarification Q&A:\n'+S.chatContext+'\n':'';
-  return 'Generate a structured clinical patient brief for a '+(sp[S.sp]||'clinic')+' doctor.\n\n'+
-    'Patient: '+S.name+', '+S.age+' years, '+(S.gender||'not specified')+'\n'+
-    'Allergies: '+(S.allergy||'None reported')+'\n'+
-    'Symptoms selected: '+(S.symptoms.join(', ')||'None selected')+'\n'+
-    'Patient description: '+(S.aiHelped&&S.aiSummary?S.aiSummary:S.desc||'None')+'\n'+
-    chatSection+
-    'Existing conditions: '+((S.conditions&&S.conditions.length?S.conditions.join(', '):'')+' '+(S.history||'')).trim()+'\n'+
-    'Current medications: '+(S.meds||'None')+'\n'+
-    'Recent tests: '+(S.tests||'None')+'\n\n'+
-    'Return a structured brief with these exact sections:\n'+
-    'CHIEF COMPLAINT: (one sentence summarising the primary complaint)\n'+
-    'CLINICAL FLAGS: (allergy warnings, urgent or red-flag symptoms — be specific, or write "None")\n'+
-    'RELEVANT HISTORY: (conditions, medications, and anything from the AI Q&A that adds context)\n'+
-    'DOCTOR PREP NOTE: (2-3 sentences — what to examine, ask, or watch for during this consult)\n\n'+
-    'Use the AI clarification answers to enrich each section where relevant. Keep it clinical, concise, and factual. This is pre-consultation intelligence — not a diagnosis.';
-}
-
-function showBrief(text){
-  document.getElementById('s5-loading').style.display='none';
-  document.getElementById('s5-content').style.display='block';
-  document.getElementById('b-name').textContent=S.name||'Patient';
-  var sp={'dental':'Dental OPD','ent':'ENT OPD','gynae':'Gynaecology OPD','general':'General Medicine OPD'};
-  document.getElementById('b-meta').textContent=S.age+' yrs · '+(S.gender||'')+' · '+(sp[S.sp]||'');
-  function extract(label,txt){
-    var re=new RegExp(label+':\\s*([\\s\\S]*?)(?=\\n[A-Z ]+:|$)','i');
-    var m=txt.match(re);
-    return m?m[1].trim():'';
-  }
-  var complaint=extract('CHIEF COMPLAINT',text);
-  var flags=extract('CLINICAL FLAGS',text);
-  var history=extract('RELEVANT HISTORY',text);
-  var note=extract('DOCTOR PREP NOTE',text);
-  var bComplaint=document.getElementById('b-complaint');
-  var bFlags=document.getElementById('b-flags');
-  var bHistory=document.getElementById('b-history');
-  var bSummary=document.getElementById('b-summary');
-  if(complaint){bComplaint.innerHTML='<strong>Chief Complaint</strong>'+complaint;}
-  if(flags&&flags.toLowerCase()!=='none'&&flags.toLowerCase()!=='none reported'){
-    bFlags.innerHTML='<strong style="color:#E65100">⚠ Clinical Flags</strong>'+flags;
-    bFlags.style.background='#FFF3E0';
-  }
-  if(history){bHistory.innerHTML='<strong>Relevant History</strong>'+history;}
-  if(note){bSummary.innerHTML='<strong>Doctor Prep Note</strong>'+note;}
-}
-
-function generateAIBrief(){
-  document.getElementById('s5-loading').style.display='block';
-  document.getElementById('s5-content').style.display='none';
-  document.getElementById('s5-error').style.display='none';
-  fetch(AI_PROXY,{
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({messages:[{role:'user',content:buildPrompt()}]})
-  })
-  .then(function(r){return r.json()})
-  .then(function(data){
-    var text=data&&data.choices&&data.choices[0]&&data.choices[0].message&&data.choices[0].message.content
-      ?data.choices[0].message.content.trim():'';
-    if(!text)throw new Error('empty');
-    showBrief(text);
-  })
-  .catch(function(){
-    var fallback=
-      'CHIEF COMPLAINT: '+(S.symptoms.join(', ')||S.desc||'Not specified')+'\n'+
-      'CLINICAL FLAGS: '+(S.allergy?'Allergy: '+S.allergy:'None reported')+'\n'+
-      'RELEVANT HISTORY: '+((S.conditions&&S.conditions.length?S.conditions.join(', '):'')||S.history||'None')+'. Medications: '+(S.meds||'None')+'\n'+
-      'DOCTOR PREP NOTE: Patient completed intake form. Please review symptoms and history directly.';
-    showBrief(fallback);
-  });
-}
-
-// Screen 3B — AI clarification chat
-var chatQuestions={
-  dental:[
-    'How long have you had this dental issue?',
-    'Is the pain constant or does it come and go?',
-    'Does anything make the pain better or worse (e.g. hot/cold drinks, chewing)?',
-    'Have you had any dental treatment recently?'
-  ],
-  ent:[
-    'How long have you had this symptom?',
-    'Is it getting worse, better, or staying the same?',
-    'Does it affect one side or both sides?',
-    'Have you had a fever or difficulty breathing?'
-  ],
-  gynae:[
-    'How long have you had this concern?',
-    'Does it relate to your menstrual cycle?',
-    'Have you experienced this before?',
-    'Are you currently on any hormonal medication or contraceptive?'
-  ],
-  general:[
-    'How long have you been feeling this way?',
-    'Is it constant or does it come and go?',
-    'Have you had a fever, chills, or unusual fatigue?',
-    'Has anyone at home had similar symptoms recently?'
-  ]
-};
-var chatQuestionsTa={
-  dental:[
-    'இந்த பல் பிரச்சினை எவ்வளவு நாளாக உள்ளது?',
-    'வலி தொடர்ந்து இருக்கிறதா அல்லது வந்து போகிறதா?',
-    'சூடான/குளிர்ந்த பானங்கள் அல்லது மெல்லும்போது வலி அதிகமாகிறதா?',
-    'சமீபத்தில் ஏதேனும் பல் சிகிச்சை எடுத்துள்ளீர்களா?'
-  ],
-  ent:[
-    'இந்த அறிகுறி எவ்வளவு நாளாக உள்ளது?',
-    'மோசமாகிறதா, குணமாகிறதா அல்லது அதே நிலையில் உள்ளதா?',
-    'ஒரு பக்கம் மட்டுமா அல்லது இரு பக்கமும் பாதிக்கிறதா?',
-    'காய்ச்சல் அல்லது சுவாசிக்கும் சிரமம் உள்ளதா?'
-  ],
-  gynae:[
-    'இந்த பிரச்சினை எவ்வளவு நாளாக உள்ளது?',
-    'இது மாதவிடாய் சுழற்சியுடன் தொடர்புடையதா?',
-    'இதற்கு முன்பு இப்படி ஆனதுண்டா?',
-    'தற்போது ஏதேனும் ஹார்மோன் மருந்து அல்லது கருத்தடை எடுக்கிறீர்களா?'
-  ],
-  general:[
-    'இப்படி உணர எவ்வளவு நாளாகிறது?',
-    'தொடர்ந்து இருக்கிறதா அல்லது வந்து போகிறதா?',
-    'காய்ச்சல், குளிர்ந்து நடுங்குதல் அல்லது அயர்ச்சி உள்ளதா?',
-    'வீட்டில் யாரேனும் சமீபத்தில் இதேபோல் இருந்தார்களா?'
-  ]
-};
-var chatState={questions:[],idx:0,answers:[],tid:null};
-
-function initChat(){
-  var thread=document.getElementById('chat-thread');
-  var inputArea=document.getElementById('chat-input-area');
-  var doneArea=document.getElementById('chat-done-area');
-  thread.innerHTML='';
-  inputArea.style.display='none';
-  doneArea.style.display='none';
-  var sp=S.sp||'general';
-  var qs=S.lang==='ta'?(chatQuestionsTa[sp]||chatQuestionsTa.general):(chatQuestions[sp]||chatQuestions.general);
-  chatState.questions=qs;
-  chatState.idx=0;
-  chatState.answers=[];
-  // First AI bubble after short delay
-  var typingId=showTyping();
-  chatState.tid=setTimeout(function(){
-    removeTyping(typingId);
-    addBubble('ai',qs[0]);
-    inputArea.style.display='block';
-    var inp=document.getElementById('chat-input');
-    if(inp){inp.value='';inp.focus();}
-  },700);
-}
-
-function sendChatReply(){
-  var inp=document.getElementById('chat-input');
-  var val=(inp?inp.value:'').trim();
-  if(!val)return;
-  inp.value='';
-  addBubble('user',val);
-  chatState.answers.push({q:chatState.questions[chatState.idx],a:val});
-  chatState.idx++;
-  var inputArea=document.getElementById('chat-input-area');
-  inputArea.style.display='none';
-  if(chatState.idx<chatState.questions.length){
-    var typingId=showTyping();
-    chatState.tid=setTimeout(function(){
-      removeTyping(typingId);
-      addBubble('ai',chatState.questions[chatState.idx]);
-      inputArea.style.display='block';
-      var i=document.getElementById('chat-input');
-      if(i){i.value='';i.focus();}
-    },800);
-  } else {
-    endChat();
-  }
-}
-
-function endChat(){
-  // Build chatContext string for buildPrompt
-  S.chatContext=chatState.answers.map(function(qa,i){return 'Q'+(i+1)+': '+qa.q+'\nA: '+qa.a;}).join('\n');
-  var typingId=showTyping();
-  chatState.tid=setTimeout(function(){
-    removeTyping(typingId);
-    var doneMsg=S.lang==='ta'
-      ?'நன்றி! உங்கள் பதில்கள் உங்கள் மருத்துவரின் brief-ல் சேர்க்கப்படும்.'
-      :'Thank you! Your answers will be included in your doctor\'s brief.';
-    addBubble('ai',doneMsg);
-    document.getElementById('chat-done-area').style.display='block';
-  },600);
-}
-
-function addBubble(type,text){
-  var thread=document.getElementById('chat-thread');
-  var div=document.createElement('div');
-  div.className='chat-bubble '+type;
-  div.textContent=text;
-  thread.appendChild(div);
-  thread.scrollTop=thread.scrollHeight;
-}
-
-function showTyping(){
-  var thread=document.getElementById('chat-thread');
-  var div=document.createElement('div');
-  div.className='chat-bubble ai typing-dots';
-  div.innerHTML='<span></span><span></span><span></span>';
-  var id='td-'+Date.now();
-  div.id=id;
-  thread.appendChild(div);
-  thread.scrollTop=thread.scrollHeight;
-  return id;
-}
-
-function removeTyping(id){
-  var el=document.getElementById(id);
-  if(el)el.parentNode.removeChild(el);
-}
-
-document.addEventListener('DOMContentLoaded',function(){
-  var ci=document.getElementById('chat-input');
-  if(ci){
-    ci.addEventListener('keydown',function(e){
-      if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChatReply();}
-    });
-  }
-});
-
-var _origGo=go;
-go=function(id){
-  if(id==='s-ai'){startAIChat()}
-  if(id==='s3'){buildConditionChips();buildSymptomList()}
-  if(id==='s3b'){initChat()}
-  if(id==='s4'){buildReview()}
-  _origGo(id);
-};
-
-</script>
+<!-- SCREENS S3 S4 S5 PLACEHOLDER -->
+<script>var S={sp:null,lang:"en",sy:[],desc:"",nm:"",ag:"",gn:"",al:"",mx:"",chat:[]};</script>
 </body>
 </html>
