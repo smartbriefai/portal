@@ -444,38 +444,28 @@ function doSubmit(){
 }
 function mkPrompt(){
   var sp={dental:'Dental',ent:'ENT',gynae:'Gynaecology',general:'General Medicine'};
-  var ct=S.chat.map(function(m,i){return 'Q'+(i+1)+': '+m.q+'
-A: '+m.a}).join('
-
-');
-  return 'Write a structured clinical pre-consultation brief for an Indian '+(sp[S.sp]||'OPD')+' doctor.
-
-'+
-    'Patient: '+S.nm+', '+S.ag+' yrs, '+(S.gn||'unspecified')+'
-'+
-    'Symptoms: '+(S.sy.join(', ')||'Not selected')+'
-'+
-    (S.desc?'Additional: '+S.desc+'
-':'')+
-    'AI clarification:
-'+ct+'
-'+
-    'Allergies: '+(S.al||'None')+'
-Medications: '+(S.mx||'None')+'
-
-'+
-    'Return EXACTLY these 4 sections:
-'+
-    'CHIEF COMPLAINT: [one sentence]
-'+
-    'CLINICAL FLAGS: [allergy/red flags or "None"]
-'+
-    'RELEVANT HISTORY: [conditions and context]
-'+
-    'DOCTOR PREP NOTE: [2 sentences on what to examine or ask]
-
-'+
-    'Clinical and factual. No diagnosis. No preamble.';
+  var NL='\n';
+  var ct=S.chat.map(function(m,i){return 'Q'+(i+1)+': '+m.q+NL+'A: '+m.a}).join(NL+NL);
+  var lines=[
+    'Write a structured clinical pre-consultation brief for an Indian '+(sp[S.sp]||'OPD')+' doctor.',
+    '',
+    'Patient: '+S.nm+', '+S.ag+' yrs, '+(S.gn||'unspecified'),
+    'Symptoms: '+(S.sy.join(', ')||'Not selected'),
+    S.desc?'Additional: '+S.desc:'',
+    'AI clarification:',
+    ct,
+    'Allergies: '+(S.al||'None'),
+    'Medications: '+(S.mx||'None'),
+    '',
+    'Return EXACTLY these 4 sections:',
+    'CHIEF COMPLAINT: [one sentence]',
+    'CLINICAL FLAGS: [allergy/red flags or None]',
+    'RELEVANT HISTORY: [conditions and context]',
+    'DOCTOR PREP NOTE: [2 sentences on what to examine or ask]',
+    '',
+    'Clinical and factual. No diagnosis. No preamble.'
+  ];
+  return lines.filter(function(l){return l!==null&&l!==undefined}).join(NL);
 }
 function genBrief(){
   document.getElementById('s5l').style.display='block';
@@ -490,14 +480,13 @@ function genBrief(){
     showBrief(txt);
   })
   .catch(function(){
-    var fb='CHIEF COMPLAINT: '+(S.sy.join(', ')||S.desc||'Unspecified')+
-      '
-CLINICAL FLAGS: '+(S.al?'Allergy — '+S.al:'None')+
-      '
-RELEVANT HISTORY: Medications: '+(S.mx||'None')+
-      (S.chat.length?'. '+S.chat[0].a+'.':'')+
-      '
-DOCTOR PREP NOTE: Patient completed intake. Please review symptoms and history directly.';
+    var NL2='\n';
+    var fb=[
+      'CHIEF COMPLAINT: '+(S.sy.join(', ')||S.desc||'Unspecified'),
+      'CLINICAL FLAGS: '+(S.al?'Allergy - '+S.al:'None'),
+      'RELEVANT HISTORY: Medications: '+(S.mx||'None')+(S.chat.length?'. '+S.chat[0].a+'.':''),
+      'DOCTOR PREP NOTE: Patient completed intake. Please review symptoms and history directly.'
+    ].join(NL2);
     showBrief(fb);
   });
 }
