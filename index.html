@@ -1122,25 +1122,36 @@ window.addEventListener('load',function(){
   if(!c)return;
   var ctx=c.getContext('2d'),W,H,t=0,pts=[],mouse={x:-999,y:-999};
   var COUNT,CONNECT=120,TEAL='rgba(0,137,123,';
+  var prevW=0,prevH=0;
 
   function resize(){
+    var oldH=prevH;
     W=c.width=c.offsetWidth;
     H=c.height=c.offsetHeight;
-    COUNT=Math.floor((W*H)/14000);
-    COUNT=Math.max(40,Math.min(COUNT,120));
-    pts=[];
-    for(var i=0;i<COUNT;i++){
-      pts.push({
-        x:Math.random()*W,
-        y:Math.random()*H,
-        vx:(Math.random()-0.5)*0.18,
-        vy:(Math.random()-0.5)*0.18,
-        r:1+Math.random()*1.2,
-        ph:Math.random()*Math.PI*2,
-        sp:0.3+Math.random()*0.5,
-        base:0.08+Math.random()*0.14
-      });
+    /* Width changed meaningfully (real layout/orientation change) → rebuild.
+       Height-only changes (Android address bar collapse) → keep particles,
+       just scale their y so they don't teleport / flash. */
+    if(Math.abs(W-prevW)>10||pts.length===0){
+      COUNT=Math.floor((W*H)/14000);
+      COUNT=Math.max(40,Math.min(COUNT,120));
+      pts=[];
+      for(var i=0;i<COUNT;i++){
+        pts.push({
+          x:Math.random()*W,
+          y:Math.random()*H,
+          vx:(Math.random()-0.5)*0.18,
+          vy:(Math.random()-0.5)*0.18,
+          r:1+Math.random()*1.2,
+          ph:Math.random()*Math.PI*2,
+          sp:0.3+Math.random()*0.5,
+          base:0.08+Math.random()*0.14
+        });
+      }
+    } else if(oldH>0&&H!==oldH){
+      var sy=H/oldH;
+      pts.forEach(function(p){p.y*=sy;});
     }
+    prevW=W;prevH=H;
   }
 
 
