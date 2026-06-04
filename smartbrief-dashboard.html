@@ -16,7 +16,7 @@
 <title>SmartBrief AI — Dashboard</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="apple-touch-icon" href="/favicon.svg">
-<meta name="theme-color" content="#0F1F3D">
+<meta name="theme-color" content="#FAFBFF">
 <link rel="preconnect" href="https://fonts.bunny.net">
 <link rel="stylesheet" href="https://fonts.bunny.net/css?family=outfit:400;500;600;700;800|inter:400;500;600&display=swap">
 <style>
@@ -49,6 +49,8 @@ html,body{min-height:100dvh;width:100%;max-width:100%;scroll-behavior:smooth;fon
   -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;overflow-x:hidden;overscroll-behavior:none}
 /* Ensure html always shows --bg so dark mode variable change is visible */
 html{background:var(--bg)}
+/* Paint body explicitly so no transparent strip is exposed on Android scroll */
+body{background:var(--bg)}
 
 /* ── LOGIN ─────────────────────────────────────────────────────── */
 #loginScreen{
@@ -187,7 +189,7 @@ html{background:var(--bg)}
 .sbout:hover{color:#E53935}
 
 /* ── MAIN ──────────────────────────────────────────────────────── */
-.main{flex:1;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;min-width:0;width:0;box-sizing:border-box}
+.main{flex:1;overflow-y:auto;overflow-x:hidden;display:flex;flex-direction:column;min-width:0;width:0;box-sizing:border-box;background:var(--bg)}
 .mhdr{padding:16px 24px;border-bottom:1px solid var(--bd);
   display:flex;align-items:center;justify-content:space-between;flex-wrap:nowrap;overflow:hidden;min-height:52px;
   background:rgba(255,255,255,0.92);
