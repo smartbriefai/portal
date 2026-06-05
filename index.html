@@ -16,7 +16,7 @@
 <title>SmartBrief AI - Pre-Consultation Intelligence for Indian OPD Clinics</title>
 <meta name="description" content="SmartBrief AI gives your OPD doctor a structured patient brief before consultation begins. Drug safety flags, AI prescriptions, Tamil/English intake. Built for Indian clinics.">
 <meta property="og:title" content="SmartBrief AI — Your patient's brief is ready before they walk in">
-<meta property="og:description" content="The only OPD tool that prepares your consultation before the patient enters the room. Built for Dental, ENT, Gynaecology and General Medicine clinics in India.">
+<meta property="og:description" content="The OPD tool built to prepare your consultation before the patient enters the room. Built for Dental, ENT, Gynaecology and General Medicine clinics in India.">
 <meta property="og:image" content="https://www.smartbriefai.in/og-image.svg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -720,7 +720,7 @@ input[type=range]#slider::-webkit-slider-thumb{
   <div class="hero-inner">
     <div class="h-badge"><span class="h-pulse"></span>Built for Indian OPD clinics</div>
     <h1 class="h-title">Your patient's brief is ready<br><em>before they walk in.</em></h1>
-    <p class="h-sub">SmartBrief AI is the only OPD tool that prepares your consultation before the patient enters the room — not after.</p>
+    <p class="h-sub">SmartBrief AI is the OPD tool built to prepare your consultation before the patient enters the room — not after.</p>
     <div class="h-actions">
       <a href="#features" class="btn-teal">See how it works →</a>
       <a href="smartbrief-dashboard.html" class="btn-out">See the dashboard →</a>
@@ -731,8 +731,7 @@ input[type=range]#slider::-webkit-slider-thumb{
         Patient intake form →
       </a>
     </div>
-    <p style="font-size:13px;color:var(--text3);margin-top:10px;line-height:1.5">Used by dental, ENT, gynaecology and general medicine clinics in Chennai.</p>
-    <p class="h-trust">Designed for <strong>Dental · ENT · Gynaecology · General Medicine</strong></p>
+    <p class="h-trust">Built for Indian OPD clinics — <strong>Dental · ENT · Gynaecology · General Medicine</strong></p>
     <div class="sp-wrap">
       <div class="sp-label">See it for your specialty</div>
       <div class="sp-row">
@@ -1015,22 +1014,22 @@ input[type=range]#slider::-webkit-slider-thumb{
 <script>
 var spData={
   dental:{badge:'Dental OPD',color:'#00897B',p:'9',f:'2',fc:'#E65100',
-    name:'Meera Krishnamurthy',meta:'38 yrs · F · Tooth sensitivity, lower left molar',
+    name:'Meera K.',meta:'38 yrs · F · Tooth sensitivity, lower left molar',
     bt:'Drug flag',bbg:'#FFF3E0',bfg:'#E65100',
     brief:'3-week cold sensitivity in lower left molar. On Metformin 500mg (Type 2 DM) and Amlodipine 5mg (hypertension). Avoid NSAIDs - paracetamol preferred.',
     pills:[{t:'Metformin 500mg',w:0},{t:'Ibuprofen - avoid',w:1},{t:'Amoxicillin - safe',w:0},{t:'Paracetamol - preferred',w:0}]},
   ent:{badge:'ENT OPD',color:'#1565C0',p:'12',f:'1',fc:'#E65100',
-    name:'Rajan Subramanian',meta:'52 yrs · M · Chronic sinusitis, nasal congestion',
+    name:'Rajan S.',meta:'52 yrs · M · Chronic sinusitis, nasal congestion',
     bt:'Drug flag',bbg:'#FFF3E0',bfg:'#E65100',
     brief:'6-month nasal congestion and postnasal drip. On Warfarin for atrial fibrillation - avoid aspirin and NSAIDs, elevated bleeding risk. Saline irrigation preferred.',
     pills:[{t:'Warfarin - active',w:0},{t:'Aspirin - avoid',w:1},{t:'Fluticasone - safe',w:0},{t:'Cetirizine - safe',w:0}]},
   gynae:{badge:'Gynaecology OPD',color:'#AD1457',p:'7',f:'0',fc:'#00897B',
-    name:'Divya Anand',meta:'29 yrs · F · Irregular cycles, 3-month history',
+    name:'Divya A.',meta:'29 yrs · F · Irregular cycles, 3-month history',
     bt:'Clear',bbg:'#E0F2F1',bfg:'#00695C',
     brief:'Irregular menstrual cycles over 3 months. No current medications. BMI 26. Mild fatigue reported. Thyroid profile and hormonal panel recommended before treatment.',
     pills:[{t:'No current medications',w:0},{t:'Iron supplements - consider',w:0},{t:'Folic acid - safe',w:0}]},
   general:{badge:'General Medicine OPD',color:'#4527A0',p:'18',f:'3',fc:'#E65100',
-    name:'Suresh Venkataraman',meta:'61 yrs · M · Uncontrolled hypertension, fatigue',
+    name:'Suresh V.',meta:'61 yrs · M · Uncontrolled hypertension, fatigue',
     bt:'Drug flag',bbg:'#FFF3E0',bfg:'#E65100',
     brief:'BP 162/98 today. On Atenolol 50mg and Losartan 50mg. Fatigue may relate to beta-blocker effect. Renal function and potassium check advised.',
     pills:[{t:'Atenolol 50mg',w:0},{t:'Losartan 50mg',w:0},{t:'NSAIDs - avoid',w:1},{t:'Amlodipine - consider',w:0}]}
@@ -1148,7 +1147,7 @@ window.addEventListener('load',function(){
 });
 
 var dbPatients=[
-  {t:'T1',tc:'#E0F2F1',tf:'#00695C',nm:'Meera Krishnamurthy',sb:'Tooth sensitivity · Dental',
+  {t:'T1',tc:'#E0F2F1',tf:'#00695C',nm:'Meera K.',sb:'Tooth sensitivity · Dental',
    status:'Brief Ready',sc:'#E0F2F1',stc:'#00695C',
    cc:'Lower molar pain (L) x 3 weeks. Cold sensitivity.',
    hist:'Type 2 DM · Hypertension · No allergies',
@@ -1157,7 +1156,7 @@ var dbPatients=[
    brief:'3-week cold sensitivity lower left molar. Avoid NSAIDs - paracetamol preferred. Check for dentinal hypersensitivity vs pulpitis.',
    flags:['Ibuprofen - avoid','Aspirin - avoid'],
    checks:['Periapical X-ray','Pulp vitality test','Desensitising paste']},
-  {t:'T2',tc:'#FFF3E0',tf:'#E65100',nm:'Rajesh Venkataraman',sb:'Root canal follow-up · Dental',
+  {t:'T2',tc:'#FFF3E0',tf:'#E65100',nm:'Rajesh V.',sb:'Root canal follow-up · Dental',
    status:'Next ↑',sc:'#FFF8E1',stc:'#F57F17',
    cc:'Post-RCT sensitivity, 2 days.',
    hist:'No chronic conditions · Penicillin allergy',
@@ -1166,7 +1165,7 @@ var dbPatients=[
    brief:'Post root canal sensitivity day 2. Penicillin allergy flagged - use Azithromycin if antibiotic needed. Normal post-procedure discomfort expected.',
    flags:['Penicillin - allergy on record'],
    checks:['Check temp restoration','Review X-ray','Prescribe if indicated']},
-  {t:'T3',tc:'#F3E5F5',tf:'#7B1FA2',nm:'Priya Sundaram',sb:'Scaling consult · Dental',
+  {t:'T3',tc:'#F3E5F5',tf:'#7B1FA2',nm:'Priya S.',sb:'Scaling consult · Dental',
    status:'Waiting',sc:'#F5F5F5',stc:'#9E9E9E',
    cc:'Bleeding gums, bad breath.',
    hist:'No significant history',
