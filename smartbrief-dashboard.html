@@ -1671,13 +1671,13 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
 
       <!-- USAGE COUNTER -->
       <div class="usage-bar" id="usageBar">
-        <span class="usage-label">🤖 AI Briefs today</span>
+        <span class="usage-label">🤖 AI Briefs this month</span>
         <span class="usage-count" id="usageCount">0 / 10 used</span>
       </div>
       <div class="upgrade-banner" id="upgradeBanner">
-        <div class="upgrade-banner-t">🚀 Daily limit reached</div>
-        <div class="upgrade-banner-s">You've used all 10 free AI briefs today. Upgrade to Pro for unlimited AI briefs, Rx intelligence, and voice input.</div>
-        <button class="upgrade-wa" onclick="upgradeWA()">💬 Upgrade via WhatsApp — ₹999/month</button>
+        <div class="upgrade-banner-t">🚀 Monthly limit reached</div>
+        <div class="upgrade-banner-s">You've used all 10 free AI briefs this month. Upgrade to Pro for unlimited AI briefs, Rx intelligence, and voice input.</div>
+        <button class="upgrade-wa" onclick="upgradeWA()">💬 Upgrade via WhatsApp — ₹499/mo intro · ₹999/mo after</button>
       </div>
 
       <div class="modetoggle">
@@ -2440,7 +2440,7 @@ function exportReport(){
 }
 
 function upgradeWA(){
-  window.open('https://wa.me/919488907730?text='+encodeURIComponent('Hi, I want to upgrade SmartBrief AI to the paid plan (₹999/month). Please share details.'),'_blank');
+  window.open('https://wa.me/919488907730?text='+encodeURIComponent('Hi, I want to upgrade SmartBrief AI to the paid plan (₹499/month for your first 3 months, then ₹999/month). Please share details.'),'_blank');
 }
 
 // ══ TOKEN DISPLAY ═════════════════════════════════════════════════
@@ -3449,8 +3449,8 @@ document.getElementById('waModal').addEventListener('click',function(e){
   <div class="paywall-card">
     <div class="paywall-icon">🔒</div>
     <div class="paywall-title">You've used your 10 free briefs this month.</div>
-    <div class="paywall-sub">Continue with SmartBrief AI for ₹499/month — cancel anytime.</div>
-    <button class="paywall-cta" onclick="window.open('#','_blank')">Continue for ₹499/month</button>
+    <div class="paywall-sub">Continue with SmartBrief AI for ₹499/month for your first 3 months, then ₹999/month — cancel anytime.</div>
+    <button class="paywall-cta" onclick="window.open('#','_blank')">Continue — ₹499/mo intro · ₹999/mo after</button>
     <div class="paywall-reset" id="paywallResetDate"></div>
     <br>
     <button class="paywall-dismiss" onclick="dismissPaywall()">Remind me later</button>

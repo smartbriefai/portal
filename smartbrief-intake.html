@@ -115,8 +115,8 @@ body.tamil .ta{display:block}
     </div>
     <div class="ttl en">Help your doctor prepare</div>
     <div class="ttl ta">மருத்துவரை தயார்படுத்துங்கள்</div>
-    <div class="sub en">2 minutes. No login. Completely private.</div>
-    <div class="sub ta">2 நிமிடம். உள்நுழைவு தேவையில்லை.</div>
+    <div class="sub en">3–5 minutes. No login. Completely private.</div>
+    <div class="sub ta">3–5 நிமிடங்கள். உள்நுழைவு தேவையில்லை.</div>
     <div class="lbl en">Select your clinic type</div>
     <div class="lbl ta">மருத்துவமனை வகை</div>
     <div class="sp-grid">
@@ -225,7 +225,14 @@ body.tamil .ta{display:block}
         <span class="en">Got it — submitting your brief now</span>
         <span class="ta">சரி — சமர்ப்பிக்கப்படுகிறது</span>
       </div>
-      <button class="btn" onclick="doSubmit()"><span class="en">Submit to doctor</span><span class="ta">மருத்துவரிடம் சமர்ப்பி</span></button>
+      <label style="display:flex;align-items:flex-start;gap:10px;margin-bottom:14px;cursor:pointer;font-size:13px;color:var(--t2);line-height:1.55">
+        <input type="checkbox" id="consentCk" onchange="document.getElementById('submitBtn').disabled=!this.checked" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--teal);cursor:pointer">
+        <span>
+          <span class="en">I agree to share this information with my doctor to help prepare my consultation.</span>
+          <span class="ta">எனது ஆலோசனையை தயார்படுத்த இந்த தகவலை எனது மருத்துவருடன் பகிர ஒப்புக்கொள்கிறேன்.</span>
+        </span>
+      </label>
+      <button class="btn" id="submitBtn" onclick="doSubmit()" disabled><span class="en">Submit to doctor</span><span class="ta">மருத்துவரிடம் சமர்ப்பி</span></button>
     </div>
   </div>
 </div>
@@ -253,6 +260,10 @@ body.tamil .ta{display:block}
       <div class="shld" style="margin-top:14px">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#00695C" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
         <div class="shld-t"><span class="en">Shared only with your doctor. Not stored or sold.</span><span class="ta">மருத்துவரிடம் மட்டுமே பகிரப்படும்.</span></div>
+      </div>
+      <div style="font-size:12px;color:var(--t3);text-align:center;margin-top:12px;line-height:1.6">
+        <span class="en">This is not medical advice or a diagnosis. Your doctor will review everything during your consultation.</span>
+        <span class="ta">இது மருத்துவ ஆலோசனை அல்ல. உங்கள் மருத்துவர் அனைத்தையும் நேரில் பரிசீலிப்பார்.</span>
       </div>
     </div>
     <div id="s5e" style="display:none;text-align:center;padding:40px 0">
@@ -355,6 +366,8 @@ function initChat(){
   document.getElementById('qrow').innerHTML='';
   document.getElementById('ciw').style.display='none';
   document.getElementById('cdone').style.display='none';
+  var cc=document.getElementById('consentCk');
+  if(cc){cc.checked=false;document.getElementById('submitBtn').disabled=true;}
   showDots(function(){
     var g=S.lang==='ta'
       ?'வணக்கம் '+(S.nm||'')+'! மருத்துவருக்காக மூன்று கேள்விகள் கேட்கிறேன்.'

@@ -468,6 +468,17 @@ h1,h2,h3,h4,h5{
   color:var(--teal);background:var(--teal-light);
   padding:3px 10px;border-radius:10px;margin-top:13px;
 }
+.beta-chip{
+  display:inline-block;font-size:10px;font-weight:700;
+  color:var(--text3);background:var(--gray1);
+  border:1px solid var(--gray2);
+  padding:2px 8px;border-radius:10px;
+  letter-spacing:0.5px;text-transform:uppercase;
+}
+.f-tag.f-tag-beta{
+  color:var(--text3);background:var(--gray1);
+  border:1px solid var(--gray2);margin-left:6px;
+}
 
 /* HOW IT WORKS */
 #hiw{background:var(--navy-deep);padding:88px 48px;position:relative;overflow:hidden}
@@ -718,7 +729,7 @@ input[type=range]#slider::-webkit-slider-thumb{
     <polyline class="ecg-path" points="0,38 140,38 200,38 225,8 245,52 265,4 285,40 320,38 560,38 600,38 625,12 645,50 665,5 685,40 720,38 960,38 1000,38 1025,14 1045,50 1065,6 1085,40 1120,38 1440,38"/>
   </svg>
   <div class="hero-inner">
-    <div class="h-badge"><span class="h-pulse"></span>Built for Indian OPD clinics</div>
+    <div class="h-badge"><span class="h-pulse"></span>Built for Indian OPD clinics<span class="beta-chip">Beta</span></div>
     <h1 class="h-title">Your patient's brief is ready<br><em>before they walk in.</em></h1>
     <p class="h-sub">SmartBrief AI is the OPD tool built to prepare your consultation before the patient enters the room — not after.</p>
     <div class="h-actions">
@@ -831,7 +842,7 @@ input[type=range]#slider::-webkit-slider-thumb{
       <div class="f-icon"><svg viewBox="0 0 24 24"><path d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"/></svg></div>
       <div class="f-title">Voice notes</div>
       <div class="f-desc">Dictate clinical notes during or after consultation. Transcribed, timestamped, and attached to the patient record automatically.</div>
-      <span class="f-tag">Hands-free</span>
+      <span class="f-tag">Hands-free</span><span class="f-tag f-tag-beta">Beta</span>
     </div>
     <div class="f-card rev">
       <div class="f-icon"><svg viewBox="0 0 24 24"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
@@ -843,7 +854,7 @@ input[type=range]#slider::-webkit-slider-thumb{
       <div class="f-icon"><svg viewBox="0 0 24 24"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg></div>
       <div class="f-title">Follow-up workflow</div>
       <div class="f-desc">Automated follow-up reminders sent to patients after consultation. Review responses before the next visit - no manual tracking required.</div>
-      <span class="f-tag">Retention</span>
+      <span class="f-tag">Retention</span><span class="f-tag f-tag-beta">Beta</span>
     </div>
   </div>
 </section>
@@ -916,7 +927,7 @@ input[type=range]#slider::-webkit-slider-thumb{
       <div class="roi-math-row"><span>Realisation rate (conservative)</span><span>60%</span></div>
       <div class="roi-math-row roi-math-total"><span>Added revenue per month</span><span id="rm-rev">₹31,200</span></div>
     </div>
-    <p class="roi-disclaimer">Revenue projection based on published Indian OPD workflow data. Actual results depend on clinic schedule and patient volume. SmartBrief AI costs ₹999/month — net benefit remains positive from day one.</p>
+    <p class="roi-disclaimer">Revenue projection based on published Indian OPD workflow data. Actual results depend on clinic schedule and patient volume. SmartBrief AI costs ₹499/month for your first 3 months, then ₹999/month — net benefit remains positive from day one.</p>
     <a href="smartbrief-dashboard.html" class="btn-teal" style="display:inline-block;font-size:15px;padding:14px 36px">See the dashboard →</a>
   </div>
 </section>
