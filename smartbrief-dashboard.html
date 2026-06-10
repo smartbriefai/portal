@@ -15,7 +15,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="author" content="Prabhu R">
 <meta name="copyright" content="© 2026 Prabhu R. All rights reserved.">
-<title>SmartBrief AI — Dashboard</title>
+<title>SmartBrief AI - Dashboard</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="apple-touch-icon" href="/favicon.svg">
 <meta name="theme-color" content="#FAFBFF">
@@ -265,7 +265,7 @@ body{background:var(--bg)}
   padding:0 16px;gap:2px;overflow-x:auto;flex-shrink:0;
   -webkit-overflow-scrolling:touch;scrollbar-width:none}
 .tabs::-webkit-scrollbar{display:none}
-/* Custom scrollbars — thin, teal thumb */
+/* Custom scrollbars - thin, teal thumb */
 ::-webkit-scrollbar{width:5px;height:5px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--sb);border-radius:10px}
@@ -833,7 +833,7 @@ body{background:var(--bg)}
   .mspec{font-size:.8rem;max-width:130px}
 }
 @media(min-width:769px){.mnav{display:none}}
-/* ── MOBILE FONT SIZE — prevents iOS Safari input zoom ──────── */
+/* ── MOBILE FONT SIZE - prevents iOS Safari input zoom ──────── */
 @media(max-width:480px){
   .finput,.ftextarea,.fselect{font-size:16px!important}
   .ai-textarea,.ai-input,.ai-select{font-size:16px!important}
@@ -844,7 +844,7 @@ body{background:var(--bg)}
   .btnadd{padding:8px 10px;font-size:.76rem}
 }
 
-/* ── MOBILE ≤600px — stats, overflow, button widths ──────────── */
+/* ── MOBILE ≤600px - stats, overflow, button widths ──────────── */
 @media(max-width:600px){
   .statsbar{grid-template-columns:repeat(4,minmax(0,1fr))!important;overflow-x:auto}
   .scn{font-size:clamp(14px,4vw,22px)!important}
@@ -858,7 +858,7 @@ body{background:var(--bg)}
   .mnavbtn-i{display:flex;align-items:center;justify-content:center;line-height:0}
 }
 
-/* FONT OVERRIDE — ensures headings never use Arial/Helvetica regardless of CDN status */
+/* FONT OVERRIDE - ensures headings never use Arial/Helvetica regardless of CDN status */
 h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
   font-family:'Outfit','Google Sans Display','Google Sans','Product Sans','Roboto','Segoe UI',sans-serif!important;
   font-weight:800!important;
@@ -1051,7 +1051,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
       <button class="spbtn" onclick="pickSpec('gen',this)"><span class="spbtn-i">🩺</span><span class="spbtn-n">General Medicine</span></button>
     </div>
     <button class="lbtn" onclick="doLogin()">Start OPD Session →</button>
-    <div class="lhint">🔒 Beta — demo data only. No real patient data to be entered.</div>
+    <div class="lhint">🔒 Beta - demo data only. No real patient data to be entered.</div>
   </div>
 </div>
 
@@ -1078,7 +1078,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
         <li><button onclick="showTab('followup')"><span class="ni"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 16 16"><rect x="2.5" y="3.5" width="11" height="10" rx="1.5"/><path d="M5.5 2v3M10.5 2v3M2.5 7h11"/></svg></span>Follow-up Reminders</button></li>
         <li><button onclick="showTab('report')"><span class="ni"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 16 16"><path d="M2.5 13h11M4.5 10V7M8 10V5M11.5 10V8.5"/></svg></span>Daily Report</button></li>
         <li><button onclick="showTokenDisplay()"><span class="ni"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 16 16"><rect x="2" y="3" width="12" height="8.5" rx="1.5"/><path d="M5.5 14h5M8 11.5V14"/></svg></span>Queue Display</button></li>
-        <li><button onclick="toast('Settings — coming soon')"><span class="ni"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 16 16"><circle cx="8" cy="8" r="2.5"/><path d="M8 2.5v1M8 12.5v1M13.5 8h-1M3.5 8h-1M11.8 4.2l-.7.7M5 11l-.7.7M11.8 11.8l-.7-.7M5 5l-.7-.7"/></svg></span>Settings</button></li>
+        <li><button onclick="toast('Settings - coming soon')"><span class="ni"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 16 16"><circle cx="8" cy="8" r="2.5"/><path d="M8 2.5v1M8 12.5v1M13.5 8h-1M3.5 8h-1M11.8 4.2l-.7.7M5 11l-.7.7M11.8 11.8l-.7-.7M5 5l-.7-.7"/></svg></span>Settings</button></li>
         <li><button onclick="openApiSettings()"><span class="ni"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 16 16"><path d="M8 2v2.5M8 11.5V14M2 8h2.5M11.5 8H14"/><path d="M4.2 4.2l1.8 1.8M10 10l1.8 1.8M10 4.2L8.2 6M5.8 10.2l-1.8 1.6"/><circle cx="8" cy="8" r="2"/></svg></span>AI Settings</button></li>
       </ul>
       <div class="sbsec">Specialty</div>
@@ -1145,7 +1145,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
         <button class="tab" id="tab-report" onclick="showTab('report')"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 16 16"><path d="M2.5 13h11M4.5 10V7M8 10V5M11.5 10V8.5"/></svg>Daily Report</button>
         <button class="tab ai-tab" id="tab-aibrief" onclick="showTab('aibrief')" title="AI-powered patient brief from complaint text"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 16 16"><path d="M8 2v2.5M8 11.5V14M2 8h2.5M11.5 8H14"/><path d="M4.2 4.2l1.8 1.8M10 10l1.8 1.8M10 4.2L8.2 6M5.8 10.2l-1.8 1.6"/><circle cx="8" cy="8" r="2"/></svg>AI Brief</button>
         <button class="tab ai-tab" id="tab-drugsafe" onclick="showTab('drugsafe')" title="AI drug interaction checker"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 16 16"><path d="M8 2L3 4.5v4C3 11.5 8 14 8 14s5-2.5 5-5.5v-4z"/><path d="M5.5 8l1.5 2 3.5-3"/></svg>Drug Safety</button>
-        <button class="tab ai-tab" id="tab-voice" onclick="showTab('voice')" title="Speak your findings — AI structures them"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 16 16"><rect x="6" y="2" width="4" height="6" rx="2"/><path d="M4 8a4 4 0 0 0 8 0M8 12v2"/></svg>Voice Notes</button>
+        <button class="tab ai-tab" id="tab-voice" onclick="showTab('voice')" title="Speak your findings - AI structures them"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 16 16"><rect x="6" y="2" width="4" height="6" rx="2"/><path d="M4 8a4 4 0 0 0 8 0M8 12v2"/></svg>Voice Notes</button>
       </div>
 
       <!-- ── TAB: QUEUE & BRIEF ── -->
@@ -1183,7 +1183,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
             <div class="phdr"><span class="ptitle">Prescription Generator</span></div>
             <div style="padding:14px">
               <div class="rx-header">
-                <div class="rx-header-name" id="rxDocName">Dr. — SmartBrief AI Clinic</div>
+                <div class="rx-header-name" id="rxDocName">Dr. - SmartBrief AI Clinic</div>
                 <div class="rx-header-sub" id="rxSpecName">Dental OPD</div>
               </div>
               <div class="frow">
@@ -1233,7 +1233,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
                 <input class="finput" id="rxFollowup" type="text" placeholder="e.g. Review after 3 days">
               </div>
               <button class="btngen" onclick="generateRx()">Format Prescription →</button>
-              <button class="btngen" onclick="generateAiRx()" style="margin-top:6px;background:linear-gradient(135deg,#7B1FA2,#1565C0)"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 16 16" style="flex-shrink:0"><path d="M8 2v2.5M8 11.5V14M2 8h2.5M11.5 8H14"/><path d="M4.2 4.2l1.8 1.8M10 10l1.8 1.8M10 4.2L8.2 6M5.8 10.2l-1.8 1.6"/><circle cx="8" cy="8" r="2"/></svg> AI Rx Intelligence — Check Doses &amp; Interactions →</button>
+              <button class="btngen" onclick="generateAiRx()" style="margin-top:6px;background:linear-gradient(135deg,#7B1FA2,#1565C0)"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 16 16" style="flex-shrink:0"><path d="M8 2v2.5M8 11.5V14M2 8h2.5M11.5 8H14"/><path d="M4.2 4.2l1.8 1.8M10 10l1.8 1.8M10 4.2L8.2 6M5.8 10.2l-1.8 1.6"/><circle cx="8" cy="8" r="2"/></svg> AI Rx Intelligence - Check Doses &amp; Interactions →</button>
               <div id="rxAiResult" style="display:none;margin-top:12px;border-radius:10px;border:1.5px solid var(--sp);background:var(--bg);padding:14px 16px;font-size:.82rem;color:var(--tx);line-height:1.8;word-break:break-word;overflow-wrap:break-word"></div>
             </div>
           </div>
@@ -1301,7 +1301,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
                   <select class="fselect" id="refUrgency">
                     <option>Routine</option>
                     <option>Within 1 week</option>
-                    <option>Urgent — within 48 hours</option>
+                    <option>Urgent - within 48 hours</option>
                     <option>Emergency</option>
                   </select>
                 </div>
@@ -1411,7 +1411,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
           </div>
         </div>
         <div class="panel">
-          <div class="phdr"><span class="ptitle">Patient List — Today</span></div>
+          <div class="phdr"><span class="ptitle">Patient List - Today</span></div>
           <div style="padding:8px;overflow-x:auto">
             <table style="width:100%;border-collapse:collapse;font-size:.81rem">
               <thead>
@@ -1443,7 +1443,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
                 <div class="demo-banner" id="aiBriefBanner">
                   <span><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 16 16"><path d="M8 2v2.5M8 11.5V14M2 8h2.5M11.5 8H14"/><path d="M4.2 4.2l1.8 1.8M10 10l1.8 1.8M10 4.2L8.2 6M5.8 10.2l-1.8 1.6"/><circle cx="8" cy="8" r="2"/></svg></span>
                   <div>
-                    <strong>Demo mode</strong> — AI responses are simulated. Live AI is active when the proxy is configured.
+                    <strong>Demo mode</strong> - AI responses are simulated. Live AI is active when the proxy is configured.
                   </div>
                 </div>
                 <div class="ai-input-row">
@@ -1456,7 +1456,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
                 </div>
                 <div class="ai-input-row">
                   <div class="ai-input-lbl">Known Allergies (if any)</div>
-                  <input class="ai-input" id="abAllergy" type="text" placeholder="e.g. Penicillin, Aspirin — or leave blank">
+                  <input class="ai-input" id="abAllergy" type="text" placeholder="e.g. Penicillin, Aspirin - or leave blank">
                 </div>
                 <div class="ai-input-row">
                   <div class="ai-input-lbl">Specialty</div>
@@ -1484,7 +1484,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
                 <div style="font-size:2.8rem;opacity:.2;margin-bottom:10px">🤖</div>
                 <div style="font-size:.84rem;color:var(--tx3);line-height:1.65">
                   Reception or compounder fills in the patient's name and complaint on the left.<br><br>
-                  SmartBrief AI generates a complete clinical brief — allergy flag, structured complaint, recommended actions — in under 10 seconds.
+                  SmartBrief AI generates a complete clinical brief - allergy flag, structured complaint, recommended actions - in under 10 seconds.
                 </div>
               </div>
               <div class="ai-output" id="abOutput"></div>
@@ -1493,7 +1493,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
                 <button class="btnwa" onclick="shareAiBriefWA()">💬 WhatsApp</button>
                 <button class="btnprint" onclick="window.print()">🖨 Print</button>
               </div>
-              <p style="font-size:.66rem;color:var(--tx3);line-height:1.5;margin-top:10px;padding:0 2px">⚠ AI-generated clinical decision support — doctor review required before use. Not a diagnosis.</p>
+              <p style="font-size:.66rem;color:var(--tx3);line-height:1.5;margin-top:10px;padding:0 2px">⚠ AI-generated clinical decision support - doctor review required before use. Not a diagnosis.</p>
             </div>
           </div>
         </div>
@@ -1512,7 +1512,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
                 <div class="demo-banner" id="drgBanner">
                   <span><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 16 16"><path d="M8 2L3 4.5v4C3 11.5 8 14 8 14s5-2.5 5-5.5v-4z"/><path d="M5.5 8l1.5 2 3.5-3"/></svg></span>
                   <div>
-                    <strong>Demo mode</strong> — AI responses are simulated. Live AI is active when the proxy is configured.
+                    <strong>Demo mode</strong> - AI responses are simulated. Live AI is active when the proxy is configured.
                   </div>
                 </div>
                 <div class="ai-input-row">
@@ -1521,7 +1521,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
                 </div>
                 <div class="ai-input-row">
                   <div class="ai-input-lbl">Patient Allergies (if known)</div>
-                  <input class="ai-input" id="drgAllergy" type="text" placeholder="e.g. Penicillin, NSAIDs — or blank">
+                  <input class="ai-input" id="drgAllergy" type="text" placeholder="e.g. Penicillin, NSAIDs - or blank">
                 </div>
                 <div class="ai-input-row">
                   <div class="ai-input-lbl">Patient Conditions (optional)</div>
@@ -1553,7 +1553,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
                 <div style="font-size:2.8rem;opacity:.2;margin-bottom:10px">⚗️</div>
                 <div style="font-size:.84rem;color:var(--tx3);line-height:1.65">
                   Enter a list of drugs on the left and tap Check.<br><br>
-                  AI will flag interactions, allergy conflicts, contraindications, and dosage concerns — colour-coded by severity.
+                  AI will flag interactions, allergy conflicts, contraindications, and dosage concerns - colour-coded by severity.
                 </div>
               </div>
               <div id="drgOutput" style="display:none"></div>
@@ -1576,7 +1576,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
                 <div class="demo-banner" id="vcBanner">
                   <span><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 16 16"><rect x="6" y="2" width="4" height="6" rx="2"/><path d="M4 8a4 4 0 0 0 8 0M8 12v2"/></svg></span>
                   <div>
-                    <strong>Demo mode</strong> — AI responses are simulated. Live AI is active when the proxy is configured.
+                    <strong>Demo mode</strong> - AI responses are simulated. Live AI is active when the proxy is configured.
                   </div>
                 </div>
                 <div class="voice-steps">
@@ -1643,7 +1643,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
         <div class="shortcut"><kbd>D</kbd><span>Queue display</span></div>
         <div class="shortcut"><kbd>Esc</kbd><span>Close</span></div>
       </div>
-      <div class="disclaimer">SmartBrief AI is a pre-consultation intelligence tool — NOT a diagnostic system. All clinical output must be reviewed by a qualified healthcare professional. Beta — demo data only.</div>
+      <div class="disclaimer">SmartBrief AI is a pre-consultation intelligence tool - NOT a diagnostic system. All clinical output must be reviewed by a qualified healthcare professional. Beta - demo data only.</div>
     </div>
   </div>
 
@@ -1656,7 +1656,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
   </nav>
 </div>
 
-<!-- ADD PATIENT MODAL — AI POWERED -->
+<!-- ADD PATIENT MODAL - AI POWERED -->
 <div class="overlay" id="addModal">
   <div class="modal">
     <div class="modalhdr">
@@ -1679,7 +1679,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
       <div class="upgrade-banner" id="upgradeBanner">
         <div class="upgrade-banner-t">🚀 Monthly limit reached</div>
         <div class="upgrade-banner-s">You've used all 10 free AI briefs this month. Upgrade to Pro for unlimited AI briefs, Rx intelligence, and voice input.</div>
-        <button class="upgrade-wa" onclick="upgradeWA()">💬 Upgrade via WhatsApp — ₹499/mo intro · ₹999/mo after</button>
+        <button class="upgrade-wa" onclick="upgradeWA()">💬 Upgrade via WhatsApp - ₹499/mo intro · ₹999/mo after</button>
       </div>
 
       <div class="modetoggle">
@@ -1693,9 +1693,9 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
         <div class="mrow"><label class="mlabel">Patient Name</label>
           <input class="minput" id="mname" type="text" placeholder="e.g. Mrs. Anitha Kumar"></div>
         <div class="mrow"><label class="mlabel">Chief Complaint</label>
-          <textarea class="mtextarea" id="mcomp" placeholder="Type complaint in Tamil or English — AI will structure it into a full brief&#10;e.g. Palla vali — 3 days, worse at night, lower left" rows="3"></textarea></div>
+          <textarea class="mtextarea" id="mcomp" placeholder="Type complaint in Tamil or English - AI will structure it into a full brief&#10;e.g. Palla vali - 3 days, worse at night, lower left" rows="3"></textarea></div>
         <div class="mrow"><label class="mlabel">Known Allergies <span style="font-weight:400;text-transform:none">(optional)</span></label>
-          <input class="minput" id="mallergy" type="text" placeholder="e.g. Penicillin — or leave blank"></div>
+          <input class="minput" id="mallergy" type="text" placeholder="e.g. Penicillin - or leave blank"></div>
       </div>
 
       <!-- VOICE FORM -->
@@ -1718,7 +1718,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
           <input class="minput" id="muname" type="text" placeholder="e.g. Mr. Rajesh V."></div>
         <div class="uploadarea" onclick="document.getElementById('fup').click()">
           <div class="uploadicon">📎</div>
-          <div class="uploadtext">Tap to upload prescription, blood report, X-ray<br><small>PDF, JPG, PNG — demo mode</small></div>
+          <div class="uploadtext">Tap to upload prescription, blood report, X-ray<br><small>PDF, JPG, PNG - demo mode</small></div>
           <input type="file" id="fup" style="display:none" accept=".pdf,.jpg,.jpeg,.png" onchange="filePicked(this)">
         </div>
         <div id="fname2" style="font-size:.77rem;color:var(--sp);margin-bottom:11px;display:none"></div>
@@ -1752,13 +1752,13 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
       </div>
       <div style="font-size:.8rem;color:var(--tx2);line-height:1.85">
         <div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:8px">
-          <span>🤖</span><span><strong>AI Brief Generator</strong> — instant pre-consultation briefs from complaint text</span>
+          <span>🤖</span><span><strong>AI Brief Generator</strong> - instant pre-consultation briefs from complaint text</span>
         </div>
         <div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:8px">
-          <span>⚗️</span><span><strong>Drug Safety Checker</strong> — interaction warnings and contraindications</span>
+          <span>⚗️</span><span><strong>Drug Safety Checker</strong> - interaction warnings and contraindications</span>
         </div>
         <div style="display:flex;align-items:flex-start;gap:8px">
-          <span>🎙️</span><span><strong>Voice → Clinical Note</strong> — speak findings, get structured SOAP notes</span>
+          <span>🎙️</span><span><strong>Voice → Clinical Note</strong> - speak findings, get structured SOAP notes</span>
         </div>
       </div>
 
@@ -1770,7 +1770,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
         </div>
         <div class="privacy-qa">
           <div class="privacy-q">Who can see patient information?</div>
-          <div class="privacy-a">Only you, the treating doctor, can see the brief generated for your patient. SmartBrief AI staff cannot access individual patient briefs. The AI model processes input and returns structured output — it does not retain any patient data.</div>
+          <div class="privacy-a">Only you, the treating doctor, can see the brief generated for your patient. SmartBrief AI staff cannot access individual patient briefs. The AI model processes input and returns structured output - it does not retain any patient data.</div>
         </div>
         <div class="privacy-qa">
           <div class="privacy-q">Does SmartBrief AI sell or share my data?</div>
@@ -1804,9 +1804,9 @@ const SP = {
   den:{c:'#00897B',s:'#E0F2F0',b:'#80CBC4',i:'🦷',n:'Dental OPD',ch:'Dental',
     p:[
       {id:'p1',t:'T1',nm:'Mr. Ramesh K.',sb:'Old prescription uploaded',st:'ready',
-       al:'Penicillin allergy — avoid penicillin-based antibiotics',
+       al:'Penicillin allergy - avoid penicillin-based antibiotics',
        cc:'Lower molar pain (L) × 3 weeks. Cold sensitivity.',
-       h:'RCT UR6 — 2021. Regular scaling. No systemic conditions.',
+       h:'RCT UR6 - 2021. Regular scaling. No systemic conditions.',
        mx:'None currently.',ac:['Periapical X-ray (LL6)','Pulp vitality test','Cold test','Review uploaded prescription']},
       {id:'p2',t:'T2',nm:'Mrs. Shanthi R.',sb:'Walk-in, complaint entered',st:'next',
        al:'',cc:'Gum bleeding upper front teeth × 2 weeks. Sensitivity.',
@@ -1819,9 +1819,9 @@ const SP = {
   ent:{c:'#1565C0',s:'#E3F0FF',b:'#90CAF9',i:'👂',n:'ENT OPD',ch:'ENT',
     p:[
       {id:'p1',t:'T1',nm:'Mr. Arjun S.',sb:'Audiometry report uploaded',st:'ready',
-       al:'Aspirin sensitivity — check analgesic choice',
+       al:'Aspirin sensitivity - check analgesic choice',
        cc:'Bilateral hearing loss, progressive × 6 months. Tinnitus.',
-       h:'Audiometry — 2024. No prior surgery.',mx:'None.',
+       h:'Audiometry - 2024. No prior surgery.',mx:'None.',
        ac:['Weber test','Rinne test','Review uploaded audiogram','PTA interpretation']},
       {id:'p2',t:'T2',nm:'Mrs. Priya M.',sb:'Walk-in, ear pain',st:'next',
        al:'',cc:'Right ear pain × 2 days. Discharge.',
@@ -1835,7 +1835,7 @@ const SP = {
   gyn:{c:'#C2185B',s:'#FCE4EC',b:'#F48FB1',i:'🌸',n:'Gynaecology OPD',ch:'Gynae',
     p:[
       {id:'p1',t:'T1',nm:'Mrs. Kavitha N.',sb:'Blood report uploaded',st:'ready',
-       al:'G2P1 · Previous LSCS · GDM flag — monitor glucose',
+       al:'G2P1 · Previous LSCS · GDM flag - monitor glucose',
        cc:'Antenatal 28 weeks. Swelling in feet. Fatigue.',
        h:'G2P1L1A0. Previous LSCS 2021. GDM controlled on diet.',
        mx:'Iron + Folic acid, Calcium.',
@@ -1852,7 +1852,7 @@ const SP = {
   gen:{c:'#2E7D32',s:'#E8F5E9',b:'#A5D6A7',i:'🩺',n:'General Medicine OPD',ch:'General',
     p:[
       {id:'p1',t:'T1',nm:'Mr. Senthil V.',sb:'Blood report (HbA1c 9.1%)',st:'ready',
-       al:'HbA1c 9.1% — poorly controlled T2DM. Review medication.',
+       al:'HbA1c 9.1% - poorly controlled T2DM. Review medication.',
        cc:'T2DM + HTN follow-up. Fatigue. Occasional dizziness.',
        h:'T2DM 8 years. HTN 3 years. No renal issues.',
        mx:'Metformin 500mg BD, Amlodipine 5mg OD.',
@@ -1905,7 +1905,7 @@ function initDash(){
   document.getElementById('sbname').textContent=cu;
   document.getElementById('sbav').textContent=cu.charAt(0).toUpperCase();
   // Rx header
-  document.getElementById('rxDocName').textContent=cu+' — SmartBrief AI';
+  document.getElementById('rxDocName').textContent=cu+' - SmartBrief AI';
   document.getElementById('rxDate').value=now.toLocaleDateString('en-IN');
   applySpec(cs);
   document.querySelectorAll('.stile').forEach(t=>t.classList.toggle('sel',t.dataset.s===cs));
@@ -1946,7 +1946,7 @@ function initDash(){
   })();
   renderQueue();updateStats();
   updateBriefCounter();
-  logActivity('Session started — '+SP[cs].n);
+  logActivity('Session started - '+SP[cs].n);
 }
 
 // ══ SPEC ══════════════════════════════════════════════════════════
@@ -2043,7 +2043,7 @@ function selectPatient(id){
   document.getElementById('refPatient').value=sel.nm;
   document.getElementById('certPatient').value=sel.nm;
   document.getElementById('fuPatient').value=sel.nm;
-  if(sel.st==='next'){sel.st='in-consult';renderQueue();updateStats();logActivity('Consult started — '+sel.nm);}
+  if(sel.st==='next'){sel.st='in-consult';renderQueue();updateStats();logActivity('Consult started - '+sel.nm);}
 }
 
 function renderBrief(p){
@@ -2059,7 +2059,7 @@ function renderBrief(p){
         <div class="bsec"><div class="bsec-l">Visit Type</div><div class="bsec-v">${p.sb}</div></div>
       </div>
       ${p.brief&&p.brief!=='Patient submitted intake form. Review details in brief.'?
-        `<div style="margin:12px 0;background:#E0F2F1;border-left:3px solid #00897B;border-radius:8px;padding:12px 14px"><div style="font-size:10px;font-weight:700;color:#00695C;letter-spacing:0.5px;text-transform:uppercase;margin-bottom:6px">AI clinical summary — from patient intake</div><div style="font-size:14px;color:#0F1F3D;line-height:1.65">${p.brief}</div></div>`
+        `<div style="margin:12px 0;background:#E0F2F1;border-left:3px solid #00897B;border-radius:8px;padding:12px 14px"><div style="font-size:10px;font-weight:700;color:#00695C;letter-spacing:0.5px;text-transform:uppercase;margin-bottom:6px">AI clinical summary - from patient intake</div><div style="font-size:14px;color:#0F1F3D;line-height:1.65">${p.brief}</div></div>`
         :''}
       <div style="font-family:var(--fh);font-size:.79rem;font-weight:700;color:var(--tx);margin-bottom:8px">Vitals Entry</div>
       <div class="vgrid">
@@ -2086,7 +2086,7 @@ function renderBrief(p){
       </div>
       <div style="margin-top:12px;background:#FFFBEC;border:1px solid #F0C030;border-radius:8px;padding:9px 12px">
         <div style="font-size:.69rem;font-weight:700;color:#7A5C00;margin-bottom:2px">⚠ Medical Disclaimer</div>
-        <div style="font-size:.67rem;color:#7A5C00;line-height:1.55">This brief is a clinical decision-support aid only — NOT a diagnosis. All information must be independently verified by a qualified doctor before clinical use. Not valid for medicolegal purposes.</div>
+        <div style="font-size:.67rem;color:#7A5C00;line-height:1.55">This brief is a clinical decision-support aid only - NOT a diagnosis. All information must be independently verified by a qualified doctor before clinical use. Not valid for medicolegal purposes.</div>
       </div>
     </div>`;
 }
@@ -2104,14 +2104,14 @@ function togChk(i){
 function markDone(){
   if(!sel)return;sel.st='done';
   renderQueue();updateStats();
-  logActivity('Completed — '+sel.nm);
+  logActivity('Completed - '+sel.nm);
   toast('✓ Completed: '+sel.nm);
   showPlaceholder();sel=null;stopTimer();
 }
 
 function shareWA(){
   if(!sel)return;
-  const t=encodeURIComponent(`*SmartBrief AI — Patient Brief*\n\nPatient: ${sel.nm} (${sel.t})\nComplaint: ${sel.cc}\nHistory: ${sel.h}\nMeds: ${sel.mx}\n${sel.al?'⚠ Flag: '+sel.al+'\n':''}\n_Demo data — For doctor review only_`);
+  const t=encodeURIComponent(`*SmartBrief AI - Patient Brief*\n\nPatient: ${sel.nm} (${sel.t})\nComplaint: ${sel.cc}\nHistory: ${sel.h}\nMeds: ${sel.mx}\n${sel.al?'⚠ Flag: '+sel.al+'\n':''}\n_Demo data - For doctor review only_`);
   window.open('https://wa.me/919488907730?text='+t,'_blank');
 }
 
@@ -2144,7 +2144,7 @@ function filePicked(inp){
 function generateBrief(){
   const nm=addMode==='w'?document.getElementById('mname').value.trim():document.getElementById('muname').value.trim();
   if(!nm){toast('Please enter a patient name');return;}
-  const cc=addMode==='w'?(document.getElementById('mcomp').value.trim()||'Walk-in — complaint not specified'):'Document uploaded';
+  const cc=addMode==='w'?(document.getElementById('mcomp').value.trim()||'Walk-in - complaint not specified'):'Document uploaded';
   const al=addMode==='w'?document.getElementById('mallergy').value.trim():'';
   document.getElementById('genbtn').style.display='none';
   document.getElementById('aigen').style.display='block';
@@ -2166,7 +2166,7 @@ function generateBrief(){
                     ['Clinical examination','Investigations as indicated']};
     tokCounter++;queue.push(np);
     renderQueue();updateStats();
-    logActivity('Brief generated — '+nm);closeModal();
+    logActivity('Brief generated - '+nm);closeModal();
     toast('Brief ready for '+nm+' ✓');selectPatient(np.id);
   },2000);
 }
@@ -2186,8 +2186,8 @@ function addRxDrug(){
 
 function generateRx(){
   const patient=document.getElementById('rxPatient').value.trim()||'Patient';
-  const age=document.getElementById('rxAge').value.trim()||'—';
-  const diag=document.getElementById('rxDiag').value.trim()||'—';
+  const age=document.getElementById('rxAge').value.trim()||'-';
+  const diag=document.getElementById('rxDiag').value.trim()||'-';
   const advice=document.getElementById('rxAdvice').value.trim();
   const followup=document.getElementById('rxFollowup').value.trim();
   const date=document.getElementById('rxDate').value||new Date().toLocaleDateString('en-IN');
@@ -2206,7 +2206,7 @@ function generateRx(){
   rx+=`Rx\n${'─'.repeat(20)}\n`;
   drugs.forEach((d,i)=>{
     rx+=`${i+1}. ${d.nm}`;
-    if(d.dose)rx+=` — ${d.dose}`;
+    if(d.dose)rx+=` - ${d.dose}`;
     if(d.dur)rx+=` × ${d.dur}`;
     rx+='\n';
   });
@@ -2217,7 +2217,7 @@ function generateRx(){
   document.getElementById('rxOutputPanel').style.display='block';
   document.getElementById('rxHint').style.display='none';
   lastDoc=rx;
-  logActivity('Rx generated — '+patient);toast('Prescription generated ✓');
+  logActivity('Rx generated - '+patient);toast('Prescription generated ✓');
 }
 
 // ── AI RX INTELLIGENCE ─────────────────────────────────────────────
@@ -2243,7 +2243,7 @@ function generateAiRx(){
   });
   if(!drugs.length){ toast('Add at least one medication first'); return; }
 
-  const drugList = drugs.map((d,i)=>`${i+1}. ${d.nm}${d.dose?' — '+d.dose:''}${d.dur?' × '+d.dur:''}`).join('\n');
+  const drugList = drugs.map((d,i)=>`${i+1}. ${d.nm}${d.dose?' - '+d.dose:''}${d.dur?' × '+d.dur:''}`).join('\n');
   const prompt =
 `Clinical prescription review for Indian OPD doctor:
 
@@ -2276,7 +2276,7 @@ Be concise. Plain text only. Relevant to Indian clinical practice.`;
 
   callAI(
     prompt,
-    // onChunk — update display as words stream in
+    // onChunk - update display as words stream in
     (chunk)=>{
       accumulated += chunk;
       resultEl.innerHTML =
@@ -2284,12 +2284,12 @@ Be concise. Plain text only. Relevant to Indian clinical practice.`;
         '<span style="white-space:pre-wrap;font-family:var(--fb)">' + accumulated + '</span>' +
         '<span class="ai-cursor"></span>';
     },
-    // onDone — finalise display
+    // onDone - finalise display
     (final)=>{
       if(final === '__DEMO__'){
-        // Demo mode fallback — show illustrative output
+        // Demo mode fallback - show illustrative output
         const demoLines = drugs.map(d=>
-          `✅ ${d.nm}${d.dose?' '+d.dose:''} — dose appears within standard range for stated diagnosis`
+          `✅ ${d.nm}${d.dose?' '+d.dose:''} - dose appears within standard range for stated diagnosis`
         ).join('\n');
         resultEl.innerHTML =
           '<span style="color:#7B1FA2;font-size:.7rem;font-weight:700;letter-spacing:.6px;display:block;margin-bottom:8px;text-transform:uppercase">🤖 AI Rx Analysis · Demo Mode</span>' +
@@ -2298,16 +2298,16 @@ Be concise. Plain text only. Relevant to Indian clinical practice.`;
           '\n\nDRUG INTERACTIONS\n✅ No major interactions identified in this combination.' +
           '\n\nCONTRAINDICATIONS\n⚠️ Confirm allergy history before dispensing.' +
           '\n\nRECOMMENDATIONS\nConnect the AI proxy for live clinical analysis.' +
-          '\n\n[Demo — configure proxy for real-time AI review]</span>';
+          '\n\n[Demo - configure proxy for real-time AI review]</span>';
       } else {
         if(final) accumulated += final;
         resultEl.innerHTML =
           '<span style="color:#7B1FA2;font-size:.7rem;font-weight:700;letter-spacing:.6px;display:block;margin-bottom:8px;text-transform:uppercase">🤖 AI Rx Analysis</span>' +
           '<span style="white-space:pre-wrap;font-family:var(--fb)">' + accumulated + '</span>';
       }
-      logActivity('AI Rx check — ' + patient);
+      logActivity('AI Rx check - ' + patient);
     },
-    // onError (not called by callAI directly — handled via __DEMO__ in onDone)
+    // onError (not called by callAI directly - handled via __DEMO__ in onDone)
     ()=>{
       resultEl.innerHTML = '<span style="color:#E53935;font-size:.82rem">⚠️ AI check unavailable. Please review manually.</span>';
     }
@@ -2323,7 +2323,7 @@ function shareRxWA(){
 function generateReferral(){
   const pt=document.getElementById('refPatient').value.trim()||'Patient';
   const to=document.getElementById('refTo').value.trim()||'Specialist';
-  const reason=document.getElementById('refReason').value.trim()||'—';
+  const reason=document.getElementById('refReason').value.trim()||'-';
   const urgency=document.getElementById('refUrgency').value;
   const date=new Date().toLocaleDateString('en-IN');
   let ref=`REFERRAL LETTER\n${'═'.repeat(40)}\n\n`;
@@ -2339,13 +2339,13 @@ function generateReferral(){
   document.getElementById('refPreview').textContent=ref;
   document.getElementById('refOutputTitle').textContent='📩 Referral Letter Preview';
   document.getElementById('refActions').style.display='flex';
-  lastDoc=ref;logActivity('Referral generated — '+pt);toast('Referral letter generated ✓');
+  lastDoc=ref;logActivity('Referral generated - '+pt);toast('Referral letter generated ✓');
 }
 
 function generateCert(){
   const pt=document.getElementById('certPatient').value.trim()||'Patient';
   const type=document.getElementById('certType').value;
-  const days=document.getElementById('certDays').value.trim()||'—';
+  const days=document.getElementById('certDays').value.trim()||'-';
   const diag=document.getElementById('certDiag').value.trim();
   const date=new Date().toLocaleDateString('en-IN');
   let cert=`MEDICAL CERTIFICATE\n${'═'.repeat(40)}\n\n`;
@@ -2360,7 +2360,7 @@ function generateCert(){
   document.getElementById('refPreview').textContent=cert;
   document.getElementById('refOutputTitle').textContent='📋 Certificate Preview';
   document.getElementById('refActions').style.display='flex';
-  lastDoc=cert;logActivity('Certificate generated — '+pt);toast('Certificate generated ✓');
+  lastDoc=cert;logActivity('Certificate generated - '+pt);toast('Certificate generated ✓');
 }
 
 function shareDocWA(){
@@ -2377,11 +2377,11 @@ function scheduleReminder(){
   if(!pt){toast('Please enter patient name');return;}
   // Build WhatsApp link
   const waLink='https://wa.me/'+(ph.replace(/\D/g,''))+
-    '?text='+encodeURIComponent(`Dear ${pt},\n\n${msg}\n\n— ${cu}, ${SP[cs].n}`);
+    '?text='+encodeURIComponent(`Dear ${pt},\n\n${msg}\n\n- ${cu}, ${SP[cs].n}`);
   const rem={nm:pt,when,status:'pending',waLink,time:new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'})};
   reminders.push(rem);renderReminders();
   toast('Reminder scheduled for '+pt+' ('+when+')');
-  logActivity('Follow-up scheduled — '+pt+', '+when);
+  logActivity('Follow-up scheduled - '+pt+', '+when);
   window.open(waLink,'_blank');
 }
 
@@ -2432,13 +2432,13 @@ function updateReport(){
       <td style="padding:8px 12px;font-weight:700;color:var(--sp)">${p.t}</td>
       <td style="padding:8px 12px;font-weight:500">${p.nm}</td>
       <td style="padding:8px 12px;color:var(--tx2);max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.cc}</td>
-      <td style="padding:8px 12px">${p.al?'<span style="font-size:.65rem;background:#FFF3F3;color:#C62828;padding:2px 7px;border-radius:8px;font-weight:700">⚠ FLAG</span>':'—'}</td>
+      <td style="padding:8px 12px">${p.al?'<span style="font-size:.65rem;background:#FFF3F3;color:#C62828;padding:2px 7px;border-radius:8px;font-weight:700">⚠ FLAG</span>':'-'}</td>
       <td style="padding:8px 12px"><span class="qbadge ${qbc(p.st)}">${qbl(p.st)}</span></td>
     </tr>`).join('');
 }
 
 function exportReport(){
-  toast('PDF export coming in v1.0 — for now use Print (Ctrl+P)');
+  toast('PDF export coming in v1.0 - for now use Print (Ctrl+P)');
 }
 
 function upgradeWA(){
@@ -2558,8 +2558,8 @@ function closeApiSettings(){
   if(m)m.style.display='none';
 }
 
-// ── AI ENGINE — Vercel Proxy (token never in frontend) ────────
-// Proxy URL — update after Vercel deployment
+// ── AI ENGINE - Vercel Proxy (token never in frontend) ────────
+// Proxy URL - update after Vercel deployment
 const AI_PROXY_URL = 'https://smartbrief-proxy.vercel.app/api/chat';
 // Local fallback for testing (leave as is)
 const AI_PROXY_LOCAL = '';
@@ -2583,7 +2583,7 @@ function refreshKeyStatus(){
 
 async function callAI(prompt, onChunk, onDone, onError){
   const proxyUrl = AI_PROXY_URL || AI_PROXY_LOCAL;
-  // Demo mode — no proxy configured yet or offline
+  // Demo mode - no proxy configured yet or offline
   if(!proxyUrl || proxyUrl.includes('YOUR_APP')){
     onDone('__DEMO__');
     return;
@@ -2667,7 +2667,7 @@ function streamIntoEl(el, text, onDone){
 // ══ FEATURE 1: AI BRIEF GENERATOR ════════════════════════════════
 const DEMO_BRIEFS = {
   den: `⚠️ ALLERGY FLAG
-Penicillin — patient reports allergy. Avoid all penicillin-based antibiotics. Use Azithromycin or Clindamycin if systemic antibiotic needed.
+Penicillin - patient reports allergy. Avoid all penicillin-based antibiotics. Use Azithromycin or Clindamycin if systemic antibiotic needed.
 
 CHIEF COMPLAINT
 Toothache lower left region × 5 days. Sharp, throbbing pain. Worse on hot/cold. Pain wakes patient at night.
@@ -2677,7 +2677,7 @@ Presentation consistent with irreversible pulpitis likely involving a lower mola
 
 RECOMMENDED ACTIONS
 → Periapical X-ray (LL region)
-→ Pulp vitality testing — cold + electric
+→ Pulp vitality testing - cold + electric
 → Percussion test
 → Rule out acute apical periodontitis
 → Prescribe analgesic (avoid NSAIDs if GI history)
@@ -2689,17 +2689,17 @@ CHIEF COMPLAINT
 Right-sided ear pain × 3 days. Mild discharge. Muffled hearing. No fever. No vertigo.
 
 CLINICAL SUMMARY
-History consistent with acute otitis media or otitis externa. Absence of fever reduces concern for systemic spread. Discharge requires assessment — otoscopy essential to distinguish external canal vs middle ear pathology.
+History consistent with acute otitis media or otitis externa. Absence of fever reduces concern for systemic spread. Discharge requires assessment - otoscopy essential to distinguish external canal vs middle ear pathology.
 
 RECOMMENDED ACTIONS
-→ Otoscopy — assess TM integrity and EAC
+→ Otoscopy - assess TM integrity and EAC
 → Tuning fork tests (Weber + Rinne)
 → Check for lymphadenopathy
 → Swab if purulent discharge
 → Rule out cholesteatoma if chronic history`,
 
   gyn: `⚠️ CLINICAL FLAG
-G2P1 — Previous LSCS. Gestational diabetes history. Monitor glucose closely.
+G2P1 - Previous LSCS. Gestational diabetes history. Monitor glucose closely.
 
 CHIEF COMPLAINT
 Antenatal visit, 28 weeks. Lower limb swelling since 1 week. Fatigue and mild breathlessness on exertion.
@@ -2708,27 +2708,27 @@ CLINICAL SUMMARY
 Oedema at 28 weeks requires ruling out pre-eclampsia. GDM history increases risk of macrosomia. Breathlessness needs cardiac and anaemic causes excluded.
 
 RECOMMENDED ACTIONS
-→ BP both arms — rule out hypertension
-→ Urinalysis — proteinuria screen
+→ BP both arms - rule out hypertension
+→ Urinalysis - proteinuria screen
 → FBG / postprandial glucose
 → Fundal height + fetal movements
-→ Haemoglobin — rule out anaemia
+→ Haemoglobin - rule out anaemia
 → Growth scan if not done in last 2 weeks`,
 
   gen: `⚠️ CLINICAL FLAG
-HbA1c 9.1% — poorly controlled T2DM. Current medication may need review.
+HbA1c 9.1% - poorly controlled T2DM. Current medication may need review.
 
 CHIEF COMPLAINT
 Follow-up for T2DM and hypertension. Fatigue × 3 weeks. Occasional dizziness on standing.
 
 CLINICAL SUMMARY
-Fatigue and dizziness in a diabetic hypertensive patient — possible causes include poorly controlled DM, anaemia, overmedication, or autonomic neuropathy. HbA1c at 9.1% suggests inadequate glycaemic control.
+Fatigue and dizziness in a diabetic hypertensive patient - possible causes include poorly controlled DM, anaemia, overmedication, or autonomic neuropathy. HbA1c at 9.1% suggests inadequate glycaemic control.
 
 RECOMMENDED ACTIONS
 → Fasting blood glucose
 → BP sitting and standing (postural drop check)
 → Review Metformin dose and compliance
-→ Foot examination — DM neuropathy screen
+→ Foot examination - DM neuropathy screen
 → Serum creatinine if not recent
 → HbA1c recheck in 3 months after dose adjustment`
 };
@@ -2787,7 +2787,7 @@ Keep it clinical and concise. India-relevant.`;
           btn.disabled=false; btn.textContent='Generate Clinical Brief';
           actions.style.display='flex'; status.style.display='none';
           lastAiBrief=DEMO_BRIEFS[spec]||DEMO_BRIEFS.gen;
-          logActivity('AI Brief (demo) — '+(name||'Patient')); toast('Brief ready ✓');
+          logActivity('AI Brief (demo) - '+(name||'Patient')); toast('Brief ready ✓');
           var bc=parseInt(localStorage.getItem('sb_brief_count')||'0',10);bc++;localStorage.setItem('sb_brief_count',bc.toString());updateBriefCounter();if(bc>=10)showPaywall();
         });
       } else {
@@ -2795,7 +2795,7 @@ Keep it clinical and concise. India-relevant.`;
         lastAiBrief=outEl.textContent;
         btn.disabled=false; btn.textContent='Generate Clinical Brief';
         actions.style.display='flex'; status.style.display='none';
-        logActivity('AI Brief — '+(name||'Patient')); toast('Brief ready ✓');
+        logActivity('AI Brief - '+(name||'Patient')); toast('Brief ready ✓');
         var bc=parseInt(localStorage.getItem('sb_brief_count')||'0',10);bc++;localStorage.setItem('sb_brief_count',bc.toString());updateBriefCounter();if(bc>=10)showPaywall();
       }
     },
@@ -2817,20 +2817,20 @@ function addBriefToQueue(){
     h:'Via AI Brief Generator.',mx:'Not specified.',
     ac:['Review AI-generated brief','Clinical examination','Investigations as indicated']};
   tokCounter++;queue.push(np);renderQueue();updateStats();
-  logActivity('Patient added from AI Brief — '+nm);
+  logActivity('Patient added from AI Brief - '+nm);
   toast(nm+' added to queue ✓'); showTab('queue'); selectPatient(np.id);
 }
 
 function shareAiBriefWA(){
   if(!lastAiBrief){toast('No brief to share');return;}
-  window.open('https://wa.me/919488907730?text='+encodeURIComponent('*SmartBrief AI*\nPatient: '+(lastAiBriefName||'Patient')+'\n'+SP[cs].n+'\n\n'+lastAiBrief+'\n\n_Demo — SmartBrief AI Beta_'),'_blank');
+  window.open('https://wa.me/919488907730?text='+encodeURIComponent('*SmartBrief AI*\nPatient: '+(lastAiBriefName||'Patient')+'\n'+SP[cs].n+'\n\n'+lastAiBrief+'\n\n_Demo - SmartBrief AI Beta_'),'_blank');
 }
 
 // ══ FEATURE 2: DRUG SAFETY CHECKER ═══════════════════════════════
 const DEMO_DRUG={
-  'aspirin,warfarin':{level:'danger',title:'⛔ HIGH RISK — Aspirin + Warfarin',detail:'Concurrent use significantly increases bleeding risk. Aspirin inhibits platelet aggregation; Warfarin inhibits clotting factors. Combined use can cause serious GI or intracranial bleeding. Avoid unless specifically indicated (e.g. mechanical heart valve) with close INR monitoring.'},
-  'amoxicillin,metronidazole,paracetamol':{level:'safe',title:'✅ Low Risk — Standard Dental Combination',detail:'Amoxicillin + Metronidazole is a common dental antibiotic combination synergistic against anaerobes. Paracetamol is safe with both. No significant interactions. Standard dosing: Amoxicillin 500mg TDS × 5 days, Metronidazole 400mg TDS × 5 days, Paracetamol 500mg-1g TDS PRN.'},
-  'metformin,amlodipine,telmisartan':{level:'safe',title:'✅ Safe — Common DM + HTN Regimen',detail:'Standard combination for T2DM with hypertension in Indian practice. No significant drug-drug interactions. Telmisartan (ARB) has renoprotective benefit in diabetics. Monitor renal function and potassium periodically. Amlodipine may cause ankle oedema.'}
+  'aspirin,warfarin':{level:'danger',title:'⛔ HIGH RISK - Aspirin + Warfarin',detail:'Concurrent use significantly increases bleeding risk. Aspirin inhibits platelet aggregation; Warfarin inhibits clotting factors. Combined use can cause serious GI or intracranial bleeding. Avoid unless specifically indicated (e.g. mechanical heart valve) with close INR monitoring.'},
+  'amoxicillin,metronidazole,paracetamol':{level:'safe',title:'✅ Low Risk - Standard Dental Combination',detail:'Amoxicillin + Metronidazole is a common dental antibiotic combination synergistic against anaerobes. Paracetamol is safe with both. No significant interactions. Standard dosing: Amoxicillin 500mg TDS × 5 days, Metronidazole 400mg TDS × 5 days, Paracetamol 500mg-1g TDS PRN.'},
+  'metformin,amlodipine,telmisartan':{level:'safe',title:'✅ Safe - Common DM + HTN Regimen',detail:'Standard combination for T2DM with hypertension in Indian practice. No significant drug-drug interactions. Telmisartan (ARB) has renoprotective benefit in diabetics. Monitor renal function and potassium periodically. Amlodipine may cause ankle oedema.'}
 };
 let lastDrugReport='';
 
@@ -2868,7 +2868,7 @@ async function runDrugCheck(){
   outEl.style.display='block'; status.style.display='none';
   btn.disabled=false; btn.textContent='⚗️ Check Drug Safety';
   lastDrugReport=results.map(r=>r.title+'\n'+r.detail).join('\n\n');
-  logActivity('Drug check — '+drugs.slice(0,40)); toast('Safety check complete ✓');
+  logActivity('Drug check - '+drugs.slice(0,40)); toast('Safety check complete ✓');
 }
 
 // ══ FEATURE 3: VOICE → CLINICAL NOTE ═════════════════════════════
@@ -2884,7 +2884,7 @@ ASSESSMENT
 Tension-type headache in a hypertensive patient. Poorly controlled hypertension as contributing cause cannot be excluded without BP measurement. Medication overuse headache to be ruled out.
 
 PLAN
-• Check BP — both arms
+• Check BP - both arms
 • Rule out hypertensive urgency if BP >180/110
 • Prescribe Paracetamol 500mg TDS PRN
 • Review Telmisartan dose adequacy
@@ -2897,7 +2897,7 @@ let lastVoiceNote='';
 function toggleVoice(){
   if(isListening){stopListening();return;}
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-  if(!SR){toast('Voice not supported — type findings below instead');return;}
+  if(!SR){toast('Voice not supported - type findings below instead');return;}
   recognition=new SR();
   recognition.continuous=true; recognition.interimResults=true; recognition.lang='en-IN';
   const tEl=document.getElementById('vcTranscript'),tpEl=document.getElementById('vcTyped');
@@ -2917,7 +2917,7 @@ function toggleVoice(){
   recognition.onend=()=>{if(isListening)recognition.start();};
   recognition.start(); isListening=true;
   const btn=document.getElementById('voiceStartBtn'),lbl=document.getElementById('voiceBtnLabel');
-  btn.classList.add('listening'); lbl.textContent='Listening — tap to stop';
+  btn.classList.add('listening'); lbl.textContent='Listening - tap to stop';
   document.getElementById('vstep1').classList.add('done');
   document.getElementById('vcStatus').textContent='🔴 Recording';
   document.getElementById('vcStatus').className='ai-status live';
@@ -2930,7 +2930,7 @@ function stopListening(){
   btn.classList.remove('listening'); lbl.textContent='Tap to start speaking';
   document.getElementById('vcStatus').textContent='Ready';
   document.getElementById('vcStatus').className='ai-status';
-  if(document.getElementById('vcTyped').value.trim())toast('Recording stopped — tap Structure to process');
+  if(document.getElementById('vcTyped').value.trim())toast('Recording stopped - tap Structure to process');
 }
 
 async function runVoiceNote(){
@@ -2966,7 +2966,7 @@ async function runVoiceNote(){
         btn.disabled=false; btn.textContent='✨ Structure into Clinical Note';
         actions.style.display='flex'; status.style.display='none';
         document.getElementById('vstep3').classList.add('done');
-        logActivity('Voice note — '+SP[cs].n); toast('Clinical note ready ✓');
+        logActivity('Voice note - '+SP[cs].n); toast('Clinical note ready ✓');
       }
     },
     err=>{
@@ -2978,7 +2978,7 @@ async function runVoiceNote(){
 
 function shareNoteWA(){
   if(!lastVoiceNote){toast('Generate a note first');return;}
-  window.open('https://wa.me/919488907730?text='+encodeURIComponent('*Clinical Note — SmartBrief AI*\n\n'+lastVoiceNote+'\n\n_Demo — For doctor review only_'),'_blank');
+  window.open('https://wa.me/919488907730?text='+encodeURIComponent('*Clinical Note - SmartBrief AI*\n\n'+lastVoiceNote+'\n\n_Demo - For doctor review only_'),'_blank');
 }
 function copyNote(){
   if(!lastVoiceNote){toast('No note to copy');return;}
@@ -3028,7 +3028,7 @@ initTheme();
 
 
 </script>
-<!-- ====== SmartBrief AI Analytics — purely additive, zero impact on existing code ====== -->
+<!-- ====== SmartBrief AI Analytics - purely additive, zero impact on existing code ====== -->
 <script>
 (function(){
   'use strict';
@@ -3061,7 +3061,7 @@ initTheme();
   // 1. page_view
   try { track('page_view'); } catch(e){}
 
-  // 2. cta_click — wa.me links and inter-file navigation
+  // 2. cta_click - wa.me links and inter-file navigation
   try {
     document.addEventListener('click',function(ev){
       try {
@@ -3075,7 +3075,7 @@ initTheme();
     },true);
   } catch(e){}
 
-  // 3. section_view — track tab switches as section views
+  // 3. section_view - track tab switches as section views
   try {
     document.querySelectorAll('.tab').forEach(function(btn){
       btn.addEventListener('click',function(){
@@ -3331,7 +3331,7 @@ initTheme();
     </div>
 
     <div id="wa-panel-qr" style="display:none;text-align:center" data-qr-walkin>
-      <div style="font-size:.72rem;font-weight:700;color:var(--tx3);margin-bottom:10px">WALK-IN QR CODE — SHOW TO PATIENT AT RECEPTION</div>
+      <div style="font-size:.72rem;font-weight:700;color:var(--tx3);margin-bottom:10px">WALK-IN QR CODE - SHOW TO PATIENT AT RECEPTION</div>
       <div id="qr-container" style="display:inline-block;background:#fff;border:2px solid var(--bd);border-radius:12px;padding:16px;margin-bottom:12px"></div>
       <div style="font-size:.8rem;color:var(--tx2);line-height:1.5;margin-bottom:12px">Show this QR to walk-in patients. They scan and fill<br>the form on their phone before entering the consultation room.</div>
       <div style="display:flex;gap:8px;justify-content:center">
@@ -3352,7 +3352,7 @@ function buildWAMessage(){
   var doctorName=document.getElementById('wa-doctor-name').value.trim()||'[Doctor Name]';
   var clinicChip=document.querySelector('.schip');
   var clinicName=clinicChip?clinicChip.textContent.trim()+' Clinic':'SmartBrief AI Clinic';
-  return 'Dear '+patientName+',\n\n'+doctorName+'\'s clinic has requested you to fill a brief health summary before your appointment. It takes less than 2 minutes.\n\nFill here: '+INTAKE_URL+'\n\nThis helps your doctor prepare for your consultation in advance.\n— '+clinicName;
+  return 'Dear '+patientName+',\n\n'+doctorName+'\'s clinic has requested you to fill a brief health summary before your appointment. It takes less than 2 minutes.\n\nFill here: '+INTAKE_URL+'\n\nThis helps your doctor prepare for your consultation in advance.\n- '+clinicName;
 }
 
 function refreshWAMessage(){
@@ -3424,14 +3424,14 @@ function generateQR(){
 function printQR(){
   var qrHTML=document.getElementById('qr-container').innerHTML;
   var win=window.open('','_blank');
-  win.document.write('<html><body style="text-align:center;font-family:sans-serif;padding:40px"><h2 style="color:#0F1F3D">SmartBrief AI — Patient Intake</h2><p style="color:#718096;margin-bottom:20px">Scan with your phone camera to fill health form before consultation</p>'+qrHTML+'<p style="color:#B0B8D0;font-size:12px;margin-top:20px">'+INTAKE_URL+'</p></body></html>');
+  win.document.write('<html><body style="text-align:center;font-family:sans-serif;padding:40px"><h2 style="color:#0F1F3D">SmartBrief AI - Patient Intake</h2><p style="color:#718096;margin-bottom:20px">Scan with your phone camera to fill health form before consultation</p>'+qrHTML+'<p style="color:#B0B8D0;font-size:12px;margin-top:20px">'+INTAKE_URL+'</p></body></html>');
   win.document.close();
   win.print();
 }
 
 function downloadQR(){
   var canvas=document.querySelector('#qr-container canvas');
-  if(!canvas){toast('QR not ready — please wait a moment');return;}
+  if(!canvas){toast('QR not ready - please wait a moment');return;}
   var link=document.createElement('a');
   link.download='smartbrief-walkin-qr.png';
   link.href=canvas.toDataURL('image/png');
@@ -3451,8 +3451,8 @@ document.getElementById('waModal').addEventListener('click',function(e){
   <div class="paywall-card">
     <div class="paywall-icon">🔒</div>
     <div class="paywall-title">You've used your 10 free briefs this month.</div>
-    <div class="paywall-sub">Continue with SmartBrief AI for ₹499/month for your first 3 months, then ₹999/month — cancel anytime.</div>
-    <button class="paywall-cta" onclick="window.open('#','_blank')">Continue — ₹499/mo intro · ₹999/mo after</button>
+    <div class="paywall-sub">Continue with SmartBrief AI for ₹499/month for your first 3 months, then ₹999/month - cancel anytime.</div>
+    <button class="paywall-cta" onclick="window.open('#','_blank')">Continue - ₹499/mo intro · ₹999/mo after</button>
     <div class="paywall-reset" id="paywallResetDate"></div>
     <br>
     <button class="paywall-dismiss" onclick="dismissPaywall()">Remind me later</button>

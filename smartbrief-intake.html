@@ -15,7 +15,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <meta name="author" content="Prabhu R">
 <meta name="copyright" content="© 2026 Prabhu R. All rights reserved.">
-<title>SmartBrief AI — Patient Intake</title>
+<title>SmartBrief AI - Patient Intake</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="apple-touch-icon" href="/favicon.svg">
 <meta name="theme-color" content="#0F1F3D">
@@ -118,7 +118,7 @@ body.tamil .ta{display:block}
   <div class="body">
     <div class="shld">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#00695C" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-      <div class="shld-t"><span class="en">Private — shared only with your doctor. No login needed.</span><span class="ta">தனிப்பட்டது — மருத்துவரிடம் மட்டுமே பகிரப்படும்.</span></div>
+      <div class="shld-t"><span class="en">Private - shared only with your doctor. No login needed.</span><span class="ta">தனிப்பட்டது - மருத்துவரிடம் மட்டுமே பகிரப்படும்.</span></div>
     </div>
     <div class="ttl en">Help your doctor prepare</div>
     <div class="ttl ta">மருத்துவரை தயார்படுத்துங்கள்</div>
@@ -146,7 +146,7 @@ body.tamil .ta{display:block}
   <div class="body">
     <div class="ttl en">About you</div>
     <div class="ttl ta">உங்களைப் பற்றி</div>
-    <div class="sub en">Just the basics — takes 30 seconds.</div>
+    <div class="sub en">Just the basics - takes 30 seconds.</div>
     <div class="sub ta">அடிப்படை தகவல்கள் மட்டும்.</div>
     <div style="margin-bottom:14px">
       <div class="lbl en">Your name</div><div class="lbl ta">பெயர்</div>
@@ -229,8 +229,8 @@ body.tamil .ta{display:block}
     <div id="cdone" style="display:none">
       <div style="display:flex;align-items:center;gap:8px;background:var(--teal-lt);border-radius:10px;padding:12px 14px;margin-bottom:14px;font-size:14px;color:var(--teal-dk);font-weight:600">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
-        <span class="en">Got it — submitting your brief now</span>
-        <span class="ta">சரி — சமர்ப்பிக்கப்படுகிறது</span>
+        <span class="en">Got it - submitting your brief now</span>
+        <span class="ta">சரி - சமர்ப்பிக்கப்படுகிறது</span>
       </div>
       <label style="display:flex;align-items:flex-start;gap:10px;margin-bottom:14px;cursor:pointer;font-size:13px;color:var(--t2);line-height:1.55">
         <input type="checkbox" id="consentCk" onchange="document.getElementById('submitBtn').disabled=!this.checked" style="width:18px;height:18px;min-width:18px;margin-top:1px;accent-color:var(--teal);cursor:pointer">
@@ -274,7 +274,7 @@ body.tamil .ta{display:block}
       </div>
     </div>
     <div id="s5e" style="display:none;text-align:center;padding:40px 0">
-      <div style="font-size:15px;color:var(--t2);margin-bottom:16px" class="en">Could not generate AI brief. Your info was saved — the doctor will still see your details.</div>
+      <div style="font-size:15px;color:var(--t2);margin-bottom:16px" class="en">Could not generate AI brief. Your info was saved - the doctor will still see your details.</div>
       <button class="btn2" onclick="genBrief()">Try again</button>
     </div>
   </div>
@@ -295,16 +295,16 @@ var SYMS_TA={
   general:['காய்ச்சல்','தலைவலி','உடல் வலி','இருமல்/சளி','வாந்தி/குமட்டல்','வயிற்றுப்போக்கு','மார்பு வலி','சர்க்கரை','ரத்த அழுத்தம்','சோர்வு','மற்றவை']
 };
 var QS={
-  dental:['How long have you had this? Is the pain constant or does it come and go?','Does anything make it worse — hot drinks, cold food, or biting?','Any recent dental treatment, or is this your first visit for this issue?'],
-  ent:['How long have you had this, and is it getting worse?','One side or both? Do you have a fever too?','Have you tried any medicines — did they help?'],
+  dental:['How long have you had this? Is the pain constant or does it come and go?','Does anything make it worse - hot drinks, cold food, or biting?','Any recent dental treatment, or is this your first visit for this issue?'],
+  ent:['How long have you had this, and is it getting worse?','One side or both? Do you have a fever too?','Have you tried any medicines - did they help?'],
   gynae:['How long have you had this concern?','Does it relate to your menstrual cycle? Have you had this before?','Are you currently on any medication or contraceptive?'],
-  general:['How long have you been feeling this? Constant or does it come and go?','Do you have a fever — if yes, how high? Any body pain?','Have you taken any medicines for this — did they help?']
+  general:['How long have you been feeling this? Constant or does it come and go?','Do you have a fever - if yes, how high? Any body pain?','Have you taken any medicines for this - did they help?']
 };
 var QS_TA={
   dental:['இந்த பிரச்சனை எவ்வளவு நாளாக உள்ளது? வலி தொடர்ந்து இருக்கிறதா அல்லது வந்து போகிறதா?','சூடான/குளிர்ந்த பொருட்கள் அல்லது மெல்லும்போது வலி அதிகமாகுமா?','சமீபத்தில் பல் சிகிச்சை எடுத்தீர்களா, அல்லது இது முதல் முறையா?'],
-  ent:['இந்த அறிகுறி எவ்வளவு நாளாக உள்ளது, மோசமாகிறதா?','ஒரு பக்கமா இரண்டு பக்கமா? காய்ச்சலும் உள்ளதா?','மருந்து எடுத்தீர்களா — உதவிதா?'],
+  ent:['இந்த அறிகுறி எவ்வளவு நாளாக உள்ளது, மோசமாகிறதா?','ஒரு பக்கமா இரண்டு பக்கமா? காய்ச்சலும் உள்ளதா?','மருந்து எடுத்தீர்களா - உதவிதா?'],
   gynae:['இந்த பிரச்சனை எவ்வளவு நாளாக உள்ளது?','மாதவிடாய் சுழற்சியுடன் தொடர்புடையதா? இதற்கு முன்பும் இப்படி ஆனதுண்டா?','தற்போது ஏதேனும் மருந்து அல்லது கருத்தடை எடுக்கிறீர்களா?'],
-  general:['எவ்வளவு நாளாக இப்படி உணர்கிறீர்கள்? தொடர்ந்தா அல்லது வந்து போகிறதா?','காய்ச்சல் உள்ளதா — எவ்வளவு? உடல் வலியும் உள்ளதா?','ஏதேனும் மருந்து எடுத்தீர்களா — உதவிதா?']
+  general:['எவ்வளவு நாளாக இப்படி உணர்கிறீர்கள்? தொடர்ந்தா அல்லது வந்து போகிறதா?','காய்ச்சல் உள்ளதா - எவ்வளவு? உடல் வலியும் உள்ளதா?','ஏதேனும் மருந்து எடுத்தீர்களா - உதவிதா?']
 };
 var QR={
   0:{en:['Just today','A few days','About a week','More than a week'],ta:['இன்றே','சில நாட்கள்','ஒரு வாரம்','ஒரு வாரத்திற்கும் மேல்']},
