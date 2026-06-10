@@ -15,7 +15,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <meta name="author" content="Prabhu R">
 <meta name="copyright" content="© 2026 Prabhu R. All rights reserved.">
-<title>SmartBrief AI — Patient Brief</title>
+<title>SmartBrief AI - Patient Brief</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="apple-touch-icon" href="/favicon.svg">
 <meta name="theme-color" content="#0F1F3D">
@@ -244,7 +244,7 @@ body{font-family:var(--fb);background:transparent;color:var(--tx);
   .btn-wa,.btn-complete{font-size:.78rem;padding:11px 10px}
 }
 
-/* FONT OVERRIDE — ensures headings never use Arial/Helvetica regardless of CDN status */
+/* FONT OVERRIDE - ensures headings never use Arial/Helvetica regardless of CDN status */
 h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
   font-family:'Outfit','Google Sans Display','Google Sans','Product Sans','Roboto','Segoe UI',sans-serif!important;
   font-weight:800!important;
@@ -319,7 +319,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
     <span class="allergy-icon">⚠️</span>
     <div class="allergy-body">
       <div class="allergy-title" id="allergyTitle">ALLERGY / CLINICAL FLAG</div>
-      <div class="allergy-detail" id="allergyDetail">Penicillin allergy — avoid penicillin-based antibiotics</div>
+      <div class="allergy-detail" id="allergyDetail">Penicillin allergy - avoid penicillin-based antibiotics</div>
     </div>
   </div>
 
@@ -335,7 +335,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
     </div>
     <div class="scard">
       <div class="scard-label">🗂 Relevant History</div>
-      <div class="scard-val" id="hist">RCT UR6 — 2021. Regular scaling. No systemic conditions.</div>
+      <div class="scard-val" id="hist">RCT UR6 - 2021. Regular scaling. No systemic conditions.</div>
     </div>
     <div class="scard">
       <div class="scard-label">💊 Current Medications</div>
@@ -435,7 +435,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
   <!-- DISCLAIMER -->
   <div class="disclaimer">
     <span>⚠️</span>
-    <span>SmartBrief AI is a pre-consultation intelligence tool — <strong>NOT a diagnostic system</strong>. All clinical decisions must be made by a qualified healthcare professional. This is beta demo data only — do not enter real patient information.</span>
+    <span>SmartBrief AI is a pre-consultation intelligence tool - <strong>NOT a diagnostic system</strong>. All clinical decisions must be made by a qualified healthcare professional. This is beta demo data only - do not enter real patient information.</span>
   </div>
 
 </div>
@@ -459,13 +459,13 @@ const SP_DATA = {
   den:{c:'#00897B',s:'#E0F2F0',b:'#80CBC4',n:'Dental',
     patients:[
       {t:'T1',nm:'Mr. Ramesh K.',sb:'Old prescription uploaded',
-       al:'Penicillin allergy — avoid penicillin-based antibiotics',
+       al:'Penicillin allergy - avoid penicillin-based antibiotics',
        cc:'Lower molar pain (L) × 3 weeks. Cold sensitivity.',
-       h:'RCT UR6 — 2021. Regular scaling. No systemic conditions.',
+       h:'RCT UR6 - 2021. Regular scaling. No systemic conditions.',
        mx:'None currently.',
        ac:[{t:'Periapical X-ray (LL6)',p:'high'},{t:'Pulp vitality test',p:'high'},
            {t:'Cold test',p:'std'},{t:'Review uploaded prescription',p:'std'}],
-       hist:[{d:'Nov 2021',tx:'RCT — UR6. No complications.'},
+       hist:[{d:'Nov 2021',tx:'RCT - UR6. No complications.'},
              {d:'Mar 2023',tx:'Scaling done. OHI given.'}]},
       {t:'T2',nm:'Mrs. Shanthi R.',sb:'Walk-in',al:'',
        cc:'Gum bleeding upper front × 2 weeks. Sensitivity.',
@@ -479,12 +479,12 @@ const SP_DATA = {
   ent:{c:'#1565C0',s:'#E3F0FF',b:'#90CAF9',n:'ENT',
     patients:[
       {t:'T1',nm:'Mr. Arjun S.',sb:'Audiometry report uploaded',
-       al:'Aspirin sensitivity — check analgesic choice',
+       al:'Aspirin sensitivity - check analgesic choice',
        cc:'Bilateral hearing loss, progressive × 6 months. Tinnitus.',
-       h:'Audiometry — 2024. No prior surgery.',mx:'None.',
+       h:'Audiometry - 2024. No prior surgery.',mx:'None.',
        ac:[{t:'Weber test',p:'high'},{t:'Rinne test',p:'high'},
            {t:'Review uploaded audiogram',p:'high'},{t:'PTA interpretation',p:'std'}],
-       hist:[{d:'Aug 2024',tx:'Audiometry — mild bilateral sensorineural loss.'}]},
+       hist:[{d:'Aug 2024',tx:'Audiometry - mild bilateral sensorineural loss.'}]},
       {t:'T2',nm:'Mrs. Priya M.',sb:'Walk-in',al:'',
        cc:'Right ear pain × 2 days. Discharge.',h:'No prior ENT history.',mx:'None.',
        ac:[{t:'Otoscopy',p:'high'},{t:'Tuning fork tests',p:'high'},
@@ -498,13 +498,13 @@ const SP_DATA = {
   gyn:{c:'#C2185B',s:'#FCE4EC',b:'#F48FB1',n:'Gynaecology',
     patients:[
       {t:'T1',nm:'Mrs. Kavitha N.',sb:'Blood report uploaded',
-       al:'G2P1 · Previous LSCS · GDM flag — monitor glucose',
+       al:'G2P1 · Previous LSCS · GDM flag - monitor glucose',
        cc:'Antenatal 28 weeks. Swelling in feet. Fatigue.',
        h:'G2P1L1A0. Previous LSCS 2021. GDM controlled on diet.',
        mx:'Iron + Folic acid, Calcium.',
        ac:[{t:'BP + weight check',p:'high'},{t:'Fundal height measurement',p:'high'},
            {t:'Glucose review',p:'high'},{t:'Growth scan if due',p:'std'}],
-       hist:[{d:'24 weeks',tx:'Anomaly scan — normal. GDM screen — 1hr 145mg/dl.'},
+       hist:[{d:'24 weeks',tx:'Anomaly scan - normal. GDM screen - 1hr 145mg/dl.'},
              {d:'20 weeks',tx:'Booking visit. BP normal. Haemoglobin 10.8.'}]},
       {t:'T2',nm:'Mrs. Lakshmi R.',sb:'Walk-in',al:'',
        cc:'Irregular periods × 6 months. Weight gain. Acne.',
@@ -520,7 +520,7 @@ const SP_DATA = {
   gen:{c:'#2E7D32',s:'#E8F5E9',b:'#A5D6A7',n:'General Medicine',
     patients:[
       {t:'T1',nm:'Mr. Senthil V.',sb:'Blood report (HbA1c 9.1%)',
-       al:'HbA1c 9.1% — poorly controlled T2DM. Review medication.',
+       al:'HbA1c 9.1% - poorly controlled T2DM. Review medication.',
        cc:'T2DM + HTN follow-up. Fatigue. Occasional dizziness.',
        h:'T2DM 8 years. HTN 3 years. No renal issues.',
        mx:'Metformin 500mg BD, Amlodipine 5mg OD.',
@@ -641,17 +641,17 @@ function shareWA(){
   const notes=document.getElementById('notesField').value.trim();
   const bp=document.getElementById('vBP').value;
   const wt=document.getElementById('vWt').value;
-  let txt=`*SmartBrief AI — Patient Brief*\n\n`;
+  let txt=`*SmartBrief AI - Patient Brief*\n\n`;
   txt+=`Patient: ${cp.nm} (${cp.t})\n`;
   txt+=`Specialty: ${SP_DATA[cs].n}\n`;
   txt+=`Complaint: ${cp.cc}\n`;
-  if(bp||wt)txt+=`Vitals: BP ${bp||'—'}, Wt ${wt||'—'}kg\n`;
+  if(bp||wt)txt+=`Vitals: BP ${bp||'-'}, Wt ${wt||'-'}kg\n`;
   if(cp.al)txt+=`⚠ Flag: ${cp.al}\n`;
   if(notes)txt+=`\nNotes: ${notes}`;
-  txt+=`\n\n_Demo data — SmartBrief AI Beta_`;
+  txt+=`\n\n_Demo data - SmartBrief AI Beta_`;
   window.open('https://wa.me/919488907730?text='+encodeURIComponent(txt),'_blank');
 }
-function printLabSlip(){toast('Opening print — select lab slip from print preview');window.print();}
+function printLabSlip(){toast('Opening print - select lab slip from print preview');window.print();}
 
 // ══ TOAST ══════════════════════════════════════════════════════════
 let tt;
@@ -663,7 +663,7 @@ function toast(m){
   },3000);
 }
 </script>
-<!-- ====== SmartBrief AI Analytics — purely additive, zero impact on existing code ====== -->
+<!-- ====== SmartBrief AI Analytics - purely additive, zero impact on existing code ====== -->
 <script>
 (function(){
   'use strict';
@@ -696,7 +696,7 @@ function toast(m){
   // 1. page_view
   try { track('page_view'); } catch(e){}
 
-  // 2. cta_click — wa.me links and inter-file navigation
+  // 2. cta_click - wa.me links and inter-file navigation
   try {
     document.addEventListener('click',function(ev){
       try {
