@@ -1078,7 +1078,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
         <li><button onclick="showTab('followup')"><span class="ni"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 16 16"><rect x="2.5" y="3.5" width="11" height="10" rx="1.5"/><path d="M5.5 2v3M10.5 2v3M2.5 7h11"/></svg></span>Follow-up Reminders</button></li>
         <li><button onclick="showTab('report')"><span class="ni"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 16 16"><path d="M2.5 13h11M4.5 10V7M8 10V5M11.5 10V8.5"/></svg></span>Daily Report</button></li>
         <li><button onclick="showTokenDisplay()"><span class="ni"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 16 16"><rect x="2" y="3" width="12" height="8.5" rx="1.5"/><path d="M5.5 14h5M8 11.5V14"/></svg></span>Queue Display</button></li>
-        <li><button onclick="toast('Settings - coming soon')"><span class="ni"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 16 16"><circle cx="8" cy="8" r="2.5"/><path d="M8 2.5v1M8 12.5v1M13.5 8h-1M3.5 8h-1M11.8 4.2l-.7.7M5 11l-.7.7M11.8 11.8l-.7-.7M5 5l-.7-.7"/></svg></span>Settings</button></li>
+        <li><button onclick="openSettings()"><span class="ni"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 16 16"><circle cx="8" cy="8" r="2.5"/><path d="M8 2.5v1M8 12.5v1M13.5 8h-1M3.5 8h-1M11.8 4.2l-.7.7M5 11l-.7.7M11.8 11.8l-.7-.7M5 5l-.7-.7"/></svg></span>Settings</button></li>
         <li><button onclick="openApiSettings()"><span class="ni"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 16 16"><path d="M8 2v2.5M8 11.5V14M2 8h2.5M11.5 8H14"/><path d="M4.2 4.2l1.8 1.8M10 10l1.8 1.8M10 4.2L8.2 6M5.8 10.2l-1.8 1.6"/><circle cx="8" cy="8" r="2"/></svg></span>AI Settings</button></li>
       </ul>
       <div class="sbsec">Specialty</div>
@@ -1786,6 +1786,31 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
   </div>
 </div>
 
+<!-- CLINIC SETTINGS OVERLAY -->
+<div class="api-settings" id="clinicSettings" onclick="closeSettings()">
+  <div class="api-card" onclick="event.stopPropagation()">
+    <div class="api-card-hdr">
+      <span class="api-card-title">⚙️ Clinic Settings</span>
+      <button class="modalclose" onclick="closeSettings()">✕</button>
+    </div>
+    <div class="api-card-body">
+      <label class="api-label" for="setClinicName">Clinic Name</label>
+      <input class="api-input" type="text" id="setClinicName" placeholder="e.g. City Dental Clinic">
+      <div class="api-hint">Shown on the Rx header.</div>
+
+      <label class="api-label" for="setDoctorName">Doctor Name</label>
+      <input class="api-input" type="text" id="setDoctorName" placeholder="e.g. Dr. Priya">
+      <div class="api-hint">Appears before the clinic name on the Rx.</div>
+
+      <label class="api-label" for="setWhatsApp">WhatsApp Number</label>
+      <input class="api-input" type="text" id="setWhatsApp" inputmode="numeric" placeholder="e.g. 9876543210">
+      <div class="api-hint">Used for sending briefs and reminders.</div>
+
+      <button class="api-save" onclick="saveSettings()">Save Settings</button>
+    </div>
+  </div>
+</div>
+
 <!-- TOKEN DISPLAY OVERLAY -->
 <div id="tokenDisplay">
   <button class="td-close" onclick="hideTokenDisplay()">✕ Close Display</button>
@@ -1906,6 +1931,12 @@ function initDash(){
   document.getElementById('sbav').textContent=cu.charAt(0).toUpperCase();
   // Rx header
   document.getElementById('rxDocName').textContent=cu+' - SmartBrief AI';
+  // Override Rx header with saved clinic settings, if any
+  var savedClinic=localStorage.getItem('sb_clinic_name');
+  var savedDoctor=localStorage.getItem('sb_doctor_name');
+  if(savedClinic){
+    document.getElementById('rxDocName').textContent=(savedDoctor||cu)+' - '+savedClinic;
+  }
   document.getElementById('rxDate').value=now.toLocaleDateString('en-IN');
   applySpec(cs);
   document.querySelectorAll('.stile').forEach(t=>t.classList.toggle('sel',t.dataset.s===cs));
@@ -2556,6 +2587,32 @@ function openApiSettings(){
 function closeApiSettings(){
   const m=document.getElementById('apiSettings');
   if(m)m.style.display='none';
+}
+
+// ── CLINIC SETTINGS ───────────────────────────────────────────
+function openSettings(){
+  document.getElementById('setClinicName').value=localStorage.getItem('sb_clinic_name')||'';
+  document.getElementById('setDoctorName').value=localStorage.getItem('sb_doctor_name')||'';
+  document.getElementById('setWhatsApp').value=localStorage.getItem('sb_whatsapp')||'';
+  const m=document.getElementById('clinicSettings');
+  if(m)m.style.display='flex';
+}
+function closeSettings(){
+  const m=document.getElementById('clinicSettings');
+  if(m)m.style.display='none';
+}
+function saveSettings(){
+  const clinicName=document.getElementById('setClinicName').value.trim();
+  const doctorName=document.getElementById('setDoctorName').value.trim();
+  const whatsApp=document.getElementById('setWhatsApp').value.trim();
+  localStorage.setItem('sb_clinic_name',clinicName);
+  localStorage.setItem('sb_doctor_name',doctorName);
+  localStorage.setItem('sb_whatsapp',whatsApp);
+  if(clinicName){
+    document.getElementById('rxDocName').textContent=(doctorName||cu)+' - '+(clinicName||'SmartBrief AI');
+  }
+  toast('Settings saved ✓');
+  closeSettings();
 }
 
 // ── AI ENGINE - Vercel Proxy (token never in frontend) ────────
