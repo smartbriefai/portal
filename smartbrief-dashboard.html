@@ -779,11 +779,11 @@ body{background:var(--bg)}
   .scl{font-size:.58rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .bsecs{grid-template-columns:1fr}
   .vgrid{grid-template-columns:1fr 1fr}
-  .mhdr{padding:8px 12px;gap:6px;flex-wrap:nowrap;min-height:48px;overflow:hidden}
+  .mhdr{padding:10px 12px;gap:6px;flex-wrap:nowrap;min-height:auto;overflow:visible;align-items:flex-start}
   .mhdr-l{flex:1;min-width:0;overflow:hidden}
   .mdate{font-size:.62rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .mspec{font-size:.78rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:120px;display:flex;align-items:center;gap:4px}
-  .mhdr-r{gap:5px}
+  .mhdr-r{gap:5px;align-self:center}
   .btnadd{padding:7px 10px;font-size:.74rem;letter-spacing:-.2px}
   .timerwrap{padding:6px 9px}
   .timerdisp{font-size:.8rem}
@@ -1079,7 +1079,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
         <li><button onclick="showTab('report')"><span class="ni"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 16 16"><path d="M2.5 13h11M4.5 10V7M8 10V5M11.5 10V8.5"/></svg></span>Daily Report</button></li>
         <li><button onclick="showTokenDisplay()"><span class="ni"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 16 16"><rect x="2" y="3" width="12" height="8.5" rx="1.5"/><path d="M5.5 14h5M8 11.5V14"/></svg></span>Queue Display</button></li>
         <li><button onclick="openSettings()"><span class="ni"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 16 16"><circle cx="8" cy="8" r="2.5"/><path d="M8 2.5v1M8 12.5v1M13.5 8h-1M3.5 8h-1M11.8 4.2l-.7.7M5 11l-.7.7M11.8 11.8l-.7-.7M5 5l-.7-.7"/></svg></span>Settings</button></li>
-        <li><button onclick="openApiSettings()"><span class="ni"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 16 16"><path d="M8 2v2.5M8 11.5V14M2 8h2.5M11.5 8H14"/><path d="M4.2 4.2l1.8 1.8M10 10l1.8 1.8M10 4.2L8.2 6M5.8 10.2l-1.8 1.6"/><circle cx="8" cy="8" r="2"/></svg></span>AI Settings</button></li>
+        <li><button onclick="openApiSettings()"><span class="ni"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 16 16"><path d="M8 2v2.5M8 11.5V14M2 8h2.5M11.5 8H14"/><path d="M4.2 4.2l1.8 1.8M10 10l1.8 1.8M10 4.2L8.2 6M5.8 10.2l-1.8 1.6"/><circle cx="8" cy="8" r="2"/></svg></span>AI Status</button></li>
       </ul>
       <div class="sbsec">Specialty</div>
       <div class="spectiles">
@@ -1662,7 +1662,7 @@ h1,h2,h3,h4,.syne,[class*="title"],[class*="heading"]{
     <div class="modalhdr">
       <span class="modaltitle">➕ Add Patient</span>
       <div style="display:flex;align-items:center;gap:8px">
-        <button class="ai-gear" onclick="closeModal();openApiSettings()" title="AI Settings">⚙️ AI Key</button>
+        <button class="ai-gear" onclick="closeModal();openApiSettings()" title="AI Status">⚙️ AI Key</button>
         <button class="modalclose" onclick="closeModal()">✕</button>
       </div>
     </div>
