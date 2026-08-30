@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<!--
+  SmartBrief AI - Pre-Consultation Intelligence Platform
+  Copyright (c) 2026 Prabhu R. All rights reserved.
+  Product: SmartBrief AI (www.smartbriefai.in)
+  Author: Prabhu R, Chennai, India
+  Built: March-April 2026
+  Digital fingerprint: SB-2026-PR-CHN-OPD-INTEL
+  Unauthorised copying, modification or distribution
+  is strictly prohibited without written permission.
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="author" content="Prabhu R">
+<meta name="copyright" content="© 2026 Prabhu R. All rights reserved.">
+<title>Privacy & Data - SmartBrief AI</title>
+<meta name="description" content="How SmartBrief AI handles patient information for Indian OPD clinics - data storage, access, third-party AI processing, deletion, and DPDP compliance.">
+<meta property="og:title" content="Privacy & Data - SmartBrief AI">
+<meta property="og:description" content="How SmartBrief AI handles patient information for Indian OPD clinics.">
+<meta property="og:image" content="https://www.smartbriefai.in/og-image.svg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://www.smartbriefai.in/smartbrief-privacy.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="SmartBrief AI">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Privacy & Data - SmartBrief AI">
+<meta name="twitter:description" content="How SmartBrief AI handles patient information for Indian OPD clinics.">
+<meta name="twitter:image" content="https://www.smartbriefai.in/og-image.svg">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/favicon.svg">
+<meta name="theme-color" content="#0F1F3D">
+<link rel="preconnect" href="https://fonts.bunny.net" crossorigin>
+<link href="https://fonts.bunny.net/css?family=plus-jakarta-sans:600,700,800|dm-sans:400,500,600" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0F1F3D;
+  --navy-deep:#08132A;
+  --teal:#00897B;
+  --teal-dark:#00796B;
+  --teal-light:#E0F2F1;
+  --bg:#FAFBFF;
+  --surface:#FFFFFF;
+  --gray1:#F4F6FB;
+  --gray2:#E8EBF4;
+  --gray3:#B0B8D0;
+  --text1:#0F1F3D;
+  --text2:#4A5568;
+  --text3:#718096;
+  --r8:8px;--r12:12px;--r16:16px;
+  --sh-sm:0 1px 4px rgba(15,31,61,0.06);
+  --sh-md:0 4px 24px rgba(15,31,61,0.10);
+  --sh-lg:0 12px 48px rgba(15,31,61,0.15);
+}
+html{scroll-behavior:smooth;background:var(--bg);overscroll-behavior:none}
+body{
+  background:var(--bg);
+  font-family:'DM Sans','Roboto','Segoe UI',sans-serif;
+  color:var(--text1);
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  overscroll-behavior:none;
+}
+h1,h2,h3,h4,h5{
+  font-family:'Plus Jakarta Sans','DM Sans','Roboto','Segoe UI',sans-serif;
+  font-weight:800;
+  font-synthesis:none;
+}
+
+/* NAV */
+#nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  height:64px;padding:0 48px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(250,251,255,0.96);
+  backdrop-filter:blur(12px);
+  box-shadow:0 1px 0 var(--gray2);
+}
+.nav-logo{
+  font-family:'Plus Jakarta Sans','DM Sans','Roboto',sans-serif;
+  font-weight:800;font-size:20px;
+  color:var(--navy);text-decoration:none;
+  letter-spacing:-0.5px;font-synthesis:none;
+  display:inline-flex;align-items:center;gap:7px;
+  position:relative;white-space:nowrap;word-spacing:-1px;
+}
+.logo-sup{
+  font-family:'DM Sans',sans-serif;
+  font-size:9px;font-weight:700;
+  color:var(--teal);
+  letter-spacing:1.5px;
+  vertical-align:super;
+  margin-left:2px;
+  opacity:0.9;
+  text-transform:uppercase;
+}
+.nav-mid{display:flex;gap:28px;list-style:none}
+.nav-mid a{font-size:14px;color:var(--text2);text-decoration:none;font-weight:500;transition:color 0.2s}
+.nav-mid a:hover{color:var(--teal)}
+.nav-right{display:flex;align-items:center;gap:14px}
+.nav-link{font-size:14px;color:var(--text2);text-decoration:none;font-weight:500;transition:color 0.2s}
+.nav-link:hover{color:var(--teal)}
+.nav-btn{
+  background:var(--navy);color:#fff;
+  padding:9px 20px;border-radius:var(--r8);
+  font-size:14px;font-weight:600;text-decoration:none;
+  transition:background 0.2s,transform 0.15s;
+  font-family:'DM Sans',sans-serif;
+}
+.nav-btn:hover{background:var(--teal);transform:translateY(-1px)}
+
+/* PRIVACY CONTENT */
+#privacy{
+  max-width:760px;margin:0 auto;
+  padding:130px 48px 80px;
+}
+.pv-eyebrow{
+  display:inline-block;font-size:12px;font-weight:600;
+  letter-spacing:0.5px;text-transform:uppercase;
+  color:var(--teal);margin-bottom:14px;
+}
+#privacy h1{
+  font-size:38px;line-height:1.15;letter-spacing:-0.5px;
+  color:var(--navy);margin-bottom:12px;
+}
+.pv-lede{
+  font-size:18px;color:var(--text2);line-height:1.55;
+  font-weight:500;margin-bottom:14px;
+}
+.pv-intro{
+  font-size:16px;color:var(--text2);line-height:1.7;
+  padding-bottom:28px;margin-bottom:8px;
+  border-bottom:1px solid var(--gray2);
+}
+.pv-block{padding:26px 0;border-bottom:1px solid var(--gray2)}
+.pv-block h2{
+  font-size:19px;line-height:1.3;color:var(--navy);
+  margin-bottom:10px;
+}
+.pv-block p{
+  font-size:16px;color:var(--text2);line-height:1.7;
+}
+.pv-block a{color:var(--teal);text-decoration:none;font-weight:600}
+.pv-block a:hover{text-decoration:underline}
+.pv-questions{
+  margin-top:30px;font-size:16px;color:var(--text2);line-height:1.7;
+}
+.pv-questions a{color:var(--teal);text-decoration:none;font-weight:600}
+.pv-questions a:hover{text-decoration:underline}
+
+/* FOOTER */
+#footer{
+  background:var(--navy-deep);padding:40px 48px;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:20px;
+}
+.footer-logo{
+  font-family:'Plus Jakarta Sans','DM Sans','Roboto',sans-serif;
+  font-weight:800;font-size:17px;color:#fff;font-synthesis:none;
+}
+.footer-logo em{color:var(--teal);font-style:normal}
+.footer-sp{font-size:12px;color:rgba(255,255,255,0.28)}
+.footer-links{display:flex;gap:20px}
+.footer-links a{font-size:13px;color:rgba(255,255,255,0.38);text-decoration:none;transition:color 0.2s}
+.footer-links a:hover{color:rgba(255,255,255,0.75)}
+.footer-copy{font-size:12px;color:rgba(255,255,255,0.85)}
+
+@media(max-width:768px){
+  #nav{padding:0 20px}
+  .nav-mid{display:none}
+  #privacy{padding:100px 20px 60px}
+  #privacy h1{font-size:30px}
+  .pv-lede{font-size:16px}
+  #footer{padding:32px 20px;flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="index.html" class="nav-logo"><svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0"><rect width="32" height="32" rx="8" fill="#0F1F3D"/><rect x="1" y="1" width="30" height="30" rx="7" stroke="rgba(0,137,123,0.3)" stroke-width="1"/><path d="M5 16 L9 16 L11 10 L13 22 L15 16 L17 12 L19 19 L21 16 L27 16" stroke="#00897B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="25" cy="16" r="2.5" fill="none" stroke="#00897B" stroke-width="1.5"/><circle cx="25" cy="16" r="1" fill="#00897B"/></svg><span style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;letter-spacing:-0.5px;color:var(--navy)">Smart<span style="color:var(--teal);letter-spacing:-0.5px">Brief</span></span><sup class="logo-sup" style="margin-left:1px">AI</sup></a>
+  <ul class="nav-mid">
+    <li><a href="index.html#features">Features</a></li>
+    <li><a href="index.html#hiw">How it works</a></li>
+    <li><a href="index.html#roi">ROI</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="smartbrief-dashboard.html" class="nav-link">View dashboard</a>
+    <a href="smartbrief-intake.html" class="nav-link" style="color:var(--teal);font-weight:600">Patient intake ↗</a>
+    <a href="index.html#cta" class="nav-btn">Request demo</a>
+  </div>
+</nav>
+
+<main id="privacy">
+  <span class="pv-eyebrow">Privacy &amp; Data</span>
+  <h1>How SmartBrief AI handles patient information</h1>
+  <p class="pv-intro">SmartBrief AI is built for Indian OPD clinics handling sensitive patient data. Here is exactly how it is treated.</p>
+
+  <div class="pv-block">
+    <h2>Where is patient data stored?</h2>
+    <p>Patient briefs are processed in real time and are not permanently stored on SmartBrief AI's own servers. Each brief exists for the duration of the session. No patient data is written to a long-term database by SmartBrief AI.</p>
+  </div>
+
+  <div class="pv-block">
+    <h2>Who can see patient information?</h2>
+    <p>Only the treating doctor using the dashboard can see the brief generated for their patient. SmartBrief AI staff do not access individual patient briefs.</p>
+  </div>
+
+  <div class="pv-block">
+    <h2>Does SmartBrief AI use any third-party AI service?</h2>
+    <p>Yes. To generate clinical briefs and suggestions, patient intake text is sent to a third-party AI inference provider for processing. This data is used only to generate the brief and is not used to train external models.</p>
+  </div>
+
+  <div class="pv-block">
+    <h2>Does SmartBrief AI sell or share my data?</h2>
+    <p>No. SmartBrief AI does not sell, share, or monetise any patient or clinic data. Clinic usage data, such as brief count and specialty, is used only to manage subscription tier.</p>
+  </div>
+
+  <div class="pv-block">
+    <h2>How do I delete my data?</h2>
+    <p>Your free brief counter and first-use date are stored locally in your browser only. To reset, clear site data for this URL in your browser settings. For account deletion, contact <a href="mailto:demo@smartbriefai.in">demo@smartbriefai.in</a>.</p>
+  </div>
+
+  <div class="pv-block">
+    <h2>A note on compliance</h2>
+    <p>SmartBrief AI is built with India's Digital Personal Data Protection Act (DPDP) in mind. As implementation rules continue to develop, clinics evaluating SmartBrief AI for serious use are welcome to request more detail on our data handling before onboarding.</p>
+  </div>
+
+  <p class="pv-questions">Questions? <a href="mailto:demo@smartbriefai.in">demo@smartbriefai.in</a></p>
+</main>
+
+<footer id="footer">
+  <div class="footer-logo" style="display:flex;align-items:center;gap:8px"><svg width="24" height="24" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="32" height="32" rx="8" fill="rgba(255,255,255,0.1)"/><path d="M5 16 L9 16 L11 10 L13 22 L15 16 L17 12 L19 19 L21 16 L27 16" stroke="#00897B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="25" cy="16" r="1" fill="#00897B"/></svg><span style="color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800">Smart<span style="color:var(--teal)">Brief</span></span><sup class="logo-sup" style="color:var(--teal)">AI</sup></div>
+  <div class="footer-sp">Dental · ENT · Gynaecology · General Medicine</div>
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="smartbrief-dashboard.html">Dashboard</a>
+    <a href="smartbrief-intake.html" style="color:rgba(0,137,123,0.7)">Patient Intake</a>
+    <a href="smartbrief-patient.html">Patient portal</a>
+    <a href="smartbrief-privacy.html">Privacy &amp; Data</a>
+  </div>
+  <div class="footer-copy">© 2026 SmartBrief AI · Built by Prabhu R · Chennai, India</div>
+</footer>
+
+</body>
+</html>
